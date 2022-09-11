@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32526.322
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YPermitin.FIASToolSet.Loader", "Libs\YPermitin.FIASToolSet.Loader\YPermitin.FIASToolSet.Loader.csproj", "{836B61E0-B6C2-4837-93C3-F4CA8B7FE8DC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{068FF229-56E5-4718-83EF-1D863CBE8F71}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{094619B1-0C76-41D0-AFBF-3C7560436577}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{AAAACF02-36A1-446B-83B5-B2FDE594C273}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YPermitin.FIASToolSet.Loader.Tests", "Tests\YPermitin.FIASToolSet.Loader.Tests\YPermitin.FIASToolSet.Loader.Tests.csproj", "{A31B9641-ED56-440F-A40A-1535600228C9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{836B61E0-B6C2-4837-93C3-F4CA8B7FE8DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{836B61E0-B6C2-4837-93C3-F4CA8B7FE8DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{836B61E0-B6C2-4837-93C3-F4CA8B7FE8DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{836B61E0-B6C2-4837-93C3-F4CA8B7FE8DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A31B9641-ED56-440F-A40A-1535600228C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A31B9641-ED56-440F-A40A-1535600228C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A31B9641-ED56-440F-A40A-1535600228C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A31B9641-ED56-440F-A40A-1535600228C9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{836B61E0-B6C2-4837-93C3-F4CA8B7FE8DC} = {068FF229-56E5-4718-83EF-1D863CBE8F71}
+		{A31B9641-ED56-440F-A40A-1535600228C9} = {AAAACF02-36A1-446B-83B5-B2FDE594C273}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E8FCAA60-A495-45A3-95C8-405142F3203A}
+	EndGlobalSection
+EndGlobal
