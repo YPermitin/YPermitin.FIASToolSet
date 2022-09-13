@@ -9,12 +9,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{068FF229-5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{094619B1-0C76-41D0-AFBF-3C7560436577}"
 	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{AAAACF02-36A1-446B-83B5-B2FDE594C273}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YPermitin.FIASToolSet.Loader.Tests", "Tests\YPermitin.FIASToolSet.Loader.Tests\YPermitin.FIASToolSet.Loader.Tests.csproj", "{A31B9641-ED56-440F-A40A-1535600228C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YPermitin.FIASToolSet.Loader.Tests", "Tests\YPermitin.FIASToolSet.Loader.Tests\YPermitin.FIASToolSet.Loader.Tests.csproj", "{A31B9641-ED56-440F-A40A-1535600228C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
