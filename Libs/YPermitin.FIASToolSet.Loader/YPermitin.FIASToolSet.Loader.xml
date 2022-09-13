@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>YPermitin.FIASToolSet.Loader</name>
+    </assembly>
+    <members>
+        <member name="M:YPermitin.FIASToolSet.Loader.API.APIHelper.DownloadFileAsync(System.Uri,System.String)">
+            <summary>
+            Загрузка файла по URL и сохранение его в файловой системе
+            </summary>
+            <param name="uriFile">URL файла</param>
+            <param name="savePath">Путь для сохранения</param>
+            <returns>Асинхронная операция</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Loader.API.APIHelper.GetContentAsStringAsync(System.Uri)">
+            <summary>
+            Получение содержимого по URL
+            </summary>
+            <param name="uri">URL</param>
+            <returns>Строкове содержимое данных по URL</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Loader.API.APIHelper.FileByUrlExist(System.Uri)">
+            <summary>
+            Проверка существования файла по URL
+            </summary>
+            <param name="uriFile">URL файла</param>
+            <returns>Истина - файл сущестует и Ложь в противном случае</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Loader.API.IAPIHelper.DownloadFileAsync(System.Uri,System.String)">
+            <summary>
+            Загрузка файла по URL и сохранение его в файловой системе
+            </summary>
+            <param name="uriFile">URL файла</param>
+            <param name="savePath">Путь для сохранения</param>
+            <returns>Асинхронная операция</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Loader.API.IAPIHelper.GetContentAsStringAsync(System.Uri)">
+            <summary>
+            Получение содержимого по URL
+            </summary>
+            <param name="uri">URL</param>
+            <returns>Строкове содержимое данных по URL</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Loader.API.IAPIHelper.FileByUrlExist(System.Uri)">
+            <summary>
+            Проверка существования файла по URL
+            </summary>
+            <param name="uriFile">URL файла</param>
+            <returns>Истина - файл сущестует и Ложь в противном случае</returns>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Loader.FIASLoader">
+            <summary>
+            Объект работы с дистрибутивами ФИАС разных форматов и типов
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Loader.FIASLoader.GetLastDistributionInfo">
+            <summary>
+            Информацию о последней версии файлов дистрибутива, доступных для скачивания
+            </summary>
+            <returns>Дистрибутив классификатора ФИАС</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Loader.FIASLoader.GetAllDistributionInfo">
+            <summary>
+            Информацию обо всех версиях файлов дистрибутивов, доступных для скачивания
+            </summary>
+            <returns>Коллекция доступных дистрибутивов классификатора ФИАС</returns>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Loader.IFIASLoader">
+            <summary>
+            Объект работы с дистрибутивами ФИАС разных форматов и типов
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Loader.IFIASLoader.GetLastDistributionInfo">
+            <summary>
+            Информацию о последней версии файлов дистрибутива, доступных для скачивания
+            </summary>
+            <returns>Дистрибутив классификатора ФИАС</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Loader.IFIASLoader.GetAllDistributionInfo">
+            <summary>
+            Информацию обо всех версиях файлов дистрибутивов, доступных для скачивания
+            </summary>
+            <returns>Коллекция доступных дистрибутивов классификатора ФИАС</returns>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo">
+            <summary>
+            Дистрибутив классификатора ФИАС
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.VersionId">
+            <summary>
+            Идентификатор версии (в прямых выгрузках дата выгрузки вида yyyyMMdd)
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.TextVersion">
+            <summary>
+            Описание версии файла в текстовом виде
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.Date">
+            <summary>
+            Дата выгрузки (dd.MM.yyyy)
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.FIASDbf">
+            <summary>
+            Файлы дистрибутива ФИАС в формате DBF
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.FIASXml">
+            <summary>
+            Файлы дистрибутива ФИАС в формате XML
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.GARFIASXml">
+            <summary>
+            Файлы дистрибутива ГАР ФИАС в формате XML
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.KLADR4Arj">
+            <summary>
+            Файлы дистрибутива КЛАДР 4 в формате ARJ
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.KLADR47z">
+            <summary>
+            Файлы дистрибутива КЛАДР 4 в формате 7Z
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.DistributionFileFormatInfo">
+            <summary>
+            Файлы дистрибутива ФИАС
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.DistributionFileFormatInfo.Complete">
+            <summary>
+            URL полной версии дистрибутива
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.DistributionFileFormatInfo.Delta">
+            <summary>
+            URL дельта версии дистрибутива
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.DistributionFileFormatInfo.SaveCompleteFileAsync(System.String)">
+            <summary>
+            Сохранение полного дистрибутива в указанный файл
+            </summary>
+            <param name="fileToSave">Путь к файлу для сохранения</param>
+            <returns>Асинхронная операция</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.DistributionFileFormatInfo.LastDistributionInfoExists">
+            <summary>
+            Проверка существования файла с информацией о последней версии файлов дистрибутива, доступных для скачивания
+            </summary>
+            <returns>Истина - существует и Ложь в противном случае</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.DistributionFileFormatInfo.SaveDeltaFileAsync(System.String)">
+            <summary>
+            Сохранение дистрибутива с изменениями в указанный файл
+            </summary>
+            <param name="fileToSave">Путь к файлу для сохранения</param>
+            <returns>Асинхронная операция</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.DistributionFileFormatInfo.DeltaDistributionInfoExists">
+            <summary>
+            Проверка существования файла с изменениями
+            </summary>
+            <returns>Истина - существует и Ложь в противном случае</returns>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Loader.ServiceRegistration">
+            <summary>
+            Регистрация сервисов
+            </summary>
+        </member>
+    </members>
+</doc>

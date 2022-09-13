@@ -5,7 +5,7 @@ namespace YPermitin.FIASToolSet.Loader.Tests
         [Fact]
         public async Task GetLastDistributionInfoTest()
         {
-            IFIASLoader loader = FIASLoader.Create();
+            IFIASLoader loader = new FIASLoader();
             var lastInfo = await loader.GetLastDistributionInfo();
 
             Assert.NotNull(lastInfo);
@@ -22,7 +22,7 @@ namespace YPermitin.FIASToolSet.Loader.Tests
         [Fact]
         public async Task GetAllDistributionInfoTest()
         {
-            IFIASLoader loader = FIASLoader.Create();
+            IFIASLoader loader = new FIASLoader();
             var allInfo = await loader.GetAllDistributionInfo();
 
             Assert.NotNull(allInfo);

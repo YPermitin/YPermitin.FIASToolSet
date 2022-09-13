@@ -25,6 +25,6 @@ namespace YPermitin.FIASToolSet.Loader.API
         /// </summary>
         /// <param name="uriFile">URL файла</param>
         /// <returns>Истина - файл сущестует и Ложь в противном случае</returns>
-        bool FileByUrlExist(Uri uriFile);
+        Task<bool> FileByUrlExist(Uri uriFile);
     }
 }

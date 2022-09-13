@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>YPermitin.FIASToolSet.API</name>
+    </assembly>
+    <members>
+        <member name="T:YPermitin.FIASToolSet.API.Controllers.FIASActualDistributionController">
+            <summary>
+            Работа с актуальной информацией о ФИАС.
+            Получается напрямую от ФНС и может быть использована для проверки актуальности ФИАС.
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Models.ErrorDetails">
+            <summary>
+            Информация об ошибке
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.API.Models.ErrorDetails.StatusCode">
+            <summary>
+            Статус сообщения
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.API.Models.ErrorDetails.Message">
+            <summary>
+            Текст сообщения
+            </summary>
+        </member>
+    </members>
+</doc>

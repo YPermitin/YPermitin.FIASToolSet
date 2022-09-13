@@ -15,16 +15,11 @@ namespace YPermitin.FIASToolSet.Loader
     /// </summary>
     public sealed class FIASLoader : IFIASLoader
     {
-        public static IFIASLoader Create()
-        {
-            return new FIASLoader();
-        }
-
         private const string APIBaseUrl = "http://fias.nalog.ru/WebServices/Public";
         private readonly IAPIHelper _apiHelper;
         private readonly JsonSerializerOptions _serializerOptions;
 
-        private FIASLoader()
+        public FIASLoader()
         {
             _apiHelper = new APIHelper();
             _serializerOptions = new JsonSerializerOptions();

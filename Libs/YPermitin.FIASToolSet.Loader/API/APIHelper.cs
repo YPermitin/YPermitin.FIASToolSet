@@ -68,7 +68,7 @@ namespace YPermitin.FIASToolSet.Loader.API
         /// </summary>
         /// <param name="uriFile">URL файла</param>
         /// <returns>Истина - файл сущестует и Ложь в противном случае</returns>
-        public bool FileByUrlExist(Uri uriFile)
+        public async Task<bool> FileByUrlExist(Uri uriFile)
         {
             string baseUrl = uriFile.AbsoluteUri.Replace(uriFile.AbsolutePath, string.Empty);
             HttpClient client = new HttpClient();
@@ -76,7 +76,7 @@ namespace YPermitin.FIASToolSet.Loader.API
 
             try
             {
-                var response = client.Send(new HttpRequestMessage(HttpMethod.Head, uriFile.AbsolutePath));
+                var response = await client.SendAsync(new HttpRequestMessage(HttpMethod.Head, uriFile.AbsolutePath));
                 if (response.IsSuccessStatusCode)
                 {
                     return true;

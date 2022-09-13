@@ -10,8 +10,6 @@ namespace YPermitin.FIASToolSet.Loader.Models
     /// </summary>
     public sealed class FIASDistributionInfo
     {
-        private readonly IAPIHelper _apiHelper;
-
         /// <summary>
         /// Идентификатор версии (в прямых выгрузках дата выгрузки вида yyyyMMdd)
         /// </summary>
@@ -50,38 +48,39 @@ namespace YPermitin.FIASToolSet.Loader.Models
         /// <summary>
         /// Файлы дистрибутива КЛАДР 4 в формате 7Z
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         public DistributionFileFormatInfo KLADR47z { get; }
 
         internal FIASDistributionInfo(DownloadFileInfo downloadFileInfo)
         {
-            _apiHelper = new APIHelper();
+            IAPIHelper apiHelper = new APIHelper();
             
             VersionId = downloadFileInfo.VersionId;
             TextVersion = downloadFileInfo.TextVersion;
             Date = downloadFileInfo.Date;
 
             FIASDbf = new DistributionFileFormatInfo(
-                _apiHelper,
+                apiHelper,
                 downloadFileInfo.FiasCompleteDbfUrl,
                 downloadFileInfo.FiasDeltaDbfUrl);
 
             FIASXml = new DistributionFileFormatInfo(
-                _apiHelper,
+                apiHelper,
                 downloadFileInfo.FiasCompleteXmlUrl,
                 downloadFileInfo.FiasDeltaXmlUrl);
 
             GARFIASXml = new DistributionFileFormatInfo(
-                _apiHelper,
+                apiHelper,
                 downloadFileInfo.GarXMLFullURL,
                 downloadFileInfo.GarXMLDeltaURL);
 
             KLADR4Arj = new DistributionFileFormatInfo(
-                _apiHelper,
+                apiHelper,
                 downloadFileInfo.Kladr4ArjUrl,
                 null);
 
             KLADR47z = new DistributionFileFormatInfo(
-                _apiHelper,
+                apiHelper,
                 downloadFileInfo.Kladr47ZUrl,
                 null);
         }
@@ -136,7 +135,7 @@ namespace YPermitin.FIASToolSet.Loader.Models
                 if (Complete != null)
                     return false;
 
-                return _apiHelper.FileByUrlExist(Complete);
+                return await _apiHelper.FileByUrlExist(Complete);
             }
 
             /// <summary>
@@ -165,7 +164,7 @@ namespace YPermitin.FIASToolSet.Loader.Models
                 if (Delta != null)
                     return false;
 
-                return _apiHelper.FileByUrlExist(Delta);
+                return await _apiHelper.FileByUrlExist(Delta);
             }
         }
     }
