@@ -1,25 +1,29 @@
-using YPermitin.FIASToolSet.Loader.Models;
-
 namespace YPermitin.FIASToolSet.Loader.Tests
 {
     public class FIASLoaderTests
     {
         [Fact]
-        public async Task GetLastDownloadFileInfoTest()
+        public async Task GetLastDistributionInfoTest()
         {
-            IFIASLoader loader = new FIASLoader();
-            DownloadFileInfo lastInfo = await loader.GetLastDownloadFileInfo();
+            IFIASLoader loader = FIASLoader.Create();
+            var lastInfo = await loader.GetLastDistributionInfo();
 
             Assert.NotNull(lastInfo);
             Assert.True(lastInfo.VersionId > 0);
-            Assert.True(lastInfo.VersionDate > DateTime.MinValue);
+            Assert.NotNull(lastInfo.TextVersion);
+            Assert.True(lastInfo.Date > DateTime.MinValue);
+            Assert.NotNull(lastInfo.FIASDbf);
+            Assert.NotNull(lastInfo.FIASXml);
+            Assert.NotNull(lastInfo.GARFIASXml);
+            Assert.NotNull(lastInfo.KLADR47z);
+            Assert.NotNull(lastInfo.KLADR4Arj);
         }
 
         [Fact]
-        public async Task GetAllDownloadFileInfoTest()
+        public async Task GetAllDistributionInfoTest()
         {
-            IFIASLoader loader = new FIASLoader();
-            IReadOnlyList<DownloadFileInfo> allInfo = await loader.GetAllDownloadFileInfo();
+            IFIASLoader loader = FIASLoader.Create();
+            var allInfo = await loader.GetAllDistributionInfo();
 
             Assert.NotNull(allInfo);
             Assert.True(allInfo.Count > 0);

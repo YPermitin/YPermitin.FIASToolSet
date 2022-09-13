@@ -7,23 +7,20 @@ namespace YPermitin.FIASToolSet.Loader.API
 {
     internal class APIHelper : IAPIHelper
     {
-        #region Private Members
+        private readonly HttpClient _apiClient;
 
-        private HttpClient _apiClient;
-
-        #endregion
-
-        #region Constructor
 
         public APIHelper()
         {
-            InitializeClient();
+            _apiClient = new HttpClient();
         }
 
-        #endregion
-
-        #region Public Methods
-
+        /// <summary>
+        /// Загрузка файла по URL и сохранение его в файловой системе
+        /// </summary>
+        /// <param name="uriFile">URL файла</param>
+        /// <param name="savePath">Путь для сохранения</param>
+        /// <returns>Асинхронная операция</returns>
         public async Task DownloadFileAsync(Uri uriFile, string savePath)
         {
             using (HttpResponseMessage response = _apiClient.GetAsync(uriFile, HttpCompletionOption.ResponseHeadersRead).Result)
@@ -51,6 +48,12 @@ namespace YPermitin.FIASToolSet.Loader.API
                 }
             }
         }
+
+        /// <summary>
+        /// Получение содержимого по URL
+        /// </summary>
+        /// <param name="uri">URL</param>
+        /// <returns>Строкове содержимое данных по URL</returns>
         public async Task<string> GetContentAsStringAsync(Uri uri)
         {
             var response = await _apiClient.GetAsync(uri);
@@ -59,16 +62,32 @@ namespace YPermitin.FIASToolSet.Loader.API
             var content = await response.Content.ReadAsStringAsync();
             return content;
         }
-        
-        #endregion
 
-        #region Private Methods
-
-        private void InitializeClient()
+        /// <summary>
+        /// Проверка существования файла по URL
+        /// </summary>
+        /// <param name="uriFile">URL файла</param>
+        /// <returns>Истина - файл сущестует и Ложь в противном случае</returns>
+        public bool FileByUrlExist(Uri uriFile)
         {
-            _apiClient = new HttpClient();
-        }
+            string baseUrl = uriFile.AbsoluteUri.Replace(uriFile.AbsolutePath, string.Empty);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(baseUrl);
 
-        #endregion
+            try
+            {
+                var response = client.Send(new HttpRequestMessage(HttpMethod.Head, uriFile.AbsolutePath));
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+            return false;
+        }
     }
 }
