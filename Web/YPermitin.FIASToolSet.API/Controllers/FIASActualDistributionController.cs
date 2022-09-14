@@ -6,10 +6,10 @@ using YPermitin.FIASToolSet.DistributionBrowser.Models;
 namespace YPermitin.FIASToolSet.API.Controllers
 {
     /// <summary>
-    /// Работа с актуальной информацией о ФИАС.
-    /// Получается напрямую от ФНС и может быть использована для проверки актуальности ФИАС.
+    /// Р Р°Р±РѕС‚Р° СЃ Р°РєС‚СѓР°Р»СЊРЅРѕР№ РёРЅС„РѕСЂРјР°С†РёРµР№ Рѕ Р¤РРђРЎ.
+    /// РџРѕР»СѓС‡Р°РµС‚СЃСЏ РЅР°РїСЂСЏРјСѓСЋ РѕС‚ Р¤РќРЎ Рё РјРѕР¶РµС‚ Р±С‹С‚СЊ РёСЃРїРѕР»СЊР·РѕРІР°РЅР° РґР»СЏ РїСЂРѕРІРµСЂРєРё Р°РєС‚СѓР°Р»СЊРЅРѕСЃС‚Рё Р¤РРђРЎ.
     /// </summary>
-    [ApiExplorerSettings(GroupName = "ФИАС. Браузер дистрибутивов")]
+    [ApiExplorerSettings(GroupName = "Р¤РРђРЎ. Р‘СЂР°СѓР·РµСЂ РґРёСЃС‚СЂРёР±СѓС‚РёРІРѕРІ")]
     [ApiController]
     [Route("FIAS/actualDistribution")]
     public class FIASActualDistributionController : ControllerBase
