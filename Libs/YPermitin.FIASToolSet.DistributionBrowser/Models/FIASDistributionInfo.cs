@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using YPermitin.FIASToolSet.Loader.API;
+using YPermitin.FIASToolSet.DistributionBrowser.API;
 
-namespace YPermitin.FIASToolSet.Loader.Models
+namespace YPermitin.FIASToolSet.DistributionBrowser.Models
 {
     /// <summary>
     /// Дистрибутив классификатора ФИАС

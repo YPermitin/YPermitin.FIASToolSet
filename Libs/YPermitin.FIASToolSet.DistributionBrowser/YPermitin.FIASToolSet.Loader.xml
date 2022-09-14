@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>YPermitin.FIASToolSet.Loader</name>
+        <name>YPermitin.FIASToolSet.DistributionBrowser</name>
     </assembly>
     <members>
-        <member name="M:YPermitin.FIASToolSet.Loader.API.APIHelper.DownloadFileAsync(System.Uri,System.String)">
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.API.APIHelper.DownloadFileAsync(System.Uri,System.String)">
             <summary>
             Загрузка файла по URL и сохранение его в файловой системе
             </summary>
@@ -12,21 +12,21 @@
             <param name="savePath">Путь для сохранения</param>
             <returns>Асинхронная операция</returns>
         </member>
-        <member name="M:YPermitin.FIASToolSet.Loader.API.APIHelper.GetContentAsStringAsync(System.Uri)">
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.API.APIHelper.GetContentAsStringAsync(System.Uri)">
             <summary>
             Получение содержимого по URL
             </summary>
             <param name="uri">URL</param>
             <returns>Строкове содержимое данных по URL</returns>
         </member>
-        <member name="M:YPermitin.FIASToolSet.Loader.API.APIHelper.FileByUrlExist(System.Uri)">
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.API.APIHelper.FileByUrlExist(System.Uri)">
             <summary>
             Проверка существования файла по URL
             </summary>
             <param name="uriFile">URL файла</param>
             <returns>Истина - файл сущестует и Ложь в противном случае</returns>
         </member>
-        <member name="M:YPermitin.FIASToolSet.Loader.API.IAPIHelper.DownloadFileAsync(System.Uri,System.String)">
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.API.IAPIHelper.DownloadFileAsync(System.Uri,System.String)">
             <summary>
             Загрузка файла по URL и сохранение его в файловой системе
             </summary>
@@ -34,141 +34,141 @@
             <param name="savePath">Путь для сохранения</param>
             <returns>Асинхронная операция</returns>
         </member>
-        <member name="M:YPermitin.FIASToolSet.Loader.API.IAPIHelper.GetContentAsStringAsync(System.Uri)">
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.API.IAPIHelper.GetContentAsStringAsync(System.Uri)">
             <summary>
             Получение содержимого по URL
             </summary>
             <param name="uri">URL</param>
             <returns>Строкове содержимое данных по URL</returns>
         </member>
-        <member name="M:YPermitin.FIASToolSet.Loader.API.IAPIHelper.FileByUrlExist(System.Uri)">
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.API.IAPIHelper.FileByUrlExist(System.Uri)">
             <summary>
             Проверка существования файла по URL
             </summary>
             <param name="uriFile">URL файла</param>
             <returns>Истина - файл сущестует и Ложь в противном случае</returns>
         </member>
-        <member name="T:YPermitin.FIASToolSet.Loader.FIASLoader">
+        <member name="T:YPermitin.FIASToolSet.DistributionBrowser.FIASDistributionBrowser">
             <summary>
             Объект работы с дистрибутивами ФИАС разных форматов и типов
             </summary>
         </member>
-        <member name="M:YPermitin.FIASToolSet.Loader.FIASLoader.GetLastDistributionInfo">
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.FIASDistributionBrowser.GetLastDistributionInfo">
             <summary>
             Информацию о последней версии файлов дистрибутива, доступных для скачивания
             </summary>
             <returns>Дистрибутив классификатора ФИАС</returns>
         </member>
-        <member name="M:YPermitin.FIASToolSet.Loader.FIASLoader.GetAllDistributionInfo">
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.FIASDistributionBrowser.GetAllDistributionInfo">
             <summary>
             Информацию обо всех версиях файлов дистрибутивов, доступных для скачивания
             </summary>
             <returns>Коллекция доступных дистрибутивов классификатора ФИАС</returns>
         </member>
-        <member name="T:YPermitin.FIASToolSet.Loader.IFIASLoader">
+        <member name="T:YPermitin.FIASToolSet.DistributionBrowser.IFIASDistributionBrowser">
             <summary>
             Объект работы с дистрибутивами ФИАС разных форматов и типов
             </summary>
         </member>
-        <member name="M:YPermitin.FIASToolSet.Loader.IFIASLoader.GetLastDistributionInfo">
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.IFIASDistributionBrowser.GetLastDistributionInfo">
             <summary>
             Информацию о последней версии файлов дистрибутива, доступных для скачивания
             </summary>
             <returns>Дистрибутив классификатора ФИАС</returns>
         </member>
-        <member name="M:YPermitin.FIASToolSet.Loader.IFIASLoader.GetAllDistributionInfo">
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.IFIASDistributionBrowser.GetAllDistributionInfo">
             <summary>
             Информацию обо всех версиях файлов дистрибутивов, доступных для скачивания
             </summary>
             <returns>Коллекция доступных дистрибутивов классификатора ФИАС</returns>
         </member>
-        <member name="T:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo">
+        <member name="T:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo">
             <summary>
             Дистрибутив классификатора ФИАС
             </summary>
         </member>
-        <member name="P:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.VersionId">
+        <member name="P:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.VersionId">
             <summary>
             Идентификатор версии (в прямых выгрузках дата выгрузки вида yyyyMMdd)
             </summary>
         </member>
-        <member name="P:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.TextVersion">
+        <member name="P:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.TextVersion">
             <summary>
             Описание версии файла в текстовом виде
             </summary>
         </member>
-        <member name="P:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.Date">
+        <member name="P:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.Date">
             <summary>
             Дата выгрузки (dd.MM.yyyy)
             </summary>
         </member>
-        <member name="P:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.FIASDbf">
+        <member name="P:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.FIASDbf">
             <summary>
             Файлы дистрибутива ФИАС в формате DBF
             </summary>
         </member>
-        <member name="P:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.FIASXml">
+        <member name="P:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.FIASXml">
             <summary>
             Файлы дистрибутива ФИАС в формате XML
             </summary>
         </member>
-        <member name="P:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.GARFIASXml">
+        <member name="P:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.GARFIASXml">
             <summary>
             Файлы дистрибутива ГАР ФИАС в формате XML
             </summary>
         </member>
-        <member name="P:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.KLADR4Arj">
+        <member name="P:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.KLADR4Arj">
             <summary>
             Файлы дистрибутива КЛАДР 4 в формате ARJ
             </summary>
         </member>
-        <member name="P:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.KLADR47z">
+        <member name="P:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.KLADR47z">
             <summary>
             Файлы дистрибутива КЛАДР 4 в формате 7Z
             </summary>
         </member>
-        <member name="T:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.DistributionFileFormatInfo">
+        <member name="T:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.DistributionFileFormatInfo">
             <summary>
             Файлы дистрибутива ФИАС
             </summary>
         </member>
-        <member name="P:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.DistributionFileFormatInfo.Complete">
+        <member name="P:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.DistributionFileFormatInfo.Complete">
             <summary>
             URL полной версии дистрибутива
             </summary>
         </member>
-        <member name="P:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.DistributionFileFormatInfo.Delta">
+        <member name="P:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.DistributionFileFormatInfo.Delta">
             <summary>
             URL дельта версии дистрибутива
             </summary>
         </member>
-        <member name="M:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.DistributionFileFormatInfo.SaveCompleteFileAsync(System.String)">
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.DistributionFileFormatInfo.SaveCompleteFileAsync(System.String)">
             <summary>
             Сохранение полного дистрибутива в указанный файл
             </summary>
             <param name="fileToSave">Путь к файлу для сохранения</param>
             <returns>Асинхронная операция</returns>
         </member>
-        <member name="M:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.DistributionFileFormatInfo.LastDistributionInfoExists">
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.DistributionFileFormatInfo.LastDistributionInfoExists">
             <summary>
             Проверка существования файла с информацией о последней версии файлов дистрибутива, доступных для скачивания
             </summary>
             <returns>Истина - существует и Ложь в противном случае</returns>
         </member>
-        <member name="M:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.DistributionFileFormatInfo.SaveDeltaFileAsync(System.String)">
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.DistributionFileFormatInfo.SaveDeltaFileAsync(System.String)">
             <summary>
             Сохранение дистрибутива с изменениями в указанный файл
             </summary>
             <param name="fileToSave">Путь к файлу для сохранения</param>
             <returns>Асинхронная операция</returns>
         </member>
-        <member name="M:YPermitin.FIASToolSet.Loader.Models.FIASDistributionInfo.DistributionFileFormatInfo.DeltaDistributionInfoExists">
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.DistributionFileFormatInfo.DeltaDistributionInfoExists">
             <summary>
             Проверка существования файла с изменениями
             </summary>
             <returns>Истина - существует и Ложь в противном случае</returns>
         </member>
-        <member name="T:YPermitin.FIASToolSet.Loader.ServiceRegistration">
+        <member name="T:YPermitin.FIASToolSet.DistributionBrowser.ServiceRegistration">
             <summary>
             Регистрация сервисов
             </summary>

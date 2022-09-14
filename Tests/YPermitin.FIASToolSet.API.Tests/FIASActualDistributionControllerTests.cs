@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using YPermitin.FIASToolSet.API.Controllers;
-using YPermitin.FIASToolSet.Loader;
-using YPermitin.FIASToolSet.Loader.Models;
+using YPermitin.FIASToolSet.DistributionBrowser;
+using YPermitin.FIASToolSet.DistributionBrowser.Models;
 
 namespace YPermitin.FIASToolSet.API.Tests
 {
@@ -10,7 +10,7 @@ namespace YPermitin.FIASToolSet.API.Tests
         [Fact]
         public async Task GetFIASActualDistributionInfoTest()
         {
-            var fiasLoader = new FIASLoader();
+            var fiasLoader = new FIASDistributionBrowser();
             var controller = new FIASActualDistributionController(fiasLoader);
 
             var result = await controller.GetFIASActualDistributionInfo();

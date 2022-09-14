@@ -39,7 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Libs\YPermitin.FIASToolSet.Loader\YPermitin.FIASToolSet.Loader.csproj" />
+    <ProjectReference Include="..\..\Libs\YPermitin.FIASToolSet.DistributionBrowser\YPermitin.FIASToolSet.DistributionBrowser.csproj" />
   </ItemGroup>
 
   <ItemGroup>

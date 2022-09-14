@@ -1,11 +1,13 @@
+using YPermitin.FIASToolSet.DistributionBrowser;
+
 namespace YPermitin.FIASToolSet.Loader.Tests
 {
-    public class FIASLoaderTests
+    public class FIASDistributionBrowserTests
     {
         [Fact]
         public async Task GetLastDistributionInfoTest()
         {
-            IFIASLoader loader = new FIASLoader();
+            IFIASDistributionBrowser loader = new FIASDistributionBrowser();
             var lastInfo = await loader.GetLastDistributionInfo();
 
             Assert.NotNull(lastInfo);
@@ -22,7 +24,7 @@ namespace YPermitin.FIASToolSet.Loader.Tests
         [Fact]
         public async Task GetAllDistributionInfoTest()
         {
-            IFIASLoader loader = new FIASLoader();
+            IFIASDistributionBrowser loader = new FIASDistributionBrowser();
             var allInfo = await loader.GetAllDistributionInfo();
 
             Assert.NotNull(allInfo);

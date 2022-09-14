@@ -22,7 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Web\YPermitin.FIASToolSet.API\YPermitin.FIASToolSet.API.csproj" />
+    <ProjectReference Include="..\..\Libs\YPermitin.FIASToolSet.DistributionBrowser\YPermitin.FIASToolSet.DistributionBrowser.csproj" />
+    <ProjectReference Include="..\..\Web\YPermitin.FIASToolSet.API\YPermitin.FIASToolSet.API.csproj" />
   </ItemGroup>
 
 </Project>

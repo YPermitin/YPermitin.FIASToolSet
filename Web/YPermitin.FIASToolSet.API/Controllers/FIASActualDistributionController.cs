@@ -1,7 +1,7 @@
 using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
-using YPermitin.FIASToolSet.Loader;
-using YPermitin.FIASToolSet.Loader.Models;
+using YPermitin.FIASToolSet.DistributionBrowser;
+using YPermitin.FIASToolSet.DistributionBrowser.Models;
 
 namespace YPermitin.FIASToolSet.API.Controllers
 {
@@ -14,11 +14,11 @@ namespace YPermitin.FIASToolSet.API.Controllers
     [Route("FIAS/actualDistribution")]
     public class FIASActualDistributionController : ControllerBase
     {
-        private readonly IFIASLoader _fiasLoader;
+        private readonly IFIASDistributionBrowser _fiasDistributionBrowser;
 
-        public FIASActualDistributionController(IFIASLoader fiasLoader)
+        public FIASActualDistributionController(IFIASDistributionBrowser fiasDistributionBrowser)
         {
-            _fiasLoader = fiasLoader;
+            _fiasDistributionBrowser = fiasDistributionBrowser;
         }
 
         [HttpGet(Name = "GetFIASActualDistributionInfo")]
@@ -28,7 +28,7 @@ namespace YPermitin.FIASToolSet.API.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> GetFIASActualDistributionInfo()
         {
-            var fiasActualDistributionInfo = await _fiasLoader.GetLastDistributionInfo();
+            var fiasActualDistributionInfo = await _fiasDistributionBrowser.GetLastDistributionInfo();
 
             return Ok(fiasActualDistributionInfo);
         }

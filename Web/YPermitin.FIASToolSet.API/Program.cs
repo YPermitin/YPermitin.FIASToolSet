@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Serilog;
 using YPermitin.FIASToolSet.API.Extensions;
 using YPermitin.FIASToolSet.API.Infrastructure;
-using YPermitin.FIASToolSet.Loader;
+using YPermitin.FIASToolSet.DistributionBrowser;
 
 namespace YPermitin.FIASToolSet.API
 {
@@ -81,7 +81,7 @@ namespace YPermitin.FIASToolSet.API
                 services.AddMVCExtension();
                 services.AddHttpContextAccessor();
                 services.AddSwaggerExtension();
-                services.AddFIASLoader();
+                services.AddFIASDistributionBrowser();
 
                 var app = builder.Build();
                 IWebHostEnvironment env = app.Environment;

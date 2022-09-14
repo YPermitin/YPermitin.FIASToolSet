@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace YPermitin.FIASToolSet.Loader.API
+namespace YPermitin.FIASToolSet.DistributionBrowser.API
 {
     internal interface IAPIHelper
     {

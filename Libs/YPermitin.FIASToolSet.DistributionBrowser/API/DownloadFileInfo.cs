@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace YPermitin.FIASToolSet.Loader.API
+namespace YPermitin.FIASToolSet.DistributionBrowser.API
 {
     internal sealed class DownloadFileInfo
     {

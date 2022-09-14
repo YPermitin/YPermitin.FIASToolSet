@@ -3,7 +3,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace YPermitin.FIASToolSet.Loader.API
+namespace YPermitin.FIASToolSet.DistributionBrowser.API
 {
     internal class APIHelper : IAPIHelper
     {

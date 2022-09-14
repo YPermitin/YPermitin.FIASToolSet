@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using YPermitin.FIASToolSet.Loader.Models;
+using YPermitin.FIASToolSet.DistributionBrowser.Models;
 
-namespace YPermitin.FIASToolSet.Loader
+namespace YPermitin.FIASToolSet.DistributionBrowser
 {
     /// <summary>
     /// Объект работы с дистрибутивами ФИАС разных форматов и типов
     /// </summary>
-    public interface IFIASLoader
+    public interface IFIASDistributionBrowser
     {
         /// <summary>
         /// Информацию о последней версии файлов дистрибутива, доступных для скачивания

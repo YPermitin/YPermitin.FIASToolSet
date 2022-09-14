@@ -2,24 +2,24 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
-using YPermitin.FIASToolSet.Loader.API;
-using YPermitin.FIASToolSet.Loader.Models;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
+using YPermitin.FIASToolSet.DistributionBrowser.API;
+using YPermitin.FIASToolSet.DistributionBrowser.Models;
 
-namespace YPermitin.FIASToolSet.Loader
+namespace YPermitin.FIASToolSet.DistributionBrowser
 {
     /// <summary>
     /// Объект работы с дистрибутивами ФИАС разных форматов и типов
     /// </summary>
-    public sealed class FIASLoader : IFIASLoader
+    public sealed class FIASDistributionBrowser : IFIASDistributionBrowser
     {
         private const string APIBaseUrl = "http://fias.nalog.ru/WebServices/Public";
         private readonly IAPIHelper _apiHelper;
         private readonly JsonSerializerOptions _serializerOptions;
 
-        public FIASLoader()
+        public FIASDistributionBrowser()
         {
             _apiHelper = new APIHelper();
             _serializerOptions = new JsonSerializerOptions();
