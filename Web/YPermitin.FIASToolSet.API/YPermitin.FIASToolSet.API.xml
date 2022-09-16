@@ -4,10 +4,89 @@
         <name>YPermitin.FIASToolSet.API</name>
     </assembly>
     <members>
-        <member name="T:YPermitin.FIASToolSet.API.Controllers.FIASActualDistributionController">
+        <member name="T:YPermitin.FIASToolSet.API.Controllers.FNS.FIASActualDistributionController">
             <summary>
             Работа с актуальной информацией о ФИАС.
             Получается напрямую от ФНС и может быть использована для проверки актуальности ФИАС.
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.API.Controllers.FNS.FIASActualDistributionController.GetFIASActualDistributionInfo">
+            <summary>
+            Получение информации о последней актуальной версии ФИАС через API ФНС
+            </summary>
+            <returns>Информация о последней версии ФИАС</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.API.Controllers.Jobs.JobsController.GetAllJobs">
+            <summary>
+            Формирование списка заданий
+            </summary>
+            <returns>Список заданий</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.API.Controllers.Jobs.JobsController.StopAllJobs">
+            <summary>
+            Остановка всех заданий
+            </summary>
+            <returns>Пустой ответ в случае успеха</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.API.Controllers.Jobs.JobsController.RestartAllJobs">
+            <summary>
+            Запуск / перезапуск (если уже были запущены) всех заданий
+            </summary>
+            <returns>Пустой ответ в случае успеха</returns>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Controllers.Storage.FIASVersionController">
+            <summary>
+            Информация о версиях ФИАС
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.API.Controllers.Storage.FIASVersionController.GetFIASLastVersion">
+            <summary>
+            Получение последней версии ФИАС, сохраненной в хранилище сервиса
+            </summary>
+            <returns>Информация о последней версии ФИАС</returns>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Extensions.EnumExtensions">
+            <summary>
+            Вспомогательные методы работы с перечислениями
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.API.Extensions.EnumExtensions.ToEnum``1(System.String,``0)">
+            <summary>
+            Преобразовать строку в значение перечисления
+            </summary>
+            <typeparam name="T">Тип перечисления</typeparam>
+            <param name="value">Строковое значение для преобразования</param>
+            <param name="defaultValue">Значение перечисления по умолчанию</param>
+            <returns>Значение перечисления после преобразования</returns>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Infrastructure.OperatingSystemHelper">
+            <summary>
+            Вспомогательные методы определения операционной системы
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Infrastructure.ServiceDeployType">
+            <summary>
+            Тип публикации приложения
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.API.Infrastructure.ServiceDeployType.IIS">
+            <summary>
+            На веб-сервере IIS (Internet Information Services)
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.API.Infrastructure.ServiceDeployType.Kestrel">
+            <summary>
+            На веб-сервере Kestrel
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.API.Infrastructure.ServiceDeployType.WindowsService">
+            <summary>
+            Служба Windows
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.API.Infrastructure.ServiceDeployType.Unknown">
+            <summary>
+            Неизвестный тип
             </summary>
         </member>
         <member name="T:YPermitin.FIASToolSet.API.Models.ErrorDetails">
@@ -23,6 +102,76 @@
         <member name="P:YPermitin.FIASToolSet.API.Models.ErrorDetails.Message">
             <summary>
             Текст сообщения
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Models.FIASVersion">
+            <summary>
+            Информация о версии ФИАС
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.API.Models.FIASVersion.Id">
+            <summary>
+            Идентификатор записи
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.API.Models.FIASVersion.Period">
+            <summary>
+            Период добавления записи о версии
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.API.Models.FIASVersion.VersionId">
+            <summary>
+            Идентификатор версии (в прямых выгрузках дата выгрузки вида yyyyMMdd)
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.API.Models.FIASVersion.TextVersion">
+            <summary>
+            Описание версии файла в текстовом виде
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.API.Models.FIASVersion.Date">
+            <summary>
+            Дата выгрузки (dd.MM.yyyy)
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.API.Models.FIASVersion.FIASDbfComplete">
+            <summary>
+            Файлы дистрибутива ФИАС в формате DBF (полная база)
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.API.Models.FIASVersion.FIASDbfDelta">
+            <summary>
+            Файлы дистрибутива ФИАС в формате DBF (изменения)
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.API.Models.FIASVersion.FIASXmlComplete">
+            <summary>
+            Файлы дистрибутива ФИАС в формате XML (полная база)
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.API.Models.FIASVersion.FIASXmlDelta">
+            <summary>
+            Файлы дистрибутива ФИАС в формате XML (изменения)
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.API.Models.FIASVersion.GARFIASXmlComplete">
+            <summary>
+            Файлы дистрибутива ГАР ФИАС в формате XML (полная база)
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.API.Models.FIASVersion.GARFIASXmlDelta">
+            <summary>
+            Файлы дистрибутива ГАР ФИАС в формате XML (изменения)
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.API.Models.FIASVersion.KLADR4ArjComplete">
+            <summary>
+            Файлы дистрибутива КЛАДР 4 в формате ARJ (полная база)
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.API.Models.FIASVersion.KLADR47zComplete">
+            <summary>
+            Файлы дистрибутива КЛАДР 4 в формате 7Z (полная база)
             </summary>
         </member>
     </members>

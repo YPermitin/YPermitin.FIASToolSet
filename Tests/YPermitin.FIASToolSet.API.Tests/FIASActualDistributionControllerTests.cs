@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using YPermitin.FIASToolSet.API.Controllers;
+using YPermitin.FIASToolSet.API.Controllers.FNS;
 using YPermitin.FIASToolSet.DistributionBrowser;
 using YPermitin.FIASToolSet.DistributionBrowser.Models;
 

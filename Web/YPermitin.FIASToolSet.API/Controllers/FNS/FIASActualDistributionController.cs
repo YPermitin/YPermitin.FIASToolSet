@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using YPermitin.FIASToolSet.DistributionBrowser;
 using YPermitin.FIASToolSet.DistributionBrowser.Models;
 
-namespace YPermitin.FIASToolSet.API.Controllers
+namespace YPermitin.FIASToolSet.API.Controllers.FNS
 {
     /// <summary>
     /// Работа с актуальной информацией о ФИАС.
@@ -21,6 +21,10 @@ namespace YPermitin.FIASToolSet.API.Controllers
             _fiasDistributionBrowser = fiasDistributionBrowser;
         }
 
+        /// <summary>
+        /// Получение информации о последней актуальной версии ФИАС через API ФНС
+        /// </summary>
+        /// <returns>Информация о последней версии ФИАС</returns>
         [HttpGet(Name = "GetFIASActualDistributionInfo")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FIASDistributionInfo))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

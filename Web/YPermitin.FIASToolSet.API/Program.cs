@@ -1,9 +1,12 @@
+using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.HttpOverrides;
 using Serilog;
 using YPermitin.FIASToolSet.API.Extensions;
 using YPermitin.FIASToolSet.API.Infrastructure;
 using YPermitin.FIASToolSet.DistributionBrowser;
+using YPermitin.FIASToolSet.Jobs;
+using YPermitin.FIASToolSet.Storage.PostgreSQL;
 
 namespace YPermitin.FIASToolSet.API
 {
@@ -40,7 +43,22 @@ namespace YPermitin.FIASToolSet.API
             {
                 Log.Information("Starting web host");
 
-                WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+                WebApplicationBuilder builder;
+                if (serviceDeployType == ServiceDeployType.WindowsService)
+                {
+                    WebApplicationOptions webApplicationOptions = new()
+                    {
+                        ContentRootPath = AppContext.BaseDirectory,
+                        Args = args,
+                        ApplicationName = System.Diagnostics.Process.GetCurrentProcess().ProcessName
+                    };
+                    builder = WebApplication.CreateBuilder(webApplicationOptions);
+                }
+                else
+                {
+                    builder = WebApplication.CreateBuilder(args);
+                }
+
                 if (serviceDeployType == ServiceDeployType.IIS)
                 {
                     builder.Host.UseContentRoot(Directory.GetCurrentDirectory());
@@ -63,6 +81,7 @@ namespace YPermitin.FIASToolSet.API
                 var services = builder.Services;
 
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                services.AddAutoMapper(Assembly.GetExecutingAssembly());
                 services.AddCors(policy =>
                 {
                     string[] allowedOrigins = Configuration.GetSection("CORS:AllowedOrigins").Get<string[]>();
@@ -77,11 +96,14 @@ namespace YPermitin.FIASToolSet.API
                     });
                 });
 
+                services.AddFIASDistributionBrowser();
+                services.AddFIASStorageOnPostgreSQL(Configuration);
+
                 services.AddControllersExtension();
                 services.AddMVCExtension();
                 services.AddHttpContextAccessor();
                 services.AddSwaggerExtension();
-                services.AddFIASDistributionBrowser();
+                services.AddJobsService(Configuration);
 
                 var app = builder.Build();
                 IWebHostEnvironment env = app.Environment;

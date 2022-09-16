@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ClickHouse.Client" Version="5.1.0" />
+    <PackageReference Include="Dapper" Version="2.0.123" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\YPermitin.FIASToolSet.Storage.Core\YPermitin.FIASToolSet.Storage.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DbContexts\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+</Project>

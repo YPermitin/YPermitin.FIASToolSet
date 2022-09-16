@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>YPermitin.FIASToolSet.Storage.Core</name>
+    </assembly>
+    <members>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersion">
+            <summary>
+            Информация о версии ФИАС
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersion.Id">
+            <summary>
+            Идентификатор записи
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersion.Period">
+            <summary>
+            Период добавления записи о версии
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersion.VersionId">
+            <summary>
+            Идентификатор версии (в прямых выгрузках дата выгрузки вида yyyyMMdd)
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersion.TextVersion">
+            <summary>
+            Описание версии файла в текстовом виде
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersion.Date">
+            <summary>
+            Дата выгрузки (dd.MM.yyyy)
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersion.FIASDbfComplete">
+            <summary>
+            Файлы дистрибутива ФИАС в формате DBF (полная база)
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersion.FIASDbfDelta">
+            <summary>
+            Файлы дистрибутива ФИАС в формате DBF (изменения)
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersion.FIASXmlComplete">
+            <summary>
+            Файлы дистрибутива ФИАС в формате XML (полная база)
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersion.FIASXmlDelta">
+            <summary>
+            Файлы дистрибутива ФИАС в формате XML (изменения)
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersion.GARFIASXmlComplete">
+            <summary>
+            Файлы дистрибутива ГАР ФИАС в формате XML (полная база)
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersion.GARFIASXmlDelta">
+            <summary>
+            Файлы дистрибутива ГАР ФИАС в формате XML (изменения)
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersion.KLADR4ArjComplete">
+            <summary>
+            Файлы дистрибутива КЛАДР 4 в формате ARJ (полная база)
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersion.KLADR47zComplete">
+            <summary>
+            Файлы дистрибутива КЛАДР 4 в формате 7Z (полная база)
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.NotificationQueue">
+            <summary>
+            Элемент уведомления в общей очереди
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.NotificationQueue.Id">
+            <summary>
+            Идентификатор записи
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.NotificationQueue.Period">
+            <summary>
+            Период добавления уведомления
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.NotificationQueue.StatusId">
+            <summary>
+            Идентификатор состояния уведомления
+            </summary>        
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.NotificationQueue.Status">
+            <summary>
+            Состояние уведомления
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.NotificationQueue.NotificationTypeId">
+            <summary>
+            Идентификатор типа уведомления
+            </summary>        
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.NotificationQueue.NotificationType">
+            <summary>
+            Тип уведомления
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.NotificationQueue.Content">
+            <summary>
+            Произвольные данные для сообщения
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.NotificationStatus">
+            <summary>
+            Состояние уведомления
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.Storage.Core.Models.NotificationStatus.Added">
+            <summary>
+            Статус "Добавлено"
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.Storage.Core.Models.NotificationStatus.Sent">
+            <summary>
+            Статус "Отправлено"
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.Storage.Core.Models.NotificationStatus.Canceled">
+            <summary>
+            Статус "Отменено"
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.NotificationStatus.Id">
+            <summary>
+            Идентификатор
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.NotificationStatus.Name">
+            <summary>
+            Наименование
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.NotificationType">
+            <summary>
+            Тип уведомления
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.Storage.Core.Models.NotificationType.NewVersionOfFIAS">
+            <summary>
+            Уведомление об обнаружении новой версии ФИАС
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.Storage.Core.Models.NotificationType.Custom">
+            <summary>
+            Произвольное уведомление
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.NotificationType.Id">
+            <summary>
+            Идентификатор
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.NotificationType.Name">
+            <summary>
+            Наименование
+            </summary>
+        </member>
+    </members>
+</doc>

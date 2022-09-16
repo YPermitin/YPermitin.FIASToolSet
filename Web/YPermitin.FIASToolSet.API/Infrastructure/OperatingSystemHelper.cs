@@ -2,6 +2,9 @@
 
 namespace YPermitin.FIASToolSet.API.Infrastructure
 {
+    /// <summary>
+    /// Вспомогательные методы определения операционной системы
+    /// </summary>
     public static class OperatingSystemHelper
     {
         public static bool IsWindows() =>

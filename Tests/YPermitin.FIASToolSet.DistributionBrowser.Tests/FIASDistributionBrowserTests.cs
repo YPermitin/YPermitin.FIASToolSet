@@ -1,6 +1,4 @@
-using YPermitin.FIASToolSet.DistributionBrowser;
-
-namespace YPermitin.FIASToolSet.Loader.Tests
+namespace YPermitin.FIASToolSet.DistributionBrowser.Tests
 {
     public class FIASDistributionBrowserTests
     {

@@ -1,0 +1,339 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>YPermitin.FIASToolSet.Jobs</name>
+    </assembly>
+    <members>
+        <member name="T:YPermitin.FIASToolSet.Jobs.Extensions.JobExtensions">
+            <summary>
+            Дополнительные методы управления заданиями
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.Extensions.JobExtensions.RegisterJob``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+            <summary>
+            Регистрирует задание Quarts.NET
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="services">Коллекция сервисов</param>
+            <param name="cronSchedule">Расписание запуска в формате Cron</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.Extensions.JobExtensions.RegisterJob``1(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Регистрирует задание Quarts.NET
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="services">Коллекция сервисов</param>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Jobs.Extensions.QuartzExtensions">
+            <summary>
+            Расширение работы с планировщиком заданий
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.Extensions.QuartzExtensions.GetAllJobs(Quartz.IScheduler,System.Boolean)">
+            <summary>
+            Формирование списка заданий
+            </summary>
+            <param name="scheduler">Объект планировщика</param>
+            <param name="activeOnly">Только активные задания</param>
+            <returns>Список заданий с доп. атрибутами</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.Extensions.QuartzExtensions.GetJobKeyByName(Quartz.IScheduler,System.String)">
+            <summary>
+            Поиск задания по имени
+            </summary>
+            <param name="scheduler">Объект планировщика</param>
+            <param name="jobKeyName">Наименование задания</param>
+            <returns>Объект задания</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.Extensions.QuartzExtensions.AddActualizeFIASVersionHistoryJob(YPermitin.FIASToolSet.Jobs.IJobsManager,System.String)">
+            <summary>
+            Регистрация задания актуализации списка версий ФИАС.
+            </summary>
+            <param name="jobsManager">Объект планировщика</param>
+            <param name="cronExpression">CRON-выражение запуска задания</param>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.Extensions.QuartzExtensions.AddSendNotificationsJob(YPermitin.FIASToolSet.Jobs.IJobsManager,System.String)">
+            <summary>
+            Регистрация задания отправки уведомлений
+            </summary>
+            <param name="jobsManager">Объект планировщика</param>
+            <param name="cronExpression">CRON-выражение запуска задания</param>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Jobs.IJobsManager">
+            <summary>
+            Управление планировщиком заданий в части состава заданий и их настроек
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.IJobsManager.GetAllJobs(System.Boolean)">
+            <summary>
+            Формирование списка заданий
+            </summary>
+            <param name="activeOnly">Только активные задания</param>
+            <returns>Список заданий с доп. атрибутами</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.IJobsManager.CreateJobItem``1(YPermitin.FIASToolSet.Jobs.Models.JobInfoWithDetails)">
+            <summary>
+            Создание задания
+            </summary>
+            <typeparam name="T">Тип класса задания</typeparam>
+            <param name="jobInfo">Настройки задания</param>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.IJobsManager.CreateJobItem``1(YPermitin.FIASToolSet.Jobs.Models.JobInfoWithDetails,System.Threading.CancellationToken)">
+            <summary>
+            Создание задания
+            </summary>
+            <typeparam name="T">Тип класса задания</typeparam>
+            <param name="jobInfo">Настройки задания</param>
+            <param name="cancellationToken">Токен асинхронной операции</param>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.IJobsManager.UpdateJobItem``1(YPermitin.FIASToolSet.Jobs.Models.JobInfoWithDetails)">
+            <summary>
+            Обновление задания
+            </summary>
+            <typeparam name="T">Тип класса задания</typeparam>
+            <param name="jobInfo">Настройки задания</param>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.IJobsManager.UpdateJobItem``1(YPermitin.FIASToolSet.Jobs.Models.JobInfoWithDetails,System.Threading.CancellationToken)">
+            <summary>
+            Обновление задания
+            </summary>
+            <typeparam name="T">Тип класса задания</typeparam>
+            <param name="jobInfo">Настройки задания</param>
+            <param name="cancellationToken">Токен асинхронной операции</param>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.IJobsManager.DeleteJobItem(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Удаление задания
+            </summary>
+            <param name="jobKey">Ключ задания</param>
+            <param name="cancellationToken">Токен асинхронной операции</param>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.IJobsManager.InterruptJobItem(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Прерывание выполнения задания
+            </summary>
+            <param name="jobKeyName">Ключ задания</param>
+            <param name="cancellationToken">Токен асинхронной операции</param>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.IJobsManager.InitDefaultScheduler">
+            <summary>
+            Инициализация планировщика по умолчанию
+            </summary>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Jobs.Initializer.CommandState">
+            <summary>
+            Команды управления заданиями
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.Jobs.Initializer.CommandState.InitStart">
+            <summary>
+            Первый запуск
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.Jobs.Initializer.CommandState.NoAction">
+            <summary>
+            Действий не требуется
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.Jobs.Initializer.CommandState.Restart">
+            <summary>
+            Перезапуск
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.Jobs.Initializer.CommandState.Stop">
+            <summary>
+            Остановка
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Jobs.Initializer.CommandStateManager">
+            <summary>
+            Менеджер управления командами состояния заданий
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.Initializer.CommandStateManager.SetNoAction">
+            <summary>
+            Установить команду "Действйи не требуется"
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.Initializer.CommandStateManager.SetRestart">
+            <summary>
+            Установить команду "Перезапуск"
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.Initializer.CommandStateManager.SetStop">
+            <summary>
+            Установить команду "Остановить задания"
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.Initializer.CommandStateManager.GetLastActionAndReset">
+            <summary>
+            Получение текущей команды управления заданиями и бросить ее на "Действйи не требуется"
+            </summary>
+            <returns>Команда управления заданиями</returns>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Jobs.Initializer.ICommandStateManager">
+            <summary>
+            Менеджер управления командами состояния заданий
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.Initializer.ICommandStateManager.SetNoAction">
+            <summary>
+            Установить команду "Действйи не требуется"
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.Initializer.ICommandStateManager.SetRestart">
+            <summary>
+            Установить команду "Перезапуск"
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.Initializer.ICommandStateManager.SetStop">
+            <summary>
+            Установить команду "Остановить задания"
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.Initializer.ICommandStateManager.GetLastActionAndReset">
+            <summary>
+            Получение текущей команды управления заданиями и бросить ее на "Действйи не требуется"
+            </summary>
+            <returns>Команда управления заданиями</returns>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Jobs.Initializer.IJobsInitializer">
+            <summary>
+            Объет инициализации заданий
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.Initializer.IJobsInitializer.StartOrRestartAllJob">
+            <summary>
+            Запуск / перезаупск заданий
+            </summary>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.Initializer.IJobsInitializer.StopAllJob">
+            <summary>
+            Остановить задания
+            </summary>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Jobs.Initializer.JobsInitializer">
+            <summary>
+            Объет инициализации заданий
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.Initializer.JobsInitializer.StopAllJob">
+            <summary>
+            Остановить задания
+            </summary>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.Initializer.JobsInitializer.StartOrRestartAllJob">
+            <summary>
+            Запуск / перезаупск заданий
+            </summary>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Jobs.JobItems.ActualizeFIASVersionHistoryJob">
+            <summary>
+            Задание актуализации информации о версиях ФИАС
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Jobs.JobItems.SendNotificationsJob">
+            <summary>
+            Задание отправки уведомлений
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Jobs.JobSchedule">
+            <summary>
+            Настройка планировщика для задания
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Jobs.JobSchedule.JobType">
+            <summary>
+            Тип задания
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Jobs.JobSchedule.CronExpression">
+            <summary>
+            CRON-выражение расписания запуска
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Jobs.Models.JobInfo">
+            <summary>
+            Задание
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Jobs.Models.JobInfo.JobKey">
+            <summary>
+            Ключ
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Jobs.Models.JobInfo.JobName">
+            <summary>
+            Наименование
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Jobs.Models.JobInfo.CronExpression">
+            <summary>
+            CRON-выражение расписания запуска
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Jobs.Models.JobInfo.PreviousFireTime">
+            <summary>
+            Дата последнего запуска
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Jobs.Models.JobInfo.NextFireTime">
+            <summary>
+            Дата последнего запуска
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Jobs.Models.JobInfo.Status">
+            <summary>
+            Состояние
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Jobs.Models.JobInfoWithDetails">
+            <summary>
+            Информация о задании с доп. информацией
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Jobs.Models.JobInfoWithDetails.Key">
+            <summary>
+            Ключ
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Jobs.Models.JobInfoWithDetails.Description">
+            <summary>
+            Описание
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Jobs.Models.JobInfoWithDetails.CronExpression">
+            <summary>
+            CRON-выражение расписания запуска
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Jobs.Models.JobInfoWithDetails.Priority">
+            <summary>
+            Приоритет (чем ниже значение, тем выше приоритет)
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Jobs.Models.JobInfoWithDetails.Settings">
+            <summary>
+            Настройки работы задания
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Jobs.Models.JobSettings">
+            <summary>
+            Настройки задания
+            </summary>
+        </member>
+    </members>
+</doc>
