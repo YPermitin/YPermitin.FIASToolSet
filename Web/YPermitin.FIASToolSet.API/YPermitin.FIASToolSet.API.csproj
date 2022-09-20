@@ -48,6 +48,7 @@
     <ProjectReference Include="..\..\Libs\YPermitin.FIASToolSet.DistributionBrowser\YPermitin.FIASToolSet.DistributionBrowser.csproj" />
     <ProjectReference Include="..\..\Libs\YPermitin.FIASToolSet.Jobs\YPermitin.FIASToolSet.Jobs.csproj" />
     <ProjectReference Include="..\..\Libs\YPermitin.FIASToolSet.Storage.PostgreSQL\YPermitin.FIASToolSet.Storage.PostgreSQL.csproj" />
+    <ProjectReference Include="..\..\Libs\YPermitin.FIASToolSet.Storage.SQLServer\YPermitin.FIASToolSet.Storage.SQLServer.csproj" />
   </ItemGroup>
 
   <ItemGroup>

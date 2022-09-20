@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Quartz;
 using YPermitin.FIASToolSet.DistributionBrowser;
+using YPermitin.FIASToolSet.DistributionBrowser.Extensions;
 using YPermitin.FIASToolSet.Storage.Core.Models;
 using YPermitin.FIASToolSet.Storage.Core.Services;
 
@@ -51,14 +52,14 @@ namespace YPermitin.FIASToolSet.Jobs.JobItems
                         lastVersion.VersionId != fiasActualDistributionInfo.VersionId
                         || lastVersion.Date != fiasActualDistributionInfo.Date
                         || lastVersion.TextVersion != fiasActualDistributionInfo.TextVersion
-                        || lastVersion.FIASDbfComplete != fiasActualDistributionInfo.FIASDbf.Complete.AbsoluteUri
-                        || lastVersion.FIASDbfDelta != fiasActualDistributionInfo.FIASDbf.Delta.AbsoluteUri
-                        || lastVersion.FIASXmlComplete != fiasActualDistributionInfo.FIASXml.Complete.AbsoluteUri
-                        || lastVersion.FIASXmlDelta != fiasActualDistributionInfo.FIASXml.Delta.AbsoluteUri
-                        || lastVersion.GARFIASXmlComplete != fiasActualDistributionInfo.GARFIASXml.Complete.AbsoluteUri
-                        || lastVersion.GARFIASXmlDelta != fiasActualDistributionInfo.GARFIASXml.Delta.AbsoluteUri
-                        || lastVersion.KLADR4ArjComplete != fiasActualDistributionInfo.KLADR4Arj.Complete.AbsoluteUri
-                        || lastVersion.KLADR47zComplete != fiasActualDistributionInfo.KLADR47z.Complete.AbsoluteUri;
+                        || lastVersion.FIASDbfComplete != fiasActualDistributionInfo.FIASDbf.Complete.GetAbsoluteUri()
+                        || lastVersion.FIASDbfDelta != fiasActualDistributionInfo.FIASDbf.Delta.GetAbsoluteUri()
+                        || lastVersion.FIASXmlComplete != fiasActualDistributionInfo.FIASXml.Complete.GetAbsoluteUri()
+                        || lastVersion.FIASXmlDelta != fiasActualDistributionInfo.FIASXml.Delta.GetAbsoluteUri()
+                        || lastVersion.GARFIASXmlComplete != fiasActualDistributionInfo.GARFIASXml.Complete.GetAbsoluteUri()
+                        || lastVersion.GARFIASXmlDelta != fiasActualDistributionInfo.GARFIASXml.Delta.GetAbsoluteUri()
+                        || lastVersion.KLADR4ArjComplete != fiasActualDistributionInfo.KLADR4Arj.Complete.GetAbsoluteUri()
+                        || lastVersion.KLADR47zComplete != fiasActualDistributionInfo.KLADR47z.Complete.GetAbsoluteUri();
 
                     if (versionChanged)
                     {
@@ -90,14 +91,14 @@ namespace YPermitin.FIASToolSet.Jobs.JobItems
                         TextVersion = fiasActualDistributionInfo.TextVersion,
                         Date = fiasActualDistributionInfo.Date,
                         VersionId = fiasActualDistributionInfo.VersionId,
-                        FIASDbfComplete = fiasActualDistributionInfo.FIASDbf.Complete.AbsoluteUri,
-                        FIASDbfDelta = fiasActualDistributionInfo.FIASDbf.Delta.AbsoluteUri,
-                        FIASXmlComplete = fiasActualDistributionInfo.FIASXml.Complete.AbsoluteUri,
-                        FIASXmlDelta = fiasActualDistributionInfo.FIASXml.Delta.AbsoluteUri,
-                        GARFIASXmlComplete = fiasActualDistributionInfo.GARFIASXml.Complete.AbsoluteUri,
-                        GARFIASXmlDelta = fiasActualDistributionInfo.GARFIASXml.Delta.AbsoluteUri,
-                        KLADR4ArjComplete = fiasActualDistributionInfo.KLADR4Arj.Complete.AbsoluteUri,
-                        KLADR47zComplete = fiasActualDistributionInfo.KLADR47z.Complete.AbsoluteUri
+                        FIASDbfComplete = fiasActualDistributionInfo.FIASDbf.Complete.GetAbsoluteUri(),
+                        FIASDbfDelta = fiasActualDistributionInfo.FIASDbf.Delta.GetAbsoluteUri(),
+                        FIASXmlComplete = fiasActualDistributionInfo.FIASXml.Complete.GetAbsoluteUri(),
+                        FIASXmlDelta = fiasActualDistributionInfo.FIASXml.Delta.GetAbsoluteUri(),
+                        GARFIASXmlComplete = fiasActualDistributionInfo.GARFIASXml.Complete.GetAbsoluteUri(),
+                        GARFIASXmlDelta = fiasActualDistributionInfo.GARFIASXml.Delta.GetAbsoluteUri(),
+                        KLADR4ArjComplete = fiasActualDistributionInfo.KLADR4Arj.Complete.GetAbsoluteUri(),
+                        KLADR47zComplete = fiasActualDistributionInfo.KLADR47z.Complete.GetAbsoluteUri()
                     });
 
                     await fiasMaintenanceService.AddNotification(new NotificationQueue()
