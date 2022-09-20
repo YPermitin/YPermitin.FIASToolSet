@@ -43,6 +43,7 @@
 	* YPermitin.FIASToolSet.Jobs - проект заданий для отслеживания обновлений ФИАС, загрузки базы и ее обновления, а также некоторых других действий для обслуживнаия.
 	* YPermitin.FIASToolSet.Storage.Core - базовый проект для работы с базой данных сервиса.
 	* YPermitin.FIASToolSet.Storage.PostgreSQL - проект для работы с базой данных сервиса в PostgreSQL.
+    * YPermitin.FIASToolSet.Storage.SQLServer - проект для работы с базой данных сервиса в Microsoft SQL Server.
 * Tests - модульные тесты и связанные проверки.
 	* YPermitin.FIASToolSet.DistributionBrowser.Tests - тесты библиотеки для работы с дистрибутивами ФИАС.
 	* YPermitin.FIASToolSet.API.Tests - тесты приложения API для работы с классификатором ФИАС.
@@ -57,6 +58,8 @@
 
 ```json
 {
+  "DeployType": "Kestrel",
+  "DBMSType": "SQLServer",
   "ConnectionStrings": {
     "FIASToolSetService": "User ID=<user>;Password=<password>;Host=<server>;Port=5432;Database=FIASToolSetService;"
   },
@@ -81,7 +84,16 @@
 
 ```
 
-Строка подключения к базе данных сервиса хранится в настройке *"ConnectionStrings:FIASToolSetService"*.
+В параметре *"DeployType"* устанавливается тип публикации сервиса:
+
+* *Kestrel* - для использования веб-сервера Kestrel. Значение по умолчанию для *.nix-систем.
+* *IIS* - для использования IIS. Значение по умолчанию для Windows-систем.
+* *WindowsService* - публикация в качестве службы Windows.
+
+Строка подключения к базе данных сервиса хранится в настройке *"ConnectionStrings:FIASToolSetService"*. Ее формат зависит от используемой СУБД, которая устанавливается в параметре *"DBMSType"*. Доступные значения:
+
+* PostgreSQL (значение по умолчанию)
+* SQLServer
 
 Раздел настройки заданий *"Jobs"*:
 

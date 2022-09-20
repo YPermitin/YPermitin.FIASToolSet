@@ -7,6 +7,7 @@ using YPermitin.FIASToolSet.API.Infrastructure;
 using YPermitin.FIASToolSet.DistributionBrowser;
 using YPermitin.FIASToolSet.Jobs;
 using YPermitin.FIASToolSet.Storage.PostgreSQL;
+using YPermitin.FIASToolSet.Storage.SQLServer;
 
 namespace YPermitin.FIASToolSet.API
 {
@@ -97,7 +98,20 @@ namespace YPermitin.FIASToolSet.API
                 });
 
                 services.AddFIASDistributionBrowser();
-                services.AddFIASStorageOnPostgreSQL(Configuration);
+
+                var dbmsType = Configuration.GetValue("DBMSType", "PostgreSQL");
+                var dbmsTypeValue = dbmsType.ToEnum(DBMSType.PostgreSQL);
+                if (dbmsTypeValue == DBMSType.PostgreSQL)
+                {
+                    services.AddFIASStorageOnPostgreSQL(Configuration);
+                } else if (dbmsTypeValue == DBMSType.SQLServer)
+                {
+                    services.AddFIASStorageOnSQLServer(Configuration);
+                }
+                else
+                {
+                    throw new Exception($"Unknown DBMS type for service database: {dbmsType}");
+                }
 
                 services.AddControllersExtension();
                 services.AddMVCExtension();

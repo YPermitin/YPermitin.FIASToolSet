@@ -59,6 +59,26 @@
             <param name="defaultValue">Значение перечисления по умолчанию</param>
             <returns>Значение перечисления после преобразования</returns>
         </member>
+        <member name="T:YPermitin.FIASToolSet.API.Infrastructure.DBMSType">
+            <summary>
+            Тип используемой СУБД
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.API.Infrastructure.DBMSType.PostgreSQL">
+            <summary>
+            PostgreSQL
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.API.Infrastructure.DBMSType.SQLServer">
+            <summary>
+            SQLServer
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.API.Infrastructure.DBMSType.Unknown">
+            <summary>
+            Неизвестный тип
+            </summary>
+        </member>
         <member name="T:YPermitin.FIASToolSet.API.Infrastructure.OperatingSystemHelper">
             <summary>
             Вспомогательные методы определения операционной системы
