@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Text;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Quartz;
@@ -29,7 +30,7 @@ namespace YPermitin.FIASToolSet.Jobs.JobItems
             _provider = provider;
             _configuration = configuration;
         }
-
+        
         public async Task Execute(IJobExecutionContext context)
         {
             _logger.LogInformation("Запущена отправка сообщений.");
@@ -60,37 +61,124 @@ namespace YPermitin.FIASToolSet.Jobs.JobItems
                         {
                             if (notificationItem.NotificationTypeId == NotificationType.NewVersionOfFIAS)
                             {
-                                var lastVersion = await fiasMaintenanceService.GetLastVersion();
-                                string message =
-                                    "*Обнаружена новая версия ФИАС!*\n" +
-                                    "\n" +
-                                    $"Имя: *{lastVersion.TextVersion}*\n" +
-                                    $"Версия: *{lastVersion.VersionId}*\n" +
-                                    $"Дата: *{lastVersion.Date:dd.MM.yyyy}*\n" +
-                                    $"\n" +
-                                    $"Ссылки для скачивания базы ниже.";
+                                FIASVersion lastVersion;
+                                if (notificationItem.FIASVersionId == null)
+                                    lastVersion = await fiasMaintenanceService.GetLastVersion();
+                                else
+                                    lastVersion = await fiasMaintenanceService.GetVersion((Guid)notificationItem.FIASVersionId);
+
+                                FIASVersion previousVersion;
+                                if (lastVersion != null)
+                                    previousVersion = await fiasMaintenanceService.GetPreviousVersion(lastVersion.Id);
+                                else
+                                    previousVersion = null;
+
+                                StringBuilder messageBuilder = new StringBuilder();
+
+                                if (previousVersion == null // Нет данных о предыдущей версии
+                                    // ИЛИ отличается информация о версии (ID, описание, дата)
+                                    || (lastVersion.VersionId != previousVersion.VersionId
+                                        && lastVersion.TextVersion != previousVersion.TextVersion
+                                        && lastVersion.Date != previousVersion.Date))
+                                {
+                                    messageBuilder.AppendLine("*Обнаружена новая версия ФИАС!*");
+                                    messageBuilder.AppendLine();
+                                    messageBuilder.AppendLine($"Имя: *{lastVersion.TextVersion}*");
+                                    messageBuilder.AppendLine($"Версия: *{lastVersion.VersionId}*");
+                                    messageBuilder.AppendLine($"Дата: *{lastVersion.Date:dd.MM.yyyy}*");
+                                    messageBuilder.AppendLine();
+                                } else if (lastVersion.VersionId != previousVersion.VersionId
+                                    || lastVersion.TextVersion != previousVersion.TextVersion
+                                    || lastVersion.Date != previousVersion.Date) 
+                                    // Изменилось одно из значений определяющих версию
+                                {
+                                    messageBuilder.AppendLine("*Обнаружено изменение в версии ФИАС!*");
+                                    messageBuilder.AppendLine();
+                                    
+                                    if(lastVersion.TextVersion != previousVersion.TextVersion)
+                                        messageBuilder.AppendLine($"Имя: *{lastVersion.TextVersion}*");
+                                    if (lastVersion.VersionId != previousVersion.VersionId)
+                                        messageBuilder.AppendLine($"Версия: *{lastVersion.VersionId}*");
+                                    if(lastVersion.Date != previousVersion.Date)
+                                        messageBuilder.AppendLine($"Дата: *{lastVersion.Date:dd.MM.yyyy}*");
+
+                                    messageBuilder.AppendLine();
+                                }
+                                else // В остальных случаях считаем, что обновлена информация, связанная с версией
+                                {
+                                    messageBuilder.AppendLine("*Обнаружено изменение в версии ФИАС!*");
+                                    messageBuilder.AppendLine();
+                                }
+
+                                // Проверка есть ли изменившиеся ссылки
+                                bool linksChangedTitleWasAdded = false;
+                                List<InlineKeyboardButton> urls = new();
+                                if (lastVersion?.GARFIASXmlComplete != previousVersion?.GARFIASXmlComplete)
+                                {
+                                    if (lastVersion.GARFIASXmlComplete != null)
+                                    {
+                                        AddLinksChangedTitleWasAdded(messageBuilder, ref linksChangedTitleWasAdded);
+                                        messageBuilder.AppendLine("- Изменилась ссылка на полную базу ГАР ФИАС.");
+                                        urls.Add(InlineKeyboardButton.WithUrl(
+                                            "ПОЛНАЯ",
+                                            lastVersion.GARFIASXmlComplete));
+                                    } else if (lastVersion?.GARFIASXmlComplete == null && previousVersion?.GARFIASXmlComplete != null)
+                                    {
+                                        messageBuilder.AppendLine("- Удалена ссылка на полную базу ГАР ФИАС.");
+                                    }
+                                }
+                                if (lastVersion?.GARFIASXmlDelta != previousVersion?.GARFIASXmlDelta)
+                                {
+                                    if (lastVersion.GARFIASXmlDelta != null)
+                                    {
+                                        AddLinksChangedTitleWasAdded(messageBuilder, ref linksChangedTitleWasAdded);
+                                        messageBuilder.AppendLine("- Изменилась ссылка на изменения в ГАР ФИАС.");
+                                        urls.Add(InlineKeyboardButton.WithUrl(
+                                            "ИЗМЕНЕНИЯ",
+                                            lastVersion.GARFIASXmlDelta));
+                                    }
+                                    else if (lastVersion?.GARFIASXmlDelta == null && previousVersion?.GARFIASXmlDelta != null)
+                                    {
+                                        messageBuilder.AppendLine("- Удалена ссылка на изменения в ГАР ФИАС.");
+                                    }
+                                }
+                                if (lastVersion?.KLADR47zComplete != previousVersion?.KLADR47zComplete)
+                                {
+                                    if (lastVersion.KLADR47zComplete != null)
+                                    {
+                                        AddLinksChangedTitleWasAdded(messageBuilder, ref linksChangedTitleWasAdded);
+                                        messageBuilder.AppendLine("- Изменилась ссылка на КЛАДР 4 (7z).");
+                                        urls.Add(InlineKeyboardButton.WithUrl(
+                                            "КЛАДР 4 7z",
+                                            lastVersion.KLADR47zComplete));
+                                    }
+                                    else if (lastVersion?.KLADR47zComplete == null && previousVersion?.KLADR47zComplete != null)
+                                    {
+                                        messageBuilder.AppendLine("- Удалена ссылка на КЛАДР 4 (7z).");
+                                    }
+                                }
+                                if (lastVersion?.KLADR4ArjComplete != previousVersion?.KLADR4ArjComplete)
+                                {
+                                    if (lastVersion.KLADR4ArjComplete != null)
+                                    {
+                                        AddLinksChangedTitleWasAdded(messageBuilder, ref linksChangedTitleWasAdded);
+                                        messageBuilder.AppendLine("- Изменилась ссылка на КЛАДР 4 (Arj).");
+                                        urls.Add(InlineKeyboardButton.WithUrl(
+                                            "КЛАДР 4 ARJ",
+                                            lastVersion.KLADR4ArjComplete));
+                                    }
+                                    else if (lastVersion?.KLADR4ArjComplete == null && previousVersion?.KLADR4ArjComplete != null)
+                                    {
+                                        messageBuilder.AppendLine("- Удалена ссылка на КЛАДР 4 (Arj).");
+                                    }
+                                }
+
+                                string message = messageBuilder.ToString();
                                 message = message.Replace("!", "\\!");
                                 message = message.Replace(".", "\\.");
                                 message = message.Replace("(", "\\(");
                                 message = message.Replace(")", "\\)");
-
-                                List<InlineKeyboardButton> urls = new();
-                                if (lastVersion.GARFIASXmlComplete != null)
-                                    urls.Add(InlineKeyboardButton.WithUrl(
-                                        "ПОЛНАЯ",
-                                        lastVersion.GARFIASXmlComplete));
-                                if (lastVersion.GARFIASXmlDelta != null)
-                                    urls.Add(InlineKeyboardButton.WithUrl(
-                                        "ИЗМЕНЕНИЯ",
-                                        lastVersion.GARFIASXmlDelta));
-                                if (lastVersion.KLADR47zComplete != null)
-                                    urls.Add(InlineKeyboardButton.WithUrl(
-                                        "КЛАДР 4 7z",
-                                        lastVersion.KLADR47zComplete));
-                                if (lastVersion.KLADR4ArjComplete != null)
-                                    urls.Add(InlineKeyboardButton.WithUrl(
-                                        "КЛАДР 4 ARJ",
-                                        lastVersion.KLADR4ArjComplete));
+                                message = message.Replace("-", "\\-");
 
                                 var replyMarkup = new InlineKeyboardMarkup(urls);
 
@@ -128,6 +216,16 @@ namespace YPermitin.FIASToolSet.Jobs.JobItems
             }
 
             _logger.LogInformation("Завершена отправка сообщения.");
+        }
+
+        private void AddLinksChangedTitleWasAdded(StringBuilder messageBuilder, ref bool linksChangedTitleWasAdded)
+        {
+            if (!linksChangedTitleWasAdded)
+            {
+                messageBuilder.AppendLine("Изменены ссылки для скачивания:");
+
+                linksChangedTitleWasAdded = true;
+            }
         }
     }
 }

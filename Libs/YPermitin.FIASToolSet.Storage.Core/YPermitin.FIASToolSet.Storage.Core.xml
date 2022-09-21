@@ -109,6 +109,16 @@
             Тип уведомления
             </summary>
         </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.NotificationQueue.FIASVersionId">
+            <summary>
+            Идентификатор версии ФИАС
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.NotificationQueue.FIASVersion">
+            <summary>
+            Версия ФИАС
+            </summary>
+        </member>
         <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.NotificationQueue.Content">
             <summary>
             Произвольные данные для сообщения
@@ -168,6 +178,33 @@
             <summary>
             Наименование
             </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.Core.Services.IFIASMaintenanceRepository.GetVersion(System.Guid)">
+            <summary>
+            Получение информации о версии ФИАС её идентификатору
+            </summary>
+            <param name="versionId">Идентификатор версии</param>
+            <returns>Версия ФИАС</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.Core.Services.IFIASMaintenanceRepository.GetLastVersion">
+            <summary>
+            Получение информации о последней версии ФИАС
+            </summary>
+            <returns>Версия ФИАС</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.Core.Services.IFIASMaintenanceRepository.GetPreviousVersion(System.Guid)">
+            <summary>
+            Получение информации о предыдущей версии ФИАС
+            </summary>
+            <param name="currentVersionId">Идентификатор версии ФИАС, от которой нужно получить предыдущую версию</param>
+            <returns>Версия ФИАС</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.Core.Services.IFIASMaintenanceRepository.AddVersion(YPermitin.FIASToolSet.Storage.Core.Models.FIASVersion)">
+            <summary>
+            Добавление новой версии ФИАС
+            </summary>
+            <param name="version">Версия ФИАС</param>
+            <returns>Объект задачи асинхронной операциии</returns>
         </member>
     </members>
 </doc>

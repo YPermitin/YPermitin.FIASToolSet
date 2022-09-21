@@ -40,6 +40,17 @@ namespace YPermitin.FIASToolSet.Storage.Core.Models
         public NotificationType NotificationType { get; set; }
 
         /// <summary>
+        /// Идентификатор версии ФИАС
+        /// </summary>
+        public Guid? FIASVersionId { get; set; }
+
+        /// <summary>
+        /// Версия ФИАС
+        /// </summary>
+        [ForeignKey("FIASVersionId")]
+        public FIASVersion FIASVersion { get; set; }
+
+        /// <summary>
         /// Произвольные данные для сообщения
         /// </summary>
         public string Content { get; set; }
