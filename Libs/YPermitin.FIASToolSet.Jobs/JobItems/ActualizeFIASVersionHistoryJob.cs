@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Quartz;
 using YPermitin.FIASToolSet.DistributionBrowser;
@@ -16,13 +17,16 @@ namespace YPermitin.FIASToolSet.Jobs.JobItems
     {
         private readonly ILogger<ActualizeFIASVersionHistoryJob> _logger;
         private readonly IServiceProvider _provider;
+        private readonly IConfiguration _configuration;
 
         public ActualizeFIASVersionHistoryJob(
             IServiceProvider provider,
-            ILogger<ActualizeFIASVersionHistoryJob> logger)
+            ILogger<ActualizeFIASVersionHistoryJob> logger,
+            IConfiguration configuration)
         {
             _logger = logger;
             _provider = provider;
+            _configuration = configuration;
         }
 
         public async Task Execute(IJobExecutionContext context)
@@ -84,7 +88,7 @@ namespace YPermitin.FIASToolSet.Jobs.JobItems
                 {
                     await fiasMaintenanceService.BeginTransactionAsync();
 
-                    await fiasMaintenanceService.AddVersion(new FIASVersion()
+                    var newFIASVersion = new FIASVersion()
                     {
                         Period = DateTime.UtcNow,
                         Id = Guid.NewGuid(),
@@ -99,16 +103,23 @@ namespace YPermitin.FIASToolSet.Jobs.JobItems
                         GARFIASXmlDelta = fiasActualDistributionInfo.GARFIASXml.Delta.GetAbsoluteUri(),
                         KLADR4ArjComplete = fiasActualDistributionInfo.KLADR4Arj.Complete.GetAbsoluteUri(),
                         KLADR47zComplete = fiasActualDistributionInfo.KLADR47z.Complete.GetAbsoluteUri()
-                    });
+                    };
 
-                    await fiasMaintenanceService.AddNotification(new NotificationQueue()
+                    await fiasMaintenanceService.AddVersion(newFIASVersion);
+
+                    bool useNotifications = _configuration.GetValue("Jobs:EnableNotification", false);
+                    if (useNotifications)
                     {
-                        Period = DateTime.UtcNow,
-                        Id = Guid.NewGuid(),
-                        NotificationTypeId = NotificationType.NewVersionOfFIAS,
-                        StatusId = NotificationStatus.Added,
-                        Content = null
-                    });
+                        await fiasMaintenanceService.AddNotification(new NotificationQueue()
+                        {
+                            Period = DateTime.UtcNow,
+                            Id = Guid.NewGuid(),
+                            NotificationTypeId = NotificationType.NewVersionOfFIAS,
+                            StatusId = NotificationStatus.Added,
+                            FIASVersionId = newFIASVersion.Id,
+                            Content = null
+                        });
+                    }
 
                     await fiasMaintenanceService.SaveAsync();
 

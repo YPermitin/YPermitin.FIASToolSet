@@ -61,16 +61,18 @@
   "ConnectionStrings": {
     "FIASToolSetService": "User ID=<user>;Password=<password>;Host=<server>;Port=5432;Database=FIASToolSetService;"
   },
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
-    }
+  "Serilog": {
+    "MinimumLevel": "Debug"
   },
   "AllowedHosts": "*",
   "Jobs": {
+    "Schedules": {
+      "ActualizeFIASVersionHistoryJob": "0 0/10 * * * ?",
+      "SendNotificationsJob": "0 0/1 * * * ?"
+    },
     "MaxBatchSize": 10,
     "ThreadPoolConcurrency": 10,
+    "EnableNotification": true,
     "TelegramBotToken": "-",
     "TelegramChatId": "-"
   },
@@ -97,8 +99,10 @@
 
 * *"MaxBatchSize"* - максимальное количество одновременно выполняемых заданий. Можно не настраивать, тогда будет использоваться значение по умолчанию - 10.
 * *"ThreadPoolConcurrency"* - размер пула потоков планировщика заданий. Можно не настраивать, тогда будет использоваться значение по умолчанию - 10.
+* *"EnableNotification"* - включение механизма уведомлений. Если включено, то будет выполняться регистрация событий уведомления и при старте приложения будет запущено задание отправки уведомлений.
 * *"TelegramBotToken"* - токен Telegram-бота для отправки уведомлений о событиях работы сервиса.
 * *"TelegramChatId"* - идентификатор чата Telegram, в котором учавствует бот и куда будут отправлены уведомления.
+* *"Schedules"* - расписание в формате CRON для каждогого задания.
 
 Настройка *"CORS:AllowedOrigins"* применяется для настройки политики CORS, чтобы разрешить определённым сайтам делать запросы со стороны клиента к API.
 
@@ -113,6 +117,8 @@
     }
 }
 ```
+
+В разделе "Serilog" находится настройка логирования. Нужно установить минимальный уровень логирования событий. Для рабочего окружения рекомендую только ошибки (Error), для разработки оставить уровень отладки (Debug).
 
 ## Планы на будущее
 

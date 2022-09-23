@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using YPermitin.FIASToolSet.Jobs.Extensions;
 
 namespace YPermitin.FIASToolSet.Jobs.Initializer
@@ -10,13 +11,16 @@ namespace YPermitin.FIASToolSet.Jobs.Initializer
     {
         private readonly IJobsManager _jobsManager;
         private readonly ILogger<JobsInitializer> _logger;
+        private readonly IConfiguration _configuration;
 
         public JobsInitializer(IJobsManager jobsManager,
-            ILogger<JobsInitializer> logger)
+            ILogger<JobsInitializer> logger,
+            IConfiguration configuration)
         {
             _jobsManager = jobsManager;
             _jobsManager.InitDefaultScheduler();
             _logger = logger;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -69,12 +73,18 @@ namespace YPermitin.FIASToolSet.Jobs.Initializer
             }
             
             // Запускаем задание актуализации истории версий ФИАС
-            await _jobsManager.AddActualizeFIASVersionHistoryJob("0 0/10 * * * ?");
+            await _jobsManager.AddActualizeFIASVersionHistoryJob(
+                _configuration.GetValue("Jobs:Schedules:ActualizeFIASVersionHistoryJob", "0 0/10 * * * ?"));
             _logger.LogInformation("Запущено задание актуализации истории версий ФИАС.");
 
             // Запускаем задание отправки уведомлений
-            await _jobsManager.AddSendNotificationsJob("0 0/1 * * * ?");
-            _logger.LogInformation("Запущено задание отправка уведомлений.");
+            bool useNotifications = _configuration.GetValue("Jobs:EnableNotification", false);
+            if (useNotifications)
+            {
+                await _jobsManager.AddSendNotificationsJob(
+                    _configuration.GetValue("Jobs:Schedules:ActualizeFIASVersionHistoryJob", "0 0/1 * * * ?"));
+                _logger.LogInformation("Запущено задание отправка уведомлений.");
+            }
 
             _logger.LogInformation("Окончание запуска заданий");
         }

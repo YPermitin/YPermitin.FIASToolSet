@@ -81,6 +81,9 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("FIASVersionId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("NotificationTypeId")
                         .HasColumnType("uuid");
 
@@ -91,6 +94,8 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FIASVersionId");
 
                     b.HasIndex("NotificationTypeId");
 
@@ -160,6 +165,10 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.NotificationQueue", b =>
                 {
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.FIASVersion", "FIASVersion")
+                        .WithMany()
+                        .HasForeignKey("FIASVersionId");
+
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.NotificationType", "NotificationType")
                         .WithMany()
                         .HasForeignKey("NotificationTypeId")
@@ -171,6 +180,8 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("FIASVersion");
 
                     b.Navigation("NotificationType");
 

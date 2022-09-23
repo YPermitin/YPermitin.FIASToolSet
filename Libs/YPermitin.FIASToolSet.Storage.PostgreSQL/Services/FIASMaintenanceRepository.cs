@@ -11,12 +11,34 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Services
         {
         }
 
+        public async Task<FIASVersion> GetVersion(Guid versionId)
+        {
+            return await _context.FIASVersions
+                .Where(v => v.Id == versionId)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<FIASVersion> GetLastVersion()
         {
             var lastVersionQuery = _context.FIASVersions
                 .AsNoTracking()
                 .Where(lv => lv.Period == _context.FIASVersions.Max(lvm => lvm.Period))
                 .AsQueryable();
+
+            var lastVersion = await lastVersionQuery.FirstOrDefaultAsync();
+
+            return lastVersion;
+        }
+
+        public async Task<FIASVersion> GetPreviousVersion(Guid currentVersionId)
+        {
+            var lastVersionQuery = _context.FIASVersions
+                .AsNoTracking()
+                .Where(lv => lv.Id != currentVersionId
+                             && lv.Period <= _context.FIASVersions
+                                 .Where(lvm => lvm.Id == currentVersionId)
+                                 .Max(lvm => lvm.Period)
+                ).AsQueryable();
 
             var lastVersion = await lastVersionQuery.FirstOrDefaultAsync();
 
