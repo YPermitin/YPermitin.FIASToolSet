@@ -38,7 +38,9 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Services
                              && lv.Period <= _context.FIASVersions
                                  .Where(lvm => lvm.Id == currentVersionId)
                                  .Max(lvm => lvm.Period)
-                ).AsQueryable();
+                )
+                .OrderByDescending(lv => lv.Period)
+                .AsQueryable();
 
             var lastVersion = await lastVersionQuery.FirstOrDefaultAsync();
 
