@@ -1,0 +1,124 @@
+pipeline {
+    agent any
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '1'))
+        disableConcurrentBuilds(abortPrevious: true)
+        timestamps()
+    }
+
+    environment {
+        SSH_CONFIG_NAME = getVarible(env.GIT_BRANCH, "SSH_CONFIG_NAME")
+        INFO_FILE = getVarible(env.GIT_BRANCH, "INFO_FILE")
+        BUILD_TAG_INFO_COMMAND = "echo \"BUILD_TAG: ${BUILD_TAG}\" >> ${INFO_FILE}"
+    }
+
+     stages {
+        stage('Restore packages'){
+           steps{
+               echo 'Restore packages'
+               sh 'dotnet restore YPermitin.FIASToolSet.sln'
+            }
+        }
+        stage('Clean'){
+           steps{
+               echo 'Clean'
+               sh 'dotnet clean YPermitin.FIASToolSet.sln --configuration Release'
+            }
+         }
+         stage('Build'){
+           steps{
+               echo 'Build'
+               sh 'dotnet build YPermitin.FIASToolSet.sln --configuration Release --no-restore'
+            }
+         }
+         stage('Tests'){
+           steps{
+               echo 'Tests'
+               sh 'dotnet test'
+            }
+         }
+         stage('Publish'){
+             steps{
+               echo 'Publish'
+               sh 'dotnet publish Web/YPermitin.FIASToolSet.API/YPermitin.FIASToolSet.API.csproj --configuration Release --no-restore'
+               echo "${BUILD_TAG_INFO_COMMAND}"
+             }
+        }
+        stage('Deploy'){
+            steps{
+                echo 'Deploy'
+                archiveArtifacts artifacts: '**', followSymlinks: false
+                sshPublisher(
+                    publishers: 
+                        [
+                            sshPublisherDesc(
+                                configName: SSH_CONFIG_NAME, 
+                                transfers: [
+                                    sshTransfer(
+                                        cleanRemote: true, 
+                                        excludes: '', 
+                                        execCommand: 'bash /var/jenkins/scripts/deploy.YPermitin.FIASToolSet.API.sh', 
+                                        execTimeout: 120000, 
+                                        flatten: false, 
+                                        makeEmptyDirs: false, 
+                                        noDefaultExcludes: false, 
+                                        patternSeparator: '[, ]+', 
+                                        remoteDirectory: 'api-fias', 
+                                        remoteDirectorySDF: false, 
+                                        removePrefix: 'Web/YPermitin.FIASToolSet.API/bin/Release/net6.0/publish', 
+                                        sourceFiles: 'Web/YPermitin.FIASToolSet.API/bin/Release/net6.0/publish/**/*')
+                                ], 
+                            usePromotionTimestamp: false, 
+                            useWorkspaceInPromotion: false, 
+                            verbose: true)])
+            }
+        }
+    }
+}
+
+def getVarible(branchName, varName) {
+
+    if("origin/main".equals(branchName)) 
+    {        
+        VariblesMap = getVariblesMapMain();
+    } else if("origin/develop".equals(branchName)) 
+    {
+        
+        VariblesMap = getVariblesMapDevelop();
+    } else 
+    {
+        error('Unknown branch name: ' + branchName);
+    }
+
+    if(!VariblesMap.containsKey(varName)){
+
+        error('Unknown variable name: ' + varName);
+    }
+
+    result = VariblesMap[varName];
+
+    if(result == null || (result instanceof String && result.length() == 0))
+    {
+        error('Value variable undefined, name: ' + varName);
+    }
+    
+    return result;
+}
+
+def getVariblesMapMain() {
+
+    def result = [:];
+    result["INFO_FILE"]         = "jenkins_build_info";
+    result["SSH_CONFIG_NAME"]   = "YPermitin.TinyDevTools.Client.SSH.Server";
+
+    return result;
+}
+
+def getVariblesMapDevelop() {
+
+    def result = [:];
+    result["INFO_FILE"]         = "jenkins_build_info";
+    result["SSH_CONFIG_NAME"]   = "YPermitin.TinyDevTools.Client.SSH.Server";
+
+    return result;
+}
