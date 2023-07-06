@@ -1,3 +1,5 @@
+using YPermitin.FIASToolSet.DistributionBrowser.Enums;
+
 namespace YPermitin.FIASToolSet.DistributionBrowser.Tests
 {
     public class FIASDistributionBrowserTests
@@ -27,6 +29,28 @@ namespace YPermitin.FIASToolSet.DistributionBrowser.Tests
 
             Assert.NotNull(allInfo);
             Assert.True(allInfo.Count > 0);
+        }
+
+        [Fact]
+        public async Task DownloadLastGarXmlDeltaDistribution()
+        {
+            IFIASDistributionBrowser loader = new FIASDistributionBrowser();
+            var lastInfo = await loader.GetLastDistributionInfo();
+
+            var tempFileToDownload = Path.Combine(
+                Path.GetTempPath(),
+                "FIAS_FULL.zip");
+
+            if (lastInfo != null)
+            {
+                await lastInfo.DownloadDistributionByFileTypeAsync(
+                    DistributionFileType.GARFIASXmlDelta,
+                    tempFileToDownload);
+            }
+
+            Assert.NotNull(lastInfo);
+            Assert.True(File.Exists(tempFileToDownload));
+            Assert.True(ZipHelper.IsZipValid(tempFileToDownload));
         }
     }
 }
