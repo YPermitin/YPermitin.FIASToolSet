@@ -31,6 +31,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YPermitin.FIASToolSet.Stora
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YPermitin.FIASToolSet.Storage.SQLServer", "Libs\YPermitin.FIASToolSet.Storage.SQLServer\YPermitin.FIASToolSet.Storage.SQLServer.csproj", "{7C8AF72D-8645-4B5D-B1E5-FC3C405FEC46}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{FAA25495-423B-44E1-B49B-7DB6DB993664}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YPermitin.FIASToolSet.DistributionDownloader", "Apps\YPermitin.FIASToolSet.DistributionDownloader\YPermitin.FIASToolSet.DistributionDownloader.csproj", "{C3B585DE-1E5C-43D0-B9FE-EEA1B5673DDD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,10 @@ Global
 		{7C8AF72D-8645-4B5D-B1E5-FC3C405FEC46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C8AF72D-8645-4B5D-B1E5-FC3C405FEC46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C8AF72D-8645-4B5D-B1E5-FC3C405FEC46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3B585DE-1E5C-43D0-B9FE-EEA1B5673DDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3B585DE-1E5C-43D0-B9FE-EEA1B5673DDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3B585DE-1E5C-43D0-B9FE-EEA1B5673DDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3B585DE-1E5C-43D0-B9FE-EEA1B5673DDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +90,7 @@ Global
 		{E1E77459-3721-4581-B00F-13708A31DDB4} = {068FF229-56E5-4718-83EF-1D863CBE8F71}
 		{0A3BF334-1F90-4A14-B50F-D757956380C8} = {068FF229-56E5-4718-83EF-1D863CBE8F71}
 		{7C8AF72D-8645-4B5D-B1E5-FC3C405FEC46} = {068FF229-56E5-4718-83EF-1D863CBE8F71}
+		{C3B585DE-1E5C-43D0-B9FE-EEA1B5673DDD} = {FAA25495-423B-44E1-B49B-7DB6DB993664}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E8FCAA60-A495-45A3-95C8-405142F3203A}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using YPermitin.FIASToolSet.DistributionBrowser.Models;
 
 namespace YPermitin.FIASToolSet.DistributionBrowser.API
 {
@@ -10,8 +11,10 @@ namespace YPermitin.FIASToolSet.DistributionBrowser.API
         /// </summary>
         /// <param name="uriFile">URL файла</param>
         /// <param name="savePath">Путь для сохранения</param>
+        /// <param name="onDownloadFileProgressChangedEvent">Событие с информацией о прогрессе загрузки файла</param>
         /// <returns>Асинхронная операция</returns>
-        Task DownloadFileAsync(Uri uriFile, string savePath);
+        Task DownloadFileAsync(Uri uriFile, string savePath,
+            Action<DownloadDistributionFileProgressChangedEventArgs> onDownloadFileProgressChangedEvent = null);
 
         /// <summary>
         /// Получение содержимого по URL

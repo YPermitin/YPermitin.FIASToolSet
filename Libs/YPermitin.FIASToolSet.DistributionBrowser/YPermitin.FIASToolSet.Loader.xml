@@ -4,12 +4,13 @@
         <name>YPermitin.FIASToolSet.DistributionBrowser</name>
     </assembly>
     <members>
-        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.API.APIHelper.DownloadFileAsync(System.Uri,System.String)">
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.API.APIHelper.DownloadFileAsync(System.Uri,System.String,System.Action{YPermitin.FIASToolSet.DistributionBrowser.Models.DownloadDistributionFileProgressChangedEventArgs})">
             <summary>
             Загрузка файла по URL и сохранение его в файловой системе
             </summary>
             <param name="uriFile">URL файла</param>
             <param name="savePath">Путь для сохранения</param>
+            <param name="onDownloadFileProgressChangedEvent">Событие с информацией о прогрессе загрузки файла</param>
             <returns>Асинхронная операция</returns>
         </member>
         <member name="M:YPermitin.FIASToolSet.DistributionBrowser.API.APIHelper.GetContentAsStringAsync(System.Uri)">
@@ -26,12 +27,13 @@
             <param name="uriFile">URL файла</param>
             <returns>Истина - файл сущестует и Ложь в противном случае</returns>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.API.IAPIHelper.DownloadFileAsync(System.Uri,System.String)">
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.API.IAPIHelper.DownloadFileAsync(System.Uri,System.String,System.Action{YPermitin.FIASToolSet.DistributionBrowser.Models.DownloadDistributionFileProgressChangedEventArgs})">
             <summary>
             Загрузка файла по URL и сохранение его в файловой системе
             </summary>
             <param name="uriFile">URL файла</param>
             <param name="savePath">Путь для сохранения</param>
+            <param name="onDownloadFileProgressChangedEvent">Событие с информацией о прогрессе загрузки файла</param>
             <returns>Асинхронная операция</returns>
         </member>
         <member name="M:YPermitin.FIASToolSet.DistributionBrowser.API.IAPIHelper.GetContentAsStringAsync(System.Uri)">
@@ -47,6 +49,11 @@
             </summary>
             <param name="uriFile">URL файла</param>
             <returns>Истина - файл сущестует и Ложь в противном случае</returns>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.DistributionBrowser.Enums.DistributionFileType">
+            <summary>
+            Типы файлов дистрибутива ФИАС для загрузки
+            </summary>
         </member>
         <member name="T:YPermitin.FIASToolSet.DistributionBrowser.FIASDistributionBrowser">
             <summary>
@@ -122,6 +129,21 @@
             Файлы дистрибутива КЛАДР 4 в формате ARJ
             </summary>
         </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.GetUrlByFileType(YPermitin.FIASToolSet.DistributionBrowser.Enums.DistributionFileType)">
+            <summary>
+            Получение адреса файла для скачивания по типу
+            </summary>
+            <param name="fileType">Тип файла дистрибутива</param>
+            <returns>Адрес для скачивания файла дистрибутива</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.DownloadDistributionByFileTypeAsync(YPermitin.FIASToolSet.DistributionBrowser.Enums.DistributionFileType,System.String,System.Action{YPermitin.FIASToolSet.DistributionBrowser.Models.DownloadDistributionFileProgressChangedEventArgs})">
+            <summary>
+            Скачивание файла дистрибутивая по типу
+            </summary>
+            <param name="fileType">Тип файла дистрибутива</param>
+            <param name="pathToSaveFile">Путь для сохранрения файла</param>
+            <param name="onDownloadFileProgressChangedEvent">Событие с информацией о прогрессе загрузки файла</param>
+        </member>
         <member name="P:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.KLADR47z">
             <summary>
             Файлы дистрибутива КЛАДР 4 в формате 7Z
@@ -142,11 +164,12 @@
             URL дельта версии дистрибутива
             </summary>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.DistributionFileFormatInfo.SaveCompleteFileAsync(System.String)">
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.DistributionFileFormatInfo.SaveCompleteFileAsync(System.String,System.Action{YPermitin.FIASToolSet.DistributionBrowser.Models.DownloadDistributionFileProgressChangedEventArgs})">
             <summary>
             Сохранение полного дистрибутива в указанный файл
             </summary>
             <param name="fileToSave">Путь к файлу для сохранения</param>
+            <param name="onDownloadFileProgressChangedEvent">Событие с информацией о прогрессе загрузки файла</param>
             <returns>Асинхронная операция</returns>
         </member>
         <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.DistributionFileFormatInfo.LastDistributionInfoExists">
@@ -155,11 +178,12 @@
             </summary>
             <returns>Истина - существует и Ложь в противном случае</returns>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.DistributionFileFormatInfo.SaveDeltaFileAsync(System.String)">
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.DistributionFileFormatInfo.SaveDeltaFileAsync(System.String,System.Action{YPermitin.FIASToolSet.DistributionBrowser.Models.DownloadDistributionFileProgressChangedEventArgs})">
             <summary>
             Сохранение дистрибутива с изменениями в указанный файл
             </summary>
             <param name="fileToSave">Путь к файлу для сохранения</param>
+            <param name="onDownloadFileProgressChangedEvent">Событие с информацией о прогрессе загрузки файла</param>
             <returns>Асинхронная операция</returns>
         </member>
         <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.DistributionFileFormatInfo.DeltaDistributionInfoExists">

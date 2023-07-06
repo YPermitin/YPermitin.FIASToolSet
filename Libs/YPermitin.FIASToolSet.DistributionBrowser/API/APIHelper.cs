@@ -1,52 +1,80 @@
 ﻿using System;
-using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Downloader;
+using YPermitin.FIASToolSet.DistributionBrowser.Models;
 
 namespace YPermitin.FIASToolSet.DistributionBrowser.API
 {
     internal class APIHelper : IAPIHelper
     {
-        private readonly HttpClient _apiClient;
-
-
-        public APIHelper()
+        private static readonly string DefaultUserAgent = GeneralResources.DefaultUserAgent;
+        private static readonly HttpClient APIClient;
+        private static readonly DownloadConfiguration DownloaderConfiguration = new DownloadConfiguration()
         {
-            _apiClient = new HttpClient();
+            ChunkCount = 8,
+            ParallelDownload = true,
+            RequestConfiguration = new RequestConfiguration()
+            {
+                UserAgent = DefaultUserAgent
+            }
+        };
+        static APIHelper()
+        {
+            APIClient = new HttpClient();
+            APIClient.DefaultRequestHeaders
+                .UserAgent.TryParseAdd(DefaultUserAgent);
         }
-
+        
         /// <summary>
         /// Загрузка файла по URL и сохранение его в файловой системе
         /// </summary>
         /// <param name="uriFile">URL файла</param>
         /// <param name="savePath">Путь для сохранения</param>
+        /// <param name="onDownloadFileProgressChangedEvent">Событие с информацией о прогрессе загрузки файла</param>
         /// <returns>Асинхронная операция</returns>
-        public async Task DownloadFileAsync(Uri uriFile, string savePath)
+        public async Task DownloadFileAsync(Uri uriFile, string savePath,
+            Action<DownloadDistributionFileProgressChangedEventArgs> onDownloadFileProgressChangedEvent = null)
         {
-            using (HttpResponseMessage response = _apiClient.GetAsync(uriFile, HttpCompletionOption.ResponseHeadersRead).Result)
+            var downloader = new DownloadService(DownloaderConfiguration);
+            downloader.DownloadStarted += (sender, args) =>
             {
-                response.EnsureSuccessStatusCode();
-
-                await using (Stream contentStream = await response.Content.ReadAsStreamAsync(), fileStream = new FileStream(savePath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
+                var eventArgs = new DownloadDistributionFileProgressChangedEventArgs(
+                    state: DownloadDistributionFileProgressChangedEventType.Started,
+                    progressPercentage: 0);
+                onDownloadFileProgressChangedEvent?.Invoke(eventArgs);
+            };
+            downloader.DownloadProgressChanged += (sender, args) =>
+            {
+                var eventArgs = new DownloadDistributionFileProgressChangedEventArgs(
+                    state: DownloadDistributionFileProgressChangedEventType.Downloading,
+                    progressPercentage: args.ProgressPercentage);
+                onDownloadFileProgressChangedEvent?.Invoke(eventArgs);
+            };
+            downloader.DownloadFileCompleted += (sender, args) =>
+            {
+                DownloadDistributionFileProgressChangedEventType state;
+                Exception errorInfo = null;
+                
+                if (args.Cancelled)
+                    state = DownloadDistributionFileProgressChangedEventType.Canceled;
+                else if (args.Error != null)
                 {
-                    var buffer = new byte[8192];
-                    var isMoreToRead = true;
-
-                    do
-                    {
-                        var read = await contentStream.ReadAsync(buffer, 0, buffer.Length);
-                        if (read == 0)
-                        {
-                            isMoreToRead = false;
-                        }
-                        else
-                        {
-                            await fileStream.WriteAsync(buffer, 0, read);
-                        }
-                    }
-                    while (isMoreToRead);
+                    state = DownloadDistributionFileProgressChangedEventType.Failure;
+                    errorInfo = args.Error;
                 }
-            }
+                else
+                {
+                    state = DownloadDistributionFileProgressChangedEventType.Compleated;
+                }
+                
+                var eventArgs = new DownloadDistributionFileProgressChangedEventArgs(
+                    state: state,
+                    progressPercentage: 100,
+                    errorInfo: errorInfo);
+                onDownloadFileProgressChangedEvent?.Invoke(eventArgs);
+            };
+            await downloader.DownloadFileTaskAsync(uriFile.AbsoluteUri, savePath);
         }
 
         /// <summary>
@@ -56,7 +84,7 @@ namespace YPermitin.FIASToolSet.DistributionBrowser.API
         /// <returns>Строкове содержимое данных по URL</returns>
         public async Task<string> GetContentAsStringAsync(Uri uri)
         {
-            var response = await _apiClient.GetAsync(uri);
+            var response = await APIClient.GetAsync(uri);
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
