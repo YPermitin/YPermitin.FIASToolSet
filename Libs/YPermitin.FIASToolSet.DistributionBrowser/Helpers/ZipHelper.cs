@@ -1,7 +1,7 @@
 using System.IO;
 using System.IO.Compression;
 
-namespace YPermitin.FIASToolSet.DistributionBrowser;
+namespace YPermitin.FIASToolSet.DistributionBrowser.Helpers;
 
 public static class ZipHelper
 {

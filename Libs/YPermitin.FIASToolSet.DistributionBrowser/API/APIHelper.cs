@@ -8,22 +8,47 @@ namespace YPermitin.FIASToolSet.DistributionBrowser.API
 {
     internal class APIHelper : IAPIHelper
     {
-        private static readonly string DefaultUserAgent = GeneralResources.DefaultUserAgent;
         private static readonly HttpClient APIClient;
-        private static readonly DownloadConfiguration DownloaderConfiguration = new DownloadConfiguration()
+        private static readonly string DefaultUserAgent = GeneralResources.DefaultUserAgent;
+        private static readonly DownloadConfiguration DefaultDownloaderConfiguration;
+        private static DownloadConfiguration GenerateDownloaderConfiguration(
+            long maximumDownloadSpeedBytesPerSecond = long.MinValue)
         {
-            ChunkCount = 8,
-            ParallelDownload = true,
-            RequestConfiguration = new RequestConfiguration()
+            return new DownloadConfiguration()
             {
-                UserAgent = DefaultUserAgent
-            }
-        };
+                MaximumBytesPerSecond = maximumDownloadSpeedBytesPerSecond,
+                ChunkCount = 8,
+                ParallelDownload = true,
+                RequestConfiguration = new RequestConfiguration()
+                {
+                    UserAgent = DefaultUserAgent
+                }
+            };
+        }
+
+        private readonly DownloadConfiguration _downloaderConfiguration;
+        
         static APIHelper()
         {
             APIClient = new HttpClient();
             APIClient.DefaultRequestHeaders
                 .UserAgent.TryParseAdd(DefaultUserAgent);
+            DefaultDownloaderConfiguration = GenerateDownloaderConfiguration();
+        }
+
+        public APIHelper()
+        {
+            _downloaderConfiguration = DefaultDownloaderConfiguration;
+        }
+
+        public APIHelper(long maximumDownloadSpeedBytesPerSecond) : this()
+        {
+            if (_downloaderConfiguration.MaximumBytesPerSecond != maximumDownloadSpeedBytesPerSecond
+                && maximumDownloadSpeedBytesPerSecond != 0
+                && maximumDownloadSpeedBytesPerSecond != long.MaxValue)
+            {
+                _downloaderConfiguration = GenerateDownloaderConfiguration(maximumDownloadSpeedBytesPerSecond);
+            }
         }
         
         /// <summary>
@@ -36,7 +61,7 @@ namespace YPermitin.FIASToolSet.DistributionBrowser.API
         public async Task DownloadFileAsync(Uri uriFile, string savePath,
             Action<DownloadDistributionFileProgressChangedEventArgs> onDownloadFileProgressChangedEvent = null)
         {
-            var downloader = new DownloadService(DownloaderConfiguration);
+            var downloader = new DownloadService(_downloaderConfiguration);
             downloader.DownloadStarted += (sender, args) =>
             {
                 var eventArgs = new DownloadDistributionFileProgressChangedEventArgs(
