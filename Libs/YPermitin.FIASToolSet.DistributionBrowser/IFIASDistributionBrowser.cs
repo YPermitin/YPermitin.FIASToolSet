@@ -9,6 +9,8 @@ namespace YPermitin.FIASToolSet.DistributionBrowser
     /// </summary>
     public interface IFIASDistributionBrowser
     {
+        FIASDistributionBrowserOptions Options { get; }
+        
         /// <summary>
         /// Информацию о последней версии файлов дистрибутива, доступных для скачивания
         /// </summary>
@@ -20,5 +22,10 @@ namespace YPermitin.FIASToolSet.DistributionBrowser
         /// </summary>
         /// <returns>Коллекция доступных дистрибутивов классификатора ФИАС</returns>
         Task<IReadOnlyList<FIASDistributionInfo>> GetAllDistributionInfo();
+
+        /// <summary>
+        /// Очистка всех рабочих каталогов, связанных с браузером дистрибутивов
+        /// </summary>
+        void ClearAllWorkingDirectories();
     }
 }

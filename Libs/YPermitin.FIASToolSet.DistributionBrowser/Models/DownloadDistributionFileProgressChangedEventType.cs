@@ -6,5 +6,6 @@ public enum DownloadDistributionFileProgressChangedEventType
     Downloading,
     Compleated,
     Failure,
-    Canceled
+    Canceled,
+    AlreadyExists
 }

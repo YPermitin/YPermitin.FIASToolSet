@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -16,14 +17,34 @@ namespace YPermitin.FIASToolSet.DistributionBrowser
     public sealed class FIASDistributionBrowser : IFIASDistributionBrowser
     {
         private const string APIBaseUrl = "http://fias.nalog.ru/WebServices/Public";
-        private readonly IAPIHelper _apiHelper;
+        
+        private IAPIHelper _apiHelperObject;
+        private IAPIHelper _apiHelper
+        {
+            get
+            {
+                return _apiHelperObject ??= new APIHelper(Options.MaximumDownloadSpeedBytesPerSecond);
+            }
+        }
+        
         private readonly JsonSerializerOptions _serializerOptions;
-
+        
+        public FIASDistributionBrowserOptions Options { get; }
+        
         public FIASDistributionBrowser()
         {
-            _apiHelper = new APIHelper();
+            Options ??= FIASDistributionBrowserOptions.Default;
+            
             _serializerOptions = new JsonSerializerOptions();
             _serializerOptions.Converters.Add(new InternalDateTimeConverter("dd.MM.yyyy"));
+        }
+        
+        public FIASDistributionBrowser(FIASDistributionBrowserOptions options) : this()
+        {
+            if (options != null)
+            {
+                Options = options;
+            }
         }
 
         /// <summary>
@@ -36,7 +57,7 @@ namespace YPermitin.FIASToolSet.DistributionBrowser
             string contentDownloadFileInfo = await _apiHelper.GetContentAsStringAsync(methodUri);
             DownloadFileInfo lastFileInfo = JsonSerializer.Deserialize<DownloadFileInfo>(contentDownloadFileInfo, _serializerOptions);
             
-            return new FIASDistributionInfo(lastFileInfo);
+            return new FIASDistributionInfo(lastFileInfo, Options, _apiHelper);
         }
         
         /// <summary>
@@ -52,9 +73,20 @@ namespace YPermitin.FIASToolSet.DistributionBrowser
             if(allFileInfo == null)
                 return new List<FIASDistributionInfo>();
             
-            return allFileInfo.Select(e => new FIASDistributionInfo(e)).ToList();
+            return allFileInfo.Select(e => new FIASDistributionInfo(e, Options, _apiHelper)).ToList();
         }
 
+        /// <summary>
+        /// Очистка всех рабочих каталогов, связанных с браузером дистрибутивов
+        /// </summary>
+        public void ClearAllWorkingDirectories()
+        {
+            if (Directory.Exists(Options.WorkingDirectory))
+            {
+                Directory.Delete(Options.WorkingDirectory, true);
+            }
+        }
+        
         private class InternalDateTimeConverter : JsonConverter<DateTime>
         {
             private readonly string _format;

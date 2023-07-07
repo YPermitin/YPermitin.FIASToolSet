@@ -72,6 +72,11 @@
             </summary>
             <returns>Коллекция доступных дистрибутивов классификатора ФИАС</returns>
         </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.FIASDistributionBrowser.ClearAllWorkingDirectories">
+            <summary>
+            Очистка всех рабочих каталогов, связанных с браузером дистрибутивов
+            </summary>
+        </member>
         <member name="T:YPermitin.FIASToolSet.DistributionBrowser.IFIASDistributionBrowser">
             <summary>
             Объект работы с дистрибутивами ФИАС разных форматов и типов
@@ -88,6 +93,30 @@
             Информацию обо всех версиях файлов дистрибутивов, доступных для скачивания
             </summary>
             <returns>Коллекция доступных дистрибутивов классификатора ФИАС</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.IFIASDistributionBrowser.ClearAllWorkingDirectories">
+            <summary>
+            Очистка всех рабочих каталогов, связанных с браузером дистрибутивов
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionBrowserOptions">
+            <summary>
+            Параметры обозревателя дистрибутивов ФИАС
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionBrowserOptions.WorkingDirectory">
+             <summary>
+             Рабочий каталог
+            
+             Используется для хранения служебных и временных файлов.
+             </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionBrowserOptions.MaximumDownloadSpeedBytesPerSecond">
+             <summary>
+             Максимальная скороть загрузки дистрибутивов ФИАС (байт в секунду).
+            
+             Значение 0 означает отсутствие ограничений. Используется по умолчанию.
+             </summary>
         </member>
         <member name="T:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo">
             <summary>
@@ -136,18 +165,53 @@
             <param name="fileType">Тип файла дистрибутива</param>
             <returns>Адрес для скачивания файла дистрибутива</returns>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.DownloadDistributionByFileTypeAsync(YPermitin.FIASToolSet.DistributionBrowser.Enums.DistributionFileType,System.String,System.Action{YPermitin.FIASToolSet.DistributionBrowser.Models.DownloadDistributionFileProgressChangedEventArgs})">
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.GetLocalPathByFileType(YPermitin.FIASToolSet.DistributionBrowser.Enums.DistributionFileType)">
+            <summary>
+            Получение пути к скачанному файлу дистрибутива по типу файла
+            </summary>
+            <param name="fileType">Тип файла дистрибутива</param>
+            <returns>Путь к скачанному файлу дистрибутива</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.RemoveVersionWorkingDirectory">
+             <summary>
+             Удалить рабочий каталог версии дистрибутива
+            
+             Удаляет рабочий каталог версии дистрибутива со всеми вложенными файлами.
+             </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.DownloadDistributionByFileTypeAsync(YPermitin.FIASToolSet.DistributionBrowser.Enums.DistributionFileType,System.Action{YPermitin.FIASToolSet.DistributionBrowser.Models.DownloadDistributionFileProgressChangedEventArgs})">
             <summary>
             Скачивание файла дистрибутивая по типу
             </summary>
             <param name="fileType">Тип файла дистрибутива</param>
-            <param name="pathToSaveFile">Путь для сохранрения файла</param>
             <param name="onDownloadFileProgressChangedEvent">Событие с информацией о прогрессе загрузки файла</param>
         </member>
         <member name="P:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.KLADR47z">
             <summary>
             Файлы дистрибутива КЛАДР 4 в формате 7Z
             </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.GetAvailableRegions(YPermitin.FIASToolSet.DistributionBrowser.Enums.DistributionFileType)">
+            <summary>
+            Получение списка регионов, которые содержатся в архиве дистрибутива
+            </summary>
+            <param name="fileType">Тип файла дистрибутива</param>
+            <returns>Массив кодов регионов, для которых есть даные в файле дистрибутива</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.GetExtractedDirectory(YPermitin.FIASToolSet.DistributionBrowser.Enums.DistributionFileType)">
+            <summary>
+            Получение пути к каталогу, куда распаковывается архив дистрибутива
+            </summary>
+            <param name="fileType">Тип файла дистрибутива</param>
+            <returns>Путь к каталогу для распаковки архива дистрибутива</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.ExtractDistributionFile(YPermitin.FIASToolSet.DistributionBrowser.Enums.DistributionFileType,System.Boolean,System.String[])">
+            <summary>
+            Распаковка архива с файлами дистрибутива
+            </summary>
+            <param name="fileType">Тип файла дистрибутива</param>
+            <param name="onlyBaseFiles">Распаковать только базовые файлы (файлы по регионам не будут распакованы)</param>
+            <param name="regions">Массив кодов регионов для распаковки</param>
         </member>
         <member name="T:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.DistributionFileFormatInfo">
             <summary>
