@@ -9,25 +9,17 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn>1701;1702;1591</NoWarn>
+    <DocumentationFile>YPermitin.FIASToolSet.DistributionBrowser.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <NoWarn>1701;1702;1591</NoWarn>
+    <DocumentationFile>YPermitin.FIASToolSet.DistributionBrowser.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Downloader" Version="3.0.6" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="YPermitin.FIASToolSet.Loader.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Exceptions\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,6 +35,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>GeneralResources.resx</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
   </ItemGroup>
 
 </Project>
