@@ -9,18 +9,121 @@
             Получение версии дистрибутива ФИАС в строковм виде
             </summary>
             <returns>Строка с информацией о версии ФИАС</returns>
-            <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось найти файл с информацией о версии</exception>
+            <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось файл с данными</exception>
         </member>
         <member name="M:YPermitin.FIASToolSet.DistributionReader.FIASDistributionReader.GetVersion">
             <summary>
             Получение версии дистрибутива ФИАС в числовом виде
             </summary>
             <returns>Версия ФИАС числом</returns>
-            <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASBadDataException">Не удалось конвертировать значение версии ФИАС в число</exception>
+            <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASBadDataException">Не удалось преобразовать версию к числовому формату</exception>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionReader.FIASDistributionReader.GetNormativeDocKinds">
+            <summary>
+            Получение коллекции видов нормативных документов
+            </summary>
+            <returns>Коллекция видов нормативных документов</returns>
+            <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось файл с данными</exception>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionReader.FIASDistributionReader.GetNormativeDocTypes">
+            <summary>
+            Получение коллекции типов нормативных документов
+            </summary>
+            <returns>Коллекция типов нормативных документов</returns>
+            <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось файл с данными</exception>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionReader.FIASDistributionReader.GetObjectLevels">
+            <summary>
+            Получение коллекции уровней адресных объектов 
+            </summary>
+            <returns>Коллекция уровней адресных объектов</returns>
+            <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось файл с данными</exception>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionReader.FIASDistributionReader.GetRoomTypes">
+            <summary>
+            Получение коллекции типов помещений
+            </summary>
+            <returns>Коллекция типов помещений</returns>
+            <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось файл с данными</exception>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionReader.FIASDistributionReader.GetApartmentTypes">
+            <summary>
+            Получение коллекции типов квартир
+            </summary>
+            <returns>Коллекция типов квартир</returns>
+            <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось файл с данными</exception>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionReader.FIASDistributionReader.GetHouseTypes">
+            <summary>
+            Получение коллекции типов строений
+            </summary>
+            <returns>Коллекция типов строений</returns>
+            <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось файл с данными</exception>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionReader.FIASDistributionReader.GetOperationTypes">
+            <summary>
+            Получение коллекции типов операций
+            </summary>
+            <returns>Коллекция типов операций</returns>
+            <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось файл с данными</exception>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionReader.FIASDistributionReader.GetAddressObjectTypes">
+            <summary>
+            Получение коллекции типов адресных объектов
+            </summary>
+            <returns>Коллекция типов адресных объектов</returns>
+            <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось файл с данными</exception>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionReader.FIASDistributionReader.GetParameterTypes">
+            <summary>
+            Получение коллекции типов параметров
+            </summary>
+            <returns>Коллекция типов параметров</returns>
+            <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось файл с данными</exception>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.AddressObjectType">
+            <summary>
+            Тип адресного объекта
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.ApartmentType">
+            <summary>
+            Тип квартиры
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.HouseType">
+            <summary>
+            Тип строения
+            </summary>
         </member>
         <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.NormativeDocKind">
             <summary>
             Вид нормативного документа
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.NormativeDocType">
+            <summary>
+            Тип нормативного документа
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.ObjectLevel">
+            <summary>
+            Уровень адресного объекта
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.OperationType">
+            <summary>
+            Тип операции
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.ParameterType">
+            <summary>
+            Тип параметра
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.RoomType">
+            <summary>
+            Тип помещения
             </summary>
         </member>
     </members>
