@@ -1,24 +1,25 @@
 using System.Collections;
+using System.Globalization;
 using System.Xml;
 using YPermitin.FIASToolSet.DistributionReader.Models;
 
 namespace YPermitin.FIASToolSet.DistributionReader.DataReaders;
 
-public class NormativeDocKindReader : IEnumerable<NormativeDocKind>
+public class AddressObjectTypeCollection : IEnumerable<AddressObjectType>
 {
     private readonly string _dataFilePath;
-    private NormativeDocKindEnumerator _enumerator;
+    private AddressObjectTypeEnumerator _enumerator;
     
-    public NormativeDocKindReader(string dataFilePath)
+    public AddressObjectTypeCollection(string dataFilePath)
     {
         _dataFilePath = dataFilePath;
     }
     
-    public IEnumerator<NormativeDocKind> GetEnumerator()
+    public IEnumerator<AddressObjectType> GetEnumerator()
     {
         if (_enumerator == null)
         {
-            _enumerator = new NormativeDocKindEnumerator(_dataFilePath);
+            _enumerator = new AddressObjectTypeEnumerator(_dataFilePath);
         }
         
         return _enumerator;
@@ -29,11 +30,11 @@ public class NormativeDocKindReader : IEnumerable<NormativeDocKind>
         return GetEnumerator();
     }
     
-    public class NormativeDocKindEnumerator : IEnumerator<NormativeDocKind>
+    public class AddressObjectTypeEnumerator : IEnumerator<AddressObjectType>
     {
         private readonly string _dataFilePath;
 
-        private NormativeDocKind _current;
+        private AddressObjectType _current;
         
         private XmlReader _reader;
         private XmlReader Reader {
@@ -47,12 +48,12 @@ public class NormativeDocKindReader : IEnumerable<NormativeDocKind>
             }
         }
 
-        public NormativeDocKindEnumerator(string dataFilePath)
+        public AddressObjectTypeEnumerator(string dataFilePath)
         {
             _dataFilePath = dataFilePath;
         }
 
-        public NormativeDocKind Current => _current;
+        public AddressObjectType Current => _current;
 
         object IEnumerator.Current => Current;
         
@@ -60,14 +61,24 @@ public class NormativeDocKindReader : IEnumerable<NormativeDocKind>
         {
             while (Reader.Read())
             {
-                if (Reader.Name == "NDOCKIND")
+                if (Reader.Name == "ADDRESSOBJECTTYPE")
                 {
                     var idValue = Reader.GetAttribute("ID");
+                    var levelValue = Reader.GetAttribute("LEVEL");
                     var nameValue = Reader.GetAttribute("NAME");
+                    var shortNameValue = Reader.GetAttribute("SHORTNAME");
+                    var descriptionValue = Reader.GetAttribute("DESC");
+                    var startDateValue = Reader.GetAttribute("STARTDATE");
+                    var endDateValue = Reader.GetAttribute("ENDDATE");
+                    var updateDateValue = Reader.GetAttribute("UPDATEDATE");
 
-                    if(int.TryParse(idValue, out int id))
+                    if(int.TryParse(idValue, out int id)
+                       && int.TryParse(levelValue, out int level)
+                       && DateOnly.TryParse(startDateValue, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly startDate)
+                       && DateOnly.TryParse(endDateValue, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly endDate)
+                       && DateOnly.TryParse(updateDateValue, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly updateDate))
                     {
-                        var newObject = new NormativeDocKind(id, nameValue);
+                        var newObject = new AddressObjectType(id, level, nameValue, shortNameValue, descriptionValue, startDate, endDate, updateDate);
                         _current = newObject;
                         return true;
                     }
