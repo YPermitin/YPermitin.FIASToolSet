@@ -5,11 +5,11 @@ using YPermitin.FIASToolSet.DistributionReader.DataReaders;
 
 namespace YPermitin.FIASToolSet.DistributionReader.Tests.DataReaders;
 
-public class NormativeDocKindReaderTests
+public class NormativeDocKindCollectionTests
 {
     private readonly string _dataFile;
 
-    public NormativeDocKindReaderTests()
+    public NormativeDocKindCollectionTests()
     {
         _dataFile = Path.Combine(
             Directory.GetCurrentDirectory(),
@@ -21,8 +21,8 @@ public class NormativeDocKindReaderTests
     [Test]
     public void ReadItems()
     {
-        var reader = new NormativeDocKindReader(_dataFile);
-        var allItems = reader.ToList();
+        var collection = new NormativeDocKindCollection(_dataFile);
+        var allItems = collection.ToList();
         
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
