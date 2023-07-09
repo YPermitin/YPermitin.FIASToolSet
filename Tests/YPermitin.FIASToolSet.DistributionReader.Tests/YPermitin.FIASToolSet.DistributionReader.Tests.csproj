@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>disable</Nullable>
+
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+        <PackageReference Include="NUnit" Version="3.13.2" />
+        <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
+        <PackageReference Include="coverlet.collector" Version="3.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Libs\YPermitin.FIASToolSet.DistributionReader\YPermitin.FIASToolSet.DistributionReader.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="SampleData\AS_NORMATIVE_DOCS_KINDS_20230706_3ffe3a9e-70c3-44a0-9d94-03ada524851d.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\version.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\AS_NORMATIVE_DOCS_TYPES_20230706_35b52e02-e36e-4583-bc20-9d1a81c6c4c2.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\AS_OBJECT_LEVELS_20230706_4d4c4dfd-b0ce-4596-b923-e687d5118e42.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\AS_ROOM_TYPES_20230706_190ba38d-fe2d-4afc-a5f7-6330669f570e.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\AS_APARTMENT_TYPES_20230706_e4450931-ca64-4b45-b04d-65471519ddc8.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\AS_HOUSE_TYPES_20230706_8f22a317-dbec-44e4-9db7-a686a372c1c0.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\AS_OPERATION_TYPES_20230706_39508983-2c70-485d-98ac-53bad8c38ec5.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\AS_ADDR_OBJ_TYPES_20230706_42f95bf4-bebe-4e6a-ac02-00ab1f652505.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\AS_PARAM_TYPES_20230706_5c240782-bd40-44dd-a3fd-2c84c42c6c22.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+</Project>

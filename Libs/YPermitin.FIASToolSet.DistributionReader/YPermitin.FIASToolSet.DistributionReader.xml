@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>YPermitin.FIASToolSet.DistributionReader</name>
+    </assembly>
+    <members>
+        <member name="M:YPermitin.FIASToolSet.DistributionReader.FIASDistributionReader.GetVersionAsString">
+            <summary>
+            Получение версии дистрибутива ФИАС в строковм виде
+            </summary>
+            <returns>Строка с информацией о версии ФИАС</returns>
+            <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось найти файл с информацией о версии</exception>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionReader.FIASDistributionReader.GetVersion">
+            <summary>
+            Получение версии дистрибутива ФИАС в числовом виде
+            </summary>
+            <returns>Версия ФИАС числом</returns>
+            <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASBadDataException">Не удалось конвертировать значение версии ФИАС в число</exception>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.NormativeDocKind">
+            <summary>
+            Вид нормативного документа
+            </summary>
+        </member>
+    </members>
+</doc>
