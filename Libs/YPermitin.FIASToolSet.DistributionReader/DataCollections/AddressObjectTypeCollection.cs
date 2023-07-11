@@ -15,7 +15,7 @@ public class AddressObjectTypeCollection : FIASObjectCollection<AddressObjectTyp
         {
         }
 
-        public override bool MoveNext()
+        protected override bool MoveNext()
         {
             while (Reader.Read())
             {
