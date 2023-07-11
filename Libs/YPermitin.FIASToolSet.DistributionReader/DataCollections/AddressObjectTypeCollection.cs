@@ -1,63 +1,21 @@
-using System.Collections;
 using System.Globalization;
-using System.Xml;
 using YPermitin.FIASToolSet.DistributionReader.Models;
 
-namespace YPermitin.FIASToolSet.DistributionReader.DataReaders;
+namespace YPermitin.FIASToolSet.DistributionReader.DataCollections;
 
-public class AddressObjectTypeCollection : IEnumerable<AddressObjectType>
+public class AddressObjectTypeCollection : FIASObjectCollection<AddressObjectType, AddressObjectTypeCollection.AddressObjectTypeEnumerator>
 {
-    private readonly string _dataFilePath;
-    private AddressObjectTypeEnumerator _enumerator;
-    
-    public AddressObjectTypeCollection(string dataFilePath)
+    public AddressObjectTypeCollection(string dataFilePath) : base(dataFilePath)
     {
-        _dataFilePath = dataFilePath;
     }
     
-    public IEnumerator<AddressObjectType> GetEnumerator()
+    public class AddressObjectTypeEnumerator : FIASObjectEnumerator<AddressObjectType>
     {
-        if (_enumerator == null)
+        public AddressObjectTypeEnumerator(string dataFilePath) : base(dataFilePath)
         {
-            _enumerator = new AddressObjectTypeEnumerator(_dataFilePath);
-        }
-        
-        return _enumerator;
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-    
-    public class AddressObjectTypeEnumerator : IEnumerator<AddressObjectType>
-    {
-        private readonly string _dataFilePath;
-
-        private AddressObjectType _current;
-        
-        private XmlReader _reader;
-        private XmlReader Reader {
-            get
-            {
-                if (_reader == null)
-                {
-                    _reader = XmlReader.Create(_dataFilePath);
-                }
-                return _reader;
-            }
         }
 
-        public AddressObjectTypeEnumerator(string dataFilePath)
-        {
-            _dataFilePath = dataFilePath;
-        }
-
-        public AddressObjectType Current => _current;
-
-        object IEnumerator.Current => Current;
-        
-        public bool MoveNext()
+        public override bool MoveNext()
         {
             while (Reader.Read())
             {
@@ -82,38 +40,11 @@ public class AddressObjectTypeCollection : IEnumerable<AddressObjectType>
                         _current = newObject;
                         return true;
                     }
-                    else
-                    {
-                        _current = null;
-                    }
                 }
             }
 
-            DisposeXmlReader();
+            _current = null;
             return false;
-        }
-
-        public void Reset()
-        {
-            DisposeXmlReader();
-        }
-
-        public void Dispose()
-        {
-            DisposeXmlReader();
-        }
-
-        private void DisposeXmlReader()
-        {
-            if (_reader != null)
-            {
-                if(_reader.ReadState != ReadState.Closed)
-                    _reader.Close();
-                
-                _reader.Dispose();
-
-                _reader = null;
-            }
         }
     }
 }

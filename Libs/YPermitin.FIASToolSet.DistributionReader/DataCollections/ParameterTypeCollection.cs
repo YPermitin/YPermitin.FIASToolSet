@@ -1,63 +1,21 @@
-using System.Collections;
 using System.Globalization;
-using System.Xml;
 using YPermitin.FIASToolSet.DistributionReader.Models;
 
-namespace YPermitin.FIASToolSet.DistributionReader.DataReaders;
+namespace YPermitin.FIASToolSet.DistributionReader.DataCollections;
 
-public class ParameterTypeCollection : IEnumerable<ParameterType>
+public class ParameterTypeCollection : FIASObjectCollection<ParameterType, ParameterTypeCollection.ParameterTypeEnumerator>
 {
-    private readonly string _dataFilePath;
-    private ParameterTypeEnumerator _enumerator;
-    
-    public ParameterTypeCollection(string dataFilePath)
+    public ParameterTypeCollection(string dataFilePath) : base(dataFilePath)
     {
-        _dataFilePath = dataFilePath;
     }
     
-    public IEnumerator<ParameterType> GetEnumerator()
+    public class ParameterTypeEnumerator : FIASObjectEnumerator<ParameterType>
     {
-        if (_enumerator == null)
+        public ParameterTypeEnumerator(string dataFilePath) : base(dataFilePath)
         {
-            _enumerator = new ParameterTypeEnumerator(_dataFilePath);
-        }
-        
-        return _enumerator;
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-    
-    public class ParameterTypeEnumerator : IEnumerator<ParameterType>
-    {
-        private readonly string _dataFilePath;
-
-        private ParameterType _current;
-        
-        private XmlReader _reader;
-        private XmlReader Reader {
-            get
-            {
-                if (_reader == null)
-                {
-                    _reader = XmlReader.Create(_dataFilePath);
-                }
-                return _reader;
-            }
         }
 
-        public ParameterTypeEnumerator(string dataFilePath)
-        {
-            _dataFilePath = dataFilePath;
-        }
-
-        public ParameterType Current => _current;
-
-        object IEnumerator.Current => Current;
-        
-        public bool MoveNext()
+        public override bool MoveNext()
         {
             while (Reader.Read())
             {
@@ -82,38 +40,11 @@ public class ParameterTypeCollection : IEnumerable<ParameterType>
                         _current = newObject;
                         return true;
                     }
-                    else
-                    {
-                        _current = null;
-                    }
                 }
             }
 
-            DisposeXmlReader();
+            _current = null;
             return false;
-        }
-
-        public void Reset()
-        {
-            DisposeXmlReader();
-        }
-
-        public void Dispose()
-        {
-            DisposeXmlReader();
-        }
-
-        private void DisposeXmlReader()
-        {
-            if (_reader != null)
-            {
-                if(_reader.ReadState != ReadState.Closed)
-                    _reader.Close();
-                
-                _reader.Dispose();
-
-                _reader = null;
-            }
         }
     }
 }

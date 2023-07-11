@@ -1,63 +1,21 @@
-using System.Collections;
 using System.Globalization;
-using System.Xml;
 using YPermitin.FIASToolSet.DistributionReader.Models;
 
-namespace YPermitin.FIASToolSet.DistributionReader.DataReaders;
+namespace YPermitin.FIASToolSet.DistributionReader.DataCollections;
 
-public class HouseTypeCollection : IEnumerable<HouseType>
+public class HouseTypeCollection : FIASObjectCollection<HouseType, HouseTypeCollection.HouseTypeEnumerator>
 {
-    private readonly string _dataFilePath;
-    private HouseTypeEnumerator _enumerator;
-    
-    public HouseTypeCollection(string dataFilePath)
+    public HouseTypeCollection(string dataFilePath) : base(dataFilePath)
     {
-        _dataFilePath = dataFilePath;
     }
     
-    public IEnumerator<HouseType> GetEnumerator()
+    public class HouseTypeEnumerator : FIASObjectEnumerator<HouseType>
     {
-        if (_enumerator == null)
+        public HouseTypeEnumerator(string dataFilePath) : base(dataFilePath)
         {
-            _enumerator = new HouseTypeEnumerator(_dataFilePath);
-        }
-        
-        return _enumerator;
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-    
-    public class HouseTypeEnumerator : IEnumerator<HouseType>
-    {
-        private readonly string _dataFilePath;
-
-        private HouseType _current;
-        
-        private XmlReader _reader;
-        private XmlReader Reader {
-            get
-            {
-                if (_reader == null)
-                {
-                    _reader = XmlReader.Create(_dataFilePath);
-                }
-                return _reader;
-            }
         }
 
-        public HouseTypeEnumerator(string dataFilePath)
-        {
-            _dataFilePath = dataFilePath;
-        }
-
-        public HouseType Current => _current;
-
-        object IEnumerator.Current => Current;
-        
-        public bool MoveNext()
+        public override bool MoveNext()
         {
             while (Reader.Read())
             {
@@ -72,48 +30,24 @@ public class HouseTypeCollection : IEnumerable<HouseType>
                     var updateDateValue = Reader.GetAttribute("UPDATEDATE");
                     var isActiveValue = Reader.GetAttribute("ISACTIVE");
 
-                    if(int.TryParse(idValue, out int id)
-                       && DateOnly.TryParse(startDateValue, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly startDate)
-                       && DateOnly.TryParse(endDateValue, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly endDate)
-                       && DateOnly.TryParse(updateDateValue, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly updateDate)
-                       && bool.TryParse(isActiveValue, out bool isActive))
+                    if (int.TryParse(idValue, out int id)
+                        && DateOnly.TryParse(startDateValue, CultureInfo.InvariantCulture, DateTimeStyles.None,
+                            out DateOnly startDate)
+                        && DateOnly.TryParse(endDateValue, CultureInfo.InvariantCulture, DateTimeStyles.None,
+                            out DateOnly endDate)
+                        && DateOnly.TryParse(updateDateValue, CultureInfo.InvariantCulture, DateTimeStyles.None,
+                            out DateOnly updateDate)
+                        && bool.TryParse(isActiveValue, out bool isActive))
                     {
-                        var newObject = new HouseType(id, nameValue, shortNameValue, descriptionValue, startDate, endDate, updateDate, isActive);
-                        _current = newObject;
+                        _current = new HouseType(id, nameValue, shortNameValue, descriptionValue, 
+                            startDate, endDate, updateDate, isActive);
                         return true;
-                    }
-                    else
-                    {
-                        _current = null;
                     }
                 }
             }
 
-            DisposeXmlReader();
+            _current = null;
             return false;
-        }
-
-        public void Reset()
-        {
-            DisposeXmlReader();
-        }
-
-        public void Dispose()
-        {
-            DisposeXmlReader();
-        }
-
-        private void DisposeXmlReader()
-        {
-            if (_reader != null)
-            {
-                if(_reader.ReadState != ReadState.Closed)
-                    _reader.Close();
-                
-                _reader.Dispose();
-
-                _reader = null;
-            }
         }
     }
 }

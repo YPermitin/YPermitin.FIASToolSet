@@ -26,7 +26,7 @@ public class HouseType
         UpdateDate = updateDate;
         IsActive = isActive;
     }
-    
+
     public override string ToString()
     {
         return $"{Name} ({Id}, {StartDate}, {EndDate}, {UpdateDate}, {IsActive})";

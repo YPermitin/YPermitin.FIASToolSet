@@ -1,63 +1,21 @@
-using System.Collections;
 using System.Globalization;
-using System.Xml;
 using YPermitin.FIASToolSet.DistributionReader.Models;
 
-namespace YPermitin.FIASToolSet.DistributionReader.DataReaders;
+namespace YPermitin.FIASToolSet.DistributionReader.DataCollections;
 
-public class NormativeDocTypeCollection : IEnumerable<NormativeDocType>
+public class NormativeDocTypeCollection : FIASObjectCollection<NormativeDocType, NormativeDocTypeCollection.NormativeDocTypeEnumerator>
 {
-    private readonly string _dataFilePath;
-    private NormativeDocTypeEnumerator _enumerator;
-    
-    public NormativeDocTypeCollection(string dataFilePath)
+    public NormativeDocTypeCollection(string dataFilePath) : base(dataFilePath)
     {
-        _dataFilePath = dataFilePath;
     }
     
-    public IEnumerator<NormativeDocType> GetEnumerator()
+    public class NormativeDocTypeEnumerator : FIASObjectEnumerator<NormativeDocType>
     {
-        if (_enumerator == null)
+        public NormativeDocTypeEnumerator(string dataFilePath) : base(dataFilePath)
         {
-            _enumerator = new NormativeDocTypeEnumerator(_dataFilePath);
-        }
-        
-        return _enumerator;
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-    
-    public class NormativeDocTypeEnumerator : IEnumerator<NormativeDocType>
-    {
-        private readonly string _dataFilePath;
-
-        private NormativeDocType _current;
-        
-        private XmlReader _reader;
-        private XmlReader Reader {
-            get
-            {
-                if (_reader == null)
-                {
-                    _reader = XmlReader.Create(_dataFilePath);
-                }
-                return _reader;
-            }
         }
 
-        public NormativeDocTypeEnumerator(string dataFilePath)
-        {
-            _dataFilePath = dataFilePath;
-        }
-
-        public NormativeDocType Current => _current;
-
-        object IEnumerator.Current => Current;
-        
-        public bool MoveNext()
+        public override bool MoveNext()
         {
             while (Reader.Read())
             {
@@ -76,38 +34,11 @@ public class NormativeDocTypeCollection : IEnumerable<NormativeDocType>
                         _current = newObject;
                         return true;
                     }
-                    else
-                    {
-                        _current = null;
-                    }
                 }
             }
 
-            DisposeXmlReader();
+            _current = null;
             return false;
-        }
-
-        public void Reset()
-        {
-            DisposeXmlReader();
-        }
-
-        public void Dispose()
-        {
-            DisposeXmlReader();
-        }
-
-        private void DisposeXmlReader()
-        {
-            if (_reader != null)
-            {
-                if(_reader.ReadState != ReadState.Closed)
-                    _reader.Close();
-                
-                _reader.Dispose();
-
-                _reader = null;
-            }
         }
     }
 }

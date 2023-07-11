@@ -1,63 +1,21 @@
-using System.Collections;
 using System.Globalization;
-using System.Xml;
 using YPermitin.FIASToolSet.DistributionReader.Models;
 
-namespace YPermitin.FIASToolSet.DistributionReader.DataReaders;
+namespace YPermitin.FIASToolSet.DistributionReader.DataCollections;
 
-public class ObjectLevelCollection : IEnumerable<ObjectLevel>
+public class ObjectLevelCollection : FIASObjectCollection<ObjectLevel, ObjectLevelCollection.ObjectLevelEnumerator>
 {
-    private readonly string _dataFilePath;
-    private ObjectLevelEnumerator _enumerator;
-    
-    public ObjectLevelCollection(string dataFilePath)
+    public ObjectLevelCollection(string dataFilePath) : base(dataFilePath)
     {
-        _dataFilePath = dataFilePath;
     }
     
-    public IEnumerator<ObjectLevel> GetEnumerator()
+    public class ObjectLevelEnumerator : FIASObjectEnumerator<ObjectLevel>
     {
-        if (_enumerator == null)
+        public ObjectLevelEnumerator(string dataFilePath) : base(dataFilePath)
         {
-            _enumerator = new ObjectLevelEnumerator(_dataFilePath);
-        }
-        
-        return _enumerator;
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-    
-    public class ObjectLevelEnumerator : IEnumerator<ObjectLevel>
-    {
-        private readonly string _dataFilePath;
-
-        private ObjectLevel _current;
-        
-        private XmlReader _reader;
-        private XmlReader Reader {
-            get
-            {
-                if (_reader == null)
-                {
-                    _reader = XmlReader.Create(_dataFilePath);
-                }
-                return _reader;
-            }
         }
 
-        public ObjectLevelEnumerator(string dataFilePath)
-        {
-            _dataFilePath = dataFilePath;
-        }
-
-        public ObjectLevel Current => _current;
-
-        object IEnumerator.Current => Current;
-        
-        public bool MoveNext()
+        public override bool MoveNext()
         {
             while (Reader.Read())
             {
@@ -80,38 +38,11 @@ public class ObjectLevelCollection : IEnumerable<ObjectLevel>
                         _current = newObject;
                         return true;
                     }
-                    else
-                    {
-                        _current = null;
-                    }
                 }
             }
 
-            DisposeXmlReader();
+            _current = null;
             return false;
-        }
-
-        public void Reset()
-        {
-            DisposeXmlReader();
-        }
-
-        public void Dispose()
-        {
-            DisposeXmlReader();
-        }
-
-        private void DisposeXmlReader()
-        {
-            if (_reader != null)
-            {
-                if(_reader.ReadState != ReadState.Closed)
-                    _reader.Close();
-                
-                _reader.Dispose();
-
-                _reader = null;
-            }
         }
     }
 }
