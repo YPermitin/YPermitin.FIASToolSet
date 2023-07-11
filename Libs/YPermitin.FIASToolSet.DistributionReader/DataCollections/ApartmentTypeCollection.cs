@@ -1,63 +1,21 @@
-using System.Collections;
 using System.Globalization;
-using System.Xml;
 using YPermitin.FIASToolSet.DistributionReader.Models;
 
-namespace YPermitin.FIASToolSet.DistributionReader.DataReaders;
+namespace YPermitin.FIASToolSet.DistributionReader.DataCollections;
 
-public class ApartmentTypeCollection : IEnumerable<ApartmentType>
+public class ApartmentTypeCollection : FIASObjectCollection<ApartmentType, ApartmentTypeCollection.ApartmentTypeEnumerator>
 {
-    private readonly string _dataFilePath;
-    private ApartmentTypeEnumerator _enumerator;
-    
-    public ApartmentTypeCollection(string dataFilePath)
+    public ApartmentTypeCollection(string dataFilePath) : base(dataFilePath)
     {
-        _dataFilePath = dataFilePath;
     }
     
-    public IEnumerator<ApartmentType> GetEnumerator()
+    public class ApartmentTypeEnumerator : FIASObjectEnumerator<ApartmentType>
     {
-        if (_enumerator == null)
+        public ApartmentTypeEnumerator(string dataFilePath) : base(dataFilePath)
         {
-            _enumerator = new ApartmentTypeEnumerator(_dataFilePath);
-        }
-        
-        return _enumerator;
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-    
-    public class ApartmentTypeEnumerator : IEnumerator<ApartmentType>
-    {
-        private readonly string _dataFilePath;
-
-        private ApartmentType _current;
-        
-        private XmlReader _reader;
-        private XmlReader Reader {
-            get
-            {
-                if (_reader == null)
-                {
-                    _reader = XmlReader.Create(_dataFilePath);
-                }
-                return _reader;
-            }
         }
 
-        public ApartmentTypeEnumerator(string dataFilePath)
-        {
-            _dataFilePath = dataFilePath;
-        }
-
-        public ApartmentType Current => _current;
-
-        object IEnumerator.Current => Current;
-        
-        public bool MoveNext()
+        public override bool MoveNext()
         {
             while (Reader.Read())
             {
@@ -78,42 +36,14 @@ public class ApartmentTypeCollection : IEnumerable<ApartmentType>
                        && DateOnly.TryParse(updateDateValue, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly updateDate)
                        && bool.TryParse(isActiveValue, out bool isActive))
                     {
-                        var newObject = new ApartmentType(id, nameValue, shortNameValue, descriptionValue, startDate, endDate, updateDate, isActive);
-                        _current = newObject;
+                        _current = new ApartmentType(id, nameValue, shortNameValue, descriptionValue, startDate, endDate, updateDate, isActive);
                         return true;
-                    }
-                    else
-                    {
-                        _current = null;
                     }
                 }
             }
 
-            DisposeXmlReader();
+            _current = null;
             return false;
-        }
-
-        public void Reset()
-        {
-            DisposeXmlReader();
-        }
-
-        public void Dispose()
-        {
-            DisposeXmlReader();
-        }
-
-        private void DisposeXmlReader()
-        {
-            if (_reader != null)
-            {
-                if(_reader.ReadState != ReadState.Closed)
-                    _reader.Close();
-                
-                _reader.Dispose();
-
-                _reader = null;
-            }
         }
     }
 }

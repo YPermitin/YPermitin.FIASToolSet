@@ -1,63 +1,21 @@
-using System.Collections;
 using System.Globalization;
-using System.Xml;
 using YPermitin.FIASToolSet.DistributionReader.Models;
 
-namespace YPermitin.FIASToolSet.DistributionReader.DataReaders;
+namespace YPermitin.FIASToolSet.DistributionReader.DataCollections;
 
-public class OperationTypeCollection : IEnumerable<OperationType>
+public class OperationTypeCollection : FIASObjectCollection<OperationType, OperationTypeCollection.OperationTypeEnumerator>
 {
-    private readonly string _dataFilePath;
-    private OperationTypeEnumerator _enumerator;
-    
-    public OperationTypeCollection(string dataFilePath)
+    public OperationTypeCollection(string dataFilePath) : base(dataFilePath)
     {
-        _dataFilePath = dataFilePath;
     }
     
-    public IEnumerator<OperationType> GetEnumerator()
+    public class OperationTypeEnumerator : FIASObjectEnumerator<OperationType>
     {
-        if (_enumerator == null)
+        public OperationTypeEnumerator(string dataFilePath) : base(dataFilePath)
         {
-            _enumerator = new OperationTypeEnumerator(_dataFilePath);
-        }
-        
-        return _enumerator;
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-    
-    public class OperationTypeEnumerator : IEnumerator<OperationType>
-    {
-        private readonly string _dataFilePath;
-
-        private OperationType _current;
-        
-        private XmlReader _reader;
-        private XmlReader Reader {
-            get
-            {
-                if (_reader == null)
-                {
-                    _reader = XmlReader.Create(_dataFilePath);
-                }
-                return _reader;
-            }
         }
 
-        public OperationTypeEnumerator(string dataFilePath)
-        {
-            _dataFilePath = dataFilePath;
-        }
-
-        public OperationType Current => _current;
-
-        object IEnumerator.Current => Current;
-        
-        public bool MoveNext()
+        public override bool MoveNext()
         {
             while (Reader.Read())
             {
@@ -80,38 +38,11 @@ public class OperationTypeCollection : IEnumerable<OperationType>
                         _current = newObject;
                         return true;
                     }
-                    else
-                    {
-                        _current = null;
-                    }
                 }
             }
 
-            DisposeXmlReader();
+            _current = null;
             return false;
-        }
-
-        public void Reset()
-        {
-            DisposeXmlReader();
-        }
-
-        public void Dispose()
-        {
-            DisposeXmlReader();
-        }
-
-        private void DisposeXmlReader()
-        {
-            if (_reader != null)
-            {
-                if(_reader.ReadState != ReadState.Closed)
-                    _reader.Close();
-                
-                _reader.Dispose();
-
-                _reader = null;
-            }
         }
     }
 }

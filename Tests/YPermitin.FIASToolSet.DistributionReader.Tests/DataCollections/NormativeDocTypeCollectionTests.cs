@@ -2,9 +2,9 @@ using System;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
-using YPermitin.FIASToolSet.DistributionReader.DataReaders;
+using YPermitin.FIASToolSet.DistributionReader.DataCollections;
 
-namespace YPermitin.FIASToolSet.DistributionReader.Tests.DataReaders;
+namespace YPermitin.FIASToolSet.DistributionReader.Tests.DataCollections;
 
 public class NormativeDocTypeCollectionTests
 {
