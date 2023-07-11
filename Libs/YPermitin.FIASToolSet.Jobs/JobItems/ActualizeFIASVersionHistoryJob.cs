@@ -37,6 +37,7 @@ namespace YPermitin.FIASToolSet.Jobs.JobItems
             {
                 IFIASDistributionBrowser fiasDistributionBrowser = scope.ServiceProvider.GetRequiredService<IFIASDistributionBrowser>();
                 IFIASMaintenanceRepository fiasMaintenanceService = scope.ServiceProvider.GetRequiredService<IFIASMaintenanceRepository>();
+                IFIASInstallationManagerRepository fiasInstallationManagerService = scope.ServiceProvider.GetRequiredService<IFIASInstallationManagerRepository>();
 
                 // Последняя версия из хранилища
                 var lastVersion = await fiasMaintenanceService.GetLastVersion();
@@ -122,6 +123,51 @@ namespace YPermitin.FIASToolSet.Jobs.JobItems
                     }
 
                     await fiasMaintenanceService.SaveAsync();
+
+                    bool fullUrlChanged;
+                    bool deltaUrlChanged;
+                    if (lastVersion == null)
+                    {
+                        fullUrlChanged = true;
+                        deltaUrlChanged = true;
+                    }
+                    else
+                    {
+                        fullUrlChanged = lastVersion.GARFIASXmlComplete != newFIASVersion.GARFIASXmlComplete;
+                        deltaUrlChanged = lastVersion.GARFIASXmlDelta != newFIASVersion.GARFIASXmlDelta;   
+                    }
+
+                    if (fullUrlChanged || deltaUrlChanged)
+                    {
+                        var lastInstallation = await fiasInstallationManagerService.GetLastInstallation();
+                        if (lastInstallation == null)
+                        {
+                            if (fullUrlChanged)
+                            {
+                                fiasInstallationManagerService.AddInstallation(new FIASVersionInstallation()
+                                {
+                                    Id = Guid.NewGuid(),
+                                    FIASVersionId = newFIASVersion.Id,
+                                    StatusId = FIASVersionInstallationStatus.New,
+                                    InstallationTypeId = FIASVersionInstallationType.Full,
+                                    Created = DateTime.UtcNow
+                                });
+                            }
+                        }
+                        else
+                        {
+                            fiasInstallationManagerService.AddInstallation(new FIASVersionInstallation()
+                            {
+                                Id = Guid.NewGuid(),
+                                FIASVersionId = newFIASVersion.Id,
+                                StatusId = FIASVersionInstallationStatus.New,
+                                InstallationTypeId = FIASVersionInstallationType.Update,
+                                Created = DateTime.UtcNow
+                            });
+                        }
+
+                        await fiasInstallationManagerService.SaveAsync();
+                    }
 
                     await fiasMaintenanceService.CommitTransactionAsync();
                 }
