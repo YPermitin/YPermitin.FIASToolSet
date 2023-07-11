@@ -10,6 +10,10 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
         public DbSet<NotificationQueue> NotificationsQueues { get; set; }
         public DbSet<NotificationStatus> NotificationsStatuses { get; set; }
 
+        public DbSet<FIASVersionInstallationStatus> FIASVersionInstallationStatuses { get; set; }
+        public DbSet<FIASVersionInstallation> FIASVersionInstallations { get; set; }
+        public DbSet<FIASVersionInstallationType> FIASVersionInstallationsTypes { get; set; }
+        
         private FIASToolSetServiceContext()
         {
         }
@@ -105,6 +109,66 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
             modelBuilder.Entity<FIASVersion>()
                 .Property(e => e.TextVersion)
                 .HasMaxLength(50);
+
+            #endregion
+            
+            #region FIASVersionInstallationStatus
+
+            modelBuilder.Entity<FIASVersionInstallationStatus>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<FIASVersionInstallationStatus>()
+                .HasIndex(e => new { e.Name });
+            modelBuilder.Entity<FIASVersionInstallationStatus>()
+                .HasData(new List<FIASVersionInstallationStatus>()
+                {
+                    new()
+                    {
+                        Id = FIASVersionInstallationStatus.New,
+                        Name = "New"
+                    },
+                    new()
+                    {
+                        Id = FIASVersionInstallationStatus.Installing,
+                        Name = "Installing"
+                    },
+                    new()
+                    {
+                        Id = FIASVersionInstallationStatus.Installed,
+                        Name = "Installed"
+                    }
+                });
+
+            #endregion
+            
+            #region FIASVersionInstallation
+            
+            modelBuilder.Entity<FIASVersionInstallation>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<FIASVersionInstallation>()
+                .HasIndex(e => new { e.StatusId, e.Created, e.Id });
+
+            #endregion
+            
+            #region FIASVersionInstallationType
+            
+            modelBuilder.Entity<FIASVersionInstallationType>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<FIASVersionInstallationType>()
+                .HasIndex(e => new { e.Id });
+            modelBuilder.Entity<FIASVersionInstallationType>()
+                .HasData(new List<FIASVersionInstallationType>()
+                {
+                    new()
+                    {
+                        Id = FIASVersionInstallationType.Full,
+                        Name = "Full"
+                    },
+                    new()
+                    {
+                        Id = FIASVersionInstallationType.Update,
+                        Name = "Update"
+                    }
+                });
 
             #endregion
         }

@@ -74,6 +74,81 @@
             Файлы дистрибутива КЛАДР 4 в формате 7Z (полная база)
             </summary>
         </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersionInstallation">
+            <summary>
+            Информация об установленной версии ФИАС
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersionInstallation.Id">
+            <summary>
+            Идентификатор записи
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersionInstallation.Created">
+            <summary>
+            Период создания
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersionInstallation.FIASVersion">
+            <summary>
+            Версия ФИАС
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersionInstallation.FIASVersionId">
+            <summary>
+            Идентификатор версии ФИАС
+            </summary>        
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersionInstallation.Status">
+            <summary>
+            Версия ФИАС
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersionInstallation.StatusId">
+            <summary>
+            Идентификатор версии ФИАС
+            </summary>        
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersionInstallation.InstallationType">
+            <summary>
+            Тип установки ФИАС
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersionInstallation.InstallationTypeId">
+            <summary>
+            Идентификатор типа установки ФИАС
+            </summary>        
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersionInstallationStatus">
+            <summary>
+            Статус установки версии ФИАС
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersionInstallationStatus.Id">
+            <summary>
+            Идентификатор статуса
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersionInstallationStatus.Name">
+            <summary>
+            Наименование статуса
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersionInstallationType">
+            <summary>
+            Тип установки версии ФИАС
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersionInstallationType.Id">
+            <summary>
+            Идентификатор статуса
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersionInstallationType.Name">
+            <summary>
+            Наименование статуса
+            </summary>
+        </member>
         <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.NotificationQueue">
             <summary>
             Элемент уведомления в общей очереди
