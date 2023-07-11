@@ -14,7 +14,7 @@ public class NormativeDocKindCollection : FIASObjectCollection<NormativeDocKind,
         {
         }
 
-        public override bool MoveNext()
+        protected override bool MoveNext()
         {
             while (Reader.Read())
             {

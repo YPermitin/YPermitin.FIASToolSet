@@ -15,7 +15,7 @@ public class RoomTypeCollection : FIASObjectCollection<RoomType, RoomTypeCollect
         {
         }
 
-        public override bool MoveNext()
+        protected override bool MoveNext()
         {
             while (Reader.Read())
             {

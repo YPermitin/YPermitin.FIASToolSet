@@ -15,7 +15,7 @@ public class ParameterTypeCollection : FIASObjectCollection<ParameterType, Param
         {
         }
 
-        public override bool MoveNext()
+        protected override bool MoveNext()
         {
             while (Reader.Read())
             {

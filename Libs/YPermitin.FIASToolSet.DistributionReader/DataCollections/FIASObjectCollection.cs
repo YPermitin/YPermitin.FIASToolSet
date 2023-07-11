@@ -11,7 +11,7 @@ public abstract class FIASObjectCollection<TItem, TEnumerator> : IEnumerable<TIt
     
     private IEnumerator<TItem> _enumerator;
 
-    public FIASObjectCollection(string dataFilePath)
+    protected FIASObjectCollection(string dataFilePath)
     {
         _dataFilePath = dataFilePath;
     }
@@ -48,8 +48,8 @@ public abstract class FIASObjectCollection<TItem, TEnumerator> : IEnumerable<TIt
                 return _reader;
             }
         }
-        
-        public FIASObjectEnumerator(string dataFilePath)
+
+        protected FIASObjectEnumerator(string dataFilePath)
         {
             _dataFilePath = dataFilePath;
         }
@@ -58,11 +58,14 @@ public abstract class FIASObjectCollection<TItem, TEnumerator> : IEnumerable<TIt
 
         object IEnumerator.Current => Current;
 
-        public virtual bool MoveNext()
+
+        bool IEnumerator.MoveNext()
         {
-            throw new NotImplementedException();
+            return MoveNext();
         }
 
+        protected abstract bool MoveNext();
+        
         public void Reset()
         {
             DisposeXmlReader();

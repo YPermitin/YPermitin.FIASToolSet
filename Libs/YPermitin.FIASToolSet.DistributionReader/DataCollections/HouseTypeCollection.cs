@@ -15,7 +15,7 @@ public class HouseTypeCollection : FIASObjectCollection<HouseType, HouseTypeColl
         {
         }
 
-        public override bool MoveNext()
+        protected override bool MoveNext()
         {
             while (Reader.Read())
             {
