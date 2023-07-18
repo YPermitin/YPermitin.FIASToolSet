@@ -25,7 +25,10 @@ public class FIASInstallationManagerRepository : CommonRepository, IFIASInstalla
             query = query.Where(e => e.InstallationTypeId == typeId);
         }
 
-        var result = await query.OrderBy(e => e.Created).ToListAsync();
+        var result = await query
+            .OrderBy(e => e.Created)
+            .AsNoTracking()
+            .ToListAsync();
 
         return result;
     }
@@ -33,6 +36,7 @@ public class FIASInstallationManagerRepository : CommonRepository, IFIASInstalla
     public async Task<FIASVersionInstallation> GetInstallation(Guid id)
     {
         return await _context.FIASVersionInstallations
+            .AsNoTracking()
             .FirstOrDefaultAsync(e => e.Id == id);
     }
 
@@ -40,7 +44,8 @@ public class FIASInstallationManagerRepository : CommonRepository, IFIASInstalla
     {
         var query = _context.FIASVersionInstallations
             .Where(e => e.Created == _context.FIASVersionInstallations.Max(e => e.Created))
-            .AsQueryable();
+            .AsQueryable()
+            .AsNoTracking();
 
         return await query.FirstOrDefaultAsync();
     }
@@ -55,7 +60,8 @@ public class FIASInstallationManagerRepository : CommonRepository, IFIASInstalla
                              .Max(lvm => lvm.Created)
             )
             .OrderByDescending(lv => lv.Created)
-            .AsQueryable();
+            .AsQueryable()
+            .AsNoTracking();
 
         var lastVersion = await lastVersionQuery.FirstOrDefaultAsync();
 

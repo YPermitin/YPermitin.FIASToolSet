@@ -97,7 +97,7 @@ namespace YPermitin.FIASToolSet.API
                     });
                 });
 
-                services.AddFIASDistributionBrowser();
+                services.AddFIASDistributionBrowser(Configuration);
 
                 var dbmsType = Configuration.GetValue("DBMSType", "PostgreSQL");
                 var dbmsTypeValue = dbmsType.ToEnum(DBMSType.PostgreSQL);

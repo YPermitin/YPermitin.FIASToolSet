@@ -15,18 +15,28 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Services
         {
             return await _context.FIASVersions
                 .Where(v => v.Id == versionId)
+                .AsNoTracking()
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<FIASVersion> GetLastVersion()
+        public async Task<FIASVersion> GetLastVersion(int? versionId = null)
         {
-            var lastVersionQuery = _context.FIASVersions
-                .AsNoTracking()
-                .Where(lv => lv.Period == _context.FIASVersions.Max(lvm => lvm.Period))
-                .AsQueryable();
+            var queryVersions = _context.FIASVersions.AsQueryable();
+            if (versionId != null)
+            {
+                queryVersions = queryVersions
+                    .Where(e => e.VersionId == versionId);
+            }
+            queryVersions = queryVersions.AsNoTracking();
+            
+            var lastVersionQuery = queryVersions
+                .Where(lv => lv.Period == queryVersions.Max(lvm => lvm.Period))
+                .AsQueryable()
+                .AsNoTracking();
 
-            var lastVersion = await lastVersionQuery.FirstOrDefaultAsync();
-
+            var lastVersion = await lastVersionQuery
+                .FirstOrDefaultAsync();
+            
             return lastVersion;
         }
         
@@ -40,7 +50,8 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Services
                                  .Max(lvm => lvm.Period)
                 )
                 .OrderByDescending(lv => lv.Period)
-                .AsQueryable();
+                .AsQueryable()
+                .AsNoTracking();
 
             var lastVersion = await lastVersionQuery.FirstOrDefaultAsync();
 

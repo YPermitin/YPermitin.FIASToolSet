@@ -36,9 +36,9 @@ namespace YPermitin.FIASToolSet.DistributionBrowser.Tests
         [Fact]
         public async Task DownloadLastGarXmlDeltaDistribution()
         {
-            var customWorkingDirectory = Path.Combine(
-                Path.GetTempPath(),
-                "FIASToolSet_Tests_DownloadLastGarXmlDeltaDistribution");
+             var customWorkingDirectory = Path.Combine(
+                 Path.GetTempPath(),
+                 "FIASToolSet_Tests_DownloadLastGarXmlDeltaDistribution");
             
             IFIASDistributionBrowser loader = new FIASDistributionBrowser(
                 new FIASDistributionBrowserOptions(customWorkingDirectory));

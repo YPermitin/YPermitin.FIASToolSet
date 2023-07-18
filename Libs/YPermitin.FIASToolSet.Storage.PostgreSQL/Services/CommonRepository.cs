@@ -1,4 +1,5 @@
-﻿using YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts;
+﻿using Microsoft.EntityFrameworkCore;
+using YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts;
 
 namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Services
 {
@@ -37,6 +38,15 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Services
         public async Task<bool> SaveAsync()
         {
             return (await _context.SaveChangesAsync() >= 0);
+        }
+        
+        public async Task SaveWithIdentityInsertAsync<T>()
+        {
+            await using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                await SaveAsync();
+                await transaction.CommitAsync();
+            }
         }
     }
 }

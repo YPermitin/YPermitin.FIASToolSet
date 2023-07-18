@@ -3,13 +3,13 @@ using YPermitin.FIASToolSet.DistributionReader.Exceptions;
 
 namespace YPermitin.FIASToolSet.DistributionReader;
 
-public class FIASDistributionReader
+public class FIASDistributionReader : IFIASDistributionReader
 {
     private readonly string _workingDirectory;
 
     #region CollectionInfo
 
-    private Dictionary<Type, CollectionInfo> _collectionsInfoByType = new()
+    private readonly Dictionary<Type, CollectionInfo> _collectionsInfoByType = new()
     {
         { typeof(NormativeDocKindCollection), new CollectionInfo()
         {

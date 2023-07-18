@@ -19,6 +19,7 @@ namespace YPermitin.FIASToolSet.Jobs
 
             // Расписание заданий настраивается индивидуально при добавлении
             services.RegisterJob<ActualizeFIASVersionHistoryJob>();
+            services.RegisterJob<InstallAndUpdateFIASJob>();
             services.RegisterJob<SendNotificationsJob>();
 
             var serviceProvider = services.BuildServiceProvider();

@@ -151,5 +151,25 @@ namespace YPermitin.FIASToolSet.Jobs.Extensions
 
             await jobsManager.CreateJobItem<SendNotificationsJob>(jobInfo, CancellationToken.None);
         }
+        
+        /// <summary>
+        /// Регистрация задания установки и обновления дистрибутивов ФИАС.
+        /// </summary>
+        /// <param name="jobsManager">Объект планировщика</param>
+        /// <param name="cronExpression">CRON-выражение запуска задания</param>
+        /// <returns>Объект асинхронной операции</returns>
+        public static async Task AddInstallAndUpdateFIASJob(this IJobsManager jobsManager, string cronExpression)
+        {
+            var jobInfo = new JobInfoWithDetails
+            {
+                Key = Guid.NewGuid().ToString(),
+                Description = "Install or update FIAS distribution",
+                CronExpression = cronExpression,
+                Priority = 1,
+                Settings = new JobSettings()
+            };
+
+            await jobsManager.CreateJobItem<InstallAndUpdateFIASJob>(jobInfo, CancellationToken.None);
+        }
     }
 }

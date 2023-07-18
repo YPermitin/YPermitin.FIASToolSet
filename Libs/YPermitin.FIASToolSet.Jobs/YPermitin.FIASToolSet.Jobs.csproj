@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\YPermitin.FIASToolSet.DistributionBrowser\YPermitin.FIASToolSet.DistributionBrowser.csproj" />
+    <ProjectReference Include="..\YPermitin.FIASToolSet.DistributionReader\YPermitin.FIASToolSet.DistributionReader.csproj" />
     <ProjectReference Include="..\YPermitin.FIASToolSet.Storage.Core\YPermitin.FIASToolSet.Storage.Core.csproj" />
   </ItemGroup>
 

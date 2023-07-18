@@ -14,6 +14,16 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
         public DbSet<FIASVersionInstallation> FIASVersionInstallations { get; set; }
         public DbSet<FIASVersionInstallationType> FIASVersionInstallationsTypes { get; set; }
         
+        public DbSet<AddressObjectType> FIASAddressObjectTypes { get; set; }
+        public DbSet<ApartmentType> FIASApartmentTypes { get; set; }
+        public DbSet<HouseType> FIASHouseTypes { get; set; }
+        public DbSet<NormativeDocKind> FIASNormativeDocKinds { get; set; }
+        public DbSet<NormativeDocType> FIASNormativeDocTypes { get; set; }
+        public DbSet<ObjectLevel> FIASObjectLevels { get; set; }
+        public DbSet<OperationType> FIASOperationTypes { get; set; }
+        public DbSet<ParameterType> FIASParameterTypes { get; set; }
+        public DbSet<RoomType> FIASRoomTypes { get; set; }
+
         private FIASToolSetServiceContext()
         {
         }
@@ -169,6 +179,123 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
                         Name = "Update"
                     }
                 });
+
+            #endregion
+
+            #region AddressObjectType
+
+            modelBuilder.Entity<AddressObjectType>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<AddressObjectType>()
+                .Property(e => e.Name)
+                .HasMaxLength(250);
+            modelBuilder.Entity<AddressObjectType>()
+                .Property(e => e.ShortName)
+                .HasMaxLength(250);
+            modelBuilder.Entity<AddressObjectType>()
+                .Property(e => e.Description)
+                .HasMaxLength(500);
+
+            #endregion
+            
+            #region ApartmentType
+
+            modelBuilder.Entity<ApartmentType>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<ApartmentType>()
+                .Property(e => e.Name)
+                .HasMaxLength(250);
+            modelBuilder.Entity<ApartmentType>()
+                .Property(e => e.ShortName)
+                .HasMaxLength(250);
+            modelBuilder.Entity<ApartmentType>()
+                .Property(e => e.Description)
+                .HasMaxLength(500);
+
+            #endregion
+            
+            #region HouseType
+
+            modelBuilder.Entity<HouseType>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<HouseType>()
+                .Property(e => e.Name)
+                .HasMaxLength(250);
+            modelBuilder.Entity<HouseType>()
+                .Property(e => e.ShortName)
+                .HasMaxLength(250);
+            modelBuilder.Entity<HouseType>()
+                .Property(e => e.Description)
+                .HasMaxLength(500);
+
+            #endregion
+            
+            #region NormativeDocKind
+
+            modelBuilder.Entity<NormativeDocKind>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<NormativeDocKind>()
+                .Property(e => e.Name)
+                .HasMaxLength(250);
+
+            #endregion
+            
+            #region NormativeDocType
+
+            modelBuilder.Entity<NormativeDocType>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<NormativeDocType>()
+                .Property(e => e.Name)
+                .HasMaxLength(250);
+
+            #endregion
+            
+            #region ObjectLevels
+
+            modelBuilder.Entity<ObjectLevel>()
+                .HasKey(e => e.Level);
+            modelBuilder.Entity<ObjectLevel>()
+                .Property(e => e.Name)
+                .HasMaxLength(250);
+
+            #endregion
+            
+            #region OperationType
+
+            modelBuilder.Entity<OperationType>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<OperationType>()
+                .Property(e => e.Name)
+                .HasMaxLength(250);
+
+            #endregion
+            
+            #region ParameterType
+
+            modelBuilder.Entity<ParameterType>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<ParameterType>()
+                .Property(e => e.Name)
+                .HasMaxLength(250);
+            modelBuilder.Entity<ParameterType>()
+                .Property(e => e.Code)
+                .HasMaxLength(250);
+            modelBuilder.Entity<ParameterType>()
+                .Property(e => e.Description)
+                .HasMaxLength(500);
+
+            #endregion
+            
+            #region RoomType
+
+            modelBuilder.Entity<RoomType>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<RoomType>()
+                .Property(e => e.Name)
+                .HasMaxLength(250);
+            modelBuilder.Entity<RoomType>()
+                .Property(e => e.Description)
+                .HasMaxLength(500);
 
             #endregion
         }
