@@ -5,6 +5,7 @@ using Serilog;
 using YPermitin.FIASToolSet.API.Extensions;
 using YPermitin.FIASToolSet.API.Infrastructure;
 using YPermitin.FIASToolSet.DistributionBrowser;
+using YPermitin.FIASToolSet.DistributionLoader;
 using YPermitin.FIASToolSet.Jobs;
 using YPermitin.FIASToolSet.Storage.PostgreSQL;
 using YPermitin.FIASToolSet.Storage.SQLServer;
@@ -112,6 +113,7 @@ namespace YPermitin.FIASToolSet.API
                 {
                     throw new Exception($"Unknown DBMS type for service database: {dbmsType}");
                 }
+                services.AddFIASDistributionLoader();
 
                 services.AddControllersExtension();
                 services.AddMVCExtension();

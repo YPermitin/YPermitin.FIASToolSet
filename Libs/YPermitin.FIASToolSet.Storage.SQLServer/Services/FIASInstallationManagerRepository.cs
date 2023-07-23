@@ -11,7 +11,8 @@ public class FIASInstallationManagerRepository : CommonRepository, IFIASInstalla
     {
     }
 
-    public async Task<List<FIASVersionInstallation>> GetInstallations(Guid? statusId = null, Guid? typeId = null)
+    public async Task<List<FIASVersionInstallation>> GetInstallations(Guid? statusId = null, Guid? typeId = null,
+        bool includeDetails = false)
     {
         var query = _context.FIASVersionInstallations.AsQueryable();
 
@@ -19,10 +20,18 @@ public class FIASInstallationManagerRepository : CommonRepository, IFIASInstalla
         {
             query = query.Where(e => e.StatusId == statusId);
         }
-        
+
         if (typeId != null)
         {
             query = query.Where(e => e.InstallationTypeId == typeId);
+        }
+
+        if (includeDetails)
+        {
+            query = query
+                .Include(e => e.FIASVersion).AsNoTracking()
+                .Include(e => e.Status).AsNoTracking()
+                .Include(e => e.InstallationType).AsNoTracking();
         }
 
         var result = await query

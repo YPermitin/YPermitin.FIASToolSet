@@ -4,7 +4,8 @@ namespace YPermitin.FIASToolSet.Storage.Core.Services;
 
 public interface IFIASInstallationManagerRepository
 {
-    Task<List<FIASVersionInstallation>> GetInstallations(Guid? statusId = null, Guid? typeId = null);
+    Task<List<FIASVersionInstallation>> GetInstallations(Guid? statusId = null, Guid? typeId = null,
+        bool includeDetails = false);
     Task<FIASVersionInstallation> GetInstallation(Guid id);
     Task<FIASVersionInstallation> GetLastInstallation();
     Task<FIASVersionInstallation> GetPreviousInstallation(Guid installationId);

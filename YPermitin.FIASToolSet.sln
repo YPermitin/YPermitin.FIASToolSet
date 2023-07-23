@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YPermitin.FIASToolSet.Distr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YPermitin.FIASToolSet.DistributionReader.Tests", "Tests\YPermitin.FIASToolSet.DistributionReader.Tests\YPermitin.FIASToolSet.DistributionReader.Tests.csproj", "{F63B71FA-BD02-482B-89D3-E35EAD88BF15}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YPermitin.FIASToolSet.DistributionLoader", "Libs\YPermitin.FIASToolSet.DistributionLoader\YPermitin.FIASToolSet.DistributionLoader.csproj", "{6BB5B53C-485E-446B-B314-88D4DCBF0562}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +91,10 @@ Global
 		{F63B71FA-BD02-482B-89D3-E35EAD88BF15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F63B71FA-BD02-482B-89D3-E35EAD88BF15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F63B71FA-BD02-482B-89D3-E35EAD88BF15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BB5B53C-485E-446B-B314-88D4DCBF0562}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BB5B53C-485E-446B-B314-88D4DCBF0562}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BB5B53C-485E-446B-B314-88D4DCBF0562}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BB5B53C-485E-446B-B314-88D4DCBF0562}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -105,6 +111,7 @@ Global
 		{C3B585DE-1E5C-43D0-B9FE-EEA1B5673DDD} = {FAA25495-423B-44E1-B49B-7DB6DB993664}
 		{68921ADE-DF52-4157-BB05-3F9280DDA725} = {068FF229-56E5-4718-83EF-1D863CBE8F71}
 		{F63B71FA-BD02-482B-89D3-E35EAD88BF15} = {AAAACF02-36A1-446B-83B5-B2FDE594C273}
+		{6BB5B53C-485E-446B-B314-88D4DCBF0562} = {068FF229-56E5-4718-83EF-1D863CBE8F71}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E8FCAA60-A495-45A3-95C8-405142F3203A}

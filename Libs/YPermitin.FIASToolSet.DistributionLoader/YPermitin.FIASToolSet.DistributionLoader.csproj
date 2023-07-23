@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <NoWarn>1701;1702;1591;IL2121</NoWarn>
+      <DocumentationFile>YPermitin.FIASToolSet.DistributionLoader.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <NoWarn>1701;1702;1591;IL2121</NoWarn>
+      <DocumentationFile>YPermitin.FIASToolSet.DistributionLoader.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\YPermitin.FIASToolSet.DistributionBrowser\YPermitin.FIASToolSet.DistributionBrowser.csproj" />
+      <ProjectReference Include="..\YPermitin.FIASToolSet.DistributionReader\YPermitin.FIASToolSet.DistributionReader.csproj" />
+      <ProjectReference Include="..\YPermitin.FIASToolSet.Storage.Core\YPermitin.FIASToolSet.Storage.Core.csproj" />
+    </ItemGroup>
+
+</Project>
