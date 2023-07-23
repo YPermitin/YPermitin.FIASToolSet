@@ -1,3 +1,4 @@
+using YPermitin.FIASToolSet.DistributionBrowser.Models;
 using YPermitin.FIASToolSet.Storage.Core.Models;
 
 namespace YPermitin.FIASToolSet.DistributionLoader;
@@ -16,6 +17,12 @@ public interface IFIASDistributionLoader
     Task<bool> ActiveInstallationExists();
 
     /// <summary>
+    /// Установка статуса текущей установки в "Новый"
+    /// </summary>
+    /// <returns>Объект асинхронной операции</returns>
+    Task SetInstallationToStatusNew();
+    
+    /// <summary>
     /// Определение версии ФИАС для установки или обновления
     /// </summary>
     /// <returns>Истина при успешном определении версии, Ложь в противном случае</returns>
@@ -25,7 +32,8 @@ public interface IFIASDistributionLoader
     /// Скачивание и распаковка дистрибутива ФИАС
     /// </summary>
     /// <returns>Объект асинхронной операции</returns>
-    Task DownloadAndExtractDistribution();
+    Task DownloadAndExtractDistribution(
+        Action<DownloadDistributionFileProgressChangedEventArgs> onDownloadFileProgressChangedEvent = null);
 
     /// <summary>
     /// Установка статуса текущей установки в "Устанавливается"

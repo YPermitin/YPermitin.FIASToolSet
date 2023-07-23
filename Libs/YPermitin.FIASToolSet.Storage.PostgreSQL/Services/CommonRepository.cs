@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts;
+﻿using YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts;
 
 namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Services
 {

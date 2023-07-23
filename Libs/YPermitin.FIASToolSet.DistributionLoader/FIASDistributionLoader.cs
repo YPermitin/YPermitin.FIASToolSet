@@ -1,5 +1,6 @@
 using YPermitin.FIASToolSet.DistributionBrowser;
 using YPermitin.FIASToolSet.DistributionBrowser.Enums;
+using YPermitin.FIASToolSet.DistributionBrowser.Models;
 using YPermitin.FIASToolSet.DistributionLoader.Exceptions;
 using YPermitin.FIASToolSet.DistributionReader;
 using YPermitin.FIASToolSet.Storage.Core.Models;
@@ -56,6 +57,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         if (preparedInstallations.Any())
         {
             _installation = preparedInstallations.First();
+            CurrentVersion = _installation.FIASVersion;
             return true;
         }
         else
@@ -64,7 +66,8 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         }
     }
 
-    public async Task DownloadAndExtractDistribution()
+    public async Task DownloadAndExtractDistribution(
+        Action<DownloadDistributionFileProgressChangedEventArgs> onDownloadFileProgressChangedEvent = null)
     {
         // 1. В зависимости от типа установки скачиваем файл дистрибутива ФИАС
         // 1.1. Если файл дистрибутива уже был успешно скачен ранее, то пропускаем шаг.
@@ -83,11 +86,18 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             distributionFileType = DistributionFileType.GARFIASXmlComplete;
         else
             distributionFileType = DistributionFileType.GARFIASXmlDelta;
-        await distribution.DownloadDistributionByFileTypeAsync(distributionFileType);
+        await distribution.DownloadDistributionByFileTypeAsync(distributionFileType, onDownloadFileProgressChangedEvent);
 
         // 2. Распаковываем файлы базовых справочников (если уже были ранее распакованы, то повторяем операцию)
         distribution.ExtractDistributionFile(distributionFileType, true);
         _distributionDirectory = distribution.GetExtractedDirectory(distributionFileType);
+    }
+    
+    public async Task SetInstallationToStatusNew()
+    {
+        _installation.StatusId = FIASVersionInstallationStatus.New;
+        _fiasInstallationManagerService.UpdateInstallation(_installation);
+        await _fiasInstallationManagerService.SaveAsync();
     }
     
     public async Task SetInstallationToStatusInstalling()

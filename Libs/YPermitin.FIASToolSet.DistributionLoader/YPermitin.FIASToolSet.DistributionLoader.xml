@@ -4,5 +4,100 @@
         <name>YPermitin.FIASToolSet.DistributionLoader</name>
     </assembly>
     <members>
+        <member name="P:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.VersionInstallation">
+            <summary>
+            Информация о версии ФИАС, для которой выполняется операций установки / обновления
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.ActiveInstallationExists">
+            <summary>
+            Проверка наличия активных процессов установки / обновления ФИАС
+            </summary>
+            <returns>Истина - есть активные процессы, Ложь в противном случае</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.SetInstallationToStatusNew">
+            <summary>
+            Установка статуса текущей установки в "Новый"
+            </summary>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.InitVersionInstallationToLoad">
+            <summary>
+            Определение версии ФИАС для установки или обновления
+            </summary>
+            <returns>Истина при успешном определении версии, Ложь в противном случае</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.DownloadAndExtractDistribution(System.Action{YPermitin.FIASToolSet.DistributionBrowser.Models.DownloadDistributionFileProgressChangedEventArgs})">
+            <summary>
+            Скачивание и распаковка дистрибутива ФИАС
+            </summary>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.SetInstallationToStatusInstalling">
+            <summary>
+            Установка статуса текущей установки в "Устанавливается"
+            </summary>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.SetInstallationToStatusInstalled">
+            <summary>
+            Установка статуса текущей установки в "Установлено"
+            </summary>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadAddressObjectTypes">
+            <summary>
+            Загрузка типов адресных объектов
+            </summary>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadApartmentTypes">
+            <summary>
+            Загрузка типов помещений
+            </summary>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadHouseTypes">
+            <summary>
+            Загрузка типов строений
+            </summary>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadNormativeDocKinds">
+            <summary>
+            Загрузка видов нормативных документов
+            </summary>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadNormativeDocTypes">
+            <summary>
+            Загрузка типов нормативных документов
+            </summary>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadObjectLevels">
+            <summary>
+            Загрузка уровней адресных объектов
+            </summary>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadOperationTypes">
+            <summary>
+            Загрузка типов операций
+            </summary>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadParameterTypes">
+            <summary>
+            Загрузка типов параметров
+            </summary>
+            <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadRoomTypes">
+            <summary>
+            Загрузка типов комнат
+            </summary>
+            <returns>Объект асинхронной операции</returns>
+        </member>
     </members>
 </doc>

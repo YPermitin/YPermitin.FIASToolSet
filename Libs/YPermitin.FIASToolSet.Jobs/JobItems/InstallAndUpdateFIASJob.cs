@@ -2,12 +2,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Quartz;
-using YPermitin.FIASToolSet.DistributionBrowser;
-using YPermitin.FIASToolSet.DistributionBrowser.Enums;
+using YPermitin.FIASToolSet.DistributionBrowser.Models;
 using YPermitin.FIASToolSet.DistributionLoader;
-using YPermitin.FIASToolSet.DistributionReader;
-using YPermitin.FIASToolSet.Storage.Core.Models;
-using YPermitin.FIASToolSet.Storage.Core.Services;
 
 namespace YPermitin.FIASToolSet.Jobs.JobItems;
 
@@ -50,7 +46,41 @@ public class InstallAndUpdateFIASJob : IJob
             {
                 await loader.SetInstallationToStatusInstalling();
 
-                await loader.DownloadAndExtractDistribution();
+                bool downloadSuccess = true;
+                DateTime downloadStarted = DateTime.UtcNow;
+                DateTime lastProgressShow = DateTime.MinValue;
+                double lastProgressPercentage = 0;
+                
+                await loader.DownloadAndExtractDistribution(args =>
+                {
+                    double progress = Math.Round(args.ProgressPercentage, 2);
+                    double progressChanged = lastProgressPercentage - progress;
+                    
+                    var showProgressTimeLeft = DateTime.UtcNow - lastProgressShow;
+                    if (args.State != DownloadDistributionFileProgressChangedEventType.Downloading
+                        || showProgressTimeLeft.TotalSeconds > 10
+                        || progressChanged >= 1)
+                    {
+                        lastProgressPercentage = progress;
+                        lastProgressShow = DateTime.UtcNow;
+                        
+                        var downloadDuration = DateTime.UtcNow - downloadStarted;
+                        _logger.LogInformation(
+                            $"{args.State}. Загружено: {progress} %. " +
+                            $"Прошло секунд: {Math.Round(downloadDuration.TotalSeconds, 2)}");
+                        if (args.ErrorInfo != null)
+                        {
+                            _logger.LogError(args.ErrorInfo, "Ошибка при загрузке файла дистрибутива ФИАС.");
+                            downloadSuccess = false;
+                        }
+                    }
+                });
+
+                if (!downloadSuccess)
+                {
+                    await loader.SetInstallationToStatusNew();
+                    return;
+                }
 
                 await loader.LoadApartmentTypes();
                 await loader.LoadHouseTypes();
