@@ -143,7 +143,7 @@ namespace YPermitin.FIASToolSet.DistributionBrowser.Models
                     {
                         onDownloadFileProgressChangedEvent?.Invoke(new DownloadDistributionFileProgressChangedEventArgs(
                             DownloadDistributionFileProgressChangedEventType.AlreadyExists,
-                            1001));
+                            100));
                         return;
                     }
                 }

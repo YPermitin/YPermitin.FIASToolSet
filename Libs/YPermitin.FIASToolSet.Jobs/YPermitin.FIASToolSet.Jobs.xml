@@ -61,6 +61,14 @@
             <param name="cronExpression">CRON-выражение запуска задания</param>
             <returns>Объект асинхронной операции</returns>
         </member>
+        <member name="M:YPermitin.FIASToolSet.Jobs.Extensions.QuartzExtensions.AddInstallAndUpdateFIASJob(YPermitin.FIASToolSet.Jobs.IJobsManager,System.String)">
+            <summary>
+            Регистрация задания установки и обновления дистрибутивов ФИАС.
+            </summary>
+            <param name="jobsManager">Объект планировщика</param>
+            <param name="cronExpression">CRON-выражение запуска задания</param>
+            <returns>Объект асинхронной операции</returns>
+        </member>
         <member name="T:YPermitin.FIASToolSet.Jobs.IJobsManager">
             <summary>
             Управление планировщиком заданий в части состава заданий и их настроек
@@ -243,6 +251,11 @@
         <member name="T:YPermitin.FIASToolSet.Jobs.JobItems.ActualizeFIASVersionHistoryJob">
             <summary>
             Задание актуализации информации о версиях ФИАС
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Jobs.JobItems.InstallAndUpdateFIASJob">
+            <summary>
+            Задание для установки и обновления классификатора ФИАС
             </summary>
         </member>
         <member name="T:YPermitin.FIASToolSet.Jobs.JobItems.SendNotificationsJob">

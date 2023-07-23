@@ -19,6 +19,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer
 
             services.AddScoped<IFIASMaintenanceRepository, FIASMaintenanceRepository>();
             services.AddScoped<IFIASInstallationManagerRepository, FIASInstallationManagerRepository>();
+            services.AddScoped<IFIASBaseCatalogsRepository, FIASBaseCatalogsRepository>();
         }
     }
 }

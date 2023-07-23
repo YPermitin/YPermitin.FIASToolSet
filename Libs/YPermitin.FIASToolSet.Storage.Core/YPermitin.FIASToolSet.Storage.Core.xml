@@ -4,6 +4,16 @@
         <name>YPermitin.FIASToolSet.Storage.Core</name>
     </assembly>
     <members>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.AddressObjectType">
+            <summary>
+            Тип адресного объекта
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.ApartmentType">
+            <summary>
+            Тип квартиры
+            </summary>
+        </member>
         <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersion">
             <summary>
             Информация о версии ФИАС
@@ -149,6 +159,21 @@
             Наименование статуса
             </summary>
         </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.HouseType">
+            <summary>
+            Тип строения
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.NormativeDocKind">
+            <summary>
+            Вид нормативного документа
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.NormativeDocType">
+            <summary>
+            Тип нормативного документа
+            </summary>
+        </member>
         <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.NotificationQueue">
             <summary>
             Элемент уведомления в общей очереди
@@ -254,6 +279,26 @@
             Наименование
             </summary>
         </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.ObjectLevel">
+            <summary>
+            Уровень адресного объекта
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.OperationType">
+            <summary>
+            Тип операции
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.ParameterType">
+            <summary>
+            Тип параметра
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.RoomType">
+            <summary>
+            Тип помещения
+            </summary>
+        </member>
         <member name="M:YPermitin.FIASToolSet.Storage.Core.Services.IFIASMaintenanceRepository.GetVersion(System.Guid)">
             <summary>
             Получение информации о версии ФИАС её идентификатору
@@ -261,7 +306,7 @@
             <param name="versionId">Идентификатор версии</param>
             <returns>Версия ФИАС</returns>
         </member>
-        <member name="M:YPermitin.FIASToolSet.Storage.Core.Services.IFIASMaintenanceRepository.GetLastVersion">
+        <member name="M:YPermitin.FIASToolSet.Storage.Core.Services.IFIASMaintenanceRepository.GetLastVersion(System.Nullable{System.Int32})">
             <summary>
             Получение информации о последней версии ФИАС
             </summary>

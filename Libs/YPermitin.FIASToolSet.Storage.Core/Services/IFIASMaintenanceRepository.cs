@@ -15,7 +15,7 @@ namespace YPermitin.FIASToolSet.Storage.Core.Services
         /// Получение информации о последней версии ФИАС
         /// </summary>
         /// <returns>Версия ФИАС</returns>
-        Task<FIASVersion> GetLastVersion();
+        Task<FIASVersion> GetLastVersion(int? versionId = null);
 
         /// <summary>
         /// Получение информации о предыдущей версии ФИАС

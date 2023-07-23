@@ -85,6 +85,11 @@ namespace YPermitin.FIASToolSet.Jobs.Initializer
                     _configuration.GetValue("Jobs:Schedules:ActualizeFIASVersionHistoryJob", "0 0/1 * * * ?"));
                 _logger.LogInformation("Запущено задание отправка уведомлений.");
             }
+            
+            // Запускаем задание установки и обновления дистрибутивов ФИАС
+            await _jobsManager.AddInstallAndUpdateFIASJob(
+                _configuration.GetValue("Jobs:Schedules:InstallAndUpdateFIASJob", "0 0/1 * * * ?"));
+            _logger.LogInformation("Запущено задание установки и обновления дистрибутива ФИАС.");
 
             _logger.LogInformation("Окончание запуска заданий");
         }

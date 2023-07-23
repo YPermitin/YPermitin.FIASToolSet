@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Downloader;
 using YPermitin.FIASToolSet.DistributionBrowser.Models;
@@ -9,6 +10,7 @@ namespace YPermitin.FIASToolSet.DistributionBrowser.API
     internal class APIHelper : IAPIHelper
     {
         private static readonly HttpClient APIClient;
+        private const int DownloadFileActivityWaitMs = 600000;
         private static readonly string DefaultUserAgent = GeneralResources.DefaultUserAgent;
         private static readonly DownloadConfiguration DefaultDownloaderConfiguration;
         private static DownloadConfiguration GenerateDownloaderConfiguration(
@@ -61,45 +63,92 @@ namespace YPermitin.FIASToolSet.DistributionBrowser.API
         public async Task DownloadFileAsync(Uri uriFile, string savePath,
             Action<DownloadDistributionFileProgressChangedEventArgs> onDownloadFileProgressChangedEvent = null)
         {
-            var downloader = new DownloadService(_downloaderConfiguration);
-            downloader.DownloadStarted += (sender, args) =>
+            using (AutoResetEvent downloadWaitHandle = new AutoResetEvent(false))
             {
-                var eventArgs = new DownloadDistributionFileProgressChangedEventArgs(
-                    state: DownloadDistributionFileProgressChangedEventType.Started,
-                    progressPercentage: 0);
-                onDownloadFileProgressChangedEvent?.Invoke(eventArgs);
-            };
-            downloader.DownloadProgressChanged += (sender, args) =>
-            {
-                var eventArgs = new DownloadDistributionFileProgressChangedEventArgs(
-                    state: DownloadDistributionFileProgressChangedEventType.Downloading,
-                    progressPercentage: args.ProgressPercentage);
-                onDownloadFileProgressChangedEvent?.Invoke(eventArgs);
-            };
-            downloader.DownloadFileCompleted += (sender, args) =>
-            {
-                DownloadDistributionFileProgressChangedEventType state;
-                Exception errorInfo = null;
-                
-                if (args.Cancelled)
-                    state = DownloadDistributionFileProgressChangedEventType.Canceled;
-                else if (args.Error != null)
+                Exception downloaderException = null;
+                var downloader = new DownloadService(_downloaderConfiguration);
+
+                downloader.DownloadStarted += (sender, args) =>
                 {
-                    state = DownloadDistributionFileProgressChangedEventType.Failure;
-                    errorInfo = args.Error;
-                }
-                else
+                    downloadWaitHandle.Set();
+                    
+                    var eventArgs = new DownloadDistributionFileProgressChangedEventArgs(
+                        state: DownloadDistributionFileProgressChangedEventType.Started,
+                        progressPercentage: 0);
+                    onDownloadFileProgressChangedEvent?.Invoke(eventArgs);
+                };
+                downloader.DownloadProgressChanged += (sender, args) =>
                 {
-                    state = DownloadDistributionFileProgressChangedEventType.Compleated;
+                    downloadWaitHandle.Set();
+                    
+                    var eventArgs = new DownloadDistributionFileProgressChangedEventArgs(
+                        state: DownloadDistributionFileProgressChangedEventType.Downloading,
+                        progressPercentage: args.ProgressPercentage);
+                    onDownloadFileProgressChangedEvent?.Invoke(eventArgs);
+                };
+                downloader.DownloadFileCompleted += (sender, args) =>
+                {
+                    downloadWaitHandle.Set();
+                    
+                    DownloadDistributionFileProgressChangedEventType state;
+                    Exception errorInfo = null;
+
+                    if (args.Cancelled)
+                        state = DownloadDistributionFileProgressChangedEventType.Canceled;
+                    else if (args.Error != null)
+                    {
+                        state = DownloadDistributionFileProgressChangedEventType.Failure;
+                        errorInfo = args.Error;
+                        downloaderException = args.Error;
+                    }
+                    else
+                    {
+                        state = DownloadDistributionFileProgressChangedEventType.Compleated;
+                    }
+
+                    var eventArgs = new DownloadDistributionFileProgressChangedEventArgs(
+                        state: state,
+                        progressPercentage: 100,
+                        errorInfo: errorInfo);
+                    onDownloadFileProgressChangedEvent?.Invoke(eventArgs);
+                };
+
+                CancellationTokenSource downloadFileCancellationTokenSource = new CancellationTokenSource();
+                var downloadFileTask = downloader.DownloadFileTaskAsync(
+                    address: uriFile.AbsoluteUri,
+                    fileName: savePath,
+                    cancellationToken: downloadFileCancellationTokenSource.Token);
+
+                do
+                {
+                    if (!downloadWaitHandle.WaitOne(DownloadFileActivityWaitMs))
+                    {
+                        downloadFileCancellationTokenSource.Cancel();
+                        downloadFileCancellationTokenSource.Token.WaitHandle.WaitOne();
+                    }
+
+                    await Task.Delay(1000, downloadFileCancellationTokenSource.Token);
+                } while (!downloadFileTask.IsCompleted);
+
+                if (downloadFileTask.IsCompleted)
+                {
+                    if (downloadFileTask.IsFaulted)
+                    {
+                        throw downloadFileTask.Exception;
+                    }
+                    if (downloadFileTask.IsCanceled)
+                    {
+                        throw new OperationCanceledException("Загрузка файла отменена.");
+                    }
+                    if (downloader.Status == DownloadStatus.Failed)
+                    {
+                        if (downloaderException != null)
+                        {
+                            throw downloaderException;
+                        }
+                    }
                 }
-                
-                var eventArgs = new DownloadDistributionFileProgressChangedEventArgs(
-                    state: state,
-                    progressPercentage: 100,
-                    errorInfo: errorInfo);
-                onDownloadFileProgressChangedEvent?.Invoke(eventArgs);
-            };
-            await downloader.DownloadFileTaskAsync(uriFile.AbsoluteUri, savePath);
+            }
         }
 
         /// <summary>
