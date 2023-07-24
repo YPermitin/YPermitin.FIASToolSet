@@ -105,7 +105,8 @@ namespace YPermitin.FIASToolSet.API
                 if (dbmsTypeValue == DBMSType.PostgreSQL)
                 {
                     services.AddFIASStorageOnPostgreSQL(Configuration);
-                } else if (dbmsTypeValue == DBMSType.SQLServer)
+                }
+                else if (dbmsTypeValue == DBMSType.SQLServer)
                 {
                     services.AddFIASStorageOnSQLServer(Configuration);
                 }
@@ -113,6 +114,7 @@ namespace YPermitin.FIASToolSet.API
                 {
                     throw new Exception($"Unknown DBMS type for service database: {dbmsType}");
                 }
+
                 services.AddFIASDistributionLoader();
 
                 services.AddControllersExtension();
@@ -141,14 +143,12 @@ namespace YPermitin.FIASToolSet.API
                 app.UseSwagger();
                 app.UseSwaggerExtension(typeof(Program));
 
-                app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllers();
-                });
+                app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
                 app.Run();
             }
-            catch (Exception ex)
+            catch (Exception ex) 
+                when(ex is not OperationCanceledException && ex.GetType().Name != "StopTheHostException")
             {
                 Log.Fatal(ex, "Host terminated unexpectedly");
             }
