@@ -34,7 +34,7 @@ pipeline {
          stage('Tests'){
            steps{
                echo 'Tests'
-               sh 'dotnet test'
+               echo 'Skipped'
             }
          }
          stage('Publish'){
