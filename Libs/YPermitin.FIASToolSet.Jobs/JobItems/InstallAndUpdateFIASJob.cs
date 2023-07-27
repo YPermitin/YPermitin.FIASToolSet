@@ -35,10 +35,12 @@ public class InstallAndUpdateFIASJob : IJob
         {
             IFIASDistributionLoader loader = scope.ServiceProvider.GetRequiredService<IFIASDistributionLoader>();
 
+            await loader.FixStuckInstallationExists();
+            
             if (await loader.ActiveInstallationExists())
             {
                 _logger.LogWarning(
-                    ".Обнаружена активная установка (процесс установки или обновления) классификатора ФИАС. Задание прервано.");
+                    "Обнаружена активная установка (процесс установки или обновления) классификатора ФИАС. Задание прервано.");
                 return;
             }
 

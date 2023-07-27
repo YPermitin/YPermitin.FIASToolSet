@@ -49,4 +49,14 @@ public class FIASVersionInstallation
     /// Идентификатор типа установки ФИАС
     /// </summary>        
     public Guid InstallationTypeId { get; set; }
+    
+    /// <summary>
+    /// Дата начала установки
+    /// </summary>
+    public DateTime? StartDate { get; set; }
+    
+    /// <summary>
+    /// Дата начала установки
+    /// </summary>
+    public DateTime? FinishDate { get; set; }
 }

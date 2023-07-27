@@ -42,6 +42,35 @@ public class FIASDistributionLoader : IFIASDistributionLoader
 
         return activeInstallations.Count > 0;
     }
+    
+    public async Task<List<FIASVersionInstallation>> FixStuckInstallationExists()
+    {
+        List<FIASVersionInstallation> stuckInstallations = new List<FIASVersionInstallation>();
+
+        var activeInstallations = await _fiasInstallationManagerService.GetInstallations(
+            statusId: FIASVersionInstallationStatus.Installing);
+
+        foreach (var activeInstallation in activeInstallations)
+        {
+            if (activeInstallation.StartDate != null)
+            {
+                var startTimeLeft = DateTime.UtcNow - (DateTime)activeInstallation.StartDate;
+                if (startTimeLeft.TotalHours >= 4)
+                {
+                    activeInstallation.StartDate = null;
+                    activeInstallation.FinishDate = null;
+                    activeInstallation.StatusId = FIASVersionInstallationStatus.New;
+                    _fiasInstallationManagerService.UpdateInstallation(activeInstallation);
+
+                    stuckInstallations.Add(activeInstallation);
+                }
+            }
+        }
+
+        await _fiasInstallationManagerService.SaveAsync();
+
+        return stuckInstallations;
+    }
 
     public async Task<bool> InitVersionInstallationToLoad()
     {
@@ -96,6 +125,8 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     public async Task SetInstallationToStatusNew()
     {
         _installation.StatusId = FIASVersionInstallationStatus.New;
+        _installation.StartDate = null;
+        _installation.FinishDate = null;
         _fiasInstallationManagerService.UpdateInstallation(_installation);
         await _fiasInstallationManagerService.SaveAsync();
     }
@@ -103,6 +134,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     public async Task SetInstallationToStatusInstalling()
     {
         _installation.StatusId = FIASVersionInstallationStatus.Installing;
+        _installation.StartDate = DateTime.UtcNow;
         _fiasInstallationManagerService.UpdateInstallation(_installation);
         await _fiasInstallationManagerService.SaveAsync();
     }
@@ -110,6 +142,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     public async Task SetInstallationToStatusInstalled()
     {
         _installation.StatusId = FIASVersionInstallationStatus.Installed;
+        _installation.FinishDate = DateTime.UtcNow;
         _fiasInstallationManagerService.UpdateInstallation(_installation);
         await _fiasInstallationManagerService.SaveAsync();
     }

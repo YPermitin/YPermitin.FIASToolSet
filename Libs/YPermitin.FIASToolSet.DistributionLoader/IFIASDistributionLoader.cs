@@ -17,6 +17,15 @@ public interface IFIASDistributionLoader
     Task<bool> ActiveInstallationExists();
 
     /// <summary>
+    /// Сброс статуса для зависших активных установок ФИАС.
+    ///
+    /// Обычно такая установка может быть только одна. Если она находится в статусе "Устанавливается"
+    /// более 4 часов, то статус сбрасывается на "Новый".
+    /// </summary>
+    /// <returns>Список установок, для которых был сброшен статус зависший статус</returns>
+    Task<List<FIASVersionInstallation>> FixStuckInstallationExists();
+    
+    /// <summary>
     /// Установка статуса текущей установки в "Новый"
     /// </summary>
     /// <returns>Объект асинхронной операции</returns>
