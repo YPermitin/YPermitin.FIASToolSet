@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts;
@@ -11,9 +12,10 @@ using YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts;
 namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations
 {
     [DbContext(typeof(FIASToolSetServiceContext))]
-    partial class FIASToolSetServiceContextModelSnapshot : ModelSnapshot
+    [Migration("20230726160330_AddedStartAndFinishDateForInstallation")]
+    partial class AddedStartAndFinishDateForInstallation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

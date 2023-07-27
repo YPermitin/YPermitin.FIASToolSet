@@ -158,8 +158,14 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.Property<Guid>("FIASVersionId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime?>("FinishDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid>("InstallationTypeId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("StatusId")
                         .HasColumnType("uniqueidentifier");

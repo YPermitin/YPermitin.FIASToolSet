@@ -16,7 +16,8 @@
       "launchUrl": "",
       "applicationUrl": "http://localhost:5100",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DOTNET_ROOT": "/usr/share/dotnet"
       }
     },
     "IIS Express": {
@@ -24,7 +25,8 @@
       "launchBrowser": true,
       "launchUrl": "",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DOTNET_ROOT": "/usr/share/dotnet"
       }
     }
   }

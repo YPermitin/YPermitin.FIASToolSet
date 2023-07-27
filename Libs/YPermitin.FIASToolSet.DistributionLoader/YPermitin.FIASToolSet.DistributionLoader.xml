@@ -15,6 +15,15 @@
             </summary>
             <returns>Истина - есть активные процессы, Ложь в противном случае</returns>
         </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.FixStuckInstallationExists">
+             <summary>
+             Сброс статуса для зависших активных установок ФИАС.
+            
+             Обычно такая установка может быть только одна. Если она находится в статусе "Устанавливается"
+             более 4 часов, то статус сбрасывается на "Новый".
+             </summary>
+             <returns>Список установок, для которых был сброшен статус зависший статус</returns>
+        </member>
         <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.SetInstallationToStatusNew">
             <summary>
             Установка статуса текущей установки в "Новый"
