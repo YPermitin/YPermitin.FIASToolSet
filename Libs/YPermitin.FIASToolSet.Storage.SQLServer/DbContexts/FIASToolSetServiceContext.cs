@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using YPermitin.FIASToolSet.Storage.Core.Models;
+using YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs;
 
 namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
 {

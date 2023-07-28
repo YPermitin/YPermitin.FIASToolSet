@@ -34,6 +34,105 @@
             </summary>
             <returns>Пустой ответ в случае успеха</returns>
         </member>
+        <member name="T:YPermitin.FIASToolSet.API.Controllers.Storage.BaseCatalogs.FIASAddressObjectTypeController">
+            <summary>
+            Работа с типами адресных объектов ФИАС
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.API.Controllers.Storage.BaseCatalogs.FIASAddressObjectTypeController.GetFIASAddressObjectTypes">
+            <summary>
+            Получение списка типов адресных объектов ФИАС
+            </summary>
+            <returns>Список типов адресных объектов ФИАС</returns>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Controllers.Storage.BaseCatalogs.FIASApartmentTypeController">
+            <summary>
+            Работа с типами помещений ФИАС
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.API.Controllers.Storage.BaseCatalogs.FIASApartmentTypeController.GetFIASApartmentTypes">
+            <summary>
+            Получение списка типов помещений ФИАС
+            </summary>
+            <returns>Список типов помещений ФИАС</returns>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Controllers.Storage.BaseCatalogs.FIASHouseTypeController">
+            <summary>
+            Работа с типами строений ФИАС
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.API.Controllers.Storage.BaseCatalogs.FIASHouseTypeController.GetFIASHouseTypes">
+            <summary>
+            Получение списка типов строений ФИАС
+            </summary>
+            <returns>Список типов строений ФИАС</returns>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Controllers.Storage.BaseCatalogs.FIASNormativeDocKindController">
+            <summary>
+            Работа с видами нормативных документов ФИАС
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.API.Controllers.Storage.BaseCatalogs.FIASNormativeDocKindController.GetFIASNormativeDocKinds">
+            <summary>
+            Получение списка видов нормативных документов ФИАС
+            </summary>
+            <returns>Список видов нормативных документов ФИАС</returns>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Controllers.Storage.BaseCatalogs.FIASNormativeDocTypeController">
+            <summary>
+            Работа с типами нормативных документов ФИАС
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.API.Controllers.Storage.BaseCatalogs.FIASNormativeDocTypeController.GetFIASNormativeDocTypes">
+            <summary>
+            Получение списка типов нормативных документов ФИАС
+            </summary>
+            <returns>Список типов нормативных документов ФИАС</returns>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Controllers.Storage.BaseCatalogs.FIASObjectLevelController">
+            <summary>
+            Работа с уровнями объектов ФИАС
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.API.Controllers.Storage.BaseCatalogs.FIASObjectLevelController.GetFIASObjectLevels">
+            <summary>
+            Получение списка уровней адресных объектов ФИАС
+            </summary>
+            <returns>Список уровней адресных объектов ФИАС</returns>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Controllers.Storage.BaseCatalogs.FIASOperationTypeController">
+            <summary>
+            Работа с типами операций ФИАС
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.API.Controllers.Storage.BaseCatalogs.FIASOperationTypeController.GetFIASOperationTypes">
+            <summary>
+            Получение списка типов операций ФИАС
+            </summary>
+            <returns>Список типов операций ФИАС</returns>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Controllers.Storage.BaseCatalogs.FIASParameterTypeController">
+            <summary>
+            Работа с типами параметров ФИАС
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.API.Controllers.Storage.BaseCatalogs.FIASParameterTypeController.GetFIASParameterTypes">
+            <summary>
+            Получение списка типов параметров ФИАС
+            </summary>
+            <returns>Список типов параметров ФИАС</returns>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Controllers.Storage.BaseCatalogs.FIASRoomTypeController">
+            <summary>
+            Работа с типами комнат ФИАС
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.API.Controllers.Storage.BaseCatalogs.FIASRoomTypeController.GetFIASRoomTypes">
+            <summary>
+            Получение списка типов комнат ФИАС
+            </summary>
+            <returns>Список типов комнат ФИАС</returns>
+        </member>
         <member name="T:YPermitin.FIASToolSet.API.Controllers.Storage.FIASVersionController">
             <summary>
             Информация о версиях ФИАС
@@ -107,6 +206,51 @@
         <member name="F:YPermitin.FIASToolSet.API.Infrastructure.ServiceDeployType.Unknown">
             <summary>
             Неизвестный тип
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Models.BaseCatalogs.AddressObjectType">
+            <summary>
+            Тип адресного объекта
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Models.BaseCatalogs.ApartmentType">
+            <summary>
+            Тип квартиры
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Models.BaseCatalogs.HouseType">
+            <summary>
+            Тип строения
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Models.BaseCatalogs.NormativeDocKind">
+            <summary>
+            Вид нормативного документа
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Models.BaseCatalogs.NormativeDocType">
+            <summary>
+            Тип нормативного документа
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Models.BaseCatalogs.ObjectLevel">
+            <summary>
+            Уровень адресного объекта
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Models.BaseCatalogs.OperationType">
+            <summary>
+            Тип операции
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Models.BaseCatalogs.ParameterType">
+            <summary>
+            Тип параметра
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.API.Models.BaseCatalogs.RoomType">
+            <summary>
+            Тип помещения
             </summary>
         </member>
         <member name="T:YPermitin.FIASToolSet.API.Models.ErrorDetails">

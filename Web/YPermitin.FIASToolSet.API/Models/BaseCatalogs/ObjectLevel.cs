@@ -1,11 +1,11 @@
-namespace YPermitin.FIASToolSet.Storage.Core.Models;
+namespace YPermitin.FIASToolSet.API.Models.BaseCatalogs;
 
 /// <summary>
-/// Тип операции
+/// Уровень адресного объекта
 /// </summary>
-public class OperationType
+public class ObjectLevel
 {
-    public int Id { get; set; }
+    public int Level { get; set; }
     public string Name { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }

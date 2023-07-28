@@ -1,16 +1,16 @@
-namespace YPermitin.FIASToolSet.Storage.Core.Models;
+namespace YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs;
 
 /// <summary>
-/// Тип адресного объекта
+/// Тип строения
 /// </summary>
-public class AddressObjectType
+public class HouseType
 {
     public int Id { get; set; }
-    public int Level { get; set; }
     public string Name { get; set; }
     public string ShortName { get; set; }
     public string Description { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public DateTime UpdateDate { get; set; }
+    public bool IsActive { get; set; }
 }
