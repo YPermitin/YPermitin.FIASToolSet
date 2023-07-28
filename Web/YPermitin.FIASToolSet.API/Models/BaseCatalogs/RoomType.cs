@@ -1,4 +1,4 @@
-namespace YPermitin.FIASToolSet.Storage.Core.Models;
+namespace YPermitin.FIASToolSet.API.Models.BaseCatalogs;
 
 /// <summary>
 /// Тип помещения

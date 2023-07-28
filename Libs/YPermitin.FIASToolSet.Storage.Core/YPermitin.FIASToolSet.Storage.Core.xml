@@ -4,14 +4,49 @@
         <name>YPermitin.FIASToolSet.Storage.Core</name>
     </assembly>
     <members>
-        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.AddressObjectType">
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.AddressObjectType">
             <summary>
             Тип адресного объекта
             </summary>
         </member>
-        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.ApartmentType">
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ApartmentType">
             <summary>
             Тип квартиры
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.HouseType">
+            <summary>
+            Тип строения
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.NormativeDocKind">
+            <summary>
+            Вид нормативного документа
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.NormativeDocType">
+            <summary>
+            Тип нормативного документа
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ObjectLevel">
+            <summary>
+            Уровень адресного объекта
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.OperationType">
+            <summary>
+            Тип операции
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ParameterType">
+            <summary>
+            Тип параметра
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.RoomType">
+            <summary>
+            Тип помещения
             </summary>
         </member>
         <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.FIASVersion">
@@ -169,21 +204,6 @@
             Наименование статуса
             </summary>
         </member>
-        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.HouseType">
-            <summary>
-            Тип строения
-            </summary>
-        </member>
-        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.NormativeDocKind">
-            <summary>
-            Вид нормативного документа
-            </summary>
-        </member>
-        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.NormativeDocType">
-            <summary>
-            Тип нормативного документа
-            </summary>
-        </member>
         <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.NotificationQueue">
             <summary>
             Элемент уведомления в общей очереди
@@ -287,26 +307,6 @@
         <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.NotificationType.Name">
             <summary>
             Наименование
-            </summary>
-        </member>
-        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.ObjectLevel">
-            <summary>
-            Уровень адресного объекта
-            </summary>
-        </member>
-        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.OperationType">
-            <summary>
-            Тип операции
-            </summary>
-        </member>
-        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.ParameterType">
-            <summary>
-            Тип параметра
-            </summary>
-        </member>
-        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.RoomType">
-            <summary>
-            Тип помещения
             </summary>
         </member>
         <member name="M:YPermitin.FIASToolSet.Storage.Core.Services.IFIASMaintenanceRepository.GetVersion(System.Guid)">

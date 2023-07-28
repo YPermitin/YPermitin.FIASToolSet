@@ -1,4 +1,4 @@
-namespace YPermitin.FIASToolSet.Storage.Core.Models;
+namespace YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs;
 
 /// <summary>
 /// Тип квартиры
