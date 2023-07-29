@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace YPermitin.FIASToolSet.API.Models
+namespace YPermitin.FIASToolSet.API.Models.Service
 {
     /// <summary>
     /// Информация об ошибке

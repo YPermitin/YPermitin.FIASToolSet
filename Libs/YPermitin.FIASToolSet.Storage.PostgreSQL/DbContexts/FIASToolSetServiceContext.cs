@@ -2,6 +2,9 @@
 using Microsoft.Extensions.Configuration;
 using YPermitin.FIASToolSet.Storage.Core.Models;
 using YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs;
+using YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData;
+using YPermitin.FIASToolSet.Storage.Core.Models.Notifications;
+using YPermitin.FIASToolSet.Storage.Core.Models.Versions;
 
 namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
 {
@@ -25,6 +28,8 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
         public DbSet<ParameterType> FIASParameterTypes { get; set; }
         public DbSet<RoomType> FIASRoomTypes { get; set; }
         
+        public DbSet<AddressObject> AddressObjects { get; set; }
+
         private FIASToolSetServiceContext()
         {
         }
@@ -128,8 +133,6 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
             modelBuilder.Entity<FIASVersionInstallationStatus>()
                 .HasKey(e => e.Id);
             modelBuilder.Entity<FIASVersionInstallationStatus>()
-                .HasIndex(e => new { e.Id });
-            modelBuilder.Entity<FIASVersionInstallationStatus>()
                 .HasIndex(e => new { e.Name });
             modelBuilder.Entity<FIASVersionInstallationStatus>()
                 .HasData(new List<FIASVersionInstallationStatus>()
@@ -158,8 +161,6 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
             modelBuilder.Entity<FIASVersionInstallation>()
                 .HasKey(e => e.Id);
             modelBuilder.Entity<FIASVersionInstallation>()
-                .HasIndex(e => new { e.Id });
-            modelBuilder.Entity<FIASVersionInstallation>()
                 .HasIndex(e => new { e.StatusId, e.Created, e.Id });
 
             #endregion
@@ -168,8 +169,6 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
             
             modelBuilder.Entity<FIASVersionInstallationType>()
                 .HasKey(e => e.Id);
-            modelBuilder.Entity<FIASVersionInstallationType>()
-                .HasIndex(e => new { e.Id });
             modelBuilder.Entity<FIASVersionInstallationType>()
                 .HasData(new List<FIASVersionInstallationType>()
                 {
@@ -192,8 +191,6 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
             modelBuilder.Entity<AddressObjectType>()
                 .HasKey(e => e.Id);
             modelBuilder.Entity<AddressObjectType>()
-                .HasIndex(e => e.Id);
-            modelBuilder.Entity<AddressObjectType>()
                 .Property(e => e.Name)
                 .HasMaxLength(250);
             modelBuilder.Entity<AddressObjectType>()
@@ -209,8 +206,6 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
 
             modelBuilder.Entity<ApartmentType>()
                 .HasKey(e => e.Id);
-            modelBuilder.Entity<ApartmentType>()
-                .HasIndex(e => e.Id);
             modelBuilder.Entity<ApartmentType>()
                 .Property(e => e.Name)
                 .HasMaxLength(250);
@@ -228,8 +223,6 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
             modelBuilder.Entity<HouseType>()
                 .HasKey(e => e.Id);
             modelBuilder.Entity<HouseType>()
-                .HasIndex(e => e.Id);
-            modelBuilder.Entity<HouseType>()
                 .Property(e => e.Name)
                 .HasMaxLength(250);
             modelBuilder.Entity<HouseType>()
@@ -246,8 +239,6 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
             modelBuilder.Entity<NormativeDocKind>()
                 .HasKey(e => e.Id);
             modelBuilder.Entity<NormativeDocKind>()
-                .HasIndex(e => e.Id);
-            modelBuilder.Entity<NormativeDocKind>()
                 .Property(e => e.Name)
                 .HasMaxLength(250);
 
@@ -257,8 +248,6 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
 
             modelBuilder.Entity<NormativeDocType>()
                 .HasKey(e => e.Id);
-            modelBuilder.Entity<NormativeDocType>()
-                .HasIndex(e => e.Id);
             modelBuilder.Entity<NormativeDocType>()
                 .Property(e => e.Name)
                 .HasMaxLength(250);
@@ -270,8 +259,6 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
             modelBuilder.Entity<ObjectLevel>()
                 .HasKey(e => e.Level);
             modelBuilder.Entity<ObjectLevel>()
-                .HasIndex(e => e.Level);
-            modelBuilder.Entity<ObjectLevel>()
                 .Property(e => e.Name)
                 .HasMaxLength(250);
 
@@ -282,8 +269,6 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
             modelBuilder.Entity<OperationType>()
                 .HasKey(e => e.Id);
             modelBuilder.Entity<OperationType>()
-                .HasIndex(e => e.Id);
-            modelBuilder.Entity<OperationType>()
                 .Property(e => e.Name)
                 .HasMaxLength(250);
 
@@ -293,8 +278,6 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
 
             modelBuilder.Entity<ParameterType>()
                 .HasKey(e => e.Id);
-            modelBuilder.Entity<ParameterType>()
-                .HasIndex(e => e.Id);
             modelBuilder.Entity<ParameterType>()
                 .Property(e => e.Name)
                 .HasMaxLength(250);
@@ -312,13 +295,24 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
             modelBuilder.Entity<RoomType>()
                 .HasKey(e => e.Id);
             modelBuilder.Entity<RoomType>()
-                .HasIndex(e => e.Id);
-            modelBuilder.Entity<RoomType>()
                 .Property(e => e.Name)
                 .HasMaxLength(250);
             modelBuilder.Entity<RoomType>()
                 .Property(e => e.Description)
                 .HasMaxLength(500);
+
+            #endregion
+
+            #region AddressObject
+
+            modelBuilder.Entity<AddressObject>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<AddressObject>()
+                .Property(e => e.Name)
+                .HasMaxLength(250);
+            modelBuilder.Entity<AddressObject>()
+                .Property(e => e.TypeName)
+                .HasMaxLength(50);
 
             #endregion
         }

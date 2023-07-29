@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace YPermitin.FIASToolSet.Storage.Core.Models;
+namespace YPermitin.FIASToolSet.Storage.Core.Models.Versions;
 
 /// <summary>
 /// Информация об установленной версии ФИАС

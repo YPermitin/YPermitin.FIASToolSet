@@ -7,6 +7,8 @@ using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using YPermitin.FIASToolSet.Storage.Core.Models;
+using YPermitin.FIASToolSet.Storage.Core.Models.Notifications;
+using YPermitin.FIASToolSet.Storage.Core.Models.Versions;
 using YPermitin.FIASToolSet.Storage.Core.Services;
 
 namespace YPermitin.FIASToolSet.Jobs.JobItems

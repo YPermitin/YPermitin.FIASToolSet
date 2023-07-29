@@ -5,6 +5,7 @@ using YPermitin.FIASToolSet.DistributionLoader.Exceptions;
 using YPermitin.FIASToolSet.DistributionReader;
 using YPermitin.FIASToolSet.Storage.Core.Models;
 using YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs;
+using YPermitin.FIASToolSet.Storage.Core.Models.Versions;
 using YPermitin.FIASToolSet.Storage.Core.Services;
 
 namespace YPermitin.FIASToolSet.DistributionLoader;

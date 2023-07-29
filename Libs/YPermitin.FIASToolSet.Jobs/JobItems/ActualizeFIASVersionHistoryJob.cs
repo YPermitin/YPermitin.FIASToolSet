@@ -6,6 +6,8 @@ using YPermitin.FIASToolSet.DistributionBrowser;
 using YPermitin.FIASToolSet.DistributionBrowser.Extensions;
 using YPermitin.FIASToolSet.DistributionBrowser.Models;
 using YPermitin.FIASToolSet.Storage.Core.Models;
+using YPermitin.FIASToolSet.Storage.Core.Models.Notifications;
+using YPermitin.FIASToolSet.Storage.Core.Models.Versions;
 using YPermitin.FIASToolSet.Storage.Core.Services;
 
 namespace YPermitin.FIASToolSet.Jobs.JobItems

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using YPermitin.FIASToolSet.Storage.Core.Models.Versions;
 
 namespace YPermitin.FIASToolSet.API.Mappings
 {
@@ -6,7 +7,7 @@ namespace YPermitin.FIASToolSet.API.Mappings
     {
         public FIASVersionProfile()
         {
-            CreateMap<Models.FIASVersion, Storage.Core.Models.FIASVersion>()
+            CreateMap<Models.Versions.FIASVersion, FIASVersion>()
                 .ReverseMap();
         }
     }

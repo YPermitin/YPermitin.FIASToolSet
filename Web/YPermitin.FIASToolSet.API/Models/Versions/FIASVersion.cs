@@ -1,4 +1,4 @@
-﻿namespace YPermitin.FIASToolSet.Storage.Core.Models
+﻿namespace YPermitin.FIASToolSet.API.Models.Versions
 {
     /// <summary>
     /// Информация о версии ФИАС

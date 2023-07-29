@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using YPermitin.FIASToolSet.API.Models;
+using YPermitin.FIASToolSet.API.Models.Service;
 
 namespace YPermitin.FIASToolSet.API.Extensions
 {

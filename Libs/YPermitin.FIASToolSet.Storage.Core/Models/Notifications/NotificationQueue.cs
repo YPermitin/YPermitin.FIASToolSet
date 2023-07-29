@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using YPermitin.FIASToolSet.Storage.Core.Models.Versions;
 
-namespace YPermitin.FIASToolSet.Storage.Core.Models
+namespace YPermitin.FIASToolSet.Storage.Core.Models.Notifications
 {
     /// <summary>
     /// Элемент уведомления в общей очереди

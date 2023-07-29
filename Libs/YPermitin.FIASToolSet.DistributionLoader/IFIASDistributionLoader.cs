@@ -1,5 +1,6 @@
 using YPermitin.FIASToolSet.DistributionBrowser.Models;
 using YPermitin.FIASToolSet.Storage.Core.Models;
+using YPermitin.FIASToolSet.Storage.Core.Models.Versions;
 
 namespace YPermitin.FIASToolSet.DistributionLoader;
 

@@ -2,6 +2,9 @@
 using Microsoft.Extensions.Configuration;
 using YPermitin.FIASToolSet.Storage.Core.Models;
 using YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs;
+using YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData;
+using YPermitin.FIASToolSet.Storage.Core.Models.Notifications;
+using YPermitin.FIASToolSet.Storage.Core.Models.Versions;
 
 namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
 {
@@ -24,6 +27,8 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
         public DbSet<OperationType> FIASOperationTypes { get; set; }
         public DbSet<ParameterType> FIASParameterTypes { get; set; }
         public DbSet<RoomType> FIASRoomTypes { get; set; }
+        
+        public DbSet<AddressObject> AddressObjects { get; set; }
 
         private FIASToolSetServiceContext()
         {
@@ -297,6 +302,19 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
             modelBuilder.Entity<RoomType>()
                 .Property(e => e.Description)
                 .HasMaxLength(500);
+
+            #endregion
+            
+            #region AddressObject
+
+            modelBuilder.Entity<AddressObject>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<AddressObject>()
+                .Property(e => e.Name)
+                .HasMaxLength(250);
+            modelBuilder.Entity<AddressObject>()
+                .Property(e => e.TypeName)
+                .HasMaxLength(50);
 
             #endregion
         }

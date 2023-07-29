@@ -1,4 +1,6 @@
 ﻿using YPermitin.FIASToolSet.Storage.Core.Models;
+using YPermitin.FIASToolSet.Storage.Core.Models.Notifications;
+using YPermitin.FIASToolSet.Storage.Core.Models.Versions;
 
 namespace YPermitin.FIASToolSet.Storage.Core.Services
 {
