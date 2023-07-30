@@ -10,13 +10,23 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
 {
     public class FIASToolSetServiceContext : DbContext
     {
-        public DbSet<FIASVersion> FIASVersions { get; set; }
-        public DbSet<NotificationQueue> NotificationsQueues { get; set; }
-        public DbSet<NotificationStatus> NotificationsStatuses { get; set; }
+        #region Versions
 
+        public DbSet<FIASVersion> FIASVersions { get; set; }
         public DbSet<FIASVersionInstallationStatus> FIASVersionInstallationStatuses { get; set; }
         public DbSet<FIASVersionInstallation> FIASVersionInstallations { get; set; }
         public DbSet<FIASVersionInstallationType> FIASVersionInstallationsTypes { get; set; }
+
+        #endregion
+        
+        #region Notification
+        
+        public DbSet<NotificationQueue> NotificationsQueues { get; set; }
+        public DbSet<NotificationStatus> NotificationsStatuses { get; set; }
+
+        #endregion
+        
+        #region BaseCatalogs
         
         public DbSet<AddressObjectType> FIASAddressObjectTypes { get; set; }
         public DbSet<ApartmentType> FIASApartmentTypes { get; set; }
@@ -28,7 +38,13 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
         public DbSet<ParameterType> FIASParameterTypes { get; set; }
         public DbSet<RoomType> FIASRoomTypes { get; set; }
         
-        public DbSet<AddressObject> AddressObjects { get; set; }
+        #endregion
+
+        #region ClassifierData
+
+        public DbSet<AddressObject> FIASAddressObjects { get; set; }
+
+        #endregion
 
         private FIASToolSetServiceContext()
         {

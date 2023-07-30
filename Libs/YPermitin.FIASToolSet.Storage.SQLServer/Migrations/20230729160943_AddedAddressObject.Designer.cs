@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YPermitin.FIASToolSet.Storage.SQLServer.DbContexts;
 
@@ -11,9 +12,10 @@ using YPermitin.FIASToolSet.Storage.SQLServer.DbContexts;
 namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 {
     [DbContext(typeof(FIASToolSetServiceContext))]
-    partial class FIASToolSetServiceContextModelSnapshot : ModelSnapshot
+    [Migration("20230729160943_AddedAddressObject")]
+    partial class AddedAddressObject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -363,7 +365,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasIndex("PreviousAddressObjectId");
 
-                    b.ToTable("FIASAddressObjects");
+                    b.ToTable("AddressObjects");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Notifications.NotificationQueue", b =>

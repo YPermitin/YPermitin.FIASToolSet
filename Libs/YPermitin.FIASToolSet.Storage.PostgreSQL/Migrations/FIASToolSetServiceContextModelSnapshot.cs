@@ -363,7 +363,7 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations
 
                     b.HasIndex("PreviousAddressObjectId");
 
-                    b.ToTable("AddressObjects");
+                    b.ToTable("FIASAddressObjects");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Notifications.NotificationQueue", b =>

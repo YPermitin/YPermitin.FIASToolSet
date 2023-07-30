@@ -4,7 +4,7 @@ namespace YPermitin.FIASToolSet.Storage.Core.Services;
 
 public interface IFIASClassifierDataRepository
 {
-    #region ClassifierData
+    #region AddressObjects
 
     Task<List<AddressObject>> GetAddressObjects();
     Task<AddressObject> GetAddressObject(int id);
@@ -14,4 +14,10 @@ public interface IFIASClassifierDataRepository
     void RemoveAddressObject(AddressObject objectLevel);
 
     #endregion
+    
+    Task<bool> BeginTransactionAsync();
+    Task CommitTransactionAsync();
+    Task RollbackTransactionAsync();
+    Task<bool> SaveAsync();
+    Task SaveWithIdentityInsertAsync<T>();
 }
