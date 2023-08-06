@@ -105,20 +105,10 @@
             Идентификатор статуса действия над записью – причины появления записи
             </summary>        
         </member>
-        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObject.PreviousAddressObject">
-            <summary>
-            Предыдущая историческая запись
-            </summary>
-        </member>
         <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObject.PreviousAddressObjectId">
             <summary>
             Идентификатор записи связывания с предыдущей исторической записью
             </summary>        
-        </member>
-        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObject.NextAddressObject">
-            <summary>
-            Следующая историческая запись
-            </summary>
         </member>
         <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObject.NextAddressObjectId">
             <summary>

@@ -16,6 +16,7 @@ public class InstallAndUpdateFIASJob : IJob
     private readonly ILogger<ActualizeFIASVersionHistoryJob> _logger;
     private readonly IServiceProvider _provider;
     private readonly IConfiguration _configuration;
+    private readonly List<int> _availableRegions;
     
     public InstallAndUpdateFIASJob(
         IServiceProvider provider,
@@ -25,9 +26,30 @@ public class InstallAndUpdateFIASJob : IJob
         _logger = logger;
         _provider = provider;
         _configuration = configuration;
+        
+        _availableRegions = _configuration
+            .GetSection("FIASToolSet:Regions")
+            .Get<List<string>>()
+            .DefaultIfEmpty()
+            .Where(e => int.TryParse(e, out _))
+            .Select(int.Parse)
+            .ToList();
     }
 
     public async Task Execute(IJobExecutionContext context)
+    {
+        try
+        {
+            await ExecuteInstallOrUpdateFIAS();
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, 
+                "Ошибка при выполнении задания по установке / обновлению классификатора ФИАС.");
+        }
+    }
+
+    private async Task ExecuteInstallOrUpdateFIAS()
     {
         _logger.LogInformation("Запущена обработка шагов по установке / обновлению классификатора ФИАС.");
 
@@ -93,6 +115,15 @@ public class InstallAndUpdateFIASJob : IJob
                 await loader.LoadAddressObjectTypes();
                 await loader.LoadNormativeDocKinds();
                 await loader.LoadNormativeDocTypes();
+                
+                var availableRegions = loader.GetAvailableRegions()
+                    .Where(e => _availableRegions.Contains(e.Code));
+                foreach (var availableRegion in availableRegions)
+                {
+                    loader.ExtractDataForRegion(availableRegion);
+
+                    await loader.LoadAddressObjects(availableRegion);
+                }
 
                 await loader.SetInstallationToStatusInstalled();
             }

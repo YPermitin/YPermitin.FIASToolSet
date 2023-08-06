@@ -121,15 +121,12 @@ namespace YPermitin.FIASToolSet.DistributionBrowser.Tests
                 downloadedFilePath = lastInfo.GetLocalPathByFileType(fileType);
 
                 var regionsInFile = lastInfo.GetAvailableRegions(fileType);
-
-                string[] regionFilter = null;
+                lastInfo.ExtractDistributionFile(fileType);
                 if (regionsInFile.Length > 0)
                 {
-                    regionFilter = new string[1];
-                    regionFilter[0] = regionsInFile[0];
+                    lastInfo.ExtractDistributionRegionFiles(fileType, regionsInFile[0]);
                 }
-                lastInfo.ExtractDistributionFile(fileType, 
-                    regions: regionFilter);
+
                 extractedDirectory = lastInfo.GetExtractedDirectory(fileType);
             }
 
@@ -168,8 +165,7 @@ namespace YPermitin.FIASToolSet.DistributionBrowser.Tests
                 await lastInfo.DownloadDistributionByFileTypeAsync(fileType);
                 downloadedFilePath = lastInfo.GetLocalPathByFileType(fileType);
                 
-                lastInfo.ExtractDistributionFile(fileType, 
-                    onlyBaseFiles: true);
+                lastInfo.ExtractDistributionFile(fileType);
                 extractedDirectory = lastInfo.GetExtractedDirectory(fileType);
             }
 

@@ -1,5 +1,6 @@
 using YPermitin.FIASToolSet.DistributionBrowser.Models;
-using YPermitin.FIASToolSet.Storage.Core.Models;
+using YPermitin.FIASToolSet.DistributionLoader.Exceptions;
+using YPermitin.FIASToolSet.DistributionLoader.Models;
 using YPermitin.FIASToolSet.Storage.Core.Models.Versions;
 
 namespace YPermitin.FIASToolSet.DistributionLoader;
@@ -46,6 +47,27 @@ public interface IFIASDistributionLoader
         Action<DownloadDistributionFileProgressChangedEventArgs> onDownloadFileProgressChangedEvent = null);
 
     /// <summary>
+    /// Получает список кодов регионов, доступных для распаковки данных и загрузки
+    /// </summary>
+    /// <returns>Коллекция доступных регионов</returns>
+    List<Region> GetAvailableRegions();
+
+    /// <summary>
+    /// Распаковка данных для указанного региона
+    /// </summary>
+    /// <param name="region">Информация о региоре</param>
+    /// <returns>Путь к каталогу с данными по региону</returns>
+    /// <exception cref="RegionNotFoundException">Регион с указанным кодом не найден</exception>
+    string ExtractDataForRegion(Region region);
+
+    /// <summary>
+    /// Полусение пути к каталогу с данными региона
+    /// </summary>
+    /// <param name="region">Регион для распаковки данных</param>
+    /// <returns>Путь к каталогу с данными по региону</returns>
+    string GetDataDirectoryForRegion(Region region);
+    
+    /// <summary>
     /// Установка статуса текущей установки в "Устанавливается"
     /// </summary>
     /// <returns>Объект асинхронной операции</returns>
@@ -57,6 +79,8 @@ public interface IFIASDistributionLoader
     /// <returns>Объект асинхронной операции</returns>
     Task SetInstallationToStatusInstalled();
 
+    #region BaseCatalogs
+    
     /// <summary>
     /// Загрузка типов адресных объектов
     /// </summary>
@@ -110,4 +134,16 @@ public interface IFIASDistributionLoader
     /// </summary>
     /// <returns>Объект асинхронной операции</returns>
     Task LoadRoomTypes();
+    
+    #endregion
+    
+    #region ClassifierData
+
+    /// <summary>
+    /// Загрузка адресных объектов по региону
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных адресных объектов</param>
+    Task LoadAddressObjects(Region region);
+
+    #endregion
 }

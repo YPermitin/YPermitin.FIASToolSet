@@ -81,6 +81,13 @@
             <returns>Коллекция типов параметров</returns>
             <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось файл с данными</exception>
         </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionReader.FIASDistributionReader.GetAddressObjects(YPermitin.FIASToolSet.DistributionReader.Models.Region)">
+            <summary>
+            Получение коллекции адресных объектов
+            </summary>
+            <returns>Коллекция адресных объектов</returns>
+            <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось файл с данными</exception>
+        </member>
         <member name="M:YPermitin.FIASToolSet.DistributionReader.IFIASDistributionReader.GetVersionAsString">
             <summary>
             Получение версии дистрибутива ФИАС в строковм виде
@@ -94,6 +101,12 @@
             </summary>
             <returns>Версия ФИАС числом</returns>
             <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASBadDataException">Не удалось преобразовать версию к числовому формату</exception>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionReader.IFIASDistributionReader.GetRegions">
+            <summary>
+            Получение списка доступных регионов в дистрибутиве ФИАС, доступных для работы
+            </summary>
+            <returns>Коллекция регионов классификатора ФИАС, доступных для работы</returns>
         </member>
         <member name="M:YPermitin.FIASToolSet.DistributionReader.IFIASDistributionReader.GetNormativeDocKinds">
             <summary>
@@ -158,49 +171,149 @@
             <returns>Коллекция типов параметров</returns>
             <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось файл с данными</exception>
         </member>
-        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.AddressObjectType">
+        <member name="M:YPermitin.FIASToolSet.DistributionReader.IFIASDistributionReader.GetAddressObjects(YPermitin.FIASToolSet.DistributionReader.Models.Region)">
+            <summary>
+            Получение коллекции адресных объектов
+            </summary>
+            <returns>Коллекция адресных объектов</returns>
+            <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось файл с данными</exception>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.BaseCatalogs.AddressObjectType">
             <summary>
             Тип адресного объекта
             </summary>
         </member>
-        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.ApartmentType">
+        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.BaseCatalogs.ApartmentType">
             <summary>
             Тип квартиры
             </summary>
         </member>
-        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.HouseType">
+        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.BaseCatalogs.HouseType">
             <summary>
             Тип строения
             </summary>
         </member>
-        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.NormativeDocKind">
+        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.BaseCatalogs.NormativeDocKind">
             <summary>
             Вид нормативного документа
             </summary>
         </member>
-        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.NormativeDocType">
+        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.BaseCatalogs.NormativeDocType">
             <summary>
             Тип нормативного документа
             </summary>
         </member>
-        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.ObjectLevel">
+        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.BaseCatalogs.ObjectLevel">
             <summary>
             Уровень адресного объекта
             </summary>
         </member>
-        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.OperationType">
+        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.BaseCatalogs.OperationType">
             <summary>
             Тип операции
             </summary>
         </member>
-        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.ParameterType">
+        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.BaseCatalogs.ParameterType">
             <summary>
             Тип параметра
             </summary>
         </member>
-        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.RoomType">
+        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.BaseCatalogs.RoomType">
             <summary>
             Тип помещения
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObject">
+            <summary>
+            Адресный объект
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObject.Id">
+            <summary>
+            Уникальный идентификатор записи.
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObject.ObjectId">
+            <summary>
+            Глобальный уникальный идентификатор адресного объекта
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObject.ObjectGuid">
+            <summary>
+            Глобальный уникальный идентификатор адресного объекта
+            типа UUID
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObject.ChangeId">
+            <summary>
+            ID изменившей транзакции
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObject.Name">
+            <summary>
+            Наименование
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObject.TypeName">
+            <summary>
+            Краткое наименование типа объекта
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObject.LevelId">
+            <summary>
+            Идентификатор уровня адресного объекта 
+            </summary>        
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObject.OperationTypeId">
+            <summary>
+            Идентификатор статуса действия над записью – причины появления записи
+            </summary>        
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObject.PreviousAddressObjectId">
+            <summary>
+            Идентификатор записи связывания с предыдущей исторической записью
+            </summary>        
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObject.NextAddressObjectId">
+            <summary>
+            Идентификатор записи связывания с последующей исторической записью
+            </summary>        
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObject.UpdateDate">
+            <summary>
+            Дата внесения (обновления) записи
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObject.StartDate">
+            <summary>
+            Начало действия записи
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObject.EndDate">
+            <summary>
+            Окончание действия записи
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObject.IsActual">
+             <summary>
+             Статус актуальности адресного объекта ФИАС
+            
+             У последней записи адресного объекта элемент всегда принимает значение True, у предыдущих False
+             </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObject.IsActive">
+            <summary>
+            Признак действующего адресного объекта
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.Region">
+            <summary>
+            Информация о регионе
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.Region.Code">
+            <summary>
+            Код региона
             </summary>
         </member>
     </members>

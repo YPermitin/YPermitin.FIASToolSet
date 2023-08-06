@@ -240,15 +240,16 @@ namespace YPermitin.FIASToolSet.DistributionBrowser.Models
         }
 
         /// <summary>
-        /// Распаковка архива с файлами дистрибутива
+        /// Распаковка архива с файлами дистрибутива только по базовым справочникам и корневым файлам.
+        /// 
+        /// ВНИМАНИЕ!!! Перед распаковкой каталог назначения полностью очищается.
+        /// Если ранее в нем были уже распакованы данные, в т.ч. по регионам, то они будут удалены.
+        /// 
+        /// Данные по регионам не распаковываются.
         /// </summary>
         /// <param name="fileType">Тип файла дистрибутива</param>
-        /// <param name="onlyBaseFiles">Распаковать только базовые файлы (файлы по регионам не будут распакованы)</param>
-        /// <param name="regions">Массив кодов регионов для распаковки</param>
-        public void ExtractDistributionFile(
-            DistributionFileType fileType,
-            bool onlyBaseFiles = false,
-            string[] regions = null)
+        /// <param name="removeOldData">Удаление старых данных в каталоге назначения перед распаковкой</param>
+        public void ExtractDistributionFile(DistributionFileType fileType, bool removeOldData = true)
         {
             string pathToFile = GetLocalPathByFileType(fileType);
             FileInfo fileInfo = new FileInfo(pathToFile);
@@ -256,7 +257,7 @@ namespace YPermitin.FIASToolSet.DistributionBrowser.Models
             if (fileInfo.Exists)
             {
                 string directoryToExtract = GetExtractedDirectory(fileType);
-                if (Directory.Exists(directoryToExtract))
+                if (removeOldData && Directory.Exists(directoryToExtract))
                 {
                     Directory.Delete(directoryToExtract, true);
                 }
@@ -267,7 +268,7 @@ namespace YPermitin.FIASToolSet.DistributionBrowser.Models
                     var entries = zipFile.Entries;
                     foreach (var entry in entries)
                     {
-                        int indexEndRegionName = entry.FullName.IndexOf("/");
+                        int indexEndRegionName = entry.FullName.IndexOf("/", StringComparison.Ordinal);
                         if (indexEndRegionName <= 0)
                         {
                             string fileNameToExtract = Path.Combine(
@@ -276,20 +277,48 @@ namespace YPermitin.FIASToolSet.DistributionBrowser.Models
                             );
                             entry.ExtractToFile(fileNameToExtract);
                         }
-                        else
+                    }
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Распаковка данных архива по указанному региону
+        /// </summary>
+        /// <param name="fileType">Тип файла дистрибутива</param>
+        /// <param name="region">Код региона для распаковки</param>
+        /// <param name="removeOldData">Удаление старых данных в каталоге назначения перед распаковкой</param>
+        public void ExtractDistributionRegionFiles(
+            DistributionFileType fileType,
+            string region, 
+            bool removeOldData = true)
+        {
+            string pathToFile = GetLocalPathByFileType(fileType);
+            FileInfo fileInfo = new FileInfo(pathToFile);
+            if (removeOldData)
+            {
+                RemoveDistributionRegionDirectory(fileType, region);
+            }
+
+            if (fileInfo.Exists)
+            {
+                string directoryToExtract = GetExtractedDirectory(fileType);
+                
+                using (var zipFile = ZipFile.OpenRead(pathToFile))
+                {
+                    var entries = zipFile.Entries;
+                    foreach (var entry in entries)
+                    {
+                        int indexEndRegionName = entry.FullName.IndexOf("/", StringComparison.Ordinal);
+                        if (indexEndRegionName > 0)
                         {
                             bool doExtract = true;
-
-                            if (onlyBaseFiles)
-                            {
-                                doExtract = false;
-                            }
-                            else if (regions != null)
+                            if (region != null)
                             {
                                 string regionDirectoryName = entry.FullName.Substring(0, indexEndRegionName);
                                 if (int.TryParse(regionDirectoryName, out _))
                                 {
-                                    doExtract = regions.Contains(regionDirectoryName);   
+                                    doExtract = region == regionDirectoryName;   
                                 }
                             }
 
@@ -302,8 +331,10 @@ namespace YPermitin.FIASToolSet.DistributionBrowser.Models
                                 FileInfo fileInfoToExtract = new FileInfo(fileNameToExtract);
                                 if (fileInfoToExtract.Directory != null)
                                 {
-                                    if(!fileInfoToExtract.Directory.Exists)
+                                    if (!fileInfoToExtract.Directory.Exists)
+                                    {
                                         fileInfoToExtract.Directory.Create();
+                                    }
                                 }
                                 entry.ExtractToFile(fileNameToExtract);
                             }
@@ -313,6 +344,22 @@ namespace YPermitin.FIASToolSet.DistributionBrowser.Models
             }
         }
 
+        /// <summary>
+        /// Удаление каталога с распакованными данными по региону
+        /// </summary>
+        /// <param name="fileType">Тип файла дистрибутива</param>
+        /// <param name="region">Код региона для распаковки</param>
+        public void RemoveDistributionRegionDirectory(DistributionFileType fileType,
+            string region)
+        {
+            string directoryToExtract = GetExtractedDirectory(fileType);
+            string regionDirectory = Path.Combine(directoryToExtract, region);
+
+            var regionDirectoryInfo = new DirectoryInfo(regionDirectory);
+            if(regionDirectoryInfo.Exists)
+                regionDirectoryInfo.Delete(true);
+        }
+        
         internal FIASDistributionInfo(DownloadFileInfo downloadFileInfo, FIASDistributionBrowserOptions options, IAPIHelper apiHelper)
         {
             _apiHelper = apiHelper;

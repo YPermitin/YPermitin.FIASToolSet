@@ -143,7 +143,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
                 .HasMaxLength(50);
 
             #endregion
-            
+
             #region FIASVersionInstallationStatus
 
             modelBuilder.Entity<FIASVersionInstallationStatus>()
@@ -186,8 +186,6 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
             modelBuilder.Entity<FIASVersionInstallationType>()
                 .HasKey(e => e.Id);
             modelBuilder.Entity<FIASVersionInstallationType>()
-                .HasIndex(e => new { e.Id });
-            modelBuilder.Entity<FIASVersionInstallationType>()
                 .HasData(new List<FIASVersionInstallationType>()
                 {
                     new()
@@ -203,11 +201,14 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
                 });
 
             #endregion
-
+            
             #region AddressObjectType
 
             modelBuilder.Entity<AddressObjectType>()
                 .HasKey(e => e.Id);
+            modelBuilder.Entity<AddressObjectType>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
             modelBuilder.Entity<AddressObjectType>()
                 .Property(e => e.Name)
                 .HasMaxLength(250);
@@ -225,6 +226,9 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
             modelBuilder.Entity<ApartmentType>()
                 .HasKey(e => e.Id);
             modelBuilder.Entity<ApartmentType>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
+            modelBuilder.Entity<ApartmentType>()
                 .Property(e => e.Name)
                 .HasMaxLength(250);
             modelBuilder.Entity<ApartmentType>()
@@ -240,6 +244,9 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
 
             modelBuilder.Entity<HouseType>()
                 .HasKey(e => e.Id);
+            modelBuilder.Entity<HouseType>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
             modelBuilder.Entity<HouseType>()
                 .Property(e => e.Name)
                 .HasMaxLength(250);
@@ -257,6 +264,9 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
             modelBuilder.Entity<NormativeDocKind>()
                 .HasKey(e => e.Id);
             modelBuilder.Entity<NormativeDocKind>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
+            modelBuilder.Entity<NormativeDocKind>()
                 .Property(e => e.Name)
                 .HasMaxLength(250);
 
@@ -266,6 +276,9 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
 
             modelBuilder.Entity<NormativeDocType>()
                 .HasKey(e => e.Id);
+            modelBuilder.Entity<NormativeDocType>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
             modelBuilder.Entity<NormativeDocType>()
                 .Property(e => e.Name)
                 .HasMaxLength(250);
@@ -277,6 +290,9 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
             modelBuilder.Entity<ObjectLevel>()
                 .HasKey(e => e.Level);
             modelBuilder.Entity<ObjectLevel>()
+                .Property(e => e.Level)
+                .ValueGeneratedNever();
+            modelBuilder.Entity<ObjectLevel>()
                 .Property(e => e.Name)
                 .HasMaxLength(250);
 
@@ -287,6 +303,9 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
             modelBuilder.Entity<OperationType>()
                 .HasKey(e => e.Id);
             modelBuilder.Entity<OperationType>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
+            modelBuilder.Entity<OperationType>()
                 .Property(e => e.Name)
                 .HasMaxLength(250);
 
@@ -296,6 +315,9 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
 
             modelBuilder.Entity<ParameterType>()
                 .HasKey(e => e.Id);
+            modelBuilder.Entity<ParameterType>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
             modelBuilder.Entity<ParameterType>()
                 .Property(e => e.Name)
                 .HasMaxLength(250);
@@ -313,6 +335,9 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
             modelBuilder.Entity<RoomType>()
                 .HasKey(e => e.Id);
             modelBuilder.Entity<RoomType>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
+            modelBuilder.Entity<RoomType>()
                 .Property(e => e.Name)
                 .HasMaxLength(250);
             modelBuilder.Entity<RoomType>()
@@ -320,11 +345,14 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
                 .HasMaxLength(500);
 
             #endregion
-            
+
             #region AddressObject
 
             modelBuilder.Entity<AddressObject>()
                 .HasKey(e => e.Id);
+            modelBuilder.Entity<AddressObject>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
             modelBuilder.Entity<AddressObject>()
                 .Property(e => e.Name)
                 .HasMaxLength(250);

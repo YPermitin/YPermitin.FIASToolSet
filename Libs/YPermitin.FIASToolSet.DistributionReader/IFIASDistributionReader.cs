@@ -1,5 +1,8 @@
 using YPermitin.FIASToolSet.DistributionReader.DataCollections;
+using YPermitin.FIASToolSet.DistributionReader.DataCollections.BaseCatalogs;
+using YPermitin.FIASToolSet.DistributionReader.DataCollections.ClassifierData;
 using YPermitin.FIASToolSet.DistributionReader.Exceptions;
+using YPermitin.FIASToolSet.DistributionReader.Models;
 
 namespace YPermitin.FIASToolSet.DistributionReader;
 
@@ -19,6 +22,14 @@ public interface IFIASDistributionReader
     /// <exception cref="FIASBadDataException">Не удалось преобразовать версию к числовому формату</exception>
     int GetVersion();
 
+    /// <summary>
+    /// Получение списка доступных регионов в дистрибутиве ФИАС, доступных для работы
+    /// </summary>
+    /// <returns>Коллекция регионов классификатора ФИАС, доступных для работы</returns>
+    List<Region> GetRegions();
+
+    #region BaseCatalogs
+    
     /// <summary>
     /// Получение коллекции видов нормативных документов
     /// </summary>
@@ -81,4 +92,17 @@ public interface IFIASDistributionReader
     /// <returns>Коллекция типов параметров</returns>
     /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
     ParameterTypeCollection GetParameterTypes();
+    
+    #endregion
+    
+    #region ClassifierData
+
+    /// <summary>
+    /// Получение коллекции адресных объектов
+    /// </summary>
+    /// <returns>Коллекция адресных объектов</returns>
+    /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
+    AddressObjectCollection GetAddressObjects(Region region);
+    
+    #endregion
 }

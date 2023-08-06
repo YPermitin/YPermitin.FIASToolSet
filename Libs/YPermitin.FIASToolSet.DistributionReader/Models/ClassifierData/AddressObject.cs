@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs;
 
-namespace YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData;
+namespace YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData;
 
 /// <summary>
 /// Адресный объект
@@ -11,88 +10,102 @@ public class AddressObject
     /// <summary>
     /// Уникальный идентификатор записи.
     /// </summary>
-    public int Id { get; set; }
-    
+    public readonly int Id;
+
     /// <summary>
     /// Глобальный уникальный идентификатор адресного объекта
     /// </summary>
-    public int ObjectId { get; set; }
-    
+    public readonly int ObjectId;
+
     /// <summary>
     /// Глобальный уникальный идентификатор адресного объекта
     /// типа UUID
     /// </summary>
-    public Guid ObjectGuid { get; set; }
-    
+    public readonly Guid ObjectGuid;
+
     /// <summary>
     /// ID изменившей транзакции
     /// </summary>
-    public int ChangeId { get; set; }
-    
+    public readonly int ChangeId;
+
     /// <summary>
     /// Наименование
     /// </summary>
-    public string Name { get; set; }
-    
+    public readonly string Name;
+
     /// <summary>
     /// Краткое наименование типа объекта
     /// </summary>
-    public string TypeName { get; set; }
-    
-    /// <summary>
-    /// Уровень адресного объекта
-    /// </summary>
-    [ForeignKey("LevelId")]
-    public ObjectLevel Level { get; set; }
+    public readonly string TypeName;
+
     /// <summary>
     /// Идентификатор уровня адресного объекта 
     /// </summary>        
-    public int LevelId { get; set; }
-    
-    /// <summary>
-    /// Статус действия над записью – причина появления записи
-    /// </summary>
-    [ForeignKey("OperationTypeId")]
-    public OperationType OperationType { get; set; }
+    public readonly int LevelId;
+
     /// <summary>
     /// Идентификатор статуса действия над записью – причины появления записи
     /// </summary>        
-    public int OperationTypeId { get; set; }
-    
+    public readonly int OperationTypeId;
+
     /// <summary>
     /// Идентификатор записи связывания с предыдущей исторической записью
     /// </summary>        
-    public int? PreviousAddressObjectId { get; set; }
-    
+    public readonly int? PreviousAddressObjectId;
+
     /// <summary>
     /// Идентификатор записи связывания с последующей исторической записью
     /// </summary>        
-    public int? NextAddressObjectId { get; set; }
-    
+    public readonly int? NextAddressObjectId;
+
     /// <summary>
     /// Дата внесения (обновления) записи
     /// </summary>
-    public DateTime UpdateDate { get; set; }
-    
+    public readonly DateOnly UpdateDate;
+
     /// <summary>
     /// Начало действия записи
     /// </summary>
-    public DateTime StartDate { get; set; }
-    
+    public readonly DateOnly StartDate;
+
     /// <summary>
     /// Окончание действия записи
     /// </summary>
-    public DateTime EndDate { get; set; }
-    
+    public readonly DateOnly EndDate;
+
     /// <summary>
     /// Статус актуальности адресного объекта ФИАС
     ///
     /// У последней записи адресного объекта элемент всегда принимает значение True, у предыдущих False
     /// </summary>
-    public bool IsActual { get; set; }
-    
+    public readonly bool IsActual;
+
     /// <summary>
     /// Признак действующего адресного объекта
     /// </summary>
-    public bool IsActive { get; set; }
+    public readonly bool IsActive;
+
+    public AddressObject(int id, int objectId, Guid objectGuid, int changeId, 
+        string name, string typeName, int levelId, int operationTypeId, 
+        int? previousAddressObjectId, 
+        int? nextAddressObjectId, 
+        DateOnly updateDate, DateOnly startDate, DateOnly 
+            endDate, bool isActual, bool isActive)
+    {
+        Id = id;
+        ObjectId = objectId;
+        ObjectGuid = objectGuid;
+        ChangeId = changeId;
+        Name = name;
+        TypeName = typeName;
+        LevelId = levelId;
+        OperationTypeId = operationTypeId;
+        PreviousAddressObjectId = previousAddressObjectId;
+        NextAddressObjectId = nextAddressObjectId;
+        UpdateDate = updateDate;
+        StartDate = startDate;
+        EndDate = endDate;
+        IsActual = isActual;
+        IsActive = isActive;
+    }
 }
