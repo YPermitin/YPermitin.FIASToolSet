@@ -4,6 +4,16 @@
         <name>YPermitin.FIASToolSet.DistributionLoader</name>
     </assembly>
     <members>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.RemoveVersionDataArchive">
+            <summary>
+            Удалениие архива данных для версии ФИАС
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.RemoveVersionDataDirectory">
+            <summary>
+            Удаление каталога данных для версии ФИАС
+            </summary>
+        </member>
         <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.GetAvailableRegions">
             <summary>
             Получает список кодов регионов, доступных для распаковки данных и загрузки
@@ -24,6 +34,12 @@
             </summary>
             <param name="region">Регион для распаковки данных</param>
             <returns>Путь к каталогу с данными по региону</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.RemoveDistributionRegionDirectory(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Удаление каталога с данными классификатора по региону
+            </summary>
+            <param name="region">Регион для удаления каталога данных</param>
         </member>
         <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadAddressObjects(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
             <summary>
@@ -69,6 +85,16 @@
             </summary>
             <returns>Объект асинхронной операции</returns>
         </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.RemoveVersionDataArchive">
+            <summary>
+            Удалениие архива данных для версии ФИАС
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.RemoveVersionDataDirectory">
+            <summary>
+            Удаление каталога данных для версии ФИАС
+            </summary>
+        </member>
         <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.GetAvailableRegions">
             <summary>
             Получает список кодов регионов, доступных для распаковки данных и загрузки
@@ -89,6 +115,12 @@
             </summary>
             <param name="region">Регион для распаковки данных</param>
             <returns>Путь к каталогу с данными по региону</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.RemoveDistributionRegionDirectory(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Удаление каталога с данными классификатора по региону
+            </summary>
+            <param name="region">Регион для удаления каталога данных</param>
         </member>
         <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.SetInstallationToStatusInstalling">
             <summary>

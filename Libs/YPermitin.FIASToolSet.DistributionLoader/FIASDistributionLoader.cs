@@ -133,6 +133,31 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     }
 
     /// <summary>
+    /// Удалениие архива данных для версии ФИАС
+    /// </summary>
+    public void RemoveVersionDataArchive()
+    {
+        DistributionFileType distributionFileType;
+        if (_installation.InstallationTypeId == FIASVersionInstallationType.Full)
+            distributionFileType = DistributionFileType.GARFIASXmlComplete;
+        else
+            distributionFileType = DistributionFileType.GARFIASXmlDelta;
+        
+        Distribution.RemoveVersionDataArchive(distributionFileType);
+    }
+
+    /// <summary>
+    /// Удаление каталога данных для версии ФИАС
+    /// </summary>
+    public void RemoveVersionDataDirectory()
+    {
+        if (Directory.Exists(_distributionDirectory))
+        {
+            Directory.Delete(_distributionDirectory, true);
+        }
+    }
+
+    /// <summary>
     /// Получает список кодов регионов, доступных для распаковки данных и загрузки
     /// </summary>
     /// <returns>Коллекция доступных регионов</returns>
@@ -187,6 +212,21 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     public string GetDataDirectoryForRegion(Region region)
     {
         return Path.Combine(_distributionDirectory, region.Code.ToString());
+    }
+
+    /// <summary>
+    /// Удаление каталога с данными классификатора по региону
+    /// </summary>
+    /// <param name="region">Регион для удаления каталога данных</param>
+    public void RemoveDistributionRegionDirectory(Region region)
+    {
+        DistributionFileType distributionFileType;
+        if (_installation.InstallationTypeId == FIASVersionInstallationType.Full)
+            distributionFileType = DistributionFileType.GARFIASXmlComplete;
+        else
+            distributionFileType = DistributionFileType.GARFIASXmlDelta;
+        
+        Distribution.RemoveDistributionRegionDirectory(distributionFileType, region.Code.ToString());
     }
     
     public async Task SetInstallationToStatusNew()
@@ -253,7 +293,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             }
         }
 
-        await _fiasBaseCatalogsRepository.SaveWithIdentityInsertAsync<AddressObjectType>();
+        await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
     public async Task LoadApartmentTypes()
@@ -293,7 +333,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             }
         }
                 
-        await _fiasBaseCatalogsRepository.SaveWithIdentityInsertAsync<ApartmentType>();
+        await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
     public async Task LoadHouseTypes()
@@ -333,7 +373,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             }
         }
                 
-        await _fiasBaseCatalogsRepository.SaveWithIdentityInsertAsync<HouseType>();
+        await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
     public async Task LoadNormativeDocKinds()
@@ -367,7 +407,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             }
         }
                 
-        await _fiasBaseCatalogsRepository.SaveWithIdentityInsertAsync<NormativeDocKind>();
+        await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
     public async Task LoadNormativeDocTypes()
@@ -403,7 +443,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             }
         }
                 
-        await _fiasBaseCatalogsRepository.SaveWithIdentityInsertAsync<NormativeDocType>();
+        await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
     public async Task LoadObjectLevels()
@@ -441,7 +481,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             }
         }
                 
-        await _fiasBaseCatalogsRepository.SaveWithIdentityInsertAsync<ObjectLevel>();
+        await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
     public async Task LoadOperationTypes()
@@ -479,7 +519,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             }
         }
                 
-        await _fiasBaseCatalogsRepository.SaveWithIdentityInsertAsync<OperationType>();
+        await _fiasBaseCatalogsRepository.SaveAsync();
     }
 
     public async Task LoadParameterTypes()
@@ -519,7 +559,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             }
         }
 
-        await _fiasBaseCatalogsRepository.SaveWithIdentityInsertAsync<ParameterType>();
+        await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
     public async Task LoadRoomTypes()
@@ -558,7 +598,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             }
         }
                 
-        await _fiasBaseCatalogsRepository.SaveWithIdentityInsertAsync<RoomType>();
+        await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
     #endregion
@@ -620,14 +660,14 @@ public class FIASDistributionLoader : IFIASDistributionLoader
 
             if (currentPortionToSave >= 1000)
             {
-                await _fiasBaseCatalogsRepository.SaveWithIdentityInsertAsync<AddressObject>();
+                await _fiasBaseCatalogsRepository.SaveAsync();
                 currentPortionToSave = 0;
             }
         }
 
         if (currentPortionToSave > 0)
         {
-            await _fiasBaseCatalogsRepository.SaveWithIdentityInsertAsync<AddressObject>();
+            await _fiasBaseCatalogsRepository.SaveAsync();
             currentPortionToSave = 0;
         }
     }

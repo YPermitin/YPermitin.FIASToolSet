@@ -179,6 +179,12 @@
              Удаляет рабочий каталог версии дистрибутива со всеми вложенными файлами.
              </summary>
         </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.RemoveVersionDataArchive(YPermitin.FIASToolSet.DistributionBrowser.Enums.DistributionFileType)">
+            <summary>
+            Удаление файла архива с данными версии дистрибутива ФИАС
+            </summary>
+            <param name="fileType">Тип файла дистрибутива</param>
+        </member>
         <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.DownloadDistributionByFileTypeAsync(YPermitin.FIASToolSet.DistributionBrowser.Enums.DistributionFileType,System.Action{YPermitin.FIASToolSet.DistributionBrowser.Models.DownloadDistributionFileProgressChangedEventArgs})">
             <summary>
             Скачивание файла дистрибутивая по типу

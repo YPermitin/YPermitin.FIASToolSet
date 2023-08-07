@@ -47,6 +47,16 @@ public interface IFIASDistributionLoader
         Action<DownloadDistributionFileProgressChangedEventArgs> onDownloadFileProgressChangedEvent = null);
 
     /// <summary>
+    /// Удалениие архива данных для версии ФИАС
+    /// </summary>
+    void RemoveVersionDataArchive();
+    
+    /// <summary>
+    /// Удаление каталога данных для версии ФИАС
+    /// </summary>
+    void RemoveVersionDataDirectory();
+    
+    /// <summary>
     /// Получает список кодов регионов, доступных для распаковки данных и загрузки
     /// </summary>
     /// <returns>Коллекция доступных регионов</returns>
@@ -66,6 +76,12 @@ public interface IFIASDistributionLoader
     /// <param name="region">Регион для распаковки данных</param>
     /// <returns>Путь к каталогу с данными по региону</returns>
     string GetDataDirectoryForRegion(Region region);
+
+    /// <summary>
+    /// Удаление каталога с данными классификатора по региону
+    /// </summary>
+    /// <param name="region">Регион для удаления каталога данных</param>
+    void RemoveDistributionRegionDirectory(Region region);
     
     /// <summary>
     /// Установка статуса текущей установки в "Устанавливается"

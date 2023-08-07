@@ -16,7 +16,11 @@ public class InstallAndUpdateFIASJob : IJob
     private readonly ILogger<ActualizeFIASVersionHistoryJob> _logger;
     private readonly IServiceProvider _provider;
     private readonly IConfiguration _configuration;
+
+    private readonly string _workingDirectory;
     private readonly List<int> _availableRegions;
+    private readonly bool _removeArchiveDistributionFiles;
+    private readonly bool _removeExtractedDistributionFiles;
     
     public InstallAndUpdateFIASJob(
         IServiceProvider provider,
@@ -26,6 +30,8 @@ public class InstallAndUpdateFIASJob : IJob
         _logger = logger;
         _provider = provider;
         _configuration = configuration;
+
+        _workingDirectory = _configuration.GetValue("FIASToolSet:WorkingDirectory", string.Empty);
         
         _availableRegions = _configuration
             .GetSection("FIASToolSet:Regions")
@@ -34,12 +40,19 @@ public class InstallAndUpdateFIASJob : IJob
             .Where(e => int.TryParse(e, out _))
             .Select(int.Parse)
             .ToList();
+
+        _removeArchiveDistributionFiles =
+            _configuration.GetValue("FIASToolSet:ClearTempDistributionFiles:RemoveArchiveDistributionFiles", false);
+        _removeExtractedDistributionFiles =
+            _configuration.GetValue("FIASToolSet:ClearTempDistributionFiles:RemoveExtractedDistributionFiles", true);
     }
 
     public async Task Execute(IJobExecutionContext context)
     {
         try
         {
+            ClearTempDistributionFiles();
+            
             await ExecuteInstallOrUpdateFIAS();
         }
         catch (Exception e)
@@ -123,9 +136,23 @@ public class InstallAndUpdateFIASJob : IJob
                     loader.ExtractDataForRegion(availableRegion);
 
                     await loader.LoadAddressObjects(availableRegion);
+
+                    if (_removeExtractedDistributionFiles)
+                    {
+                        loader.RemoveDistributionRegionDirectory(availableRegion);
+                    }
                 }
 
                 await loader.SetInstallationToStatusInstalled();
+                if (_removeExtractedDistributionFiles)
+                {
+                    loader.RemoveVersionDataDirectory();
+                }
+
+                if (_removeArchiveDistributionFiles)
+                {
+                    loader.RemoveVersionDataArchive();
+                }
             }
             else
             {
@@ -134,5 +161,56 @@ public class InstallAndUpdateFIASJob : IJob
         }
 
         _logger.LogInformation("Завершена обработка шагов по установке / обновлению классификатора ФИАС.");
+    }
+
+    private void ClearTempDistributionFiles()
+    {
+        if (!_removeArchiveDistributionFiles && !_removeExtractedDistributionFiles)
+            return;
+
+        _logger.LogInformation("Начало очистки временных файлов...");
+        
+        var versionDirectories = Directory.GetDirectories(_workingDirectory, 
+            "*.*", 
+            SearchOption.TopDirectoryOnly);
+        foreach (var versionDirectory in versionDirectories)
+        {
+            var versionDirectoryInfo = new DirectoryInfo(versionDirectory);
+            if (versionDirectoryInfo.Exists)
+            {
+                if (_removeArchiveDistributionFiles)
+                {
+                    var archiveFiles = Directory.GetFiles(versionDirectory, "*.zip");
+                    foreach (var archiveFile in archiveFiles)
+                    {
+                        File.Delete(archiveFile);
+                        _logger.LogInformation($"Удален архив дистрибутива: {archiveFile}.");
+                    }
+                }
+
+                if (_removeExtractedDistributionFiles)
+                {
+                    var distributionDirectories =
+                        Directory.GetDirectories(versionDirectory, 
+                            "*", 
+                            SearchOption.TopDirectoryOnly);
+                    foreach (var distributionDirectory in distributionDirectories)
+                    {
+                        Directory.Delete(distributionDirectory, true);
+                        _logger.LogInformation($"Удален распакованный каталог дистрибутива: {distributionDirectory}.");
+                    }
+                }
+
+                var filesInVersionDirectory = Directory.GetFiles(versionDirectory, "*.*");
+                var directoriesInVersionDirectory = Directory.GetDirectories(versionDirectory);
+                if (filesInVersionDirectory.Length == 0 && directoriesInVersionDirectory.Length == 0)
+                {
+                    versionDirectoryInfo.Delete(true);
+                    _logger.LogInformation($"Удален каталог версии дистрибутива: {versionDirectoryInfo.FullName}.");
+                }
+            }
+        }
+        
+        _logger.LogInformation("Завершение очистки временных файлов...");
     }
 }

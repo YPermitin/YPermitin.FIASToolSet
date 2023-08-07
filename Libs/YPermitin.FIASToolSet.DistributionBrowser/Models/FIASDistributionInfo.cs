@@ -122,6 +122,20 @@ namespace YPermitin.FIASToolSet.DistributionBrowser.Models
             DirectoryInfo versionWorkingDirectory = new DirectoryInfo(pathToVersionDirectory);
             versionWorkingDirectory.Delete(true);
         }
+
+        /// <summary>
+        /// Удаление файла архива с данными версии дистрибутива ФИАС
+        /// </summary>
+        /// <param name="fileType">Тип файла дистрибутива</param>
+        public void RemoveVersionDataArchive(DistributionFileType fileType)
+        {
+            var pathToArchive = GetLocalPathByFileType(fileType);
+
+            if (File.Exists(pathToArchive))
+            {
+                File.Delete(pathToArchive);
+            }
+        }
         
         /// <summary>
         /// Скачивание файла дистрибутивая по типу
