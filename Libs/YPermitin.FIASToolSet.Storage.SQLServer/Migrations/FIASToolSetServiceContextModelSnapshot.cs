@@ -22,13 +22,10 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.AddressObjectType", b =>
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.AddressObjectType", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
@@ -59,13 +56,10 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.ToTable("FIASAddressObjectTypes");
                 });
 
-            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ApartmentType", b =>
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ApartmentType", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
@@ -96,7 +90,340 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.ToTable("FIASApartmentTypes");
                 });
 
-            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.FIASVersion", b =>
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.HouseType", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("ShortName")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FIASHouseTypes");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.NormativeDocKind", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FIASNormativeDocKinds");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.NormativeDocType", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FIASNormativeDocTypes");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ObjectLevel", b =>
+                {
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Level");
+
+                    b.ToTable("FIASObjectLevels");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.OperationType", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FIASOperationTypes");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ParameterType", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Code")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FIASParameterTypes");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.RoomType", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FIASRoomTypes");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObject", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ChangeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsActual")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("LevelId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<int?>("NextAddressObjectId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("ObjectGuid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ObjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OperationTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PreviousAddressObjectId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TypeName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LevelId");
+
+                    b.HasIndex("OperationTypeId");
+
+                    b.ToTable("FIASAddressObjects");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Notifications.NotificationQueue", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("FIASVersionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("NotificationTypeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Period")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("StatusId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FIASVersionId");
+
+                    b.HasIndex("NotificationTypeId");
+
+                    b.HasIndex("StatusId", "Period", "Id");
+
+                    b.ToTable("NotificationsQueues");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Notifications.NotificationStatus", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NotificationsStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("fbb1221b-9a20-4672-b872-730810dbd7d5"),
+                            Name = "Added"
+                        },
+                        new
+                        {
+                            Id = new Guid("f9ae7dcd-f55a-4810-8e96-62e1c0ad1923"),
+                            Name = "Sent"
+                        },
+                        new
+                        {
+                            Id = new Guid("7d3064ab-45fb-48c0-ac44-a91d1b2369b1"),
+                            Name = "Canceled"
+                        });
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Notifications.NotificationType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NotificationType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("50be368c-0f06-483a-a5b8-2de9113a4f27"),
+                            Name = "New version of FIAS"
+                        },
+                        new
+                        {
+                            Id = new Guid("749041e9-f51d-48b7-abe0-14ba50436431"),
+                            Name = "Custom"
+                        });
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersion", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -146,7 +473,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.ToTable("FIASVersions");
                 });
 
-            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.FIASVersionInstallation", b =>
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallation", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -181,7 +508,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.ToTable("FIASVersionInstallations");
                 });
 
-            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.FIASVersionInstallationStatus", b =>
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStatus", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -214,7 +541,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.FIASVersionInstallationType", b =>
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationType", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -224,8 +551,6 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Id");
 
                     b.ToTable("FIASVersionInstallationsTypes");
 
@@ -242,342 +567,38 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.HouseType", b =>
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObject", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<string>("ShortName")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FIASHouseTypes");
-                });
-
-            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.NormativeDocKind", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FIASNormativeDocKinds");
-                });
-
-            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.NormativeDocType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FIASNormativeDocTypes");
-                });
-
-            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.NotificationQueue", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("FIASVersionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("NotificationTypeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Period")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("StatusId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FIASVersionId");
-
-                    b.HasIndex("NotificationTypeId");
-
-                    b.HasIndex("StatusId", "Period", "Id");
-
-                    b.ToTable("NotificationsQueues");
-                });
-
-            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.NotificationStatus", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("NotificationsStatuses");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("fbb1221b-9a20-4672-b872-730810dbd7d5"),
-                            Name = "Added"
-                        },
-                        new
-                        {
-                            Id = new Guid("f9ae7dcd-f55a-4810-8e96-62e1c0ad1923"),
-                            Name = "Sent"
-                        },
-                        new
-                        {
-                            Id = new Guid("7d3064ab-45fb-48c0-ac44-a91d1b2369b1"),
-                            Name = "Canceled"
-                        });
-                });
-
-            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.NotificationType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("NotificationType");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("50be368c-0f06-483a-a5b8-2de9113a4f27"),
-                            Name = "New version of FIAS"
-                        },
-                        new
-                        {
-                            Id = new Guid("749041e9-f51d-48b7-abe0-14ba50436431"),
-                            Name = "Custom"
-                        });
-                });
-
-            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ObjectLevel", b =>
-                {
-                    b.Property<int>("Level")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Level"), 1L, 1);
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Level");
-
-                    b.ToTable("FIASObjectLevels");
-                });
-
-            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.OperationType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FIASOperationTypes");
-                });
-
-            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ParameterType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Code")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FIASParameterTypes");
-                });
-
-            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.RoomType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FIASRoomTypes");
-                });
-
-            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.FIASVersionInstallation", b =>
-                {
-                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.FIASVersion", "FIASVersion")
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ObjectLevel", "Level")
                         .WithMany()
-                        .HasForeignKey("FIASVersionId")
+                        .HasForeignKey("LevelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.FIASVersionInstallationType", "InstallationType")
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.OperationType", "OperationType")
                         .WithMany()
-                        .HasForeignKey("InstallationTypeId")
+                        .HasForeignKey("OperationTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.FIASVersionInstallationStatus", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Level");
 
-                    b.Navigation("FIASVersion");
-
-                    b.Navigation("InstallationType");
-
-                    b.Navigation("Status");
+                    b.Navigation("OperationType");
                 });
 
-            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.NotificationQueue", b =>
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Notifications.NotificationQueue", b =>
                 {
-                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.FIASVersion", "FIASVersion")
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersion", "FIASVersion")
                         .WithMany()
                         .HasForeignKey("FIASVersionId");
 
-                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.NotificationType", "NotificationType")
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.Notifications.NotificationType", "NotificationType")
                         .WithMany()
                         .HasForeignKey("NotificationTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.NotificationStatus", "Status")
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.Notifications.NotificationStatus", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -586,6 +607,33 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.Navigation("FIASVersion");
 
                     b.Navigation("NotificationType");
+
+                    b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallation", b =>
+                {
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersion", "FIASVersion")
+                        .WithMany()
+                        .HasForeignKey("FIASVersionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationType", "InstallationType")
+                        .WithMany()
+                        .HasForeignKey("InstallationTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStatus", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FIASVersion");
+
+                    b.Navigation("InstallationType");
 
                     b.Navigation("Status");
                 });

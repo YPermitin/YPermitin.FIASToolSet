@@ -4,6 +4,49 @@
         <name>YPermitin.FIASToolSet.DistributionLoader</name>
     </assembly>
     <members>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.RemoveVersionDataArchive">
+            <summary>
+            Удалениие архива данных для версии ФИАС
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.RemoveVersionDataDirectory">
+            <summary>
+            Удаление каталога данных для версии ФИАС
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.GetAvailableRegions">
+            <summary>
+            Получает список кодов регионов, доступных для распаковки данных и загрузки
+            </summary>
+            <returns>Коллекция доступных регионов</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.ExtractDataForRegion(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Распаковка данных для указанного региона
+            </summary>
+            <param name="region">Регион для распаковки данных</param>
+            <returns>Путь к каталогу с данными по региону</returns>
+            <exception cref="T:YPermitin.FIASToolSet.DistributionLoader.Exceptions.RegionNotFoundException">Регион с указанным кодом не найден</exception>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.GetDataDirectoryForRegion(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Полусение пути к каталогу с данными региона
+            </summary>
+            <param name="region">Регион для распаковки данных</param>
+            <returns>Путь к каталогу с данными по региону</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.RemoveDistributionRegionDirectory(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Удаление каталога с данными классификатора по региону
+            </summary>
+            <param name="region">Регион для удаления каталога данных</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadAddressObjects(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка адресных объектов по региону
+            </summary>
+            <param name="region">Регион для загрузки данных адресных объектов</param>
+        </member>
         <member name="P:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.VersionInstallation">
             <summary>
             Информация о версии ФИАС, для которой выполняется операций установки / обновления
@@ -41,6 +84,43 @@
             Скачивание и распаковка дистрибутива ФИАС
             </summary>
             <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.RemoveVersionDataArchive">
+            <summary>
+            Удалениие архива данных для версии ФИАС
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.RemoveVersionDataDirectory">
+            <summary>
+            Удаление каталога данных для версии ФИАС
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.GetAvailableRegions">
+            <summary>
+            Получает список кодов регионов, доступных для распаковки данных и загрузки
+            </summary>
+            <returns>Коллекция доступных регионов</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.ExtractDataForRegion(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Распаковка данных для указанного региона
+            </summary>
+            <param name="region">Информация о региоре</param>
+            <returns>Путь к каталогу с данными по региону</returns>
+            <exception cref="T:YPermitin.FIASToolSet.DistributionLoader.Exceptions.RegionNotFoundException">Регион с указанным кодом не найден</exception>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.GetDataDirectoryForRegion(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Полусение пути к каталогу с данными региона
+            </summary>
+            <param name="region">Регион для распаковки данных</param>
+            <returns>Путь к каталогу с данными по региону</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.RemoveDistributionRegionDirectory(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Удаление каталога с данными классификатора по региону
+            </summary>
+            <param name="region">Регион для удаления каталога данных</param>
         </member>
         <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.SetInstallationToStatusInstalling">
             <summary>
@@ -107,6 +187,22 @@
             Загрузка типов комнат
             </summary>
             <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadAddressObjects(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка адресных объектов по региону
+            </summary>
+            <param name="region">Регион для загрузки данных адресных объектов</param>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.DistributionLoader.Models.Region">
+            <summary>
+            Информация о регионе
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionLoader.Models.Region.Code">
+            <summary>
+            Код региона
+            </summary>
         </member>
     </members>
 </doc>

@@ -46,9 +46,7 @@ if (lastInfo != null)
             }
         });
     
-    lastInfo.ExtractDistributionFile(
-        DistributionFileType.GARFIASXmlComplete,
-        true);
+    lastInfo.ExtractDistributionFile(DistributionFileType.GARFIASXmlComplete);
 }
 
 Console.WriteLine("Для выхода нажмите любую клавишу...");

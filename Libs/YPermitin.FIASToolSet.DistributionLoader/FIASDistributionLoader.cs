@@ -2,9 +2,11 @@ using YPermitin.FIASToolSet.DistributionBrowser;
 using YPermitin.FIASToolSet.DistributionBrowser.Enums;
 using YPermitin.FIASToolSet.DistributionBrowser.Models;
 using YPermitin.FIASToolSet.DistributionLoader.Exceptions;
+using YPermitin.FIASToolSet.DistributionLoader.Models;
 using YPermitin.FIASToolSet.DistributionReader;
-using YPermitin.FIASToolSet.Storage.Core.Models;
 using YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs;
+using YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData;
+using YPermitin.FIASToolSet.Storage.Core.Models.Versions;
 using YPermitin.FIASToolSet.Storage.Core.Services;
 
 namespace YPermitin.FIASToolSet.DistributionLoader;
@@ -15,6 +17,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     private readonly IFIASInstallationManagerRepository _fiasInstallationManagerService;
     private readonly IFIASBaseCatalogsRepository _fiasBaseCatalogsRepository;
     private readonly IFIASMaintenanceRepository _fiasMaintenanceService;
+    private readonly IFIASClassifierDataRepository _classifierDataRepository;
     
     private FIASVersionInstallation _installation;
     private string _distributionDirectory;
@@ -22,18 +25,21 @@ public class FIASDistributionLoader : IFIASDistributionLoader
 
     public FIASVersionInstallation VersionInstallation => _installation;
 
+    public FIASDistributionInfo Distribution { get; private set; }
     public FIASVersion CurrentVersion { get; private set; }
 
     public FIASDistributionLoader(
         IFIASDistributionBrowser fiasDistributionBrowser,
         IFIASInstallationManagerRepository fiasInstallationManagerService, 
         IFIASBaseCatalogsRepository fiasBaseCatalogsRepository, 
-        IFIASMaintenanceRepository fiasMaintenanceService)
+        IFIASMaintenanceRepository fiasMaintenanceService,
+        IFIASClassifierDataRepository classifierDataRepository)
     {
         _fiasDistributionBrowser = fiasDistributionBrowser;
         _fiasInstallationManagerService = fiasInstallationManagerService;
         _fiasBaseCatalogsRepository = fiasBaseCatalogsRepository;
         _fiasMaintenanceService = fiasMaintenanceService;
+        _classifierDataRepository = classifierDataRepository;
     }
 
     public async Task<bool> ActiveInstallationExists()
@@ -83,6 +89,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         _distributionReader = null;
         _installation = null;
         CurrentVersion = null;
+        Distribution = null;
         
         if (preparedInstallations.Any())
         {
@@ -110,17 +117,116 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         // 1.1.3. Получаем все дистрибутивы ФИАС, доступные через API и среди них находим нужных объект
         var allDistributions = await _fiasDistributionBrowser.GetAllDistributionInfo();
         var distribution = allDistributions.First(e => e.VersionId == lastFIASVersionInfo.VersionId);
+        Distribution = distribution;
+        
         // 1.1.4 Скачиваем нужный файл дистрибутива
         DistributionFileType distributionFileType;
         if (_installation.InstallationTypeId == FIASVersionInstallationType.Full)
             distributionFileType = DistributionFileType.GARFIASXmlComplete;
         else
             distributionFileType = DistributionFileType.GARFIASXmlDelta;
-        await distribution.DownloadDistributionByFileTypeAsync(distributionFileType, onDownloadFileProgressChangedEvent);
+        await Distribution.DownloadDistributionByFileTypeAsync(distributionFileType, onDownloadFileProgressChangedEvent);
 
         // 2. Распаковываем файлы базовых справочников (если уже были ранее распакованы, то повторяем операцию)
-        distribution.ExtractDistributionFile(distributionFileType, true);
-        _distributionDirectory = distribution.GetExtractedDirectory(distributionFileType);
+        distribution.ExtractDistributionFile(distributionFileType);
+        _distributionDirectory = Distribution.GetExtractedDirectory(distributionFileType);
+    }
+
+    /// <summary>
+    /// Удалениие архива данных для версии ФИАС
+    /// </summary>
+    public void RemoveVersionDataArchive()
+    {
+        DistributionFileType distributionFileType;
+        if (_installation.InstallationTypeId == FIASVersionInstallationType.Full)
+            distributionFileType = DistributionFileType.GARFIASXmlComplete;
+        else
+            distributionFileType = DistributionFileType.GARFIASXmlDelta;
+        
+        Distribution.RemoveVersionDataArchive(distributionFileType);
+    }
+
+    /// <summary>
+    /// Удаление каталога данных для версии ФИАС
+    /// </summary>
+    public void RemoveVersionDataDirectory()
+    {
+        if (Directory.Exists(_distributionDirectory))
+        {
+            Directory.Delete(_distributionDirectory, true);
+        }
+    }
+
+    /// <summary>
+    /// Получает список кодов регионов, доступных для распаковки данных и загрузки
+    /// </summary>
+    /// <returns>Коллекция доступных регионов</returns>
+    public List<Region> GetAvailableRegions()
+    {
+        DistributionFileType distributionFileType;
+        if (_installation.InstallationTypeId == FIASVersionInstallationType.Full)
+            distributionFileType = DistributionFileType.GARFIASXmlComplete;
+        else
+            distributionFileType = DistributionFileType.GARFIASXmlDelta;
+        
+        var availableRegions = Distribution.GetAvailableRegions(distributionFileType)
+            .Select(e => new Region(int.Parse(e)))
+            .ToList();
+
+        return availableRegions;
+    }
+    
+    /// <summary>
+    /// Распаковка данных для указанного региона
+    /// </summary>
+    /// <param name="region">Регион для распаковки данных</param>
+    /// <returns>Путь к каталогу с данными по региону</returns>
+    /// <exception cref="RegionNotFoundException">Регион с указанным кодом не найден</exception>
+    public string ExtractDataForRegion(Region region)
+    {
+        DistributionFileType distributionFileType;
+        if (_installation.InstallationTypeId == FIASVersionInstallationType.Full)
+            distributionFileType = DistributionFileType.GARFIASXmlComplete;
+        else
+            distributionFileType = DistributionFileType.GARFIASXmlDelta;
+        
+        var availableRegions = Distribution.GetAvailableRegions(distributionFileType);
+        var regionItem = availableRegions.FirstOrDefault(e => e == region.Code.ToString());
+        if (regionItem == null)
+        {
+            throw new RegionNotFoundException(
+                $"Не найден регион с кодом \"{region}\" среди достпных регионов в дистрибутиве ФИАС.",
+                region.ToString());
+        }
+        
+        Distribution.ExtractDistributionRegionFiles(distributionFileType, region.Code.ToString());
+
+        return GetDataDirectoryForRegion(region);
+    }
+
+    /// <summary>
+    /// Полусение пути к каталогу с данными региона
+    /// </summary>
+    /// <param name="region">Регион для распаковки данных</param>
+    /// <returns>Путь к каталогу с данными по региону</returns>
+    public string GetDataDirectoryForRegion(Region region)
+    {
+        return Path.Combine(_distributionDirectory, region.Code.ToString());
+    }
+
+    /// <summary>
+    /// Удаление каталога с данными классификатора по региону
+    /// </summary>
+    /// <param name="region">Регион для удаления каталога данных</param>
+    public void RemoveDistributionRegionDirectory(Region region)
+    {
+        DistributionFileType distributionFileType;
+        if (_installation.InstallationTypeId == FIASVersionInstallationType.Full)
+            distributionFileType = DistributionFileType.GARFIASXmlComplete;
+        else
+            distributionFileType = DistributionFileType.GARFIASXmlDelta;
+        
+        Distribution.RemoveDistributionRegionDirectory(distributionFileType, region.Code.ToString());
     }
     
     public async Task SetInstallationToStatusNew()
@@ -148,6 +254,8 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         await _fiasInstallationManagerService.SaveAsync();
     }
 
+    #region BaseCatalogs
+    
     public async Task LoadAddressObjectTypes()
     {
         var fiasDistributionReader = GetDistributionReader();
@@ -185,7 +293,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             }
         }
 
-        await _fiasBaseCatalogsRepository.SaveWithIdentityInsertAsync<AddressObjectType>();
+        await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
     public async Task LoadApartmentTypes()
@@ -225,7 +333,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             }
         }
                 
-        await _fiasBaseCatalogsRepository.SaveWithIdentityInsertAsync<ApartmentType>();
+        await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
     public async Task LoadHouseTypes()
@@ -265,7 +373,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             }
         }
                 
-        await _fiasBaseCatalogsRepository.SaveWithIdentityInsertAsync<HouseType>();
+        await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
     public async Task LoadNormativeDocKinds()
@@ -275,9 +383,6 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         var fiasNormativeDocKinds = fiasDistributionReader.GetNormativeDocKinds();
         foreach (var fiasNormativeDocKind in fiasNormativeDocKinds)
         {
-            if(fiasNormativeDocKind.Id == 0)
-                continue;
-                    
             var normativeDocKind = await _fiasBaseCatalogsRepository.GetNormativeDocKind(fiasNormativeDocKind.Id);
             if (normativeDocKind == null)
             {
@@ -302,7 +407,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             }
         }
                 
-        await _fiasBaseCatalogsRepository.SaveWithIdentityInsertAsync<NormativeDocKind>();
+        await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
     public async Task LoadNormativeDocTypes()
@@ -312,9 +417,6 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         var fiasNormativeDocTypes = fiasDistributionReader.GetNormativeDocTypes();
         foreach (var fiasNormativeDocType in fiasNormativeDocTypes)
         {
-            if(fiasNormativeDocType.Id == 0)
-                continue;
-                    
             var normativeDocType = await _fiasBaseCatalogsRepository.GetNormativeDocType(fiasNormativeDocType.Id);
             if (normativeDocType == null)
             {
@@ -341,7 +443,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             }
         }
                 
-        await _fiasBaseCatalogsRepository.SaveWithIdentityInsertAsync<NormativeDocType>();
+        await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
     public async Task LoadObjectLevels()
@@ -379,7 +481,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             }
         }
                 
-        await _fiasBaseCatalogsRepository.SaveWithIdentityInsertAsync<ObjectLevel>();
+        await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
     public async Task LoadOperationTypes()
@@ -389,9 +491,6 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         var fiasOperationTypes = fiasDistributionReader.GetOperationTypes();
         foreach (var fiasOperationType in fiasOperationTypes)
         {
-            if(fiasOperationType.Id == 0)
-                continue;
-                    
             var operationType = await _fiasBaseCatalogsRepository.GetOperationType(fiasOperationType.Id);
             if (operationType == null)
             {
@@ -420,7 +519,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             }
         }
                 
-        await _fiasBaseCatalogsRepository.SaveWithIdentityInsertAsync<OperationType>();
+        await _fiasBaseCatalogsRepository.SaveAsync();
     }
 
     public async Task LoadParameterTypes()
@@ -430,9 +529,6 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         var fiasParameterTypes = fiasDistributionReader.GetParameterTypes();
         foreach (var fiasParameterType in fiasParameterTypes)
         {
-            if (fiasParameterType.Id == 0)
-                continue;
-
             var parameterType = await _fiasBaseCatalogsRepository.GetParameterType(fiasParameterType.Id);
             if (parameterType == null)
             {
@@ -463,7 +559,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             }
         }
 
-        await _fiasBaseCatalogsRepository.SaveWithIdentityInsertAsync<ParameterType>();
+        await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
     public async Task LoadRoomTypes()
@@ -473,9 +569,6 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         var fiasRoomTypes = fiasDistributionReader.GetRoomTypes();
         foreach (var fiasRoomType in fiasRoomTypes)
         {
-            if(fiasRoomType.Id == 0)
-                continue;
-                    
             var roomType = await _fiasBaseCatalogsRepository.GetRoomType(fiasRoomType.Id);
             if (roomType == null)
             {
@@ -505,8 +598,81 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             }
         }
                 
-        await _fiasBaseCatalogsRepository.SaveWithIdentityInsertAsync<RoomType>();
+        await _fiasBaseCatalogsRepository.SaveAsync();
     }
+    
+    #endregion
+
+    #region ClassifierData
+
+    /// <summary>
+    /// Загрузка адресных объектов по региону
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных адресных объектов</param>
+    public async Task LoadAddressObjects(Region region)
+    {
+        var fiasDistributionReader = GetDistributionReader();
+        var fiasDistributionRegion = fiasDistributionReader
+            .GetRegions()
+            .FirstOrDefault(e => e.Code == region.Code);
+        if (fiasDistributionRegion == null)
+        {
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+        }
+
+        var fiasAddressObjects = fiasDistributionReader.GetAddressObjects(fiasDistributionRegion);
+
+        int currentPortionToSave = 0;
+        foreach (var fiasAddressObject in fiasAddressObjects)
+        {
+            var addressObject = await _classifierDataRepository.GetAddressObject(fiasAddressObject.Id);
+            if (addressObject == null)
+            {
+                addressObject = new AddressObject();
+                addressObject.Id = fiasAddressObject.Id;
+                _classifierDataRepository.AddAddressObject(addressObject);
+            }
+            else
+            {
+                _classifierDataRepository.UpdateAddressObject(addressObject);
+            }
+
+            addressObject.StartDate = fiasAddressObject.StartDate.ToDateTime(TimeOnly.MinValue);
+            addressObject.ObjectId = fiasAddressObject.ObjectId;
+            addressObject.ObjectGuid = fiasAddressObject.ObjectGuid;
+            addressObject.ChangeId = fiasAddressObject.ChangeId;
+            addressObject.Name = fiasAddressObject.Name;
+            addressObject.TypeName = fiasAddressObject.TypeName;
+            addressObject.LevelId = fiasAddressObject.LevelId;
+            addressObject.OperationTypeId = fiasAddressObject.OperationTypeId;
+            addressObject.PreviousAddressObjectId = fiasAddressObject.PreviousAddressObjectId == 0
+                ? null
+                : fiasAddressObject.PreviousAddressObjectId;
+            addressObject.NextAddressObjectId = fiasAddressObject.NextAddressObjectId == 0
+                ? null
+                : fiasAddressObject.NextAddressObjectId;
+            addressObject.UpdateDate = fiasAddressObject.UpdateDate.ToDateTime(TimeOnly.MinValue);
+            addressObject.EndDate = fiasAddressObject.EndDate.ToDateTime(TimeOnly.MinValue);
+            addressObject.IsActual = fiasAddressObject.IsActual;
+            addressObject.IsActive = fiasAddressObject.IsActive;
+
+            currentPortionToSave += 1;
+
+            if (currentPortionToSave >= 1000)
+            {
+                await _fiasBaseCatalogsRepository.SaveAsync();
+                currentPortionToSave = 0;
+            }
+        }
+
+        if (currentPortionToSave > 0)
+        {
+            await _fiasBaseCatalogsRepository.SaveAsync();
+            currentPortionToSave = 0;
+        }
+    }
+
+    #endregion
     
     private IFIASDistributionReader GetDistributionReader()
     {

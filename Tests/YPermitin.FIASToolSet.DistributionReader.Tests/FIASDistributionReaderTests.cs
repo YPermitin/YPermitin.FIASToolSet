@@ -43,6 +43,19 @@ public class Tests
     }
     
     [Test]
+    public void GetRegions()
+    {
+        FIASDistributionReader reader = new FIASDistributionReader(_workingDirectory);
+
+        var availableRegions = reader.GetRegions();
+
+        Assert.NotNull(availableRegions);
+        Assert.True(availableRegions.Count > 0);
+    }
+
+    #region BaseCatalogs
+    
+    [Test]
     public void GetNormativeDocKindsTest()
     {
         FIASDistributionReader reader = new FIASDistributionReader(_workingDirectory);
@@ -224,4 +237,34 @@ public class Tests
         Assert.AreEqual(new DateOnly(2018, 6, 15), allItems[0].UpdateDate);
         Assert.AreEqual(true, allItems[0].IsActive);
     }
+    
+    #endregion
+
+    #region ClassifierData
+
+    [Test]
+    public void GetAddressObjectsTest()
+    {
+        FIASDistributionReader reader = new FIASDistributionReader(_workingDirectory);
+
+        var regions = reader.GetRegions();
+        var testRegion = regions.First();
+        var collection = reader.GetAddressObjects(testRegion);
+        var allItems = collection.ToList();
+
+        Assert.NotNull(allItems);
+        Assert.IsNotEmpty(allItems);
+        Assert.AreEqual(7, allItems.Count);
+        
+        Assert.AreEqual(1937556, allItems[0].Id);
+        Assert.AreEqual("Белая", allItems[0].Name);
+        Assert.AreEqual("ул", allItems[0].TypeName);
+        Assert.AreEqual(new DateOnly(2022, 1, 13), allItems[0].StartDate);
+        Assert.AreEqual(new DateOnly(2079, 6, 6), allItems[0].EndDate);
+        Assert.AreEqual(new DateOnly(2022, 1, 13), allItems[0].UpdateDate);
+        Assert.AreEqual(true, allItems[0].IsActive);
+        Assert.AreEqual(true, allItems[0].IsActual);
+    }
+
+    #endregion
 }

@@ -179,6 +179,12 @@
              Удаляет рабочий каталог версии дистрибутива со всеми вложенными файлами.
              </summary>
         </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.RemoveVersionDataArchive(YPermitin.FIASToolSet.DistributionBrowser.Enums.DistributionFileType)">
+            <summary>
+            Удаление файла архива с данными версии дистрибутива ФИАС
+            </summary>
+            <param name="fileType">Тип файла дистрибутива</param>
+        </member>
         <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.DownloadDistributionByFileTypeAsync(YPermitin.FIASToolSet.DistributionBrowser.Enums.DistributionFileType,System.Action{YPermitin.FIASToolSet.DistributionBrowser.Models.DownloadDistributionFileProgressChangedEventArgs})">
             <summary>
             Скачивание файла дистрибутивая по типу
@@ -205,13 +211,32 @@
             <param name="fileType">Тип файла дистрибутива</param>
             <returns>Путь к каталогу для распаковки архива дистрибутива</returns>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.ExtractDistributionFile(YPermitin.FIASToolSet.DistributionBrowser.Enums.DistributionFileType,System.Boolean,System.String[])">
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.ExtractDistributionFile(YPermitin.FIASToolSet.DistributionBrowser.Enums.DistributionFileType,System.Boolean)">
             <summary>
-            Распаковка архива с файлами дистрибутива
+            Распаковка архива с файлами дистрибутива только по базовым справочникам и корневым файлам.
+            
+            ВНИМАНИЕ!!! Перед распаковкой каталог назначения полностью очищается.
+            Если ранее в нем были уже распакованы данные, в т.ч. по регионам, то они будут удалены.
+            
+            Данные по регионам не распаковываются.
             </summary>
             <param name="fileType">Тип файла дистрибутива</param>
-            <param name="onlyBaseFiles">Распаковать только базовые файлы (файлы по регионам не будут распакованы)</param>
-            <param name="regions">Массив кодов регионов для распаковки</param>
+            <param name="removeOldData">Удаление старых данных в каталоге назначения перед распаковкой</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.ExtractDistributionRegionFiles(YPermitin.FIASToolSet.DistributionBrowser.Enums.DistributionFileType,System.String,System.Boolean)">
+            <summary>
+            Распаковка данных архива по указанному региону
+            </summary>
+            <param name="fileType">Тип файла дистрибутива</param>
+            <param name="region">Код региона для распаковки</param>
+            <param name="removeOldData">Удаление старых данных в каталоге назначения перед распаковкой</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.RemoveDistributionRegionDirectory(YPermitin.FIASToolSet.DistributionBrowser.Enums.DistributionFileType,System.String)">
+            <summary>
+            Удаление каталога с распакованными данными по региону
+            </summary>
+            <param name="fileType">Тип файла дистрибутива</param>
+            <param name="region">Код региона для распаковки</param>
         </member>
         <member name="T:YPermitin.FIASToolSet.DistributionBrowser.Models.FIASDistributionInfo.DistributionFileFormatInfo">
             <summary>

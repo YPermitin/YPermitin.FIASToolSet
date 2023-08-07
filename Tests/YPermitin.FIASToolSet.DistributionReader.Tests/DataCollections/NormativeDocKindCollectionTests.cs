@@ -2,6 +2,7 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using YPermitin.FIASToolSet.DistributionReader.DataCollections;
+using YPermitin.FIASToolSet.DistributionReader.DataCollections.BaseCatalogs;
 
 namespace YPermitin.FIASToolSet.DistributionReader.Tests.DataCollections;
 

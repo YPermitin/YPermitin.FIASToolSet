@@ -22,6 +22,7 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL
             services.AddScoped<IFIASMaintenanceRepository, FIASMaintenanceRepository>();
             services.AddScoped<IFIASInstallationManagerRepository, FIASInstallationManagerRepository>();
             services.AddScoped<IFIASBaseCatalogsRepository, FIASBaseCatalogsRepository>();
+            services.AddScoped<IFIASClassifierDataRepository, FIASClassifierDataRepository>();
         }
     }
 }

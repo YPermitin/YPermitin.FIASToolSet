@@ -35,4 +35,8 @@
     <ProjectReference Include="..\YPermitin.FIASToolSet.Storage.Core\YPermitin.FIASToolSet.Storage.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

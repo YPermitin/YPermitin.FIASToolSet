@@ -1,5 +1,10 @@
-﻿using YPermitin.FIASToolSet.DistributionReader.DataCollections;
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
+using YPermitin.FIASToolSet.DistributionReader.DataCollections.BaseCatalogs;
+using YPermitin.FIASToolSet.DistributionReader.DataCollections.ClassifierData;
 using YPermitin.FIASToolSet.DistributionReader.Exceptions;
+using YPermitin.FIASToolSet.DistributionReader.Models;
+using YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData;
 
 namespace YPermitin.FIASToolSet.DistributionReader;
 
@@ -55,11 +60,17 @@ public class FIASDistributionReader : IFIASDistributionReader
         {
             FileSearchPattern = "AS_PARAM_TYPES_*.XML",
             ErrorMessage = "Не обнаружен файл с информацией о типах параметров."
+        }},
+        { typeof(AddressObjectCollection), new CollectionInfo()
+        {
+            FileSearchPatternRegex = "AS_ADDR_OBJ_\\d\\d\\d\\d\\d\\d\\d\\d*.+XML",
+            ErrorMessage = "Не обнаружен файл с информацией об адресных объектах."
         }}
     };
     private class CollectionInfo
     {
         public string FileSearchPattern;
+        public string FileSearchPatternRegex;
         public string ErrorMessage;
     }
     
@@ -117,6 +128,29 @@ public class FIASDistributionReader : IFIASDistributionReader
             throw exceptionObject;
         }
     }
+
+    public List<Region> GetRegions()
+    {
+        var allRegions = new List<Region>();
+        
+        var regionDirectories = Directory.GetDirectories(
+            _workingDirectory, 
+            "*", 
+            SearchOption.TopDirectoryOnly);
+        foreach (var regionDirectory in regionDirectories)
+        {
+            var regionDirectoryInfo = new DirectoryInfo(regionDirectory);
+            if (int.TryParse(regionDirectoryInfo.Name, NumberStyles.Number, CultureInfo.InvariantCulture,
+                    out int regionCode))
+            {
+                allRegions.Add(new Region(regionCode));
+            }
+        }
+
+        return allRegions;
+    }
+    
+    #region BaseCatalogs
     
     /// <summary>
     /// Получение коллекции видов нормативных документов
@@ -208,17 +242,55 @@ public class FIASDistributionReader : IFIASDistributionReader
         return GetInternalCollection<ParameterTypeCollection>();
     }
     
-    private T GetInternalCollection<T>()
+    #endregion
+
+    #region ClassifierData
+
+    /// <summary>
+    /// Получение коллекции адресных объектов
+    /// </summary>
+    /// <returns>Коллекция адресных объектов</returns>
+    /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
+    public AddressObjectCollection GetAddressObjects(Region region)
+    {
+        return GetInternalCollection<AddressObjectCollection>(region);
+    }
+
+    #endregion
+    
+    private T GetInternalCollection<T>(Region region = null)
     {
         if (_collectionsInfoByType.TryGetValue(typeof(T), out CollectionInfo collectionInfo))
         {
+            string workingDirectory;
+            if (region == null)
+                workingDirectory = _workingDirectory;
+            else
+                workingDirectory = Path.Combine(_workingDirectory, region.Code.ToString());
+            
             string dataFile;
-            var foundFiles = Directory.GetFiles(_workingDirectory, collectionInfo.FileSearchPattern);
+            string[] foundFiles;
+            if(collectionInfo.FileSearchPattern != null)
+                foundFiles = Directory.GetFiles(workingDirectory, collectionInfo.FileSearchPattern);
+            else if (collectionInfo.FileSearchPatternRegex != null)
+            {
+                foundFiles = Directory.GetFiles(workingDirectory)
+                    .Where(e =>
+                    {
+                        var fileDataInfo = new FileInfo(e);
+                        return Regex.IsMatch(fileDataInfo.Name, collectionInfo.FileSearchPatternRegex);
+                    })
+                    .ToArray();
+            }
+            else
+            {
+                foundFiles = Array.Empty<string>();
+            }
             if (foundFiles.Length == 1)
             {
                 FileInfo foundFileInfo = new FileInfo(foundFiles[0]);
                 dataFile = Path.Combine(
-                    _workingDirectory,
+                    workingDirectory,
                     foundFileInfo.Name
                 );
             }
