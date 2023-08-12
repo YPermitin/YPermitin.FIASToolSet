@@ -660,18 +660,70 @@ public class FIASDistributionLoader : IFIASDistributionLoader
 
             if (currentPortionToSave >= 1000)
             {
-                await _fiasBaseCatalogsRepository.SaveAsync();
+                await _classifierDataRepository.SaveAsync();
                 currentPortionToSave = 0;
             }
         }
 
         if (currentPortionToSave > 0)
         {
-            await _fiasBaseCatalogsRepository.SaveAsync();
+            await _classifierDataRepository.SaveAsync();
             currentPortionToSave = 0;
         }
     }
 
+    /// <summary>
+    /// Загрузка информации о переподчинении адресных объектов
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о переодчинении адресных объектов</param>
+    public async Task LoadAddressObjectDivisions(Region region)
+    {
+        var fiasDistributionReader = GetDistributionReader();
+        var fiasDistributionRegion = fiasDistributionReader
+            .GetRegions()
+            .FirstOrDefault(e => e.Code == region.Code);
+        if (fiasDistributionRegion == null)
+        {
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+        }
+
+        var fiasAddressObjectDivisions = fiasDistributionReader.GetAddressObjectDivisions(fiasDistributionRegion);
+
+        int currentPortionToSave = 0;
+        foreach (var fiasAddressObjectDivision in fiasAddressObjectDivisions)
+        {
+            var addressObjectDivision = await _classifierDataRepository.GetAddressObjectDivision(fiasAddressObjectDivision.Id);
+            if (addressObjectDivision == null)
+            {
+                addressObjectDivision = new AddressObjectDivision();
+                addressObjectDivision.Id = fiasAddressObjectDivision.Id;
+                _classifierDataRepository.AddAddressObjectDivision(addressObjectDivision);
+            }
+            else
+            {
+                _classifierDataRepository.UpdateAddressObjectDivision(addressObjectDivision);
+            }
+
+            addressObjectDivision.ParentId = fiasAddressObjectDivision.ParentId;
+            addressObjectDivision.ChildId = fiasAddressObjectDivision.ChildId;
+            addressObjectDivision.ChangeId = fiasAddressObjectDivision.ChangeId;
+
+            currentPortionToSave += 1;
+
+            if (currentPortionToSave >= 1000)
+            {
+                await _classifierDataRepository.SaveAsync();
+                currentPortionToSave = 0;
+            }
+        }
+
+        if (currentPortionToSave > 0)
+        {
+            await _classifierDataRepository.SaveAsync();
+            currentPortionToSave = 0;
+        }
+    }
+    
     #endregion
     
     private IFIASDistributionReader GetDistributionReader()

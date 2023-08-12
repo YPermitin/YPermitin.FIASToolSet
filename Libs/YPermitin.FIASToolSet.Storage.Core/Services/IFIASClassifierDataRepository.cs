@@ -15,6 +15,17 @@ public interface IFIASClassifierDataRepository
 
     #endregion
     
+    #region AddressObjectDivision
+
+    Task<List<AddressObjectDivision>> GetAddressObjectDivisions();
+    Task<AddressObjectDivision> GetAddressObjectDivision(int id);
+    Task<bool> AddressObjectDivisionExists(int id);
+    void AddAddressObjectDivision(AddressObjectDivision objectLevel);
+    void UpdateAddressObjectDivision(AddressObjectDivision objectLevel);
+    void RemoveAddressObjectDivision(AddressObjectDivision objectLevel);
+
+    #endregion
+    
     Task<bool> BeginTransactionAsync();
     Task CommitTransactionAsync();
     Task RollbackTransactionAsync();

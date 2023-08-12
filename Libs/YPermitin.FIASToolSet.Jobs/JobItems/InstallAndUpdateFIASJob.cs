@@ -134,8 +134,9 @@ public class InstallAndUpdateFIASJob : IJob
                 foreach (var availableRegion in availableRegions)
                 {
                     loader.ExtractDataForRegion(availableRegion);
-
+                    
                     await loader.LoadAddressObjects(availableRegion);
+                    await loader.LoadAddressObjectDivisions(availableRegion);
 
                     if (_removeExtractedDistributionFiles)
                     {

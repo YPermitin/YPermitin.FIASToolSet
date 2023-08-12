@@ -142,6 +142,31 @@
             Признак действующего адресного объекта
             </summary>
         </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObjectDivision">
+            <summary>
+            Переподчинение адресных объектов
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObjectDivision.Id">
+            <summary>
+            Уникальный идентификатор записи.
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObjectDivision.ParentId">
+            <summary>
+            Глобальный уникальный идентификатор родительского адресного объекта 
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObjectDivision.ChildId">
+            <summary>
+            Глобальный уникальный идентификатор дочернего адресного объекта
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObjectDivision.ChangeId">
+            <summary>
+            ID изменившей транзакции
+            </summary>
+        </member>
         <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.Notifications.NotificationQueue">
             <summary>
             Элемент уведомления в общей очереди

@@ -265,6 +265,26 @@ public class Tests
         Assert.AreEqual(true, allItems[0].IsActive);
         Assert.AreEqual(true, allItems[0].IsActual);
     }
+    
+    [Test]
+    public void GetAddressObjectDivisionsTest()
+    {
+        FIASDistributionReader reader = new FIASDistributionReader(_workingDirectory);
+
+        var regions = reader.GetRegions();
+        var testRegion = regions.First();
+        var collection = reader.GetAddressObjectDivisions(testRegion);
+        var allItems = collection.ToList();
+
+        Assert.NotNull(allItems);
+        Assert.IsNotEmpty(allItems);
+        Assert.AreEqual(180, allItems.Count);
+        
+        Assert.AreEqual(8565, allItems[0].Id);
+        Assert.AreEqual(1308258, allItems[0].ParentId);
+        Assert.AreEqual(1308331, allItems[0].ChildId);
+        Assert.AreEqual(3581246, allItems[0].ChangeId);
+    }
 
     #endregion
 }

@@ -65,6 +65,11 @@ public class FIASDistributionReader : IFIASDistributionReader
         {
             FileSearchPatternRegex = "AS_ADDR_OBJ_\\d\\d\\d\\d\\d\\d\\d\\d*.+XML",
             ErrorMessage = "Не обнаружен файл с информацией об адресных объектах."
+        }},
+        { typeof(AddressObjectDivisionCollection), new CollectionInfo()
+        {
+            FileSearchPatternRegex = "AS_ADDR_OBJ_DIVISION_\\d\\d\\d\\d\\d\\d\\d\\d*.+XML",
+            ErrorMessage = "Не обнаружен файл с информацией о переподчинении адресных объектах."
         }}
     };
     private class CollectionInfo
@@ -254,6 +259,16 @@ public class FIASDistributionReader : IFIASDistributionReader
     public AddressObjectCollection GetAddressObjects(Region region)
     {
         return GetInternalCollection<AddressObjectCollection>(region);
+    }
+    
+    /// <summary>
+    /// Получение коллекции объектов с информацией о переподчинении адресных объектов
+    /// </summary>
+    /// <returns>Коллекция элементов с информацией о переподчинении адресных объектов</returns>
+    /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
+    public AddressObjectDivisionCollection GetAddressObjectDivisions(Region region)
+    {
+        return GetInternalCollection<AddressObjectDivisionCollection>(region);
     }
 
     #endregion

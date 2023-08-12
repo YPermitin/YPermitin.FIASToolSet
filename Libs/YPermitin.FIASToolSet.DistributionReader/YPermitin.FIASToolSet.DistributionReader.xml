@@ -88,6 +88,13 @@
             <returns>Коллекция адресных объектов</returns>
             <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось файл с данными</exception>
         </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionReader.FIASDistributionReader.GetAddressObjectDivisions(YPermitin.FIASToolSet.DistributionReader.Models.Region)">
+            <summary>
+            Получение коллекции объектов с информацией о переподчинении адресных объектов
+            </summary>
+            <returns>Коллекция элементов с информацией о переподчинении адресных объектов</returns>
+            <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось файл с данными</exception>
+        </member>
         <member name="M:YPermitin.FIASToolSet.DistributionReader.IFIASDistributionReader.GetVersionAsString">
             <summary>
             Получение версии дистрибутива ФИАС в строковм виде
@@ -176,6 +183,13 @@
             Получение коллекции адресных объектов
             </summary>
             <returns>Коллекция адресных объектов</returns>
+            <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось файл с данными</exception>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionReader.IFIASDistributionReader.GetAddressObjectDivisions(YPermitin.FIASToolSet.DistributionReader.Models.Region)">
+            <summary>
+            Получение коллекции объектов с информацией о переподчинении адресных объектов
+            </summary>
+            <returns>Коллекция элементов с информацией о переподчинении адресных объектов</returns>
             <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось файл с данными</exception>
         </member>
         <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.BaseCatalogs.AddressObjectType">
@@ -304,6 +318,31 @@
         <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObject.IsActive">
             <summary>
             Признак действующего адресного объекта
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObjectDivision">
+            <summary>
+            Переподчинение адресных объектов
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObjectDivision.Id">
+            <summary>
+            Уникальный идентификатор записи.
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObjectDivision.ParentId">
+            <summary>
+            Глобальный уникальный идентификатор родительского адресного объекта 
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObjectDivision.ChildId">
+            <summary>
+            Глобальный уникальный идентификатор дочернего адресного объекта
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObjectDivision.ChangeId">
+            <summary>
+            ID изменившей транзакции
             </summary>
         </member>
         <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.Region">
