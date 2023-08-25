@@ -47,6 +47,12 @@
             </summary>
             <param name="region">Регион для загрузки данных адресных объектов</param>
         </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadAddressObjectDivisions(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о переподчинении адресных объектов
+            </summary>
+            <param name="region">Регион для загрузки данных о переодчинении адресных объектов</param>
+        </member>
         <member name="P:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.VersionInstallation">
             <summary>
             Информация о версии ФИАС, для которой выполняется операций установки / обновления
@@ -193,6 +199,12 @@
             Загрузка адресных объектов по региону
             </summary>
             <param name="region">Регион для загрузки данных адресных объектов</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadAddressObjectDivisions(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о переподчинении адресных объектов
+            </summary>
+            <param name="region">Регион для загрузки данных о переодчинении адресных объектов</param>
         </member>
         <member name="T:YPermitin.FIASToolSet.DistributionLoader.Models.Region">
             <summary>

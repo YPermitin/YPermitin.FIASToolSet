@@ -1,0 +1,39 @@
+version: '3'
+
+networks:
+  fiastoolset-network:
+    driver: bridge
+
+services: 
+  api:
+    build: .
+    restart: always
+    ports:
+      - "15000:5000"
+    depends_on:
+      - db
+    networks:
+      - fiastoolset-network
+    volumes:
+      - type: bind
+        source: ./fiastoolset-docker/api/appsettings.json
+        target: /app/appsettings.json
+      - ./fiastoolset-docker/fias-distributions:/tmp/FIASToolset
+  db:
+    image: postgres:latest
+    restart: always
+    env_file: ./env
+    networks:
+      - fiastoolset-network
+    volumes:
+      - ./fiastoolset-docker/db:/var/lib/postgresql/data
+      - ./Scripts/initdb_postgresql.sql:/docker-entrypoint-initdb.d/seed.sql        
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - fiastoolset-network

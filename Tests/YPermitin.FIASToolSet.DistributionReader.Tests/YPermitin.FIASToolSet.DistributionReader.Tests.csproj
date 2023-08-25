@@ -5,6 +5,7 @@
         <Nullable>disable</Nullable>
 
         <IsPackable>false</IsPackable>
+        <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
     </PropertyGroup>
 
     <ItemGroup>
@@ -52,10 +53,10 @@
       <None Update="SampleData\72\AS_ADDR_OBJ_20230710_70c6049e-98c4-4a95-8003-da5e882f4c98.XML">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <None Update="SampleData\72\AS_ADDR_OBJ_DIVISION_20230710_df399927-9aa8-4012-904f-f52390caad2f.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="SampleData\72\" />
-    </ItemGroup>
 
 </Project>

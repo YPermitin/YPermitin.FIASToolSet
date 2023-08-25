@@ -58,4 +58,52 @@ public class FIASClassifierDataRepository : CommonRepository, IFIASClassifierDat
     }
     
     #endregion
+    
+    #region AddressObjectDivision
+
+    public async Task<List<AddressObjectDivision>> GetAddressObjectDivisions()
+    {
+        var query = _context.FIASAddressObjectDivisions
+            .AsQueryable()
+            .AsNoTracking();
+
+        return await query.ToListAsync();
+    }
+
+    public async Task<AddressObjectDivision> GetAddressObjectDivision(int id)
+    {
+        var query = _context.FIASAddressObjectDivisions
+            .Where(e => e.Id == id)
+            .AsQueryable()
+            .AsNoTracking();
+
+        return await query.FirstOrDefaultAsync();
+    }
+
+    public async Task<bool> AddressObjectDivisionExists(int id)
+    {
+        var query = _context.FIASAddressObjectDivisions
+            .Where(e => e.Id == id)
+            .AsQueryable()
+            .AsNoTracking();
+
+        return await query.AnyAsync();
+    }
+
+    public void AddAddressObjectDivision(AddressObjectDivision addressObjectDivision)
+    {
+        _context.Entry(addressObjectDivision).State = EntityState.Added;
+    }
+
+    public void UpdateAddressObjectDivision(AddressObjectDivision addressObjectDivision)
+    {
+        _context.Entry(addressObjectDivision).State = EntityState.Modified;
+    }
+
+    public void RemoveAddressObjectDivision(AddressObjectDivision addressObjectDivision)
+    {
+        _context.Entry(addressObjectDivision).State = EntityState.Deleted;
+    }
+
+    #endregion
 }

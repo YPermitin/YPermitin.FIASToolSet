@@ -103,6 +103,13 @@ public interface IFIASDistributionReader
     /// <returns>Коллекция адресных объектов</returns>
     /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
     AddressObjectCollection GetAddressObjects(Region region);
-    
+
+    /// <summary>
+    /// Получение коллекции объектов с информацией о переподчинении адресных объектов
+    /// </summary>
+    /// <returns>Коллекция элементов с информацией о переподчинении адресных объектов</returns>
+    /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
+    AddressObjectDivisionCollection GetAddressObjectDivisions(Region region);
+
     #endregion
 }
