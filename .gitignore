@@ -351,3 +351,9 @@ MigrationBackup/
 
 # Config files
 **/appsettings.json
+
+# Environment files
+env
+
+# Special folder for deployed docker files
+fiastoolset-docker/

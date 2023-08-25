@@ -11,6 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		LICENSE = LICENSE
 		README.md = README.md
+		Dockerfile = Dockerfile
+		.dockerignore = .dockerignore
+		docker-compose.yml = docker-compose.yml
+		.gitignore = .gitignore
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{AAAACF02-36A1-446B-83B5-B2FDE594C273}"
@@ -40,6 +44,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YPermitin.FIASToolSet.DistributionReader.Tests", "Tests\YPermitin.FIASToolSet.DistributionReader.Tests\YPermitin.FIASToolSet.DistributionReader.Tests.csproj", "{F63B71FA-BD02-482B-89D3-E35EAD88BF15}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YPermitin.FIASToolSet.DistributionLoader", "Libs\YPermitin.FIASToolSet.DistributionLoader\YPermitin.FIASToolSet.DistributionLoader.csproj", "{6BB5B53C-485E-446B-B314-88D4DCBF0562}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{66D33445-CCB5-4C16-B661-34885A3E8B14}"
+	ProjectSection(SolutionItems) = preProject
+		Scripts\initdb_postgresql.sql = Scripts\initdb_postgresql.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -112,6 +121,7 @@ Global
 		{68921ADE-DF52-4157-BB05-3F9280DDA725} = {068FF229-56E5-4718-83EF-1D863CBE8F71}
 		{F63B71FA-BD02-482B-89D3-E35EAD88BF15} = {AAAACF02-36A1-446B-83B5-B2FDE594C273}
 		{6BB5B53C-485E-446B-B314-88D4DCBF0562} = {068FF229-56E5-4718-83EF-1D863CBE8F71}
+		{66D33445-CCB5-4C16-B661-34885A3E8B14} = {094619B1-0C76-41D0-AFBF-3C7560436577}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E8FCAA60-A495-45A3-95C8-405142F3203A}
