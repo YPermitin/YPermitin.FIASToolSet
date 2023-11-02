@@ -47,5 +47,10 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Services
                 await transaction.CommitAsync();
             }
         }
+
+        public void ClearChangeTracking()
+        {
+            _context.ChangeTracker.Clear();
+        }
     }
 }

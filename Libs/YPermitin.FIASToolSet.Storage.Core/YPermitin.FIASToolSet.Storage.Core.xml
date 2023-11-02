@@ -167,6 +167,56 @@
             ID изменившей транзакции
             </summary>
         </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObjectParameter">
+            <summary>
+            Параметры адресных объектов
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObjectParameter.Id">
+            <summary>
+            Идентификатор записи
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObjectParameter.ObjectId">
+            <summary>
+            Глобальный уникальный идентификатор адресного объекта
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObjectParameter.ChangeId">
+            <summary>
+            ID изменившей транзакции
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObjectParameter.ChangeIdEnd">
+            <summary>
+            ID завершившей транзакции
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObjectParameter.TypeId">
+            <summary>
+            Тип параметра
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObjectParameter.Value">
+            <summary>
+            Значение параметра
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObjectParameter.UpdateDate">
+            <summary>
+            Дата внесения (обновления) записи
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObjectParameter.StartDate">
+            <summary>
+            Начало действия записи
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObjectParameter.EndDate">
+            <summary>
+            Окончание действия записи
+            </summary>
+        </member>
         <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.Notifications.NotificationQueue">
             <summary>
             Элемент уведомления в общей очереди

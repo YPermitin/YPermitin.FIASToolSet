@@ -2,6 +2,7 @@ using YPermitin.FIASToolSet.DistributionBrowser;
 using YPermitin.FIASToolSet.DistributionBrowser.Enums;
 using YPermitin.FIASToolSet.DistributionBrowser.Models;
 using YPermitin.FIASToolSet.DistributionLoader.Exceptions;
+using YPermitin.FIASToolSet.DistributionLoader.Extensions;
 using YPermitin.FIASToolSet.DistributionLoader.Models;
 using YPermitin.FIASToolSet.DistributionReader;
 using YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs;
@@ -622,56 +623,25 @@ public class FIASDistributionLoader : IFIASDistributionLoader
 
         var fiasAddressObjects = fiasDistributionReader.GetAddressObjects(fiasDistributionRegion);
 
-        int currentPortionToSave = 0;
+        List<DistributionReader.Models.ClassifierData.AddressObject> currentPortion = 
+            new List<DistributionReader.Models.ClassifierData.AddressObject>();
+
         foreach (var fiasAddressObject in fiasAddressObjects)
         {
-            var addressObject = await _classifierDataRepository.GetAddressObject(fiasAddressObject.Id);
-            if (addressObject == null)
-            {
-                addressObject = new AddressObject();
-                addressObject.Id = fiasAddressObject.Id;
-                _classifierDataRepository.AddAddressObject(addressObject);
-            }
-            else
-            {
-                _classifierDataRepository.UpdateAddressObject(addressObject);
-            }
+            currentPortion.Add(fiasAddressObject);
 
-            addressObject.StartDate = fiasAddressObject.StartDate.ToDateTime(TimeOnly.MinValue);
-            addressObject.ObjectId = fiasAddressObject.ObjectId;
-            addressObject.ObjectGuid = fiasAddressObject.ObjectGuid;
-            addressObject.ChangeId = fiasAddressObject.ChangeId;
-            addressObject.Name = fiasAddressObject.Name;
-            addressObject.TypeName = fiasAddressObject.TypeName;
-            addressObject.LevelId = fiasAddressObject.LevelId;
-            addressObject.OperationTypeId = fiasAddressObject.OperationTypeId;
-            addressObject.PreviousAddressObjectId = fiasAddressObject.PreviousAddressObjectId == 0
-                ? null
-                : fiasAddressObject.PreviousAddressObjectId;
-            addressObject.NextAddressObjectId = fiasAddressObject.NextAddressObjectId == 0
-                ? null
-                : fiasAddressObject.NextAddressObjectId;
-            addressObject.UpdateDate = fiasAddressObject.UpdateDate.ToDateTime(TimeOnly.MinValue);
-            addressObject.EndDate = fiasAddressObject.EndDate.ToDateTime(TimeOnly.MinValue);
-            addressObject.IsActual = fiasAddressObject.IsActual;
-            addressObject.IsActive = fiasAddressObject.IsActive;
-
-            currentPortionToSave += 1;
-
-            if (currentPortionToSave >= 1000)
+            if (currentPortion.Count == 1000)
             {
-                await _classifierDataRepository.SaveAsync();
-                currentPortionToSave = 0;
+                await SaveAddressObjectsPortion(currentPortion);
             }
         }
 
-        if (currentPortionToSave > 0)
+        if (currentPortion.Count > 0)
         {
-            await _classifierDataRepository.SaveAsync();
-            currentPortionToSave = 0;
+            await SaveAddressObjectsPortion(currentPortion);
         }
     }
-
+    
     /// <summary>
     /// Загрузка информации о переподчинении адресных объектов
     /// </summary>
@@ -724,6 +694,42 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         }
     }
     
+    /// <summary>
+    /// Загрузка информации о параметрах адресных объектов
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о параметрах адресных объектов</param>
+    public async Task LoadAddressObjectParameters(Region region)
+    {
+        var fiasDistributionReader = GetDistributionReader();
+        var fiasDistributionRegion = fiasDistributionReader
+            .GetRegions()
+            .FirstOrDefault(e => e.Code == region.Code);
+        if (fiasDistributionRegion == null)
+        {
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+        }
+
+        var fiasAddressObjectParameters = fiasDistributionReader.GetAddressObjectParameters(fiasDistributionRegion);
+        
+        List<DistributionReader.Models.ClassifierData.AddressObjectParameter> currentPortion = 
+            new List<DistributionReader.Models.ClassifierData.AddressObjectParameter>();
+        
+        foreach (var fiasAddressObjectParameter in fiasAddressObjectParameters)
+        {
+            currentPortion.Add(fiasAddressObjectParameter);
+
+            if (currentPortion.Count == 1000)
+            {
+                await SaveAddressObjectParametersPortion(currentPortion);
+            }
+        }
+
+        if (currentPortion.Count > 0)
+        {
+            await SaveAddressObjectParametersPortion(currentPortion);
+        }
+    }
+    
     #endregion
     
     private IFIASDistributionReader GetDistributionReader()
@@ -737,5 +743,109 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             _distributionReader = new FIASDistributionReader(_distributionDirectory);
 
         return _distributionReader;
+    }
+    
+    private async Task SaveAddressObjectsPortion(List<DistributionReader.Models.ClassifierData.AddressObject> currentPortion)
+    {
+        DistributionReader.Models.ClassifierData.AddressObject fiasAddressObject;
+        var existsAddressObjects = await _classifierDataRepository
+            .GetAddressObjects(ids: currentPortion.Select(e => e.Id).ToList());
+
+        var itemsToProceed = currentPortion.AsQueryable()
+            .LeftJoin(existsAddressObjects.AsQueryable(),
+                o => o.Id,
+                i => i.Id,
+                (r) => new
+                {
+                    SourceItem = r.Outer,
+                    DatabaseItem = r.Inner
+                })
+            .ToList();
+
+        foreach (var itemToProceed in itemsToProceed)
+        {
+            AddressObject addressObject;
+            if (itemToProceed.DatabaseItem == null)
+            {
+                addressObject = new AddressObject();
+                addressObject.Id = itemToProceed.SourceItem.Id;
+                _classifierDataRepository.AddAddressObject(addressObject);
+            }
+            else
+            {
+                addressObject = itemToProceed.DatabaseItem;
+                _classifierDataRepository.UpdateAddressObject(addressObject);
+            }
+
+            addressObject.StartDate = itemToProceed.SourceItem.StartDate.ToDateTime(TimeOnly.MinValue);
+            addressObject.ObjectId = itemToProceed.SourceItem.ObjectId;
+            addressObject.ObjectGuid = itemToProceed.SourceItem.ObjectGuid;
+            addressObject.ChangeId = itemToProceed.SourceItem.ChangeId;
+            addressObject.Name = itemToProceed.SourceItem.Name;
+            addressObject.TypeName = itemToProceed.SourceItem.TypeName;
+            addressObject.LevelId = itemToProceed.SourceItem.LevelId;
+            addressObject.OperationTypeId = itemToProceed.SourceItem.OperationTypeId;
+            addressObject.PreviousAddressObjectId = itemToProceed.SourceItem.PreviousAddressObjectId == 0
+                ? null
+                : itemToProceed.SourceItem.PreviousAddressObjectId;
+            addressObject.NextAddressObjectId = itemToProceed.SourceItem.NextAddressObjectId == 0
+                ? null
+                : itemToProceed.SourceItem.NextAddressObjectId;
+            addressObject.UpdateDate = itemToProceed.SourceItem.UpdateDate.ToDateTime(TimeOnly.MinValue);
+            addressObject.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
+            addressObject.IsActual = itemToProceed.SourceItem.IsActual;
+            addressObject.IsActive = itemToProceed.SourceItem.IsActive;
+        }
+
+        await _classifierDataRepository.SaveAsync();
+        _classifierDataRepository.ClearChangeTracking();
+        currentPortion.Clear();
+    }
+    
+    private async Task SaveAddressObjectParametersPortion(List<DistributionReader.Models.ClassifierData.AddressObjectParameter> currentPortion)
+    {
+        DistributionReader.Models.ClassifierData.AddressObjectParameter fiasAddressObjectParameter;
+        var existsAddressObjectParameters = await _classifierDataRepository
+            .GetAddressObjectParameters(ids: currentPortion.Select(e => e.Id).ToList());
+
+        var itemsToProceed = currentPortion.AsQueryable()
+            .LeftJoin(existsAddressObjectParameters.AsQueryable(),
+                o => o.Id,
+                i => i.Id,
+                (r) => new
+                {
+                    SourceItem = r.Outer,
+                    DatabaseItem = r.Inner
+                })
+            .ToList();
+
+        foreach (var itemToProceed in itemsToProceed)
+        {
+            AddressObjectParameter addressObjectParameter;
+            if (itemToProceed.DatabaseItem == null)
+            {
+                addressObjectParameter = new AddressObjectParameter();
+                addressObjectParameter.Id = itemToProceed.SourceItem.Id;
+                _classifierDataRepository.AddAddressObjectParameter(addressObjectParameter);
+            }
+            else
+            {
+                addressObjectParameter = itemToProceed.DatabaseItem;
+                _classifierDataRepository.UpdateAddressObjectParameter(addressObjectParameter);
+            }
+            
+            addressObjectParameter.ObjectId = itemToProceed.SourceItem.ObjectId;
+            addressObjectParameter.ChangeId = itemToProceed.SourceItem.ChangeId;
+            addressObjectParameter.ChangeIdEnd = itemToProceed.SourceItem.ChangeIdEnd;
+            addressObjectParameter.TypeId = itemToProceed.SourceItem.TypeId;
+            addressObjectParameter.Value = itemToProceed.SourceItem.Value;
+            addressObjectParameter.UpdateDate = itemToProceed.SourceItem.UpdateDate.ToDateTime(TimeOnly.MinValue);
+            addressObjectParameter.StartDate = itemToProceed.SourceItem.StartDate.ToDateTime(TimeOnly.MinValue);
+            addressObjectParameter.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
+        }
+
+        await _classifierDataRepository.SaveAsync();
+        _classifierDataRepository.ClearChangeTracking();
+        currentPortion.Clear();
     }
 }

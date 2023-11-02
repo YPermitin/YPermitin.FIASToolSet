@@ -44,6 +44,7 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
 
         public DbSet<AddressObject> FIASAddressObjects { get; set; }
         public DbSet<AddressObjectDivision> FIASAddressObjectDivisions { get; set; }
+        public DbSet<AddressObjectParameter> FIASAddressObjectParameters { get; set; }
 
         #endregion
         
@@ -368,6 +369,16 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
             modelBuilder.Entity<AddressObjectDivision>()
                 .HasKey(e => e.Id);
             modelBuilder.Entity<AddressObjectDivision>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
+
+            #endregion
+
+            #region AddressObjectParameter
+
+            modelBuilder.Entity<AddressObjectParameter>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<AddressObjectParameter>()
                 .Property(e => e.Id)
                 .ValueGeneratedNever();
 

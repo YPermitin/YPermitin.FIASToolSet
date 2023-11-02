@@ -58,6 +58,11 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Services
             }
         }
 
+        public void ClearChangeTracking()
+        {
+            _context.ChangeTracker.Clear();
+        }
+
         #region Service
 
         private async Task SetIdentityInsert<T>(bool enable)

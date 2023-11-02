@@ -167,5 +167,11 @@ public interface IFIASDistributionLoader
     /// <param name="region">Регион для загрузки данных о переодчинении адресных объектов</param>
     Task LoadAddressObjectDivisions(Region region);
 
+    /// <summary>
+    /// Загрузка информации о параметрах адресных объектов
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о параметрах адресных объектов</param>
+    Task LoadAddressObjectParameters(Region region);
+
     #endregion
 }

@@ -56,6 +56,9 @@
       <None Update="SampleData\72\AS_ADDR_OBJ_DIVISION_20230710_df399927-9aa8-4012-904f-f52390caad2f.XML">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <None Update="SampleData\72\AS_ADDR_OBJ_PARAMS_20231030_97f827b4-3688-461d-8d3f-0813fbcab7c1.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 

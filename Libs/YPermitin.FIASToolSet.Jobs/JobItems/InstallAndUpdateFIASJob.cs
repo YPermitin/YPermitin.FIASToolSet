@@ -137,6 +137,7 @@ public class InstallAndUpdateFIASJob : IJob
                     
                     await loader.LoadAddressObjects(availableRegion);
                     await loader.LoadAddressObjectDivisions(availableRegion);
+                    await loader.LoadAddressObjectParameters(availableRegion);
 
                     if (_removeExtractedDistributionFiles)
                     {

@@ -351,6 +351,40 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.ToTable("FIASAddressObjectDivisions");
                 });
 
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObjectParameter", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ChangeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ChangeIdEnd")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ObjectId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FIASAddressObjectParameters");
+                });
+
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Notifications.NotificationQueue", b =>
                 {
                     b.Property<Guid>("Id")

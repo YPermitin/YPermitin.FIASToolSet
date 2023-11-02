@@ -13,11 +13,16 @@ public class FIASClassifierDataRepository : CommonRepository, IFIASClassifierDat
 
     #region AddressObjects
     
-    public async Task<List<AddressObject>> GetAddressObjects()
+    public async Task<List<AddressObject>> GetAddressObjects(List<int> ids = null)
     {
         var query = _context.FIASAddressObjects
             .AsQueryable()
             .AsNoTracking();
+
+        if (ids != null)
+        {
+            query = query.Where(e => ids.Contains(e.Id));
+        }
 
         return await query.ToListAsync();
     }
@@ -103,6 +108,59 @@ public class FIASClassifierDataRepository : CommonRepository, IFIASClassifierDat
     public void RemoveAddressObjectDivision(AddressObjectDivision addressObjectDivision)
     {
         _context.Entry(addressObjectDivision).State = EntityState.Deleted;
+    }
+
+    #endregion
+    
+    #region AddressObjectParameter
+
+    public async Task<List<AddressObjectParameter>> GetAddressObjectParameters(List<int> ids = null)
+    {
+        var query = _context.FIASAddressObjectParameters
+            .AsQueryable()
+            .AsNoTracking();
+        
+        if (ids != null)
+        {
+            query = query.Where(e => ids.Contains(e.Id));
+        }
+
+        return await query.ToListAsync();
+    }
+
+    public async Task<AddressObjectParameter> GetAddressObjectParameter(int id)
+    {
+        var query = _context.FIASAddressObjectParameters
+            .Where(e => e.Id == id)
+            .AsQueryable()
+            .AsNoTracking();
+
+        return await query.FirstOrDefaultAsync();
+    }
+
+    public async Task<bool> AddressObjectParameterExists(int id)
+    {
+        var query = _context.FIASAddressObjectParameters
+            .Where(e => e.Id == id)
+            .AsQueryable()
+            .AsNoTracking();
+
+        return await query.AnyAsync();
+    }
+
+    public void AddAddressObjectParameter(AddressObjectParameter addressObjectParameter)
+    {
+        _context.Entry(addressObjectParameter).State = EntityState.Added;
+    }
+
+    public void UpdateAddressObjectParameter(AddressObjectParameter addressObjectParameter)
+    {
+        _context.Entry(addressObjectParameter).State = EntityState.Modified;
+    }
+
+    public void RemoveAddressObjectParameter(AddressObjectParameter addressObjectParameter)
+    {
+        _context.Entry(addressObjectParameter).State = EntityState.Deleted;
     }
 
     #endregion

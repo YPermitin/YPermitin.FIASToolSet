@@ -111,5 +111,12 @@ public interface IFIASDistributionReader
     /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
     AddressObjectDivisionCollection GetAddressObjectDivisions(Region region);
 
+    /// <summary>
+    /// Получение коллекции объектов с информацией о параметрах адресных объектов
+    /// </summary>
+    /// <returns>Коллекция элементов с информацией о параметрах адресных объектов</returns>
+    /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
+    AddressObjectParameterCollection GetAddressObjectParameters(Region region);
+
     #endregion
 }

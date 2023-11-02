@@ -95,6 +95,13 @@
             <returns>Коллекция элементов с информацией о переподчинении адресных объектов</returns>
             <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось файл с данными</exception>
         </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionReader.FIASDistributionReader.GetAddressObjectParameters(YPermitin.FIASToolSet.DistributionReader.Models.Region)">
+            <summary>
+            Получение коллекции объектов с информацией о параметрах адресных объектов
+            </summary>
+            <returns>Коллекция элементов с информацией о параметрах адресных объектов</returns>
+            <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось файл с данными</exception>
+        </member>
         <member name="M:YPermitin.FIASToolSet.DistributionReader.IFIASDistributionReader.GetVersionAsString">
             <summary>
             Получение версии дистрибутива ФИАС в строковм виде
@@ -190,6 +197,13 @@
             Получение коллекции объектов с информацией о переподчинении адресных объектов
             </summary>
             <returns>Коллекция элементов с информацией о переподчинении адресных объектов</returns>
+            <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось файл с данными</exception>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionReader.IFIASDistributionReader.GetAddressObjectParameters(YPermitin.FIASToolSet.DistributionReader.Models.Region)">
+            <summary>
+            Получение коллекции объектов с информацией о параметрах адресных объектов
+            </summary>
+            <returns>Коллекция элементов с информацией о параметрах адресных объектов</returns>
             <exception cref="T:YPermitin.FIASToolSet.DistributionReader.Exceptions.FIASDataNotFoundException">Не удалось файл с данными</exception>
         </member>
         <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.BaseCatalogs.AddressObjectType">
@@ -343,6 +357,56 @@
         <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObjectDivision.ChangeId">
             <summary>
             ID изменившей транзакции
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObjectParameter">
+            <summary>
+            Параметры адресных объектов
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObjectParameter.Id">
+            <summary>
+            Идентификатор записи
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObjectParameter.ObjectId">
+            <summary>
+            Глобальный уникальный идентификатор адресного объекта
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObjectParameter.ChangeId">
+            <summary>
+            ID изменившей транзакции
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObjectParameter.ChangeIdEnd">
+            <summary>
+            ID завершившей транзакции
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObjectParameter.TypeId">
+            <summary>
+            Тип параметра
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObjectParameter.Value">
+            <summary>
+            Значение параметра
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObjectParameter.UpdateDate">
+            <summary>
+            Дата внесения (обновления) записи
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObjectParameter.StartDate">
+            <summary>
+            Начало действия записи
+            </summary>
+        </member>
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.AddressObjectParameter.EndDate">
+            <summary>
+            Окончание действия записи
             </summary>
         </member>
         <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.Region">

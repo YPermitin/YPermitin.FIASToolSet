@@ -285,6 +285,31 @@ public class Tests
         Assert.AreEqual(1308331, allItems[0].ChildId);
         Assert.AreEqual(3581246, allItems[0].ChangeId);
     }
+    
+    [Test]
+    public void GetAddressObjectParametersTest()
+    {
+        FIASDistributionReader reader = new FIASDistributionReader(_workingDirectory);
+
+        var regions = reader.GetRegions();
+        var testRegion = regions.First();
+        var collection = reader.GetAddressObjectParameters(testRegion);
+        var allItems = collection.ToList();
+
+        Assert.NotNull(allItems);
+        Assert.IsNotEmpty(allItems);
+        Assert.AreEqual(1, allItems.Count);
+        
+        Assert.AreEqual(20263101, allItems[0].Id);
+        Assert.AreEqual(1310372, allItems[0].ObjectId);
+        Assert.AreEqual(3587942, allItems[0].ChangeId);
+        Assert.AreEqual(0, allItems[0].ChangeIdEnd);
+        Assert.AreEqual(6, allItems[0].TypeId);
+        Assert.AreEqual("71410000000", allItems[0].Value);
+        Assert.AreEqual(new DateOnly(2016,3,23), allItems[0].UpdateDate);
+        Assert.AreEqual(new DateOnly(1900,1,1), allItems[0].StartDate);
+        Assert.AreEqual(new DateOnly(2079,6,6), allItems[0].EndDate);
+    }
 
     #endregion
 }

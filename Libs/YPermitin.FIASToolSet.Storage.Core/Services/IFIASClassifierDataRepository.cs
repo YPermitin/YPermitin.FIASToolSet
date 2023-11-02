@@ -6,7 +6,7 @@ public interface IFIASClassifierDataRepository
 {
     #region AddressObjects
 
-    Task<List<AddressObject>> GetAddressObjects();
+    Task<List<AddressObject>> GetAddressObjects(List<int> ids = null);
     Task<AddressObject> GetAddressObject(int id);
     Task<bool> AddressObjectExists(int id);
     void AddAddressObject(AddressObject objectLevel);
@@ -26,9 +26,21 @@ public interface IFIASClassifierDataRepository
 
     #endregion
     
+    #region AddressObjectParameter
+
+    Task<List<AddressObjectParameter>> GetAddressObjectParameters(List<int> ids = null);
+    Task<AddressObjectParameter> GetAddressObjectParameter(int id);
+    Task<bool> AddressObjectParameterExists(int id);
+    void AddAddressObjectParameter(AddressObjectParameter addressObjectParameter);
+    void UpdateAddressObjectParameter(AddressObjectParameter addressObjectParameter);
+    void RemoveAddressObjectParameter(AddressObjectParameter addressObjectParameter);
+
+    #endregion
+    
     Task<bool> BeginTransactionAsync();
     Task CommitTransactionAsync();
     Task RollbackTransactionAsync();
     Task<bool> SaveAsync();
     Task SaveWithIdentityInsertAsync<T>();
+    void ClearChangeTracking();
 }
