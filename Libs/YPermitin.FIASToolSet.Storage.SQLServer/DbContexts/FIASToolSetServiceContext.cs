@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using YPermitin.FIASToolSet.Storage.Core.Models;
 using YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs;
 using YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData;
 using YPermitin.FIASToolSet.Storage.Core.Models.Notifications;

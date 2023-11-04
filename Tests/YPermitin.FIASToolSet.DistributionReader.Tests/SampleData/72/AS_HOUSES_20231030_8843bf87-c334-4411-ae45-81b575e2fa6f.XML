@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HOUSES>
+    <HOUSE 
+            ID="50188048" 
+            OBJECTID="82947269" 
+            OBJECTGUID="5d000166-0bfa-469a-907b-c6a5d22b324a" 
+            CHANGEID="123210629" 
+            HOUSENUM="19"
+            HOUSETYPE="2" 
+            OPERTYPEID="10" 
+            PREVID="0" 
+            NEXTID="50188316" 
+            UPDATEDATE="2019-07-10"
+            STARTDATE="2013-10-21" 
+            ENDDATE="2014-01-04"
+            ISACTUAL="0" 
+            ISACTIVE="0" 
+    />
+</HOUSES>

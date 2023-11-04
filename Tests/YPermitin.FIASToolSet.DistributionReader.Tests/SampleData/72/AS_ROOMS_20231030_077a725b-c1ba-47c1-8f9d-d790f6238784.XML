@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ROOMS>
+    <ROOM 
+            ID="8313" 
+            OBJECTID="3308608" 
+            OBJECTGUID="0ba2d5fc-53d2-41cb-9b2d-654d200d837d" 
+            CHANGEID="6754677" 
+            NUMBER="2" 
+            ROOMTYPE="0" 
+            OPERTYPEID="10" 
+            PREVID="0" 
+            NEXTID="0"
+            UPDATEDATE="2019-04-12" 
+            STARTDATE="2015-11-12" 
+            ENDDATE="2079-06-06"
+            ISACTUAL="1"
+            ISACTIVE="1" />
+</ROOMS>

@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData;
 
 /// <summary>

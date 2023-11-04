@@ -1,5 +1,4 @@
-using System.Globalization;
-using YPermitin.FIASToolSet.DistributionReader.Models.BaseCatalogs;
+using YPermitin.FIASToolSet.DistributionReader.Extensions;
 using YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData;
 
 namespace YPermitin.FIASToolSet.DistributionReader.DataCollections.ClassifierData;
@@ -22,24 +21,19 @@ public class AddressObjectDivisionCollection : FIASObjectCollection<AddressObjec
             {
                 if (Reader.Name == "ITEM")
                 {
-                    var idValue = Reader.GetAttribute("ID");
-                    var parentIdValue = Reader.GetAttribute("PARENTID");
-                    var childIdValue = Reader.GetAttribute("CHILDID");
-                    var changeIdValue = Reader.GetAttribute("CHANGEID");
+                    var id = Reader.GetAttributeAsInt("ID");
+                    var parentId = Reader.GetAttributeAsInt("PARENTID");
+                    var childId = Reader.GetAttributeAsInt("CHILDID");
+                    var changeId = Reader.GetAttributeAsInt("CHANGEID");
                     
-                    if(int.TryParse(idValue, out int id)
-                       && int.TryParse(parentIdValue, out int parentId)
-                       && int.TryParse(childIdValue, out int childId)
-                       && int.TryParse(changeIdValue, out int changeId))
-                    {
-                        var newObject = new AddressObjectDivision(
-                            id: id,
-                            parentId: parentId,
-                            childId: childId,
-                            changeId: changeId);
-                        _current = newObject;
-                        return true;
-                    }
+                    var newObject = new AddressObjectDivision(
+                        id: id,
+                        parentId: parentId,
+                        childId: childId,
+                        changeId: changeId);
+                    
+                    _current = newObject;
+                    return true;
                 }
             }
 

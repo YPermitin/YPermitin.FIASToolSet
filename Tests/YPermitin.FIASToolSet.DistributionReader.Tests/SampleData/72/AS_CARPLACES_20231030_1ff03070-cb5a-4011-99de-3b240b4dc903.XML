@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CARPLACES>
+    <CARPLACE 
+            ID="35992" 
+            OBJECTID="98844842"
+            OBJECTGUID="22932f52-4fab-4a3d-a368-5bf677ae07e8" 
+            CHANGEID="158065705"
+            NUMBER="18" 
+            OPERTYPEID="10"
+            PREVID="0" 
+            UPDATEDATE="2021-03-16" 
+            STARTDATE="2020-10-27" 
+            ENDDATE="2021-03-16"
+            ISACTUAL="0" 
+            ISACTIVE="0" 
+    />
+</CARPLACES>

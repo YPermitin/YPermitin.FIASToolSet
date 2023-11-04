@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<STEADS>
+    <STEAD
+            ID="15514441" 
+            OBJECTID="104616649" 
+            OBJECTGUID="3ddaf49b-1189-45cc-a457-4d0326836e0a" 
+            CHANGEID="283567991" 
+            NUMBER="5/1" 
+            OPERTYPEID="10"
+            PREVID="0" 
+            NEXTID="0" 
+            UPDATEDATE="2022-06-01" 
+            STARTDATE="2022-06-01" 
+            ENDDATE="2079-06-06"
+            ISACTUAL="1" 
+            ISACTIVE="1"
+    />
+</STEADS>

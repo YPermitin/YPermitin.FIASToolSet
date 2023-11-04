@@ -59,6 +59,51 @@
       <None Update="SampleData\72\AS_ADDR_OBJ_PARAMS_20231030_97f827b4-3688-461d-8d3f-0813fbcab7c1.XML">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <None Update="SampleData\72\AS_ADM_HIERARCHY_20231030_043a961f-04ca-4092-ad91-be73eaf82398.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\72\AS_APARTMENTS_20231030_2ed472aa-ebf4-450d-bb0d-446b40fbbdae.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\72\AS_APARTMENTS_PARAMS_20231030_f9b3714e-3417-4531-80ff-719b5c6fcd25.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\72\AS_CARPLACES_20231030_1ff03070-cb5a-4011-99de-3b240b4dc903.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\72\AS_CARPLACES_PARAMS_20231030_bf98fb66-e925-4962-9421-c3e92895f6bb.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\72\AS_CHANGE_HISTORY_20231030_a45eb358-3a30-4f76-92b1-a50c4fead2be.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\72\AS_HOUSES_20231030_8843bf87-c334-4411-ae45-81b575e2fa6f.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\72\AS_HOUSES_PARAMS_20231030_42e305b4-a6d4-4867-9805-8cd5af8fc424.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\72\AS_MUN_HIERARCHY_20231030_e0c95900-897a-40de-8410-b4a48f01c427.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\72\AS_NORMATIVE_DOCS_20231030_1aab175b-f005-42ed-abb2-c668cd875b9b.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\72\AS_REESTR_OBJECTS_20231030_ccb5367c-d84f-4bff-bd16-3f1f37fda03b.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\72\AS_ROOMS_20231030_077a725b-c1ba-47c1-8f9d-d790f6238784.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\72\AS_ROOMS_PARAMS_20231030_ed1edd82-c45e-48de-8b67-9e34197f7630.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\72\AS_STEADS_20231030_efccff76-45cc-4f18-85ad-8766b8e40c43.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="SampleData\72\AS_STEADS_PARAMS_20231030_991e7244-195b-4fcd-bfe2-550ac737c9c1.XML">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 

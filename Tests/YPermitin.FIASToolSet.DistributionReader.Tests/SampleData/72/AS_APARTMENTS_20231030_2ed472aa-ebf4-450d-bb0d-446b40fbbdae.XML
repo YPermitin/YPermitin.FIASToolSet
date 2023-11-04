@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<APARTMENTS>
+    <APARTMENT 
+            ID="17791460" 
+            OBJECTID="30820037" 
+            OBJECTGUID="9f63388a-add4-418c-9e34-03ae6f5ccd6a" 
+            CHANGEID="47172662" 
+            NUMBER="66" 
+            APARTTYPE="2"
+            OPERTYPEID="10"
+            PREVID="0" 
+            NEXTID="0" 
+            UPDATEDATE="2018-08-31" 
+            STARTDATE="2018-08-31" 
+            ENDDATE="2079-06-06" 
+            ISACTUAL="1" 
+            ISACTIVE="1" 
+    />
+</APARTMENTS>
