@@ -136,6 +136,7 @@ public class InstallAndUpdateFIASJob : IJob
                     loader.ExtractDataForRegion(availableRegion);
                     
                     await loader.LoadAddressObjects(availableRegion);
+                    await loader.LoadAddressObjectsAdmHierarchy(availableRegion);
                     await loader.LoadAddressObjectDivisions(availableRegion);
                     await loader.LoadAddressObjectParameters(availableRegion);
 

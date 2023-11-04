@@ -658,39 +658,23 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         }
 
         var fiasAddressObjectDivisions = fiasDistributionReader.GetAddressObjectDivisions(fiasDistributionRegion);
+        
+        List<DistributionReader.Models.ClassifierData.AddressObjectDivision> currentPortion = 
+            new List<DistributionReader.Models.ClassifierData.AddressObjectDivision>();
 
-        int currentPortionToSave = 0;
         foreach (var fiasAddressObjectDivision in fiasAddressObjectDivisions)
         {
-            var addressObjectDivision = await _classifierDataRepository.GetAddressObjectDivision(fiasAddressObjectDivision.Id);
-            if (addressObjectDivision == null)
-            {
-                addressObjectDivision = new AddressObjectDivision();
-                addressObjectDivision.Id = fiasAddressObjectDivision.Id;
-                _classifierDataRepository.AddAddressObjectDivision(addressObjectDivision);
-            }
-            else
-            {
-                _classifierDataRepository.UpdateAddressObjectDivision(addressObjectDivision);
-            }
+            currentPortion.Add(fiasAddressObjectDivision);
 
-            addressObjectDivision.ParentId = fiasAddressObjectDivision.ParentId;
-            addressObjectDivision.ChildId = fiasAddressObjectDivision.ChildId;
-            addressObjectDivision.ChangeId = fiasAddressObjectDivision.ChangeId;
-
-            currentPortionToSave += 1;
-
-            if (currentPortionToSave >= 1000)
+            if (currentPortion.Count == 1000)
             {
-                await _classifierDataRepository.SaveAsync();
-                currentPortionToSave = 0;
+                await SaveAddressObjectDivisionsPortion(currentPortion);
             }
         }
 
-        if (currentPortionToSave > 0)
+        if (currentPortion.Count > 0)
         {
-            await _classifierDataRepository.SaveAsync();
-            currentPortionToSave = 0;
+            await SaveAddressObjectDivisionsPortion(currentPortion);
         }
     }
     
@@ -727,6 +711,42 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         if (currentPortion.Count > 0)
         {
             await SaveAddressObjectParametersPortion(currentPortion);
+        }
+    }
+    
+    /// <summary>
+    /// Загрузка информации о иерархии административного деления адресных объектов
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о иерархии административного деления адресных объектов</param>
+    public async Task LoadAddressObjectsAdmHierarchy(Region region)
+    {
+        var fiasDistributionReader = GetDistributionReader();
+        var fiasDistributionRegion = fiasDistributionReader
+            .GetRegions()
+            .FirstOrDefault(e => e.Code == region.Code);
+        if (fiasDistributionRegion == null)
+        {
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+        }
+
+        var fiasAddressObjectsAdmHierarchy = fiasDistributionReader.GetAddressObjectsAdmHierarchy(fiasDistributionRegion);
+        
+        List<DistributionReader.Models.ClassifierData.AddressObjectAdmHierarchy> currentPortion = 
+            new List<DistributionReader.Models.ClassifierData.AddressObjectAdmHierarchy>();
+        
+        foreach (var fiasAddressObjectAdmHierarchy in fiasAddressObjectsAdmHierarchy)
+        {
+            currentPortion.Add(fiasAddressObjectAdmHierarchy);
+
+            if (currentPortion.Count == 1000)
+            {
+                await SaveAddressObjectsAdmHierarchyPortion(currentPortion);
+            }
+        }
+
+        if (currentPortion.Count > 0)
+        {
+            await SaveAddressObjectsAdmHierarchyPortion(currentPortion);
         }
     }
     
@@ -802,6 +822,48 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         currentPortion.Clear();
     }
     
+    private async Task SaveAddressObjectDivisionsPortion(List<DistributionReader.Models.ClassifierData.AddressObjectDivision> currentPortion)
+    {
+        DistributionReader.Models.ClassifierData.AddressObject fiasAddressObject;
+        var existsAddressObjectDivisions = await _classifierDataRepository
+            .GetAddressObjectDivisions(ids: currentPortion.Select(e => e.Id).ToList());
+
+        var itemsToProceed = currentPortion.AsQueryable()
+            .LeftJoin(existsAddressObjectDivisions.AsQueryable(),
+                o => o.Id,
+                i => i.Id,
+                (r) => new
+                {
+                    SourceItem = r.Outer,
+                    DatabaseItem = r.Inner
+                })
+            .ToList();
+
+        foreach (var itemToProceed in itemsToProceed)
+        {
+            AddressObjectDivision addressObjectDivision;
+            if (itemToProceed.DatabaseItem == null)
+            {
+                addressObjectDivision = new AddressObjectDivision();
+                addressObjectDivision.Id = itemToProceed.SourceItem.Id;
+                _classifierDataRepository.AddAddressObjectDivision(addressObjectDivision);
+            }
+            else
+            {
+                addressObjectDivision = itemToProceed.DatabaseItem;
+                _classifierDataRepository.UpdateAddressObjectDivision(addressObjectDivision);
+            }
+
+            addressObjectDivision.ParentId = itemToProceed.SourceItem.ParentId;
+            addressObjectDivision.ChildId = itemToProceed.SourceItem.ChildId;
+            addressObjectDivision.ChangeId = itemToProceed.SourceItem.ChangeId;
+        }
+
+        await _classifierDataRepository.SaveAsync();
+        _classifierDataRepository.ClearChangeTracking();
+        currentPortion.Clear();
+    }
+    
     private async Task SaveAddressObjectParametersPortion(List<DistributionReader.Models.ClassifierData.AddressObjectParameter> currentPortion)
     {
         DistributionReader.Models.ClassifierData.AddressObjectParameter fiasAddressObjectParameter;
@@ -842,6 +904,61 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             addressObjectParameter.UpdateDate = itemToProceed.SourceItem.UpdateDate.ToDateTime(TimeOnly.MinValue);
             addressObjectParameter.StartDate = itemToProceed.SourceItem.StartDate.ToDateTime(TimeOnly.MinValue);
             addressObjectParameter.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
+        }
+
+        await _classifierDataRepository.SaveAsync();
+        _classifierDataRepository.ClearChangeTracking();
+        currentPortion.Clear();
+    }
+    
+    private async Task SaveAddressObjectsAdmHierarchyPortion(List<DistributionReader.Models.ClassifierData.AddressObjectAdmHierarchy> currentPortion)
+    {
+        DistributionReader.Models.ClassifierData.AddressObjectAdmHierarchy fiasAddressObjectAdmHierarchy;
+        var existsAddressObjectsAdmHierarchy = await _classifierDataRepository
+            .GetAddressObjectsAdmHierarchy(ids: currentPortion.Select(e => e.Id).ToList());
+
+        var itemsToProceed = currentPortion.AsQueryable()
+            .LeftJoin(existsAddressObjectsAdmHierarchy.AsQueryable(),
+                o => o.Id,
+                i => i.Id,
+                (r) => new
+                {
+                    SourceItem = r.Outer,
+                    DatabaseItem = r.Inner
+                })
+            .ToList();
+
+        foreach (var itemToProceed in itemsToProceed)
+        {
+            AddressObjectAdmHierarchy addressObjectAdmHierarchy;
+            if (itemToProceed.DatabaseItem == null)
+            {
+                addressObjectAdmHierarchy = new AddressObjectAdmHierarchy();
+                addressObjectAdmHierarchy.Id = itemToProceed.SourceItem.Id;
+                _classifierDataRepository.AddAddressObjectAdmHierarchy(addressObjectAdmHierarchy);
+            }
+            else
+            {
+                addressObjectAdmHierarchy = itemToProceed.DatabaseItem;
+                _classifierDataRepository.UpdateAddressObjectAdmHierarchy(addressObjectAdmHierarchy);
+            }
+            
+            addressObjectAdmHierarchy.ObjectId = itemToProceed.SourceItem.ObjectId;
+            addressObjectAdmHierarchy.ChangeId = itemToProceed.SourceItem.ChangeId;
+            addressObjectAdmHierarchy.ParentObjectId = itemToProceed.SourceItem.ParentObjectId;
+            addressObjectAdmHierarchy.RegionCode = itemToProceed.SourceItem.RegionCode;
+            addressObjectAdmHierarchy.AreaCode = itemToProceed.SourceItem.AreaCode;
+            addressObjectAdmHierarchy.CityCode = itemToProceed.SourceItem.CityCode;
+            addressObjectAdmHierarchy.PlaceCode = itemToProceed.SourceItem.PlaceCode;
+            addressObjectAdmHierarchy.PlanCode = itemToProceed.SourceItem.PlanCode;
+            addressObjectAdmHierarchy.StreetCode = itemToProceed.SourceItem.StreetCode;
+            addressObjectAdmHierarchy.PreviousAddressObjectId = itemToProceed.SourceItem.PreviousAddressObjectId;
+            addressObjectAdmHierarchy.NextAddressObjectId = itemToProceed.SourceItem.NextAddressObjectId;
+            addressObjectAdmHierarchy.IsActive = itemToProceed.SourceItem.IsActive;
+            addressObjectAdmHierarchy.Path = itemToProceed.SourceItem.Path;
+            addressObjectAdmHierarchy.UpdateDate = itemToProceed.SourceItem.UpdateDate.ToDateTime(TimeOnly.MinValue);
+            addressObjectAdmHierarchy.StartDate = itemToProceed.SourceItem.StartDate.ToDateTime(TimeOnly.MinValue);
+            addressObjectAdmHierarchy.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
         }
 
         await _classifierDataRepository.SaveAsync();

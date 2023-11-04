@@ -17,7 +17,7 @@ public interface IFIASClassifierDataRepository
     
     #region AddressObjectDivision
 
-    Task<List<AddressObjectDivision>> GetAddressObjectDivisions();
+    Task<List<AddressObjectDivision>> GetAddressObjectDivisions(List<int> ids = null);
     Task<AddressObjectDivision> GetAddressObjectDivision(int id);
     Task<bool> AddressObjectDivisionExists(int id);
     void AddAddressObjectDivision(AddressObjectDivision objectLevel);
@@ -34,6 +34,22 @@ public interface IFIASClassifierDataRepository
     void AddAddressObjectParameter(AddressObjectParameter addressObjectParameter);
     void UpdateAddressObjectParameter(AddressObjectParameter addressObjectParameter);
     void RemoveAddressObjectParameter(AddressObjectParameter addressObjectParameter);
+
+    #endregion
+    
+    #region AddressObjectAdmHierarchy
+
+    Task<List<AddressObjectAdmHierarchy>> GetAddressObjectsAdmHierarchy(List<int> ids = null);
+
+    Task<AddressObjectAdmHierarchy> GetAddressObjectAdmHierarchy(int id);
+
+    Task<bool> AddressObjectAdmHierarchyExists(int id);
+
+    void AddAddressObjectAdmHierarchy(AddressObjectAdmHierarchy addressObjectAdmHierarchy);
+
+    void UpdateAddressObjectAdmHierarchy(AddressObjectAdmHierarchy addressObjectAdmHierarchy);
+
+    void RemoveAddressObjectAdmHierarchy(AddressObjectAdmHierarchy addressObjectAdmHierarchy);
 
     #endregion
     

@@ -66,11 +66,16 @@ public class FIASClassifierDataRepository : CommonRepository, IFIASClassifierDat
     
     #region AddressObjectDivision
 
-    public async Task<List<AddressObjectDivision>> GetAddressObjectDivisions()
+    public async Task<List<AddressObjectDivision>> GetAddressObjectDivisions(List<int> ids = null)
     {
         var query = _context.FIASAddressObjectDivisions
             .AsQueryable()
             .AsNoTracking();
+        
+        if (ids != null)
+        {
+            query = query.Where(e => ids.Contains(e.Id));
+        }
 
         return await query.ToListAsync();
     }
@@ -161,6 +166,59 @@ public class FIASClassifierDataRepository : CommonRepository, IFIASClassifierDat
     public void RemoveAddressObjectParameter(AddressObjectParameter addressObjectParameter)
     {
         _context.Entry(addressObjectParameter).State = EntityState.Deleted;
+    }
+
+    #endregion
+    
+    #region AddressObjectAdmHierarchy
+
+    public async Task<List<AddressObjectAdmHierarchy>> GetAddressObjectsAdmHierarchy(List<int> ids = null)
+    {
+        var query = _context.FIASAddressObjectsAdmHierarchy
+            .AsQueryable()
+            .AsNoTracking();
+        
+        if (ids != null)
+        {
+            query = query.Where(e => ids.Contains(e.Id));
+        }
+
+        return await query.ToListAsync();
+    }
+
+    public async Task<AddressObjectAdmHierarchy> GetAddressObjectAdmHierarchy(int id)
+    {
+        var query = _context.FIASAddressObjectsAdmHierarchy
+            .Where(e => e.Id == id)
+            .AsQueryable()
+            .AsNoTracking();
+
+        return await query.FirstOrDefaultAsync();
+    }
+
+    public async Task<bool> AddressObjectAdmHierarchyExists(int id)
+    {
+        var query = _context.FIASAddressObjectsAdmHierarchy
+            .Where(e => e.Id == id)
+            .AsQueryable()
+            .AsNoTracking();
+
+        return await query.AnyAsync();
+    }
+
+    public void AddAddressObjectAdmHierarchy(AddressObjectAdmHierarchy addressObjectAdmHierarchy)
+    {
+        _context.Entry(addressObjectAdmHierarchy).State = EntityState.Added;
+    }
+
+    public void UpdateAddressObjectAdmHierarchy(AddressObjectAdmHierarchy addressObjectAdmHierarchy)
+    {
+        _context.Entry(addressObjectAdmHierarchy).State = EntityState.Modified;
+    }
+
+    public void RemoveAddressObjectAdmHierarchy(AddressObjectAdmHierarchy addressObjectAdmHierarchy)
+    {
+        _context.Entry(addressObjectAdmHierarchy).State = EntityState.Deleted;
     }
 
     #endregion
