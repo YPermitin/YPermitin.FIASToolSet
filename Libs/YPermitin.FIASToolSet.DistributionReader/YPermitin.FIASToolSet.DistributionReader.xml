@@ -771,12 +771,12 @@
             ID изменившей транзакции
             </summary>
         </member>
-        <member name="P:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.CarPlace.Number">
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.CarPlace.Number">
             <summary>
             Номер машино-места
             </summary>
         </member>
-        <member name="P:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.CarPlace.OperationTypeId">
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.CarPlace.OperationTypeId">
             <summary>
             Статус действия над записью – причина появления записи
             </summary>
@@ -847,7 +847,7 @@
             ID статуса действия
             </summary>
         </member>
-        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.ChangeHistory.NormativeDocTypeId">
+        <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.ChangeHistory.NormativeDocId">
             <summary>
             Идентификатор нормативного документа
             </summary>

@@ -44,7 +44,21 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
         public DbSet<AddressObject> FIASAddressObjects { get; set; }
         public DbSet<AddressObjectDivision> FIASAddressObjectDivisions { get; set; }
         public DbSet<AddressObjectParameter> FIASAddressObjectParameters { get; set; }
-
+        public DbSet<AddressObjectAdmHierarchy> FIASAddressObjectsAdmHierarchy { get; set; }
+        public DbSet<Apartment> FIASApartments { get; set; }
+        public DbSet<ApartmentParameter> FIASApartmentParameters { get; set; }
+        public DbSet<CarPlace> FIASCarPlaces { get; set; }
+        public DbSet<CarPlaceParameter> FIASCarPlaceParameters { get; set; }
+        public DbSet<ChangeHistory> FIASChangeHistory { get; set; }
+        public DbSet<House> FIASHouses { get; set; }
+        public DbSet<MunHierarchy> FIASMunHierarchy { get; set; }
+        public DbSet<NormativeDocument> FIASNormativeDocuments { get; set; }
+        public DbSet<ObjectRegistry> FIASObjectsRegistry { get; set; }
+        public DbSet<Room> FIASRooms { get; set; }
+        public DbSet<RoomParameter> FIASRoomParameters { get; set; }
+        public DbSet<Stead> FIASSteads { get; set; }
+        public DbSet<SteadParameter> FIASSteadParameters { get; set; }
+        
         #endregion
         
         private FIASToolSetServiceContext()
@@ -378,6 +392,170 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
             modelBuilder.Entity<AddressObjectParameter>()
                 .HasKey(e => e.Id);
             modelBuilder.Entity<AddressObjectParameter>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
+
+            #endregion
+
+            #region AddressObjectAdmHierarchy
+
+            modelBuilder.Entity<AddressObjectAdmHierarchy>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<AddressObjectAdmHierarchy>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
+
+            #endregion
+            
+            #region Apartment
+
+            modelBuilder.Entity<Apartment>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<Apartment>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
+            modelBuilder.Entity<Apartment>()
+                .Property(e => e.Number)
+                .HasMaxLength(50);
+
+            #endregion
+            
+            #region ApartmentParameter
+
+            modelBuilder.Entity<ApartmentParameter>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<ApartmentParameter>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
+
+            #endregion
+            
+            #region CarPlace
+
+            modelBuilder.Entity<CarPlace>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<CarPlace>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
+            modelBuilder.Entity<CarPlace>()
+                .Property(e => e.Number)
+                .HasMaxLength(50);
+
+            #endregion
+            
+            #region CarPlaceParameter
+
+            modelBuilder.Entity<CarPlaceParameter>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<CarPlaceParameter>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
+
+            #endregion
+            
+            #region ChangeHistory
+
+            modelBuilder.Entity<ChangeHistory>()
+                .HasKey(e => e.Id);
+
+            #endregion
+            
+            #region House
+
+            modelBuilder.Entity<House>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<House>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
+            modelBuilder.Entity<House>()
+                .Property(e => e.HouseNumber)
+                .HasMaxLength(50);
+            modelBuilder.Entity<House>()
+                .Property(e => e.AddedHouseNumber1)
+                .HasMaxLength(50);
+            modelBuilder.Entity<House>()
+                .Property(e => e.AddedHouseNumber2)
+                .HasMaxLength(50);
+
+            #endregion
+            
+            #region MunHierarchy
+
+            modelBuilder.Entity<MunHierarchy>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<MunHierarchy>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
+
+            #endregion
+            
+            #region NormativeDocument
+
+            modelBuilder.Entity<NormativeDocument>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<NormativeDocument>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
+            modelBuilder.Entity<NormativeDocument>()
+                .Property(e => e.Number)
+                .HasMaxLength(20);
+            modelBuilder.Entity<NormativeDocument>()
+                .Property(e => e.OrgName)
+                .HasMaxLength(255);
+            modelBuilder.Entity<NormativeDocument>()
+                .Property(e => e.RegNumber)
+                .HasMaxLength(100);
+
+            #endregion
+            
+            #region ObjectRegistry
+
+            modelBuilder.Entity<ObjectRegistry>()
+                .HasKey(e => e.Id);
+
+            #endregion
+            
+            #region Room
+
+            modelBuilder.Entity<Room>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<Room>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
+            modelBuilder.Entity<Room>()
+                .Property(e => e.RoomNumber)
+                .HasMaxLength(50);
+
+            #endregion
+            
+            #region RoomParameter
+
+            modelBuilder.Entity<RoomParameter>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<RoomParameter>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
+
+            #endregion
+            
+            #region Stead
+
+            modelBuilder.Entity<Stead>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<Stead>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
+            modelBuilder.Entity<Stead>()
+                .Property(e => e.Number)
+                .HasMaxLength(250);
+            
+            #endregion
+            
+            #region SteadParameter
+
+            modelBuilder.Entity<SteadParameter>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<SteadParameter>()
                 .Property(e => e.Id)
                 .ValueGeneratedNever();
 

@@ -332,6 +332,64 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations
                     b.ToTable("FIASAddressObjects");
                 });
 
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObjectAdmHierarchy", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("AreaCode")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ChangeId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("CityCode")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("NextAddressObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ParentObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Path")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("PlaceCode")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("PlanCode")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("PreviousAddressObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("RegionCode")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int?>("StreetCode")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FIASAddressObjectsAdmHierarchy");
+                });
+
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObjectDivision", b =>
                 {
                     b.Property<int>("Id")
@@ -382,7 +440,595 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TypeId");
+
                     b.ToTable("FIASAddressObjectParameters");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.Apartment", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ApartmentTypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ChangeId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsActual")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("NextAddressObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Number")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<Guid>("ObjectGuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("OperationTypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("PreviousAddressObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApartmentTypeId");
+
+                    b.HasIndex("OperationTypeId");
+
+                    b.ToTable("FIASApartments");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ApartmentParameter", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ChangeId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ChangeIdEnd")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("ObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("FIASApartmentParameters");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.CarPlace", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ChangeId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsActual")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("NextAddressObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Number")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<Guid>("ObjectGuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("OperationTypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("PreviousAddressObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OperationTypeId");
+
+                    b.ToTable("FIASCarPlaces");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.CarPlaceParameter", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ChangeId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ChangeIdEnd")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("ObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("FIASCarPlaceParameters");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ChangeHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<Guid>("AddressObjectGuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("ChangeDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("ChangeId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("NormativeDocId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("OperationTypeId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormativeDocId");
+
+                    b.HasIndex("OperationTypeId");
+
+                    b.ToTable("FIASChangeHistory");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.House", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("AddedHouseNumber1")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("AddedHouseNumber2")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<int?>("AddedHouseTypeId1")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("AddedHouseTypeId2")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ChangeId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("HouseNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<int?>("HouseTypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsActual")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("NextAddressObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("ObjectGuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("OperationTypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("PreviousAddressObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddedHouseTypeId1");
+
+                    b.HasIndex("AddedHouseTypeId2");
+
+                    b.HasIndex("HouseTypeId");
+
+                    b.HasIndex("OperationTypeId");
+
+                    b.ToTable("FIASHouses");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.MunHierarchy", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ChangeId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("NextAddressObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("OKTMO")
+                        .HasColumnType("text");
+
+                    b.Property<int>("ObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ParentObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Path")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("PreviousAddressObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FIASMunHierarchy");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.NormativeDocument", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("AccDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("KindId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Number")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("OrgName")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<DateTime>("RegDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("RegNumber")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("KindId");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("FIASNormativeDocuments");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ObjectRegistry", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ChangeId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("LevelId")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("ObjectGuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LevelId");
+
+                    b.ToTable("FIASObjectsRegistry");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.Room", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ChangeId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsActual")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("NextAddressObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("ObjectGuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("OperationTypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("PreviousAddressObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("RoomNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<int>("RoomTypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OperationTypeId");
+
+                    b.HasIndex("RoomTypeId");
+
+                    b.ToTable("FIASRooms");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.RoomParameter", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ChangeId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ChangeIdEnd")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("ObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("FIASRoomParameters");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.Stead", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ChangeId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsActual")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("NextAddressObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Number")
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
+
+                    b.Property<Guid>("ObjectGuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("OperationTypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("PreviousAddressObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OperationTypeId");
+
+                    b.ToTable("FIASSteads");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.SteadParameter", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ChangeId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ChangeIdEnd")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("ObjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("FIASSteadParameters");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Notifications.NotificationQueue", b =>
@@ -637,6 +1283,197 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations
                     b.Navigation("Level");
 
                     b.Navigation("OperationType");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObjectParameter", b =>
+                {
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ParameterType", "ParameterType")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ParameterType");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.Apartment", b =>
+                {
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ApartmentType", "ApartmentType")
+                        .WithMany()
+                        .HasForeignKey("ApartmentTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.OperationType", "OperationType")
+                        .WithMany()
+                        .HasForeignKey("OperationTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApartmentType");
+
+                    b.Navigation("OperationType");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ApartmentParameter", b =>
+                {
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ParameterType", "ParameterType")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ParameterType");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.CarPlace", b =>
+                {
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.OperationType", "OperationType")
+                        .WithMany()
+                        .HasForeignKey("OperationTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OperationType");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.CarPlaceParameter", b =>
+                {
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ParameterType", "ParameterType")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ParameterType");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ChangeHistory", b =>
+                {
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.NormativeDocument", "NormativeDocument")
+                        .WithMany()
+                        .HasForeignKey("NormativeDocId");
+
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.OperationType", "OperationType")
+                        .WithMany()
+                        .HasForeignKey("OperationTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("NormativeDocument");
+
+                    b.Navigation("OperationType");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.House", b =>
+                {
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.HouseType", "AddedHouseType1")
+                        .WithMany()
+                        .HasForeignKey("AddedHouseTypeId1");
+
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.HouseType", "AddedHouseType2")
+                        .WithMany()
+                        .HasForeignKey("AddedHouseTypeId2");
+
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.HouseType", "HouseType")
+                        .WithMany()
+                        .HasForeignKey("HouseTypeId");
+
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.OperationType", "OperationType")
+                        .WithMany()
+                        .HasForeignKey("OperationTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AddedHouseType1");
+
+                    b.Navigation("AddedHouseType2");
+
+                    b.Navigation("HouseType");
+
+                    b.Navigation("OperationType");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.NormativeDocument", b =>
+                {
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.NormativeDocKind", "NormativeDocKind")
+                        .WithMany()
+                        .HasForeignKey("KindId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.NormativeDocType", "NormativeDocType")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("NormativeDocKind");
+
+                    b.Navigation("NormativeDocType");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ObjectRegistry", b =>
+                {
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ObjectLevel", "Level")
+                        .WithMany()
+                        .HasForeignKey("LevelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Level");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.Room", b =>
+                {
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.OperationType", "OperationType")
+                        .WithMany()
+                        .HasForeignKey("OperationTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.RoomType", "RoomType")
+                        .WithMany()
+                        .HasForeignKey("RoomTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OperationType");
+
+                    b.Navigation("RoomType");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.RoomParameter", b =>
+                {
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ParameterType", "ParameterType")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ParameterType");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.Stead", b =>
+                {
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.OperationType", "OperationType")
+                        .WithMany()
+                        .HasForeignKey("OperationTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OperationType");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.SteadParameter", b =>
+                {
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ParameterType", "ParameterType")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ParameterType");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Notifications.NotificationQueue", b =>

@@ -31,7 +31,7 @@ public class ChangeHistory
     /// <summary>
     /// Идентификатор нормативного документа
     /// </summary>
-    public readonly int NormativeDocTypeId;
+    public readonly int NormativeDocId;
 
     /// <summary>
     /// Дата изменения
@@ -39,13 +39,13 @@ public class ChangeHistory
     public readonly DateOnly ChangeDate;
     
     public ChangeHistory(int objectId, Guid addressObjectGuid, int changeId, int operationTypeId, 
-        int normativeDocTypeId, DateOnly changeDate)
+        int normativeDocId, DateOnly changeDate)
     {
         ObjectId = objectId;
         AddressObjectGuid = addressObjectGuid;
         ChangeId = changeId;
         OperationTypeId = operationTypeId;
-        NormativeDocTypeId = normativeDocTypeId;
+        NormativeDocId = normativeDocId;
         ChangeDate = changeDate;
     }
 }

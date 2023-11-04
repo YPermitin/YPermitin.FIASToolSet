@@ -26,7 +26,7 @@ public class ChangeHistoryCollection : FIASObjectCollection<ChangeHistory, Chang
                     var objectId = Reader.GetAttributeAsInt("OBJECTID");
                     var addressObjectGuid = Reader.GetAttributeAsGuid("ADROBJECTID");
                     var operationTypeId = Reader.GetAttributeAsInt("OPERTYPEID");
-                    var normativeDocTypeId = Reader.GetAttributeAsInt("NDOCID");
+                    var normativeDocId = Reader.GetAttributeAsInt("NDOCID");
                     var changeDate = Reader.GetAttributeAsDateOnly("CHANGEDATE");
                     
                     var newObject = new ChangeHistory(
@@ -34,7 +34,7 @@ public class ChangeHistoryCollection : FIASObjectCollection<ChangeHistory, Chang
                         objectId: objectId,
                         addressObjectGuid: addressObjectGuid,
                         operationTypeId: operationTypeId,
-                        normativeDocTypeId: normativeDocTypeId,
+                        normativeDocId: normativeDocId,
                         changeDate: changeDate);
                     
                     _current = newObject;
