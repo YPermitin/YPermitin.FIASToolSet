@@ -4,5 +4,41 @@
         <name>YPermitin.FIASToolSet.Storage.PostgreSQL</name>
     </assembly>
     <members>
+        <member name="T:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.FixMigration">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.FixMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.FixMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.FixMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.FixMigrationV2">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.FixMigrationV2.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.FixMigrationV2.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.FixMigrationV2.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.AddIndexByBaseFieldsToChangeHistory">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.AddIndexByBaseFieldsToChangeHistory.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.AddIndexByBaseFieldsToChangeHistory.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.AddIndexByBaseFieldsToChangeHistory.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>

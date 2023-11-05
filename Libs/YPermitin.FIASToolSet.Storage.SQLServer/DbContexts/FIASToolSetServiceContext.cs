@@ -458,6 +458,8 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
 
             modelBuilder.Entity<ChangeHistory>()
                 .HasKey(e => e.Id);
+            modelBuilder.Entity<ChangeHistory>()
+                .HasIndex(e => new { e.ObjectId, e.AddressObjectGuid, e.ChangeId });
 
             #endregion
             

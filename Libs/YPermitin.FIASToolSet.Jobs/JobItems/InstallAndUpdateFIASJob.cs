@@ -139,6 +139,16 @@ public class InstallAndUpdateFIASJob : IJob
                     await loader.LoadAddressObjectsAdmHierarchy(availableRegion);
                     await loader.LoadAddressObjectDivisions(availableRegion);
                     await loader.LoadAddressObjectParameters(availableRegion);
+                    await loader.LoadApartments(availableRegion);
+                    await loader.LoadApartmentParameters(availableRegion);
+                    await loader.LoadCarPlaces(availableRegion);
+                    await loader.LoadCarPlaceParameters(availableRegion);
+                    await loader.LoadHouses(availableRegion);
+                    await loader.LoadHouseParameters(availableRegion);
+                    await loader.LoadRooms(availableRegion);
+                    await loader.LoadRoomParameters(availableRegion);
+                    await loader.LoadSteads(availableRegion);
+                    await loader.LoadSteadParameters(availableRegion);
 
                     if (_removeExtractedDistributionFiles)
                     {

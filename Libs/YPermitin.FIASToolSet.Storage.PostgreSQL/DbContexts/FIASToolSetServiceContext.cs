@@ -51,6 +51,7 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
         public DbSet<CarPlaceParameter> FIASCarPlaceParameters { get; set; }
         public DbSet<ChangeHistory> FIASChangeHistory { get; set; }
         public DbSet<House> FIASHouses { get; set; }
+        public DbSet<HouseParameter> FIASHouseParameters { get; set; }
         public DbSet<MunHierarchy> FIASMunHierarchy { get; set; }
         public DbSet<NormativeDocument> FIASNormativeDocuments { get; set; }
         public DbSet<ObjectRegistry> FIASObjectsRegistry { get; set; }
@@ -457,6 +458,8 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
 
             modelBuilder.Entity<ChangeHistory>()
                 .HasKey(e => e.Id);
+            modelBuilder.Entity<ChangeHistory>()
+                .HasIndex(e => new { e.ObjectId, e.AddressObjectGuid, e.ChangeId });
 
             #endregion
             
@@ -476,6 +479,16 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
             modelBuilder.Entity<House>()
                 .Property(e => e.AddedHouseNumber2)
                 .HasMaxLength(50);
+
+            #endregion
+            
+            #region HouseParameter
+
+            modelBuilder.Entity<HouseParameter>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<HouseParameter>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
 
             #endregion
             

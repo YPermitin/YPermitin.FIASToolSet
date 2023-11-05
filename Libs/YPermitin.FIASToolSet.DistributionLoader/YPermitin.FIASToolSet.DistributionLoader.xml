@@ -65,6 +65,66 @@
             </summary>
             <param name="region">Регион для загрузки данных о иерархии административного деления адресных объектов</param>
         </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadApartments(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о квартирах
+            </summary>
+            <param name="region">Регион для загрузки данных о квартирах</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadApartmentParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о параметрах квартир
+            </summary>
+            <param name="region">Регион для загрузки данных о параметрах квартир</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadCarPlaces(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о машино-местах
+            </summary>
+            <param name="region">Регион для загрузки данных о машино-местах</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadCarPlaceParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о параметрах машино-мест
+            </summary>
+            <param name="region">Регион для загрузки данных о параметрах машино-мест</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadHouses(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о строениях
+            </summary>
+            <param name="region">Регион для загрузки данных о строениях</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadHouseParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о параметрах строений
+            </summary>
+            <param name="region">Регион для загрузки данных о параметрах строений</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadRooms(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о комнатах
+            </summary>
+            <param name="region">Регион для загрузки данных о комнатах</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadRoomParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о параметрах комнат
+            </summary>
+            <param name="region">Регион для загрузки данных о параметрах комнат</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadSteads(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о земельных участках
+            </summary>
+            <param name="region">Регион для загрузки данных о земельных участках</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadSteadParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о параметрах земельных участков
+            </summary>
+            <param name="region">Регион для загрузки данных о параметрах земельных участков</param>
+        </member>
         <member name="P:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.VersionInstallation">
             <summary>
             Информация о версии ФИАС, для которой выполняется операций установки / обновления
@@ -229,6 +289,66 @@
             Загрузка информации о иерархии административного деления адресных объектов
             </summary>
             <param name="region">Регион для загрузки данных о иерархии административного деления адресных объектов</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadApartments(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о квартирах
+            </summary>
+            <param name="region">Регион для загрузки данных о квартирах</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadApartmentParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о параметрах квартир
+            </summary>
+            <param name="region">Регион для загрузки данных о параметрах квартир</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadCarPlaces(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о машино-местах
+            </summary>
+            <param name="region">Регион для загрузки данных о машино-местах</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadCarPlaceParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о параметрах машино-мест
+            </summary>
+            <param name="region">Регион для загрузки данных о параметрах машино-мест</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadHouses(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о строениях
+            </summary>
+            <param name="region">Регион для загрузки данных о строениях</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadHouseParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о параметрах строений
+            </summary>
+            <param name="region">Регион для загрузки данных о параметрах строений</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadRooms(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о комнатах
+            </summary>
+            <param name="region">Регион для загрузки данных о комнатах</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadRoomParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о параметрах комнат
+            </summary>
+            <param name="region">Регион для загрузки данных о параметрах комнат</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadSteads(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о земельных участках
+            </summary>
+            <param name="region">Регион для загрузки данных о земельных участках</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadSteadParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о параметрах земельных участков
+            </summary>
+            <param name="region">Регион для загрузки данных о параметрах земельных участков</param>
         </member>
         <member name="T:YPermitin.FIASToolSet.DistributionLoader.Models.Region">
             <summary>

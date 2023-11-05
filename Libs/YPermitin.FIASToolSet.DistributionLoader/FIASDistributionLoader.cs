@@ -750,6 +750,366 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         }
     }
     
+    /// <summary>
+    /// Загрузка информации о квартирах
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о квартирах</param>
+    public async Task LoadApartments(Region region)
+    {
+        var fiasDistributionReader = GetDistributionReader();
+        var fiasDistributionRegion = fiasDistributionReader
+            .GetRegions()
+            .FirstOrDefault(e => e.Code == region.Code);
+        if (fiasDistributionRegion == null)
+        {
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+        }
+
+        var fiasApartments = fiasDistributionReader.GetApartments(fiasDistributionRegion);
+        
+        List<DistributionReader.Models.ClassifierData.Apartment> currentPortion = 
+            new List<DistributionReader.Models.ClassifierData.Apartment>();
+        
+        foreach (var fiasApartment in fiasApartments)
+        {
+            currentPortion.Add(fiasApartment);
+
+            if (currentPortion.Count == 1000)
+            {
+                await SaveApartmentsPortion(currentPortion);
+            }
+        }
+
+        if (currentPortion.Count > 0)
+        {
+            await SaveApartmentsPortion(currentPortion);
+        }
+    }
+    
+    /// <summary>
+    /// Загрузка информации о параметрах квартир
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о параметрах квартир</param>
+    public async Task LoadApartmentParameters(Region region)
+    {
+        var fiasDistributionReader = GetDistributionReader();
+        var fiasDistributionRegion = fiasDistributionReader
+            .GetRegions()
+            .FirstOrDefault(e => e.Code == region.Code);
+        if (fiasDistributionRegion == null)
+        {
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+        }
+
+        var fiasApartmentParameters = fiasDistributionReader.GetApartmentParameters(fiasDistributionRegion);
+        
+        List<DistributionReader.Models.ClassifierData.ApartmentParameter> currentPortion = 
+            new List<DistributionReader.Models.ClassifierData.ApartmentParameter>();
+        
+        foreach (var fiasApartmentParameter in fiasApartmentParameters)
+        {
+            currentPortion.Add(fiasApartmentParameter);
+
+            if (currentPortion.Count == 1000)
+            {
+                await SaveApartmentParametersPortion(currentPortion);
+            }
+        }
+
+        if (currentPortion.Count > 0)
+        {
+            await SaveApartmentParametersPortion(currentPortion);
+        }
+    }
+    
+    /// <summary>
+    /// Загрузка информации о машино-местах
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о машино-местах</param>
+    public async Task LoadCarPlaces(Region region)
+    {
+        var fiasDistributionReader = GetDistributionReader();
+        var fiasDistributionRegion = fiasDistributionReader
+            .GetRegions()
+            .FirstOrDefault(e => e.Code == region.Code);
+        if (fiasDistributionRegion == null)
+        {
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+        }
+
+        var fiasCarPlaces = fiasDistributionReader.GetCarPlaces(fiasDistributionRegion);
+        
+        List<DistributionReader.Models.ClassifierData.CarPlace> currentPortion = 
+            new List<DistributionReader.Models.ClassifierData.CarPlace>();
+        
+        foreach (var fiasCarPlace in fiasCarPlaces)
+        {
+            currentPortion.Add(fiasCarPlace);
+
+            if (currentPortion.Count == 1000)
+            {
+                await SaveCarPlacesPortion(currentPortion);
+            }
+        }
+
+        if (currentPortion.Count > 0)
+        {
+            await SaveCarPlacesPortion(currentPortion);
+        }
+    }
+    
+    /// <summary>
+    /// Загрузка информации о параметрах машино-мест
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о параметрах машино-мест</param>
+    public async Task LoadCarPlaceParameters(Region region)
+    {
+        var fiasDistributionReader = GetDistributionReader();
+        var fiasDistributionRegion = fiasDistributionReader
+            .GetRegions()
+            .FirstOrDefault(e => e.Code == region.Code);
+        if (fiasDistributionRegion == null)
+        {
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+        }
+
+        var fiasCarPlaceParameters = fiasDistributionReader.GetCarPlaceParameters(fiasDistributionRegion);
+        
+        List<DistributionReader.Models.ClassifierData.CarPlaceParameter> currentPortion = 
+            new List<DistributionReader.Models.ClassifierData.CarPlaceParameter>();
+        
+        foreach (var fiasCarPlaceParameter in fiasCarPlaceParameters)
+        {
+            currentPortion.Add(fiasCarPlaceParameter);
+
+            if (currentPortion.Count == 1000)
+            {
+                await SaveCarPlaceParametersPortion(currentPortion);
+            }
+        }
+
+        if (currentPortion.Count > 0)
+        {
+            await SaveCarPlaceParametersPortion(currentPortion);
+        }
+    }
+    
+    /// <summary>
+    /// Загрузка информации о строениях
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о строениях</param>
+    public async Task LoadHouses(Region region)
+    {
+        var fiasDistributionReader = GetDistributionReader();
+        var fiasDistributionRegion = fiasDistributionReader
+            .GetRegions()
+            .FirstOrDefault(e => e.Code == region.Code);
+        if (fiasDistributionRegion == null)
+        {
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+        }
+
+        var fiasHouses = fiasDistributionReader.GetHouses(fiasDistributionRegion);
+        
+        List<DistributionReader.Models.ClassifierData.House> currentPortion = 
+            new List<DistributionReader.Models.ClassifierData.House>();
+        
+        foreach (var fiasHouse in fiasHouses)
+        {
+            currentPortion.Add(fiasHouse);
+
+            if (currentPortion.Count == 1000)
+            {
+                await SaveHousesPortion(currentPortion);
+            }
+        }
+
+        if (currentPortion.Count > 0)
+        {
+            await SaveHousesPortion(currentPortion);
+        }
+    }
+    
+    /// <summary>
+    /// Загрузка информации о параметрах строений
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о параметрах строений</param>
+    public async Task LoadHouseParameters(Region region)
+    {
+        var fiasDistributionReader = GetDistributionReader();
+        var fiasDistributionRegion = fiasDistributionReader
+            .GetRegions()
+            .FirstOrDefault(e => e.Code == region.Code);
+        if (fiasDistributionRegion == null)
+        {
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+        }
+
+        var fiasHouseParameters = fiasDistributionReader.GetHouseParameters(fiasDistributionRegion);
+        
+        List<DistributionReader.Models.ClassifierData.HouseParameter> currentPortion = 
+            new List<DistributionReader.Models.ClassifierData.HouseParameter>();
+        
+        foreach (var fiasHouseParameter in fiasHouseParameters)
+        {
+            currentPortion.Add(fiasHouseParameter);
+
+            if (currentPortion.Count == 1000)
+            {
+                await SaveHouseParametersPortion(currentPortion);
+            }
+        }
+
+        if (currentPortion.Count > 0)
+        {
+            await SaveHouseParametersPortion(currentPortion);
+        }
+    }
+    
+    /// <summary>
+    /// Загрузка информации о комнатах
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о комнатах</param>
+    public async Task LoadRooms(Region region)
+    {
+        var fiasDistributionReader = GetDistributionReader();
+        var fiasDistributionRegion = fiasDistributionReader
+            .GetRegions()
+            .FirstOrDefault(e => e.Code == region.Code);
+        if (fiasDistributionRegion == null)
+        {
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+        }
+
+        var fiasRooms = fiasDistributionReader.GetRooms(fiasDistributionRegion);
+        
+        List<DistributionReader.Models.ClassifierData.Room> currentPortion = 
+            new List<DistributionReader.Models.ClassifierData.Room>();
+        
+        foreach (var fiasRoom in fiasRooms)
+        {
+            currentPortion.Add(fiasRoom);
+
+            if (currentPortion.Count == 1000)
+            {
+                await SaveRoomsPortion(currentPortion);
+            }
+        }
+
+        if (currentPortion.Count > 0)
+        {
+            await SaveRoomsPortion(currentPortion);
+        }
+    }
+    
+    /// <summary>
+    /// Загрузка информации о параметрах комнат
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о параметрах комнат</param>
+    public async Task LoadRoomParameters(Region region)
+    {
+        var fiasDistributionReader = GetDistributionReader();
+        var fiasDistributionRegion = fiasDistributionReader
+            .GetRegions()
+            .FirstOrDefault(e => e.Code == region.Code);
+        if (fiasDistributionRegion == null)
+        {
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+        }
+
+        var fiasRoomParameters = fiasDistributionReader.GetRoomParameters(fiasDistributionRegion);
+        
+        List<DistributionReader.Models.ClassifierData.RoomParameter> currentPortion = 
+            new List<DistributionReader.Models.ClassifierData.RoomParameter>();
+        
+        foreach (var fiasRoomParameter in fiasRoomParameters)
+        {
+            currentPortion.Add(fiasRoomParameter);
+
+            if (currentPortion.Count == 1000)
+            {
+                await SaveRoomParametersPortion(currentPortion);
+            }
+        }
+
+        if (currentPortion.Count > 0)
+        {
+            await SaveRoomParametersPortion(currentPortion);
+        }
+    }
+    
+    /// <summary>
+    /// Загрузка информации о земельных участках
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о земельных участках</param>
+    public async Task LoadSteads(Region region)
+    {
+        var fiasDistributionReader = GetDistributionReader();
+        var fiasDistributionRegion = fiasDistributionReader
+            .GetRegions()
+            .FirstOrDefault(e => e.Code == region.Code);
+        if (fiasDistributionRegion == null)
+        {
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+        }
+
+        var fiasSteads = fiasDistributionReader.GetSteads(fiasDistributionRegion);
+        
+        List<DistributionReader.Models.ClassifierData.Stead> currentPortion = 
+            new List<DistributionReader.Models.ClassifierData.Stead>();
+        
+        foreach (var fiasStead in fiasSteads)
+        {
+            currentPortion.Add(fiasStead);
+
+            if (currentPortion.Count == 1000)
+            {
+                await SaveSteadsPortion(currentPortion);
+            }
+        }
+
+        if (currentPortion.Count > 0)
+        {
+            await SaveSteadsPortion(currentPortion);
+        }
+    }
+    
+    /// <summary>
+    /// Загрузка информации о параметрах земельных участков
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о параметрах земельных участков</param>
+    public async Task LoadSteadParameters(Region region)
+    {
+        var fiasDistributionReader = GetDistributionReader();
+        var fiasDistributionRegion = fiasDistributionReader
+            .GetRegions()
+            .FirstOrDefault(e => e.Code == region.Code);
+        if (fiasDistributionRegion == null)
+        {
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+        }
+
+        var fiasSteadParameters = fiasDistributionReader.GetSteadParameters(fiasDistributionRegion);
+        
+        List<DistributionReader.Models.ClassifierData.SteadParameter> currentPortion = 
+            new List<DistributionReader.Models.ClassifierData.SteadParameter>();
+        
+        foreach (var fiasSteadParameter in fiasSteadParameters)
+        {
+            currentPortion.Add(fiasSteadParameter);
+
+            if (currentPortion.Count == 1000)
+            {
+                await SaveSteadParametersPortion(currentPortion);
+            }
+        }
+
+        if (currentPortion.Count > 0)
+        {
+            await SaveSteadParametersPortion(currentPortion);
+        }
+    }
+    
     #endregion
     
     private IFIASDistributionReader GetDistributionReader()
@@ -959,6 +1319,493 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             addressObjectAdmHierarchy.UpdateDate = itemToProceed.SourceItem.UpdateDate.ToDateTime(TimeOnly.MinValue);
             addressObjectAdmHierarchy.StartDate = itemToProceed.SourceItem.StartDate.ToDateTime(TimeOnly.MinValue);
             addressObjectAdmHierarchy.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
+        }
+
+        await _classifierDataRepository.SaveAsync();
+        _classifierDataRepository.ClearChangeTracking();
+        currentPortion.Clear();
+    }
+    
+    private async Task SaveApartmentsPortion(List<DistributionReader.Models.ClassifierData.Apartment> currentPortion)
+    {
+        var existsApartments = await _classifierDataRepository
+            .GetApartments(ids: currentPortion.Select(e => e.Id).ToList());
+
+        var itemsToProceed = currentPortion.AsQueryable()
+            .LeftJoin(existsApartments.AsQueryable(),
+                o => o.Id,
+                i => i.Id,
+                (r) => new
+                {
+                    SourceItem = r.Outer,
+                    DatabaseItem = r.Inner
+                })
+            .ToList();
+
+        foreach (var itemToProceed in itemsToProceed)
+        {
+            Apartment apartment;
+            if (itemToProceed.DatabaseItem == null)
+            {
+                apartment = new Apartment();
+                apartment.Id = itemToProceed.SourceItem.Id;
+                _classifierDataRepository.AddApartment(apartment);
+            }
+            else
+            {
+                apartment = itemToProceed.DatabaseItem;
+                _classifierDataRepository.UpdateApartment(apartment);
+            }
+            
+            apartment.ObjectId = itemToProceed.SourceItem.ObjectId;
+            apartment.ObjectGuid = itemToProceed.SourceItem.ObjectGuid;
+            apartment.ChangeId = itemToProceed.SourceItem.ChangeId;
+            apartment.Number = itemToProceed.SourceItem.Number;
+            apartment.ApartmentTypeId = itemToProceed.SourceItem.ApartmentTypeId;
+            apartment.OperationTypeId = itemToProceed.SourceItem.OperationTypeId;
+            apartment.PreviousAddressObjectId = itemToProceed.SourceItem.PreviousAddressObjectId;
+            apartment.NextAddressObjectId = itemToProceed.SourceItem.NextAddressObjectId;
+            apartment.IsActive = itemToProceed.SourceItem.IsActive;
+            apartment.IsActual = itemToProceed.SourceItem.IsActual;
+            apartment.UpdateDate = itemToProceed.SourceItem.UpdateDate.ToDateTime(TimeOnly.MinValue);
+            apartment.StartDate = itemToProceed.SourceItem.StartDate.ToDateTime(TimeOnly.MinValue);
+            apartment.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
+        }
+
+        await _classifierDataRepository.SaveAsync();
+        _classifierDataRepository.ClearChangeTracking();
+        currentPortion.Clear();
+    }
+    
+    private async Task SaveApartmentParametersPortion(List<DistributionReader.Models.ClassifierData.ApartmentParameter> currentPortion)
+    {
+        var existsApartmentParameters = await _classifierDataRepository
+            .GetApartmentParameters(ids: currentPortion.Select(e => e.Id).ToList());
+
+        var itemsToProceed = currentPortion.AsQueryable()
+            .LeftJoin(existsApartmentParameters.AsQueryable(),
+                o => o.Id,
+                i => i.Id,
+                (r) => new
+                {
+                    SourceItem = r.Outer,
+                    DatabaseItem = r.Inner
+                })
+            .ToList();
+
+        foreach (var itemToProceed in itemsToProceed)
+        {
+            ApartmentParameter fiasApartmentParameter;
+            if (itemToProceed.DatabaseItem == null)
+            {
+                fiasApartmentParameter = new ApartmentParameter();
+                fiasApartmentParameter.Id = itemToProceed.SourceItem.Id;
+                _classifierDataRepository.AddApartmentParameter(fiasApartmentParameter);
+            }
+            else
+            {
+                fiasApartmentParameter = itemToProceed.DatabaseItem;
+                _classifierDataRepository.UpdateApartmentParameter(fiasApartmentParameter);
+            }
+            
+            fiasApartmentParameter.ObjectId = itemToProceed.SourceItem.ObjectId;
+            fiasApartmentParameter.ChangeId = itemToProceed.SourceItem.ChangeId;
+            fiasApartmentParameter.ChangeIdEnd = itemToProceed.SourceItem.ChangeIdEnd;
+            fiasApartmentParameter.TypeId = itemToProceed.SourceItem.TypeId;
+            fiasApartmentParameter.Value = itemToProceed.SourceItem.Value;
+            fiasApartmentParameter.UpdateDate = itemToProceed.SourceItem.UpdateDate.ToDateTime(TimeOnly.MinValue);
+            fiasApartmentParameter.StartDate = itemToProceed.SourceItem.StartDate.ToDateTime(TimeOnly.MinValue);
+            fiasApartmentParameter.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
+        }
+
+        await _classifierDataRepository.SaveAsync();
+        _classifierDataRepository.ClearChangeTracking();
+        currentPortion.Clear();
+    }
+    
+    private async Task SaveCarPlacesPortion(List<DistributionReader.Models.ClassifierData.CarPlace> currentPortion)
+    {
+        var existsCarPlaces = await _classifierDataRepository
+            .GetCarPlaces(ids: currentPortion.Select(e => e.Id).ToList());
+
+        var itemsToProceed = currentPortion.AsQueryable()
+            .LeftJoin(existsCarPlaces.AsQueryable(),
+                o => o.Id,
+                i => i.Id,
+                (r) => new
+                {
+                    SourceItem = r.Outer,
+                    DatabaseItem = r.Inner
+                })
+            .ToList();
+
+        foreach (var itemToProceed in itemsToProceed)
+        {
+            CarPlace carPlace;
+            if (itemToProceed.DatabaseItem == null)
+            {
+                carPlace = new CarPlace();
+                carPlace.Id = itemToProceed.SourceItem.Id;
+                _classifierDataRepository.AddCarPlace(carPlace);
+            }
+            else
+            {
+                carPlace = itemToProceed.DatabaseItem;
+                _classifierDataRepository.UpdateCarPlace(carPlace);
+            }
+            
+            carPlace.ObjectId = itemToProceed.SourceItem.ObjectId;
+            carPlace.ObjectGuid = itemToProceed.SourceItem.ObjectGuid;
+            carPlace.ChangeId = itemToProceed.SourceItem.ChangeId;
+            carPlace.Number = itemToProceed.SourceItem.Number;
+            carPlace.OperationTypeId = itemToProceed.SourceItem.OperationTypeId;
+            carPlace.PreviousAddressObjectId = itemToProceed.SourceItem.PreviousAddressObjectId;
+            carPlace.NextAddressObjectId = itemToProceed.SourceItem.NextAddressObjectId;
+            carPlace.IsActive = itemToProceed.SourceItem.IsActive;
+            carPlace.IsActual = itemToProceed.SourceItem.IsActual;
+            carPlace.UpdateDate = itemToProceed.SourceItem.UpdateDate.ToDateTime(TimeOnly.MinValue);
+            carPlace.StartDate = itemToProceed.SourceItem.StartDate.ToDateTime(TimeOnly.MinValue);
+            carPlace.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
+        }
+
+        await _classifierDataRepository.SaveAsync();
+        _classifierDataRepository.ClearChangeTracking();
+        currentPortion.Clear();
+    }
+    
+    private async Task SaveCarPlaceParametersPortion(List<DistributionReader.Models.ClassifierData.CarPlaceParameter> currentPortion)
+    {
+        var existsCarPlaceParameters = await _classifierDataRepository
+            .GetCarPlaceParameters(ids: currentPortion.Select(e => e.Id).ToList());
+
+        var itemsToProceed = currentPortion.AsQueryable()
+            .LeftJoin(existsCarPlaceParameters.AsQueryable(),
+                o => o.Id,
+                i => i.Id,
+                (r) => new
+                {
+                    SourceItem = r.Outer,
+                    DatabaseItem = r.Inner
+                })
+            .ToList();
+
+        foreach (var itemToProceed in itemsToProceed)
+        {
+            CarPlaceParameter fiasCarPlaceParameter;
+            if (itemToProceed.DatabaseItem == null)
+            {
+                fiasCarPlaceParameter = new CarPlaceParameter();
+                fiasCarPlaceParameter.Id = itemToProceed.SourceItem.Id;
+                _classifierDataRepository.AddCarPlaceParameter(fiasCarPlaceParameter);
+            }
+            else
+            {
+                fiasCarPlaceParameter = itemToProceed.DatabaseItem;
+                _classifierDataRepository.UpdateCarPlaceParameter(fiasCarPlaceParameter);
+            }
+            
+            fiasCarPlaceParameter.ObjectId = itemToProceed.SourceItem.ObjectId;
+            fiasCarPlaceParameter.ChangeId = itemToProceed.SourceItem.ChangeId;
+            fiasCarPlaceParameter.ChangeIdEnd = itemToProceed.SourceItem.ChangeIdEnd;
+            fiasCarPlaceParameter.TypeId = itemToProceed.SourceItem.TypeId;
+            fiasCarPlaceParameter.Value = itemToProceed.SourceItem.Value;
+            fiasCarPlaceParameter.UpdateDate = itemToProceed.SourceItem.UpdateDate.ToDateTime(TimeOnly.MinValue);
+            fiasCarPlaceParameter.StartDate = itemToProceed.SourceItem.StartDate.ToDateTime(TimeOnly.MinValue);
+            fiasCarPlaceParameter.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
+        }
+
+        await _classifierDataRepository.SaveAsync();
+        _classifierDataRepository.ClearChangeTracking();
+        currentPortion.Clear();
+    }
+    
+    private async Task SaveHousesPortion(List<DistributionReader.Models.ClassifierData.House> currentPortion)
+    {
+        var existsHouses = await _classifierDataRepository
+            .GetHouses(ids: currentPortion.Select(e => e.Id).ToList());
+
+        var itemsToProceed = currentPortion.AsQueryable()
+            .LeftJoin(existsHouses.AsQueryable(),
+                o => o.Id,
+                i => i.Id,
+                (r) => new
+                {
+                    SourceItem = r.Outer,
+                    DatabaseItem = r.Inner
+                })
+            .ToList();
+
+        foreach (var itemToProceed in itemsToProceed)
+        {
+            House house;
+            if (itemToProceed.DatabaseItem == null)
+            {
+                house = new House();
+                house.Id = itemToProceed.SourceItem.Id;
+                _classifierDataRepository.AddHouse(house);
+            }
+            else
+            {
+                house = itemToProceed.DatabaseItem;
+                _classifierDataRepository.UpdateHouse(house);
+            }
+            
+            house.ObjectId = itemToProceed.SourceItem.ObjectId;
+            house.ObjectGuid = itemToProceed.SourceItem.ObjectGuid;
+            house.ChangeId = itemToProceed.SourceItem.ChangeId;
+            house.HouseNumber = itemToProceed.SourceItem.HouseNumber;
+            house.AddedHouseNumber1 = itemToProceed.SourceItem.AddedHouseNumber1;
+            house.AddedHouseNumber2 = itemToProceed.SourceItem.AddedHouseNumber2;
+            house.HouseTypeId = itemToProceed.SourceItem.HouseTypeId == 0 ? null : itemToProceed.SourceItem.HouseTypeId;
+            house.AddedHouseTypeId1 = itemToProceed.SourceItem.AddedHouseTypeId1 == 0 ? null : itemToProceed.SourceItem.AddedHouseTypeId1;
+            house.AddedHouseTypeId2 = itemToProceed.SourceItem.AddedHouseTypeId2 == 0 ? null : itemToProceed.SourceItem.AddedHouseTypeId2;
+            house.OperationTypeId = itemToProceed.SourceItem.OperationTypeId;
+            house.PreviousAddressObjectId = itemToProceed.SourceItem.PreviousAddressObjectId;
+            house.NextAddressObjectId = itemToProceed.SourceItem.NextAddressObjectId;
+            house.IsActive = itemToProceed.SourceItem.IsActive;
+            house.IsActual = itemToProceed.SourceItem.IsActual;
+            house.UpdateDate = itemToProceed.SourceItem.UpdateDate.ToDateTime(TimeOnly.MinValue);
+            house.StartDate = itemToProceed.SourceItem.StartDate.ToDateTime(TimeOnly.MinValue);
+            house.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
+        }
+
+        await _classifierDataRepository.SaveAsync();
+        _classifierDataRepository.ClearChangeTracking();
+        currentPortion.Clear();
+    }
+    
+    private async Task SaveHouseParametersPortion(List<DistributionReader.Models.ClassifierData.HouseParameter> currentPortion)
+    {
+        var existsHouseParameters = await _classifierDataRepository
+            .GetHouseParameters(ids: currentPortion.Select(e => e.Id).ToList());
+
+        var itemsToProceed = currentPortion.AsQueryable()
+            .LeftJoin(existsHouseParameters.AsQueryable(),
+                o => o.Id,
+                i => i.Id,
+                (r) => new
+                {
+                    SourceItem = r.Outer,
+                    DatabaseItem = r.Inner
+                })
+            .ToList();
+
+        foreach (var itemToProceed in itemsToProceed)
+        {
+            HouseParameter fiasHouseParameter;
+            if (itemToProceed.DatabaseItem == null)
+            {
+                fiasHouseParameter = new HouseParameter();
+                fiasHouseParameter.Id = itemToProceed.SourceItem.Id;
+                _classifierDataRepository.AddHouseParameter(fiasHouseParameter);
+            }
+            else
+            {
+                fiasHouseParameter = itemToProceed.DatabaseItem;
+                _classifierDataRepository.UpdateHouseParameter(fiasHouseParameter);
+            }
+            
+            fiasHouseParameter.ObjectId = itemToProceed.SourceItem.ObjectId;
+            fiasHouseParameter.ChangeId = itemToProceed.SourceItem.ChangeId;
+            fiasHouseParameter.ChangeIdEnd = itemToProceed.SourceItem.ChangeIdEnd;
+            fiasHouseParameter.TypeId = itemToProceed.SourceItem.TypeId;
+            fiasHouseParameter.Value = itemToProceed.SourceItem.Value;
+            fiasHouseParameter.UpdateDate = itemToProceed.SourceItem.UpdateDate.ToDateTime(TimeOnly.MinValue);
+            fiasHouseParameter.StartDate = itemToProceed.SourceItem.StartDate.ToDateTime(TimeOnly.MinValue);
+            fiasHouseParameter.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
+        }
+
+        await _classifierDataRepository.SaveAsync();
+        _classifierDataRepository.ClearChangeTracking();
+        currentPortion.Clear();
+    }
+    
+    private async Task SaveRoomsPortion(List<DistributionReader.Models.ClassifierData.Room> currentPortion)
+    {
+        var existsRooms = await _classifierDataRepository
+            .GetRooms(ids: currentPortion.Select(e => e.Id).ToList());
+
+        var itemsToProceed = currentPortion.AsQueryable()
+            .LeftJoin(existsRooms.AsQueryable(),
+                o => o.Id,
+                i => i.Id,
+                (r) => new
+                {
+                    SourceItem = r.Outer,
+                    DatabaseItem = r.Inner
+                })
+            .ToList();
+
+        foreach (var itemToProceed in itemsToProceed)
+        {
+            Room room;
+            if (itemToProceed.DatabaseItem == null)
+            {
+                room = new Room();
+                room.Id = itemToProceed.SourceItem.Id;
+                _classifierDataRepository.AddRoom(room);
+            }
+            else
+            {
+                room = itemToProceed.DatabaseItem;
+                _classifierDataRepository.UpdateRoom(room);
+            }
+            
+            room.ObjectId = itemToProceed.SourceItem.ObjectId;
+            room.ObjectGuid = itemToProceed.SourceItem.ObjectGuid;
+            room.ChangeId = itemToProceed.SourceItem.ChangeId;
+            room.RoomNumber = itemToProceed.SourceItem.RoomNumber;
+            room.RoomTypeId = itemToProceed.SourceItem.RoomTypeId;
+            room.OperationTypeId = itemToProceed.SourceItem.OperationTypeId;
+            room.PreviousAddressObjectId = itemToProceed.SourceItem.PreviousAddressObjectId;
+            room.NextAddressObjectId = itemToProceed.SourceItem.NextAddressObjectId;
+            room.IsActive = itemToProceed.SourceItem.IsActive;
+            room.IsActual = itemToProceed.SourceItem.IsActual;
+            room.UpdateDate = itemToProceed.SourceItem.UpdateDate.ToDateTime(TimeOnly.MinValue);
+            room.StartDate = itemToProceed.SourceItem.StartDate.ToDateTime(TimeOnly.MinValue);
+            room.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
+        }
+
+        await _classifierDataRepository.SaveAsync();
+        _classifierDataRepository.ClearChangeTracking();
+        currentPortion.Clear();
+    }
+    
+    private async Task SaveRoomParametersPortion(List<DistributionReader.Models.ClassifierData.RoomParameter> currentPortion)
+    {
+        var existsRoomParameters = await _classifierDataRepository
+            .GetRoomParameters(ids: currentPortion.Select(e => e.Id).ToList());
+
+        var itemsToProceed = currentPortion.AsQueryable()
+            .LeftJoin(existsRoomParameters.AsQueryable(),
+                o => o.Id,
+                i => i.Id,
+                (r) => new
+                {
+                    SourceItem = r.Outer,
+                    DatabaseItem = r.Inner
+                })
+            .ToList();
+
+        foreach (var itemToProceed in itemsToProceed)
+        {
+            RoomParameter fiasHouseParameter;
+            if (itemToProceed.DatabaseItem == null)
+            {
+                fiasHouseParameter = new RoomParameter();
+                fiasHouseParameter.Id = itemToProceed.SourceItem.Id;
+                _classifierDataRepository.AddRoomParameter(fiasHouseParameter);
+            }
+            else
+            {
+                fiasHouseParameter = itemToProceed.DatabaseItem;
+                _classifierDataRepository.UpdateRoomParameter(fiasHouseParameter);
+            }
+            
+            fiasHouseParameter.ObjectId = itemToProceed.SourceItem.ObjectId;
+            fiasHouseParameter.ChangeId = itemToProceed.SourceItem.ChangeId;
+            fiasHouseParameter.ChangeIdEnd = itemToProceed.SourceItem.ChangeIdEnd;
+            fiasHouseParameter.TypeId = itemToProceed.SourceItem.TypeId;
+            fiasHouseParameter.Value = itemToProceed.SourceItem.Value;
+            fiasHouseParameter.UpdateDate = itemToProceed.SourceItem.UpdateDate.ToDateTime(TimeOnly.MinValue);
+            fiasHouseParameter.StartDate = itemToProceed.SourceItem.StartDate.ToDateTime(TimeOnly.MinValue);
+            fiasHouseParameter.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
+        }
+
+        await _classifierDataRepository.SaveAsync();
+        _classifierDataRepository.ClearChangeTracking();
+        currentPortion.Clear();
+    }
+    
+    private async Task SaveSteadsPortion(List<DistributionReader.Models.ClassifierData.Stead> currentPortion)
+    {
+        var existsSteads = await _classifierDataRepository
+            .GetSteads(ids: currentPortion.Select(e => e.Id).ToList());
+
+        var itemsToProceed = currentPortion.AsQueryable()
+            .LeftJoin(existsSteads.AsQueryable(),
+                o => o.Id,
+                i => i.Id,
+                (r) => new
+                {
+                    SourceItem = r.Outer,
+                    DatabaseItem = r.Inner
+                })
+            .ToList();
+
+        foreach (var itemToProceed in itemsToProceed)
+        {
+            Stead stead;
+            if (itemToProceed.DatabaseItem == null)
+            {
+                stead = new Stead();
+                stead.Id = itemToProceed.SourceItem.Id;
+                _classifierDataRepository.AddStead(stead);
+            }
+            else
+            {
+                stead = itemToProceed.DatabaseItem;
+                _classifierDataRepository.UpdateStead(stead);
+            }
+            
+            stead.ObjectId = itemToProceed.SourceItem.ObjectId;
+            stead.ObjectGuid = itemToProceed.SourceItem.ObjectGuid;
+            stead.ChangeId = itemToProceed.SourceItem.ChangeId;
+            stead.Number = itemToProceed.SourceItem.Number;
+            stead.OperationTypeId = itemToProceed.SourceItem.OperationTypeId;
+            stead.PreviousAddressObjectId = itemToProceed.SourceItem.PreviousAddressObjectId;
+            stead.NextAddressObjectId = itemToProceed.SourceItem.NextAddressObjectId;
+            stead.IsActive = itemToProceed.SourceItem.IsActive;
+            stead.IsActual = itemToProceed.SourceItem.IsActual;
+            stead.UpdateDate = itemToProceed.SourceItem.UpdateDate.ToDateTime(TimeOnly.MinValue);
+            stead.StartDate = itemToProceed.SourceItem.StartDate.ToDateTime(TimeOnly.MinValue);
+            stead.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
+        }
+
+        await _classifierDataRepository.SaveAsync();
+        _classifierDataRepository.ClearChangeTracking();
+        currentPortion.Clear();
+    }
+    
+    private async Task SaveSteadParametersPortion(List<DistributionReader.Models.ClassifierData.SteadParameter> currentPortion)
+    {
+        var existsSteadParameters = await _classifierDataRepository
+            .GetSteadParameters(ids: currentPortion.Select(e => e.Id).ToList());
+
+        var itemsToProceed = currentPortion.AsQueryable()
+            .LeftJoin(existsSteadParameters.AsQueryable(),
+                o => o.Id,
+                i => i.Id,
+                (r) => new
+                {
+                    SourceItem = r.Outer,
+                    DatabaseItem = r.Inner
+                })
+            .ToList();
+
+        foreach (var itemToProceed in itemsToProceed)
+        {
+            SteadParameter fiasSteadParameter;
+            if (itemToProceed.DatabaseItem == null)
+            {
+                fiasSteadParameter = new SteadParameter();
+                fiasSteadParameter.Id = itemToProceed.SourceItem.Id;
+                _classifierDataRepository.AddSteadParameter(fiasSteadParameter);
+            }
+            else
+            {
+                fiasSteadParameter = itemToProceed.DatabaseItem;
+                _classifierDataRepository.UpdateSteadParameter(fiasSteadParameter);
+            }
+            
+            fiasSteadParameter.ObjectId = itemToProceed.SourceItem.ObjectId;
+            fiasSteadParameter.ChangeId = itemToProceed.SourceItem.ChangeId;
+            fiasSteadParameter.ChangeIdEnd = itemToProceed.SourceItem.ChangeIdEnd;
+            fiasSteadParameter.TypeId = itemToProceed.SourceItem.TypeId;
+            fiasSteadParameter.Value = itemToProceed.SourceItem.Value;
+            fiasSteadParameter.UpdateDate = itemToProceed.SourceItem.UpdateDate.ToDateTime(TimeOnly.MinValue);
+            fiasSteadParameter.StartDate = itemToProceed.SourceItem.StartDate.ToDateTime(TimeOnly.MinValue);
+            fiasSteadParameter.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
         }
 
         await _classifierDataRepository.SaveAsync();

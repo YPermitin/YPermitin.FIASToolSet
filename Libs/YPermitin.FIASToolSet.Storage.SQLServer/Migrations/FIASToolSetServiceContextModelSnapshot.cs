@@ -17,10 +17,10 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("ProductVersion", "7.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.AddressObjectType", b =>
                 {
@@ -626,7 +626,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<Guid>("AddressObjectGuid")
                         .HasColumnType("uniqueidentifier");
@@ -651,6 +651,8 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.HasIndex("NormativeDocId");
 
                     b.HasIndex("OperationTypeId");
+
+                    b.HasIndex("ObjectId", "AddressObjectGuid", "ChangeId");
 
                     b.ToTable("FIASChangeHistory");
                 });
@@ -862,7 +864,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ChangeId")
                         .HasColumnType("int");
