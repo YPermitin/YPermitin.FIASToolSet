@@ -180,6 +180,12 @@ public interface IFIASDistributionLoader
     Task LoadAddressObjectsAdmHierarchy(Region region);
 
     /// <summary>
+    /// Загрузка информации о иерархии муниципального деления адресных объектов
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о иерархии муниципального деления адресных объектов</param>
+    Task LoadAddressObjectsMunHierarchy(Region region);
+
+    /// <summary>
     /// Загрузка информации о квартирах
     /// </summary>
     /// <param name="region">Регион для загрузки данных о квартирах</param>
@@ -238,6 +244,24 @@ public interface IFIASDistributionLoader
     /// </summary>
     /// <param name="region">Регион для загрузки данных о параметрах земельных участков</param>
     Task LoadSteadParameters(Region region);
+
+    /// <summary>
+    /// Загрузка информации о нормативных документах
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о нормативных документах</param>
+    Task LoadNormativeDocuments(Region region);
+    
+    /// <summary>
+    /// Загрузка истории изменений адресных объектов
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о истории изменений адресных объектов</param>
+    Task LoadChangeHistory(Region region);
+
+    /// <summary>
+    /// Загрузка реестра адресных элементов
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о реестре адресных элементов</param>
+    Task LoadObjectsRegistry(Region region);
 
     #endregion
 }

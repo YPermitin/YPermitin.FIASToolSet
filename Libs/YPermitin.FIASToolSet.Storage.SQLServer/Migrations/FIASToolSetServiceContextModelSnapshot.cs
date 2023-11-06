@@ -648,11 +648,10 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NormativeDocId");
-
                     b.HasIndex("OperationTypeId");
 
-                    b.HasIndex("ObjectId", "AddressObjectGuid", "ChangeId");
+                    b.HasIndex("ObjectId", "AddressObjectGuid", "ChangeId")
+                        .IsUnique();
 
                     b.ToTable("FIASChangeHistory");
                 });
@@ -829,19 +828,19 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Number")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("OrgName")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("RegDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("RegNumber")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
@@ -890,6 +889,9 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("LevelId");
+
+                    b.HasIndex("ObjectId", "ObjectGuid", "ChangeId")
+                        .IsUnique();
 
                     b.ToTable("FIASObjectsRegistry");
                 });
@@ -1388,17 +1390,11 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ChangeHistory", b =>
                 {
-                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.NormativeDocument", "NormativeDocument")
-                        .WithMany()
-                        .HasForeignKey("NormativeDocId");
-
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.OperationType", "OperationType")
                         .WithMany()
                         .HasForeignKey("OperationTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("NormativeDocument");
 
                     b.Navigation("OperationType");
                 });

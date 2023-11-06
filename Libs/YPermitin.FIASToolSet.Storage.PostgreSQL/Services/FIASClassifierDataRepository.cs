@@ -223,6 +223,59 @@ public class FIASClassifierDataRepository : CommonRepository, IFIASClassifierDat
 
     #endregion
     
+    #region AddressObjectMunHierarchy
+
+    public async Task<List<MunHierarchy>> GetAddressObjectsMunHierarchy(List<int> ids = null)
+    {
+        var query = _context.FIASMunHierarchy
+            .AsQueryable()
+            .AsNoTracking();
+        
+        if (ids != null)
+        {
+            query = query.Where(e => ids.Contains(e.Id));
+        }
+
+        return await query.ToListAsync();
+    }
+
+    public async Task<MunHierarchy> GetAddressObjectMunHierarchy(int id)
+    {
+        var query = _context.FIASMunHierarchy
+            .Where(e => e.Id == id)
+            .AsQueryable()
+            .AsNoTracking();
+
+        return await query.FirstOrDefaultAsync();
+    }
+
+    public async Task<bool> AddressObjectMunHierarchyExists(int id)
+    {
+        var query = _context.FIASMunHierarchy
+            .Where(e => e.Id == id)
+            .AsQueryable()
+            .AsNoTracking();
+
+        return await query.AnyAsync();
+    }
+
+    public void AddAddressObjectMunHierarchy(MunHierarchy addressObjectMunHierarchy)
+    {
+        _context.Entry(addressObjectMunHierarchy).State = EntityState.Added;
+    }
+
+    public void UpdateAddressObjectMunHierarchy(MunHierarchy addressObjectMunHierarchy)
+    {
+        _context.Entry(addressObjectMunHierarchy).State = EntityState.Modified;
+    }
+
+    public void RemoveAddressObjectMunHierarchy(MunHierarchy addressObjectMunHierarchy)
+    {
+        _context.Entry(addressObjectMunHierarchy).State = EntityState.Deleted;
+    }
+
+    #endregion
+    
     #region Apartment
 
     public async Task<List<Apartment>> GetApartments(List<int> ids = null)
@@ -749,6 +802,213 @@ public class FIASClassifierDataRepository : CommonRepository, IFIASClassifierDat
     public void RemoveSteadParameter(SteadParameter steadParameter)
     {
         _context.Entry(steadParameter).State = EntityState.Deleted;
+    }
+
+    #endregion
+    
+    #region NormativeDocument
+
+    public async Task<List<NormativeDocument>> GetNormativeDocuments(List<int> ids = null)
+    {
+        var query = _context.FIASNormativeDocuments
+            .AsQueryable()
+            .AsNoTracking();
+        
+        if (ids != null)
+        {
+            query = query.Where(e => ids.Contains(e.Id));
+        }
+
+        return await query.ToListAsync();
+    }
+
+    public async Task<NormativeDocument> GetNormativeDocument(int id)
+    {
+        var query = _context.FIASNormativeDocuments
+            .Where(e => e.Id == id)
+            .AsQueryable()
+            .AsNoTracking();
+
+        return await query.FirstOrDefaultAsync();
+    }
+
+    public async Task<bool> NormativeDocumentExists(int id)
+    {
+        var query = _context.FIASNormativeDocuments
+            .Where(e => e.Id == id)
+            .AsQueryable()
+            .AsNoTracking();
+
+        return await query.AnyAsync();
+    }
+
+    public void AddNormativeDocument(NormativeDocument normativeDocument)
+    {
+        _context.Entry(normativeDocument).State = EntityState.Added;
+    }
+
+    public void UpdateNormativeDocument(NormativeDocument normativeDocument)
+    {
+        _context.Entry(normativeDocument).State = EntityState.Modified;
+    }
+
+    public void RemoveNormativeDocument(NormativeDocument normativeDocument)
+    {
+        _context.Entry(normativeDocument).State = EntityState.Deleted;
+    }
+
+    #endregion
+    
+    #region ChangeHistory
+
+    public async Task<List<ChangeHistory>> GetChangeHistoryItems(List<int> ids = null)
+    {
+        var query = _context.FIASChangeHistory
+            .AsQueryable()
+            .AsNoTracking();
+        
+        if (ids != null)
+        {
+            query = query.Where(e => ids.Contains(e.Id));
+        }
+
+        return await query.ToListAsync();
+    }
+
+    public async Task<ChangeHistory> GetChangeHistory(int id)
+    {
+        var query = _context.FIASChangeHistory
+            .Where(e => e.Id == id)
+            .AsQueryable()
+            .AsNoTracking();
+
+        return await query.FirstOrDefaultAsync();
+    }
+    
+    public async Task<ChangeHistory> GetChangeHistory(int objectId, Guid addressObjectGuid, int changeId)
+    {
+        var query = _context.FIASChangeHistory
+            .Where(e => e.ObjectId == objectId)
+            .Where(e => e.AddressObjectGuid == addressObjectGuid)
+            .Where(e => e.ChangeId == changeId)
+            .AsQueryable()
+            .AsNoTracking();
+
+        return await query.FirstOrDefaultAsync();
+    }
+
+    public async Task<bool> ChangeHistoryExists(int id)
+    {
+        var query = _context.FIASSteads
+            .Where(e => e.Id == id)
+            .AsQueryable()
+            .AsNoTracking();
+
+        return await query.AnyAsync();
+    }
+    
+    public async Task<bool> ChangeHistoryExists(int objectId, Guid addressObjectGuid, int changeId)
+    {
+        var query = _context.FIASChangeHistory
+            .Where(e => e.ObjectId == objectId)
+            .Where(e => e.AddressObjectGuid == addressObjectGuid)
+            .Where(e => e.ChangeId == changeId)
+            .AsQueryable()
+            .AsNoTracking();
+
+        return await query.AnyAsync();
+    }
+
+    public void AddChangeHistory(ChangeHistory changeHistory)
+    {
+        _context.Entry(changeHistory).State = EntityState.Added;
+    }
+
+    public void UpdateChangeHistory(ChangeHistory changeHistory)
+    {
+        _context.Entry(changeHistory).State = EntityState.Modified;
+    }
+
+    public void RemoveChangeHistory(ChangeHistory changeHistory)
+    {
+        _context.Entry(changeHistory).State = EntityState.Deleted;
+    }
+
+    #endregion
+    
+    #region ObjectRegistry
+
+    public async Task<List<ObjectRegistry>> GetObjectRegistryItems(List<int> ids = null)
+    {
+        var query = _context.FIASObjectsRegistry
+            .AsQueryable()
+            .AsNoTracking();
+        
+        if (ids != null)
+        {
+            query = query.Where(e => ids.Contains(e.Id));
+        }
+
+        return await query.ToListAsync();
+    }
+
+    public async Task<ObjectRegistry> GetObjectRegistry(int id)
+    {
+        var query = _context.FIASObjectsRegistry
+            .Where(e => e.Id == id)
+            .AsQueryable()
+            .AsNoTracking();
+
+        return await query.FirstOrDefaultAsync();
+    }
+    
+    public async Task<ObjectRegistry> GetObjectRegistry(int objectId, Guid objectGuid, int changeId)
+    {
+        var query = _context.FIASObjectsRegistry
+            .Where(e => e.ObjectId == objectId)
+            .Where(e => e.ObjectGuid == objectGuid)
+            .Where(e => e.ChangeId == changeId)
+            .AsQueryable()
+            .AsNoTracking();
+
+        return await query.FirstOrDefaultAsync();
+    }
+
+    public async Task<bool> ObjectRegistryExists(int id)
+    {
+        var query = _context.FIASSteads
+            .Where(e => e.Id == id)
+            .AsQueryable()
+            .AsNoTracking();
+
+        return await query.AnyAsync();
+    }
+    
+    public async Task<bool> ObjectRegistryExists(int objectId, Guid objectGuid, int changeId)
+    {
+        var query = _context.FIASObjectsRegistry
+            .Where(e => e.ObjectId == objectId)
+            .Where(e => e.ObjectGuid == objectGuid)
+            .Where(e => e.ChangeId == changeId)
+            .AsQueryable()
+            .AsNoTracking();
+
+        return await query.AnyAsync();
+    }
+
+    public void AddObjectRegistry(ObjectRegistry objectRegistry)
+    {
+        _context.Entry(objectRegistry).State = EntityState.Added;
+    }
+
+    public void UpdateObjectRegistry(ObjectRegistry objectRegistry)
+    {
+        _context.Entry(objectRegistry).State = EntityState.Modified;
+    }
+
+    public void RemoveObjectRegistry(ObjectRegistry objectRegistry)
+    {
+        _context.Entry(objectRegistry).State = EntityState.Deleted;
     }
 
     #endregion

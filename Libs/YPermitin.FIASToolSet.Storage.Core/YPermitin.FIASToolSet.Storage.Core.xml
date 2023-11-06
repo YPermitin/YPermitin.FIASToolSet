@@ -470,11 +470,6 @@
             Идентификатор статуса действия над записью – причина появления записи
             </summary>
         </member>
-        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ChangeHistory.NormativeDocument">
-            <summary>
-            Нормативный документ
-            </summary>
-        </member>
         <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ChangeHistory.NormativeDocId">
             <summary>
             Идентификатор нормативного документа

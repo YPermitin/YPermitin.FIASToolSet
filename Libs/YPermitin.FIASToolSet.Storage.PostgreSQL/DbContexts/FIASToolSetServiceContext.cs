@@ -459,7 +459,8 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
             modelBuilder.Entity<ChangeHistory>()
                 .HasKey(e => e.Id);
             modelBuilder.Entity<ChangeHistory>()
-                .HasIndex(e => new { e.ObjectId, e.AddressObjectGuid, e.ChangeId });
+                .HasIndex(e => new { e.ObjectId, e.AddressObjectGuid, e.ChangeId })
+                .IsUnique();
 
             #endregion
             
@@ -511,13 +512,13 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
                 .ValueGeneratedNever();
             modelBuilder.Entity<NormativeDocument>()
                 .Property(e => e.Number)
-                .HasMaxLength(20);
+                .HasMaxLength(250);
             modelBuilder.Entity<NormativeDocument>()
                 .Property(e => e.OrgName)
-                .HasMaxLength(255);
+                .HasMaxLength(500);
             modelBuilder.Entity<NormativeDocument>()
                 .Property(e => e.RegNumber)
-                .HasMaxLength(100);
+                .HasMaxLength(250);
 
             #endregion
             
@@ -525,6 +526,9 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
 
             modelBuilder.Entity<ObjectRegistry>()
                 .HasKey(e => e.Id);
+            modelBuilder.Entity<ObjectRegistry>()
+                .HasIndex(e => new { e.ObjectId, e.ObjectGuid, e.ChangeId })
+                .IsUnique();
 
             #endregion
             

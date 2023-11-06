@@ -751,6 +751,42 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     }
     
     /// <summary>
+    /// Загрузка информации о иерархии муниципального деления адресных объектов
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о иерархии муниципального деления адресных объектов</param>
+    public async Task LoadAddressObjectsMunHierarchy(Region region)
+    {
+        var fiasDistributionReader = GetDistributionReader();
+        var fiasDistributionRegion = fiasDistributionReader
+            .GetRegions()
+            .FirstOrDefault(e => e.Code == region.Code);
+        if (fiasDistributionRegion == null)
+        {
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+        }
+
+        var fiasAddressObjectsMunHierarchy = fiasDistributionReader.GetMunHierarchy(fiasDistributionRegion);
+        
+        List<DistributionReader.Models.ClassifierData.MunHierarchy> currentPortion = 
+            new List<DistributionReader.Models.ClassifierData.MunHierarchy>();
+        
+        foreach (var fiasAddressObjectMunHierarchy in fiasAddressObjectsMunHierarchy)
+        {
+            currentPortion.Add(fiasAddressObjectMunHierarchy);
+
+            if (currentPortion.Count == 1000)
+            {
+                await SaveAddressObjectsMunHierarchyPortion(currentPortion);
+            }
+        }
+
+        if (currentPortion.Count > 0)
+        {
+            await SaveAddressObjectsMunHierarchyPortion(currentPortion);
+        }
+    }
+    
+    /// <summary>
     /// Загрузка информации о квартирах
     /// </summary>
     /// <param name="region">Регион для загрузки данных о квартирах</param>
@@ -1110,6 +1146,114 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         }
     }
     
+    /// <summary>
+    /// Загрузка информации о нормативных документах
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о нормативных документах</param>
+    public async Task LoadNormativeDocuments(Region region)
+    {
+        var fiasDistributionReader = GetDistributionReader();
+        var fiasDistributionRegion = fiasDistributionReader
+            .GetRegions()
+            .FirstOrDefault(e => e.Code == region.Code);
+        if (fiasDistributionRegion == null)
+        {
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+        }
+
+        var fiasNormativeDocuments = fiasDistributionReader.GetNormativeDocuments(fiasDistributionRegion);
+        
+        List<DistributionReader.Models.ClassifierData.NormativeDocument> currentPortion = 
+            new List<DistributionReader.Models.ClassifierData.NormativeDocument>();
+        
+        foreach (var fiasNormativeDocument in fiasNormativeDocuments)
+        {
+            currentPortion.Add(fiasNormativeDocument);
+
+            if (currentPortion.Count == 1000)
+            {
+                await SaveNormativeDocumentsPortion(currentPortion);
+            }
+        }
+
+        if (currentPortion.Count > 0)
+        {
+            await SaveNormativeDocumentsPortion(currentPortion);
+        }
+    }
+    
+    /// <summary>
+    /// Загрузка истории изменений адресных объектов
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о истории изменений адресных объектов</param>
+    public async Task LoadChangeHistory(Region region)
+    {
+        var fiasDistributionReader = GetDistributionReader();
+        var fiasDistributionRegion = fiasDistributionReader
+            .GetRegions()
+            .FirstOrDefault(e => e.Code == region.Code);
+        if (fiasDistributionRegion == null)
+        {
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+        }
+
+        var fiasChangeHistory = fiasDistributionReader.GetChangeHistory(fiasDistributionRegion);
+        
+        List<DistributionReader.Models.ClassifierData.ChangeHistory> currentPortion = 
+            new List<DistributionReader.Models.ClassifierData.ChangeHistory>();
+        
+        foreach (var fiasChangeHistoryItem in fiasChangeHistory)
+        {
+            currentPortion.Add(fiasChangeHistoryItem);
+
+            if (currentPortion.Count == 1000)
+            {
+                await SaveChangeHistoryPortion(currentPortion);
+            }
+        }
+
+        if (currentPortion.Count > 0)
+        {
+            await SaveChangeHistoryPortion(currentPortion);
+        }
+    }
+    
+    /// <summary>
+    /// Загрузка реестра адресных элементов
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о реестре адресных элементов</param>
+    public async Task LoadObjectsRegistry(Region region)
+    {
+        var fiasDistributionReader = GetDistributionReader();
+        var fiasDistributionRegion = fiasDistributionReader
+            .GetRegions()
+            .FirstOrDefault(e => e.Code == region.Code);
+        if (fiasDistributionRegion == null)
+        {
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+        }
+
+        var fiasObjectsRegistry = fiasDistributionReader.GetObjectsRegistry(fiasDistributionRegion);
+        
+        List<DistributionReader.Models.ClassifierData.ObjectRegistry> currentPortion = 
+            new List<DistributionReader.Models.ClassifierData.ObjectRegistry>();
+        
+        foreach (var fiasObjectRegistry in fiasObjectsRegistry)
+        {
+            currentPortion.Add(fiasObjectRegistry);
+
+            if (currentPortion.Count == 1000)
+            {
+                await SaveObjectsRegistryPortion(currentPortion);
+            }
+        }
+
+        if (currentPortion.Count > 0)
+        {
+            await SaveObjectsRegistryPortion(currentPortion);
+        }
+    }
+    
     #endregion
     
     private IFIASDistributionReader GetDistributionReader()
@@ -1319,6 +1463,56 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             addressObjectAdmHierarchy.UpdateDate = itemToProceed.SourceItem.UpdateDate.ToDateTime(TimeOnly.MinValue);
             addressObjectAdmHierarchy.StartDate = itemToProceed.SourceItem.StartDate.ToDateTime(TimeOnly.MinValue);
             addressObjectAdmHierarchy.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
+        }
+
+        await _classifierDataRepository.SaveAsync();
+        _classifierDataRepository.ClearChangeTracking();
+        currentPortion.Clear();
+    }
+    
+    private async Task SaveAddressObjectsMunHierarchyPortion(List<DistributionReader.Models.ClassifierData.MunHierarchy> currentPortion)
+    {
+        DistributionReader.Models.ClassifierData.MunHierarchy fiasAddressObjectMunHierarchy;
+        var existsAddressObjectsMunHierarchy = await _classifierDataRepository
+            .GetAddressObjectsMunHierarchy(ids: currentPortion.Select(e => e.Id).ToList());
+
+        var itemsToProceed = currentPortion.AsQueryable()
+            .LeftJoin(existsAddressObjectsMunHierarchy.AsQueryable(),
+                o => o.Id,
+                i => i.Id,
+                (r) => new
+                {
+                    SourceItem = r.Outer,
+                    DatabaseItem = r.Inner
+                })
+            .ToList();
+
+        foreach (var itemToProceed in itemsToProceed)
+        {
+            MunHierarchy addressObjectMunHierarchy;
+            if (itemToProceed.DatabaseItem == null)
+            {
+                addressObjectMunHierarchy = new MunHierarchy();
+                addressObjectMunHierarchy.Id = itemToProceed.SourceItem.Id;
+                _classifierDataRepository.AddAddressObjectMunHierarchy(addressObjectMunHierarchy);
+            }
+            else
+            {
+                addressObjectMunHierarchy = itemToProceed.DatabaseItem;
+                _classifierDataRepository.UpdateAddressObjectMunHierarchy(addressObjectMunHierarchy);
+            }
+            
+            addressObjectMunHierarchy.ObjectId = itemToProceed.SourceItem.ObjectId;
+            addressObjectMunHierarchy.ChangeId = itemToProceed.SourceItem.ChangeId;
+            addressObjectMunHierarchy.ParentObjectId = itemToProceed.SourceItem.ParentObjectId;
+            addressObjectMunHierarchy.OKTMO = itemToProceed.SourceItem.OKTMO;
+            addressObjectMunHierarchy.PreviousAddressObjectId = itemToProceed.SourceItem.PreviousAddressObjectId;
+            addressObjectMunHierarchy.NextAddressObjectId = itemToProceed.SourceItem.NextAddressObjectId;
+            addressObjectMunHierarchy.IsActive = itemToProceed.SourceItem.IsActive;
+            addressObjectMunHierarchy.Path = itemToProceed.SourceItem.Path;
+            addressObjectMunHierarchy.UpdateDate = itemToProceed.SourceItem.UpdateDate.ToDateTime(TimeOnly.MinValue);
+            addressObjectMunHierarchy.StartDate = itemToProceed.SourceItem.StartDate.ToDateTime(TimeOnly.MinValue);
+            addressObjectMunHierarchy.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
         }
 
         await _classifierDataRepository.SaveAsync();
@@ -1808,6 +2002,120 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             fiasSteadParameter.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
         }
 
+        await _classifierDataRepository.SaveAsync();
+        _classifierDataRepository.ClearChangeTracking();
+        currentPortion.Clear();
+    }
+    
+    private async Task SaveNormativeDocumentsPortion(List<DistributionReader.Models.ClassifierData.NormativeDocument> currentPortion)
+    {
+        var existsNormativeDocuments = await _classifierDataRepository
+            .GetNormativeDocuments(ids: currentPortion.Select(e => e.Id).ToList());
+
+        var itemsToProceed = currentPortion.AsQueryable()
+            .LeftJoin(existsNormativeDocuments.AsQueryable(),
+                o => o.Id,
+                i => i.Id,
+                (r) => new
+                {
+                    SourceItem = r.Outer,
+                    DatabaseItem = r.Inner
+                })
+            .ToList();
+
+        foreach (var itemToProceed in itemsToProceed)
+        {
+            NormativeDocument normativeDocument;
+            if (itemToProceed.DatabaseItem == null)
+            {
+                normativeDocument = new NormativeDocument();
+                normativeDocument.Id = itemToProceed.SourceItem.Id;
+                _classifierDataRepository.AddNormativeDocument(normativeDocument);
+            }
+            else
+            {
+                normativeDocument = itemToProceed.DatabaseItem;
+                _classifierDataRepository.UpdateNormativeDocument(normativeDocument);
+            }
+            
+            normativeDocument.Name = itemToProceed.SourceItem.Name;
+            normativeDocument.Date = itemToProceed.SourceItem.Date.ToDateTime(TimeOnly.MinValue);
+            normativeDocument.Number = itemToProceed.SourceItem.Number;
+            normativeDocument.TypeId = itemToProceed.SourceItem.TypeId;
+            normativeDocument.KindId = itemToProceed.SourceItem.KindId;
+            normativeDocument.OrgName = itemToProceed.SourceItem.OrgName;
+            normativeDocument.RegNumber = itemToProceed.SourceItem.RegNumber;
+            normativeDocument.RegDate = itemToProceed.SourceItem.RegDate.ToDateTime(TimeOnly.MinValue);
+            normativeDocument.UpdateDate = itemToProceed.SourceItem.UpdateDate.ToDateTime(TimeOnly.MinValue);
+            normativeDocument.AccDate = itemToProceed.SourceItem.AccDate.ToDateTime(TimeOnly.MinValue);
+            normativeDocument.Comment = itemToProceed.SourceItem.Comment;
+        }
+
+        await _classifierDataRepository.SaveAsync();
+        _classifierDataRepository.ClearChangeTracking();
+        currentPortion.Clear();
+    }
+    
+    private async Task SaveChangeHistoryPortion(List<DistributionReader.Models.ClassifierData.ChangeHistory> currentPortion)
+    {
+        foreach (var changeHistoryItem in currentPortion)
+        {
+            var changeHistoryItemToSave = await _classifierDataRepository.GetChangeHistory(
+                    changeHistoryItem.ObjectId, 
+                    changeHistoryItem.AddressObjectGuid, 
+                    changeHistoryItem.ChangeId);
+
+            if (changeHistoryItemToSave == null)
+            {
+                changeHistoryItemToSave = new ChangeHistory();
+                _classifierDataRepository.AddChangeHistory(changeHistoryItemToSave);
+            }
+            else
+            {
+                _classifierDataRepository.UpdateChangeHistory(changeHistoryItemToSave);
+            }
+
+            changeHistoryItemToSave.ObjectId = changeHistoryItem.ObjectId;
+            changeHistoryItemToSave.AddressObjectGuid = changeHistoryItem.AddressObjectGuid;
+            changeHistoryItemToSave.ChangeId = changeHistoryItem.ChangeId;
+            changeHistoryItemToSave.ChangeDate = changeHistoryItem.ChangeDate.ToDateTime(TimeOnly.MinValue);
+            changeHistoryItemToSave.NormativeDocId = changeHistoryItem.NormativeDocId == 0 ? null : changeHistoryItem.NormativeDocId;
+            changeHistoryItemToSave.OperationTypeId = changeHistoryItem.OperationTypeId;
+        }
+        
+        await _classifierDataRepository.SaveAsync();
+        _classifierDataRepository.ClearChangeTracking();
+        currentPortion.Clear();
+    }
+    
+    private async Task SaveObjectsRegistryPortion(List<DistributionReader.Models.ClassifierData.ObjectRegistry> currentPortion)
+    {
+        foreach (var changeHistoryItem in currentPortion)
+        {
+            var objectRegistryItemToSave = await _classifierDataRepository.GetObjectRegistry(
+                changeHistoryItem.ObjectId, 
+                changeHistoryItem.ObjectGuid, 
+                changeHistoryItem.ChangeId);
+
+            if (objectRegistryItemToSave == null)
+            {
+                objectRegistryItemToSave = new ObjectRegistry();
+                _classifierDataRepository.AddObjectRegistry(objectRegistryItemToSave);
+            }
+            else
+            {
+                _classifierDataRepository.UpdateObjectRegistry(objectRegistryItemToSave);
+            }
+
+            objectRegistryItemToSave.ObjectId = changeHistoryItem.ObjectId;
+            objectRegistryItemToSave.ObjectGuid = changeHistoryItem.ObjectGuid;
+            objectRegistryItemToSave.ChangeId = changeHistoryItem.ChangeId;
+            objectRegistryItemToSave.IsActive = changeHistoryItem.IsActive;
+            objectRegistryItemToSave.LevelId = changeHistoryItem.LevelId;
+            objectRegistryItemToSave.CreateDate = changeHistoryItem.CreateDate.ToDateTime(TimeOnly.MinValue);
+            objectRegistryItemToSave.UpdateDate = changeHistoryItem.UpdateDate.ToDateTime(TimeOnly.MinValue);
+        }
+        
         await _classifierDataRepository.SaveAsync();
         _classifierDataRepository.ClearChangeTracking();
         currentPortion.Clear();

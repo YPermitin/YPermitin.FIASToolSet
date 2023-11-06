@@ -65,6 +65,12 @@
             </summary>
             <param name="region">Регион для загрузки данных о иерархии административного деления адресных объектов</param>
         </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadAddressObjectsMunHierarchy(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о иерархии муниципального деления адресных объектов
+            </summary>
+            <param name="region">Регион для загрузки данных о иерархии муниципального деления адресных объектов</param>
+        </member>
         <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadApartments(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
             <summary>
             Загрузка информации о квартирах
@@ -124,6 +130,24 @@
             Загрузка информации о параметрах земельных участков
             </summary>
             <param name="region">Регион для загрузки данных о параметрах земельных участков</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadNormativeDocuments(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о нормативных документах
+            </summary>
+            <param name="region">Регион для загрузки данных о нормативных документах</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadChangeHistory(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка истории изменений адресных объектов
+            </summary>
+            <param name="region">Регион для загрузки данных о истории изменений адресных объектов</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadObjectsRegistry(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка реестра адресных элементов
+            </summary>
+            <param name="region">Регион для загрузки данных о реестре адресных элементов</param>
         </member>
         <member name="P:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.VersionInstallation">
             <summary>
@@ -290,6 +314,12 @@
             </summary>
             <param name="region">Регион для загрузки данных о иерархии административного деления адресных объектов</param>
         </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadAddressObjectsMunHierarchy(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о иерархии муниципального деления адресных объектов
+            </summary>
+            <param name="region">Регион для загрузки данных о иерархии муниципального деления адресных объектов</param>
+        </member>
         <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadApartments(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
             <summary>
             Загрузка информации о квартирах
@@ -349,6 +379,24 @@
             Загрузка информации о параметрах земельных участков
             </summary>
             <param name="region">Регион для загрузки данных о параметрах земельных участков</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadNormativeDocuments(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка информации о нормативных документах
+            </summary>
+            <param name="region">Регион для загрузки данных о нормативных документах</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadChangeHistory(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка истории изменений адресных объектов
+            </summary>
+            <param name="region">Регион для загрузки данных о истории изменений адресных объектов</param>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadObjectsRegistry(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+            <summary>
+            Загрузка реестра адресных элементов
+            </summary>
+            <param name="region">Регион для загрузки данных о реестре адресных элементов</param>
         </member>
         <member name="T:YPermitin.FIASToolSet.DistributionLoader.Models.Region">
             <summary>

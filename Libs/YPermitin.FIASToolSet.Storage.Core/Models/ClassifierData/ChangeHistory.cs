@@ -39,11 +39,11 @@ public class ChangeHistory
     /// </summary>
     public int OperationTypeId { get; set; }
     
-    /// <summary>
+    /*/// <summary>
     /// Нормативный документ
     /// </summary>
     [ForeignKey("NormativeDocId")]
-    public NormativeDocument NormativeDocument { get; set; }
+    public NormativeDocument NormativeDocument { get; set; }*/
     /// <summary>
     /// Идентификатор нормативного документа
     /// </summary>

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts;
@@ -11,9 +12,11 @@ using YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts;
 namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations
 {
     [DbContext(typeof(FIASToolSetServiceContext))]
-    partial class FIASToolSetServiceContextModelSnapshot : ModelSnapshot
+    [Migration("20231106063214_FixNormativeDocsV3")]
+    partial class FixNormativeDocsV3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -648,10 +651,11 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("NormativeDocId");
+
                     b.HasIndex("OperationTypeId");
 
-                    b.HasIndex("ObjectId", "AddressObjectGuid", "ChangeId")
-                        .IsUnique();
+                    b.HasIndex("ObjectId", "AddressObjectGuid", "ChangeId");
 
                     b.ToTable("FIASChangeHistory");
                 });
@@ -889,9 +893,6 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("LevelId");
-
-                    b.HasIndex("ObjectId", "ObjectGuid", "ChangeId")
-                        .IsUnique();
 
                     b.ToTable("FIASObjectsRegistry");
                 });
@@ -1390,11 +1391,17 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ChangeHistory", b =>
                 {
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.NormativeDocument", "NormativeDocument")
+                        .WithMany()
+                        .HasForeignKey("NormativeDocId");
+
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.OperationType", "OperationType")
                         .WithMany()
                         .HasForeignKey("OperationTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("NormativeDocument");
 
                     b.Navigation("OperationType");
                 });

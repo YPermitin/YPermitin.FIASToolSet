@@ -135,10 +135,12 @@ public class InstallAndUpdateFIASJob : IJob
                 {
                     loader.ExtractDataForRegion(availableRegion);
                     
-                    await loader.LoadAddressObjects(availableRegion);
-                    await loader.LoadAddressObjectsAdmHierarchy(availableRegion);
+                    await loader.LoadNormativeDocuments(availableRegion);
+                    await loader.LoadAddressObjects(availableRegion);                    
                     await loader.LoadAddressObjectDivisions(availableRegion);
                     await loader.LoadAddressObjectParameters(availableRegion);
+                    await loader.LoadAddressObjectsAdmHierarchy(availableRegion);
+                    await loader.LoadAddressObjectsMunHierarchy(availableRegion);                    
                     await loader.LoadApartments(availableRegion);
                     await loader.LoadApartmentParameters(availableRegion);
                     await loader.LoadCarPlaces(availableRegion);
@@ -149,7 +151,9 @@ public class InstallAndUpdateFIASJob : IJob
                     await loader.LoadRoomParameters(availableRegion);
                     await loader.LoadSteads(availableRegion);
                     await loader.LoadSteadParameters(availableRegion);
-
+                    await loader.LoadChangeHistory(availableRegion);
+                    await loader.LoadObjectsRegistry(availableRegion);
+                    
                     if (_removeExtractedDistributionFiles)
                     {
                         loader.RemoveDistributionRegionDirectory(availableRegion);

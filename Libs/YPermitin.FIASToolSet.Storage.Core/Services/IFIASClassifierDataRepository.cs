@@ -53,6 +53,22 @@ public interface IFIASClassifierDataRepository
 
     #endregion
     
+    #region AddressObjectMunHierarchy
+
+    Task<List<MunHierarchy>> GetAddressObjectsMunHierarchy(List<int> ids = null);
+
+    Task<MunHierarchy> GetAddressObjectMunHierarchy(int id);
+
+    Task<bool> AddressObjectMunHierarchyExists(int id);
+
+    void AddAddressObjectMunHierarchy(MunHierarchy addressObjectMunHierarchy);
+
+    void UpdateAddressObjectMunHierarchy(MunHierarchy addressObjectMunHierarchy);
+
+    void RemoveAddressObjectMunHierarchy(MunHierarchy addressObjectMunHierarchy);
+    
+    #endregion
+    
     #region Apartment
 
     Task<List<Apartment>> GetApartments(List<int> ids = null);
@@ -210,6 +226,62 @@ public interface IFIASClassifierDataRepository
     void UpdateSteadParameter(SteadParameter steadParameter);
 
     void RemoveSteadParameter(SteadParameter steadParameter);
+
+    #endregion
+    
+    #region NormativeDocument
+
+    Task<List<NormativeDocument>> GetNormativeDocuments(List<int> ids = null);
+
+    Task<NormativeDocument> GetNormativeDocument(int id);
+
+    Task<bool> NormativeDocumentExists(int id);
+
+    void AddNormativeDocument(NormativeDocument normativeDocument);
+
+    void UpdateNormativeDocument(NormativeDocument normativeDocument);
+
+    void RemoveNormativeDocument(NormativeDocument normativeDocument);
+
+    #endregion
+    
+    #region ChangeHistory
+
+    Task<List<ChangeHistory>> GetChangeHistoryItems(List<int> ids = null);
+
+    Task<ChangeHistory> GetChangeHistory(int id);
+
+    Task<ChangeHistory> GetChangeHistory(int objectId, Guid addressObjectGuid, int changeId);
+
+    Task<bool> ChangeHistoryExists(int id);
+
+    Task<bool> ChangeHistoryExists(int objectId, Guid addressObjectGuid, int changeId);
+
+    void AddChangeHistory(ChangeHistory changeHistory);
+
+    void UpdateChangeHistory(ChangeHistory changeHistory);
+
+    void RemoveChangeHistory(ChangeHistory changeHistory);
+
+    #endregion
+    
+    #region ObjectRegistry
+
+    Task<List<ObjectRegistry>> GetObjectRegistryItems(List<int> ids = null);
+
+    Task<ObjectRegistry> GetObjectRegistry(int id);
+
+    Task<ObjectRegistry> GetObjectRegistry(int objectId, Guid objectGuid, int changeId);
+
+    Task<bool> ObjectRegistryExists(int id);
+
+    Task<bool> ObjectRegistryExists(int objectId, Guid objectGuid, int changeId);
+
+    void AddObjectRegistry(ObjectRegistry objectRegistry);
+
+    void UpdateObjectRegistry(ObjectRegistry objectRegistry);
+
+    void RemoveObjectRegistry(ObjectRegistry objectRegistry);
 
     #endregion
     
