@@ -261,6 +261,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     {
         var fiasDistributionReader = GetDistributionReader();
 
+        bool emptyItemWasLoaded = false;
         var fiasAddressObjectTypes = fiasDistributionReader.GetAddressObjectTypes();
         foreach (var fiasAddressObjectType in fiasAddressObjectTypes)
         {
@@ -283,15 +284,48 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             addressObjectType.StartDate = fiasAddressObjectType.StartDate.ToDateTime(TimeOnly.MinValue);
             addressObjectType.EndDate = fiasAddressObjectType.EndDate.ToDateTime(TimeOnly.MinValue);
             addressObjectType.UpdateDate = fiasAddressObjectType.UpdateDate.ToDateTime(TimeOnly.MinValue);
+            
+            if (fiasAddressObjectType.Id == 0)
+            {
+                emptyItemWasLoaded = true;
+            }
         }
 
         var fiasAddressObjectTypesFromDatabase = await _fiasBaseCatalogsRepository.GetAddressObjectTypes();
         foreach (var fiasAddressObjectTypeFromDatabase in fiasAddressObjectTypesFromDatabase)
         {
+            // Пустой элемент не удаляем
+            if(fiasAddressObjectTypeFromDatabase.Id == 0)
+                continue;
+            
             if (fiasAddressObjectTypes.All(e => e.Id != fiasAddressObjectTypeFromDatabase.Id))
             {
                 _fiasBaseCatalogsRepository.RemoveAddressObjectType(fiasAddressObjectTypeFromDatabase);
             }
+        }
+        
+        // Пустое значение, если оно не было загружено ранее
+        if (!emptyItemWasLoaded)
+        {
+            AddressObjectType emptyItem = await _fiasBaseCatalogsRepository.GetAddressObjectType(0);
+            if (emptyItem == null)
+            {
+                emptyItem = new AddressObjectType();
+                emptyItem.Id = 0;
+                _fiasBaseCatalogsRepository.AddAddressObjectType(emptyItem);
+            }
+            else
+            {
+                _fiasBaseCatalogsRepository.UpdateAddressObjectType(emptyItem);
+            }
+
+            emptyItem.Name = "Не указан";
+            emptyItem.Description = "Не указан";
+            emptyItem.ShortName = "Не указан";
+            emptyItem.StartDate = new DateTime(1900, 1, 1);
+            emptyItem.UpdateDate = new DateTime(1900, 1, 1);
+            emptyItem.EndDate = new DateTime(1900, 1, 1);
+            emptyItem.Level = 0;
         }
 
         await _fiasBaseCatalogsRepository.SaveAsync();
@@ -301,6 +335,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     {
         var fiasDistributionReader = GetDistributionReader();
 
+        bool emptyItemWasLoaded = false;
         var fiasApartmentTypes = fiasDistributionReader.GetApartmentTypes();
         foreach (var fiasApartmentType in fiasApartmentTypes)
         {
@@ -323,17 +358,49 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             apartmentType.EndDate = fiasApartmentType.EndDate.ToDateTime(TimeOnly.MinValue);
             apartmentType.UpdateDate = fiasApartmentType.UpdateDate.ToDateTime(TimeOnly.MinValue);
             apartmentType.IsActive = fiasApartmentType.IsActive;
+
+            if (apartmentType.Id == 0)
+            {
+                emptyItemWasLoaded = true;
+            }
         }
 
         var fiasApartmentTypesFromDatabase = await _fiasBaseCatalogsRepository.GetApartmentTypes();
         foreach (var fiasApartmentTypeFromDatabase in fiasApartmentTypesFromDatabase)
         {
+            if(fiasApartmentTypeFromDatabase.Id == 0)
+                continue;
+            
             if (fiasApartmentTypes.All(e => e.Id != fiasApartmentTypeFromDatabase.Id))
             {
                 _fiasBaseCatalogsRepository.RemoveApartmentType(fiasApartmentTypeFromDatabase);
             }
         }
-                
+        
+        // Пустое значение, если оно не было загружено ранее
+        if (!emptyItemWasLoaded)
+        {
+            ApartmentType emptyItem = await _fiasBaseCatalogsRepository.GetApartmentType(0);
+            if (emptyItem == null)
+            {
+                emptyItem = new ApartmentType();
+                emptyItem.Id = 0;
+                _fiasBaseCatalogsRepository.AddApartmentType(emptyItem);
+            }
+            else
+            {
+                _fiasBaseCatalogsRepository.UpdateApartmentType(emptyItem);
+            }
+
+            emptyItem.Name = "Не указан";
+            emptyItem.Description = "Не указан";
+            emptyItem.ShortName = "Не указан";
+            emptyItem.StartDate = new DateTime(1900, 1, 1);
+            emptyItem.UpdateDate = new DateTime(1900, 1, 1);
+            emptyItem.EndDate = new DateTime(1900, 1, 1);
+            emptyItem.IsActive = true;
+        }
+
         await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
@@ -341,6 +408,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     {
         var fiasDistributionReader = GetDistributionReader();
 
+        bool emptyItemWasLoaded = false;
         var fiasHouseTypes = fiasDistributionReader.GetHouseTypes();
         foreach (var fiasHouseType in fiasHouseTypes)
         {
@@ -363,15 +431,48 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             houseType.EndDate = fiasHouseType.EndDate.ToDateTime(TimeOnly.MinValue);
             houseType.UpdateDate = fiasHouseType.UpdateDate.ToDateTime(TimeOnly.MinValue);
             houseType.IsActive = fiasHouseType.IsActive;
+            
+            if (houseType.Id == 0)
+            {
+                emptyItemWasLoaded = true;
+            }
         }
 
         var fiasHouseTypesFromDatabase = await _fiasBaseCatalogsRepository.GetHouseTypes();
         foreach (var fiasHouseTypeFromDatabase in fiasHouseTypesFromDatabase)
         {
+            // Пустой элемент не удаляем
+            if(fiasHouseTypeFromDatabase.Id == 0)
+                continue;
+            
             if (fiasHouseTypes.All(e => e.Id != fiasHouseTypeFromDatabase.Id))
             {
                 _fiasBaseCatalogsRepository.RemoveHouseType(fiasHouseTypeFromDatabase);
             }
+        }
+        
+        // Пустое значение, если оно не было загружено ранее
+        if (!emptyItemWasLoaded)
+        {
+            HouseType emptyItem = await _fiasBaseCatalogsRepository.GetHouseType(0);
+            if (emptyItem == null)
+            {
+                emptyItem = new HouseType();
+                emptyItem.Id = 0;
+                _fiasBaseCatalogsRepository.AddHouseType(emptyItem);
+            }
+            else
+            {
+                _fiasBaseCatalogsRepository.UpdateHouseType(emptyItem);
+            }
+
+            emptyItem.Name = "Не указан";
+            emptyItem.Description = "Не указан";
+            emptyItem.ShortName = "Не указан";
+            emptyItem.StartDate = new DateTime(1900, 1, 1);
+            emptyItem.UpdateDate = new DateTime(1900, 1, 1);
+            emptyItem.EndDate = new DateTime(1900, 1, 1);
+            emptyItem.IsActive = true;
         }
                 
         await _fiasBaseCatalogsRepository.SaveAsync();
@@ -381,6 +482,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     {
         var fiasDistributionReader = GetDistributionReader();
         
+        bool emptyItemWasLoaded = false;
         var fiasNormativeDocKinds = fiasDistributionReader.GetNormativeDocKinds();
         foreach (var fiasNormativeDocKind in fiasNormativeDocKinds)
         {
@@ -397,15 +499,42 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             }
                     
             normativeDocKind.Name = fiasNormativeDocKind.Name;
+            
+            if (normativeDocKind.Id == 0)
+            {
+                emptyItemWasLoaded = true;
+            }
         }
 
         var fiasNormativeDocKindsFromDatabase = await _fiasBaseCatalogsRepository.GetNormativeDocKinds();
         foreach (var fiasNormativeDocKindFromDatabase in fiasNormativeDocKindsFromDatabase)
         {
+            // Пустой элемент не удаляем
+            if(fiasNormativeDocKindFromDatabase.Id == 0)
+                continue;
+            
             if (fiasNormativeDocKinds.All(e => e.Id != fiasNormativeDocKindFromDatabase.Id))
             {
                 _fiasBaseCatalogsRepository.RemoveNormativeDocKind(fiasNormativeDocKindFromDatabase);
             }
+        }
+        
+        // Пустое значение, если оно не было загружено ранее
+        if (!emptyItemWasLoaded)
+        {
+            NormativeDocKind emptyItem = await _fiasBaseCatalogsRepository.GetNormativeDocKind(0);
+            if (emptyItem == null)
+            {
+                emptyItem = new NormativeDocKind();
+                emptyItem.Id = 0;
+                _fiasBaseCatalogsRepository.AddNormativeDocKind(emptyItem);
+            }
+            else
+            {
+                _fiasBaseCatalogsRepository.UpdateNormativeDocKind(emptyItem);
+            }
+
+            emptyItem.Name = "Не указан";
         }
                 
         await _fiasBaseCatalogsRepository.SaveAsync();
@@ -415,6 +544,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     {
         var fiasDistributionReader = GetDistributionReader();
         
+        bool emptyItemWasLoaded = false;
         var fiasNormativeDocTypes = fiasDistributionReader.GetNormativeDocTypes();
         foreach (var fiasNormativeDocType in fiasNormativeDocTypes)
         {
@@ -433,15 +563,44 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             normativeDocType.Name = fiasNormativeDocType.Name;
             normativeDocType.StartDate = fiasNormativeDocType.StartDate.ToDateTime(TimeOnly.MinValue);
             normativeDocType.EndDate = fiasNormativeDocType.EndDate.ToDateTime(TimeOnly.MinValue);
+            
+            if (normativeDocType.Id == 0)
+            {
+                emptyItemWasLoaded = true;
+            }
         }
 
         var fiasNormativeDocTypesFromDatabase = await _fiasBaseCatalogsRepository.GetNormativeDocTypes();
         foreach (var fiasNormativeDocTypeFromDatabase in fiasNormativeDocTypesFromDatabase)
         {
+            // Пустой элемент не удаляем
+            if(fiasNormativeDocTypeFromDatabase.Id == 0)
+                continue;
+            
             if (fiasNormativeDocTypes.All(e => e.Id != fiasNormativeDocTypeFromDatabase.Id))
             {
                 _fiasBaseCatalogsRepository.RemoveNormativeDocType(fiasNormativeDocTypeFromDatabase);
             }
+        }
+        
+        // Пустое значение, если оно не было загружено ранее
+        if (!emptyItemWasLoaded)
+        {
+            NormativeDocType emptyItem = await _fiasBaseCatalogsRepository.GetNormativeDocType(0);
+            if (emptyItem == null)
+            {
+                emptyItem = new NormativeDocType();
+                emptyItem.Id = 0;
+                _fiasBaseCatalogsRepository.AddNormativeDocType(emptyItem);
+            }
+            else
+            {
+                _fiasBaseCatalogsRepository.UpdateNormativeDocType(emptyItem);
+            }
+
+            emptyItem.Name = "Не указан";
+            emptyItem.StartDate = new DateTime(1900, 1, 1);
+            emptyItem.EndDate = new DateTime(1900, 1, 1);
         }
                 
         await _fiasBaseCatalogsRepository.SaveAsync();
@@ -451,6 +610,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     {
         var fiasDistributionReader = GetDistributionReader();
         
+        bool emptyItemWasLoaded = false;
         var fiasObjectLevels = fiasDistributionReader.GetObjectLevels();
         foreach (var fiasObjectLevel in fiasObjectLevels)
         {
@@ -471,15 +631,46 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             objectLevel.EndDate = fiasObjectLevel.EndDate.ToDateTime(TimeOnly.MinValue);
             objectLevel.UpdateDate = fiasObjectLevel.UpdateDate.ToDateTime(TimeOnly.MinValue);
             objectLevel.IsActive = fiasObjectLevel.IsActive;
+            
+            if (objectLevel.Level == 0)
+            {
+                emptyItemWasLoaded = true;
+            }
         }
 
         var fiasObjectLevelsFromDatabase = await _fiasBaseCatalogsRepository.GetObjectLevels();
         foreach (var fiasObjectLevelFromDatabase in fiasObjectLevelsFromDatabase)
         {
+            // Пустой элемент не удаляем
+            if(fiasObjectLevelFromDatabase.Level == 0)
+                continue;
+            
             if (fiasObjectLevels.All(e => e.Level != fiasObjectLevelFromDatabase.Level))
             {
                 _fiasBaseCatalogsRepository.RemoveObjectLevel(fiasObjectLevelFromDatabase);
             }
+        }
+        
+        // Пустое значение, если оно не было загружено ранее
+        if (!emptyItemWasLoaded)
+        {
+            ObjectLevel emptyItem = await _fiasBaseCatalogsRepository.GetObjectLevel(0);
+            if (emptyItem == null)
+            {
+                emptyItem = new ObjectLevel();
+                emptyItem.Level = 0;
+                _fiasBaseCatalogsRepository.AddObjectLevel(emptyItem);
+            }
+            else
+            {
+                _fiasBaseCatalogsRepository.UpdateObjectLevel(emptyItem);
+            }
+
+            emptyItem.Name = "Не указан";
+            emptyItem.IsActive = true;
+            emptyItem.StartDate = new DateTime(1900, 1, 1);
+            emptyItem.UpdateDate = new DateTime(1900, 1, 1);
+            emptyItem.EndDate = new DateTime(1900, 1, 1);
         }
                 
         await _fiasBaseCatalogsRepository.SaveAsync();
@@ -489,6 +680,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     {
         var fiasDistributionReader = GetDistributionReader();
         
+        bool emptyItemWasLoaded = false;
         var fiasOperationTypes = fiasDistributionReader.GetOperationTypes();
         foreach (var fiasOperationType in fiasOperationTypes)
         {
@@ -509,15 +701,46 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             operationType.EndDate = fiasOperationType.EndDate.ToDateTime(TimeOnly.MinValue);
             operationType.UpdateDate = fiasOperationType.UpdateDate.ToDateTime(TimeOnly.MinValue);
             operationType.IsActive = fiasOperationType.IsActive;
+            
+            if (operationType.Id == 0)
+            {
+                emptyItemWasLoaded = true;
+            }
         }
 
         var fiasOperationTypesFromDatabase = await _fiasBaseCatalogsRepository.GetOperationTypes();
         foreach (var fiasOperationTypeFromDatabase in fiasOperationTypesFromDatabase)
         {
+            // Пустой элемент не удаляем
+            if(fiasOperationTypeFromDatabase.Id == 0)
+                continue;
+            
             if (fiasOperationTypes.All(e => e.Id != fiasOperationTypeFromDatabase.Id))
             {
                 _fiasBaseCatalogsRepository.RemoveOperationType(fiasOperationTypeFromDatabase);
             }
+        }
+        
+        // Пустое значение, если оно не было загружено ранее
+        if (!emptyItemWasLoaded)
+        {
+            OperationType emptyItem = await _fiasBaseCatalogsRepository.GetOperationType(0);
+            if (emptyItem == null)
+            {
+                emptyItem = new OperationType();
+                emptyItem.Id = 0;
+                _fiasBaseCatalogsRepository.AddOperationType(emptyItem);
+            }
+            else
+            {
+                _fiasBaseCatalogsRepository.UpdateOperationType(emptyItem);
+            }
+
+            emptyItem.Name = "Не указан";
+            emptyItem.StartDate = new DateTime(1900, 1, 1);
+            emptyItem.UpdateDate = new DateTime(1900, 1, 1);
+            emptyItem.EndDate = new DateTime(1900, 1, 1);
+            emptyItem.IsActive = true;
         }
                 
         await _fiasBaseCatalogsRepository.SaveAsync();
@@ -527,6 +750,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     {
         var fiasDistributionReader = GetDistributionReader();
 
+        bool emptyItemWasLoaded = false;
         var fiasParameterTypes = fiasDistributionReader.GetParameterTypes();
         foreach (var fiasParameterType in fiasParameterTypes)
         {
@@ -549,15 +773,48 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             parameterType.EndDate = fiasParameterType.EndDate.ToDateTime(TimeOnly.MinValue);
             parameterType.UpdateDate = fiasParameterType.UpdateDate.ToDateTime(TimeOnly.MinValue);
             parameterType.IsActive = fiasParameterType.IsActive;
+            
+            if (parameterType.Id == 0)
+            {
+                emptyItemWasLoaded = true;
+            }
         }
 
         var fiasParameterTypesFromDatabase = await _fiasBaseCatalogsRepository.GetParameterTypes();
         foreach (var fiasParameterTypeFromDatabase in fiasParameterTypesFromDatabase)
         {
+            // Пустой элемент не удаляем
+            if(fiasParameterTypeFromDatabase.Id == 0)
+                continue;
+            
             if (fiasParameterTypes.All(e => e.Id != fiasParameterTypeFromDatabase.Id))
             {
                 _fiasBaseCatalogsRepository.RemoveParameterType(fiasParameterTypeFromDatabase);
             }
+        }
+        
+        // Пустое значение, если оно не было загружено ранее
+        if (!emptyItemWasLoaded)
+        {
+            ParameterType emptyItem = await _fiasBaseCatalogsRepository.GetParameterType(0);
+            if (emptyItem == null)
+            {
+                emptyItem = new ParameterType();
+                emptyItem.Id = 0;
+                _fiasBaseCatalogsRepository.AddParameterType(emptyItem);
+            }
+            else
+            {
+                _fiasBaseCatalogsRepository.UpdateParameterType(emptyItem);
+            }
+
+            emptyItem.Name = "Не указан";
+            emptyItem.Description = "Не указан";
+            emptyItem.Code = "НеУказан";
+            emptyItem.StartDate = new DateTime(1900, 1, 1);
+            emptyItem.UpdateDate = new DateTime(1900, 1, 1);
+            emptyItem.EndDate = new DateTime(1900, 1, 1);
+            emptyItem.IsActive = true;
         }
 
         await _fiasBaseCatalogsRepository.SaveAsync();
@@ -567,6 +824,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     {
         var fiasDistributionReader = GetDistributionReader();
 
+        bool emptyItemWasLoaded = false;
         var fiasRoomTypes = fiasDistributionReader.GetRoomTypes();
         foreach (var fiasRoomType in fiasRoomTypes)
         {
@@ -588,15 +846,47 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             roomType.EndDate = fiasRoomType.EndDate.ToDateTime(TimeOnly.MinValue);
             roomType.UpdateDate = fiasRoomType.UpdateDate.ToDateTime(TimeOnly.MinValue);
             roomType.IsActive = fiasRoomType.IsActive;
+            
+            if (roomType.Id == 0)
+            {
+                emptyItemWasLoaded = true;
+            }
         }
 
         var fiasRoomTypesFromDatabase = await _fiasBaseCatalogsRepository.GetRoomTypes();
         foreach (var fiasRoomTypeFromDatabase in fiasRoomTypesFromDatabase)
         {
+            // Пустой элемент не удаляем
+            if(fiasRoomTypeFromDatabase.Id == 0)
+                continue;
+            
             if (fiasRoomTypes.All(e => e.Id != fiasRoomTypeFromDatabase.Id))
             {
                 _fiasBaseCatalogsRepository.RemoveRoomType(fiasRoomTypeFromDatabase);
             }
+        }
+        
+        // Пустое значение, если оно не было загружено ранее
+        if (!emptyItemWasLoaded)
+        {
+            RoomType emptyItem = await _fiasBaseCatalogsRepository.GetRoomType(0);
+            if (emptyItem == null)
+            {
+                emptyItem = new RoomType();
+                emptyItem.Id = 0;
+                _fiasBaseCatalogsRepository.AddRoomType(emptyItem);
+            }
+            else
+            {
+                _fiasBaseCatalogsRepository.UpdateRoomType(emptyItem);
+            }
+
+            emptyItem.Name = "Не указан";
+            emptyItem.Description = "Не указан";
+            emptyItem.StartDate = new DateTime(1900, 1, 1);
+            emptyItem.UpdateDate = new DateTime(1900, 1, 1);
+            emptyItem.EndDate = new DateTime(1900, 1, 1);
+            emptyItem.IsActive = true;
         }
                 
         await _fiasBaseCatalogsRepository.SaveAsync();
@@ -1321,8 +1611,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             addressObject.IsActive = itemToProceed.SourceItem.IsActive;
         }
 
-        await _classifierDataRepository.SaveAsync();
-        _classifierDataRepository.ClearChangeTracking();
+        await _classifierDataRepository.SaveBulkAsync();
         currentPortion.Clear();
     }
     
@@ -1363,8 +1652,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             addressObjectDivision.ChangeId = itemToProceed.SourceItem.ChangeId;
         }
 
-        await _classifierDataRepository.SaveAsync();
-        _classifierDataRepository.ClearChangeTracking();
+        await _classifierDataRepository.SaveBulkAsync();
         currentPortion.Clear();
     }
     
@@ -1410,8 +1698,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             addressObjectParameter.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
         }
 
-        await _classifierDataRepository.SaveAsync();
-        _classifierDataRepository.ClearChangeTracking();
+        await _classifierDataRepository.SaveBulkAsync();
         currentPortion.Clear();
     }
     
@@ -1465,8 +1752,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             addressObjectAdmHierarchy.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
         }
 
-        await _classifierDataRepository.SaveAsync();
-        _classifierDataRepository.ClearChangeTracking();
+        await _classifierDataRepository.SaveBulkAsync();
         currentPortion.Clear();
     }
     
@@ -1515,8 +1801,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             addressObjectMunHierarchy.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
         }
 
-        await _classifierDataRepository.SaveAsync();
-        _classifierDataRepository.ClearChangeTracking();
+        await _classifierDataRepository.SaveBulkAsync();
         currentPortion.Clear();
     }
     
@@ -1566,8 +1851,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             apartment.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
         }
 
-        await _classifierDataRepository.SaveAsync();
-        _classifierDataRepository.ClearChangeTracking();
+        await _classifierDataRepository.SaveBulkAsync();
         currentPortion.Clear();
     }
     
@@ -1612,8 +1896,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             fiasApartmentParameter.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
         }
 
-        await _classifierDataRepository.SaveAsync();
-        _classifierDataRepository.ClearChangeTracking();
+        await _classifierDataRepository.SaveBulkAsync();
         currentPortion.Clear();
     }
     
@@ -1662,8 +1945,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             carPlace.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
         }
 
-        await _classifierDataRepository.SaveAsync();
-        _classifierDataRepository.ClearChangeTracking();
+        await _classifierDataRepository.SaveBulkAsync();
         currentPortion.Clear();
     }
     
@@ -1708,8 +1990,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             fiasCarPlaceParameter.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
         }
 
-        await _classifierDataRepository.SaveAsync();
-        _classifierDataRepository.ClearChangeTracking();
+        await _classifierDataRepository.SaveBulkAsync();
         currentPortion.Clear();
     }
     
@@ -1763,8 +2044,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             house.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
         }
 
-        await _classifierDataRepository.SaveAsync();
-        _classifierDataRepository.ClearChangeTracking();
+        await _classifierDataRepository.SaveBulkAsync();
         currentPortion.Clear();
     }
     
@@ -1809,8 +2089,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             fiasHouseParameter.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
         }
 
-        await _classifierDataRepository.SaveAsync();
-        _classifierDataRepository.ClearChangeTracking();
+        await _classifierDataRepository.SaveBulkAsync();
         currentPortion.Clear();
     }
     
@@ -1860,8 +2139,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             room.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
         }
 
-        await _classifierDataRepository.SaveAsync();
-        _classifierDataRepository.ClearChangeTracking();
+        await _classifierDataRepository.SaveBulkAsync();
         currentPortion.Clear();
     }
     
@@ -1906,8 +2184,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             fiasHouseParameter.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
         }
 
-        await _classifierDataRepository.SaveAsync();
-        _classifierDataRepository.ClearChangeTracking();
+        await _classifierDataRepository.SaveBulkAsync();
         currentPortion.Clear();
     }
     
@@ -1956,8 +2233,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             stead.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
         }
 
-        await _classifierDataRepository.SaveAsync();
-        _classifierDataRepository.ClearChangeTracking();
+        await _classifierDataRepository.SaveBulkAsync();
         currentPortion.Clear();
     }
     
@@ -2002,8 +2278,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             fiasSteadParameter.EndDate = itemToProceed.SourceItem.EndDate.ToDateTime(TimeOnly.MinValue);
         }
 
-        await _classifierDataRepository.SaveAsync();
-        _classifierDataRepository.ClearChangeTracking();
+        await _classifierDataRepository.SaveBulkAsync();
         currentPortion.Clear();
     }
     
@@ -2051,73 +2326,108 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             normativeDocument.Comment = itemToProceed.SourceItem.Comment;
         }
 
-        await _classifierDataRepository.SaveAsync();
-        _classifierDataRepository.ClearChangeTracking();
+        await _classifierDataRepository.SaveBulkAsync();
         currentPortion.Clear();
     }
     
     private async Task SaveChangeHistoryPortion(List<DistributionReader.Models.ClassifierData.ChangeHistory> currentPortion)
     {
-        foreach (var changeHistoryItem in currentPortion)
-        {
-            var changeHistoryItemToSave = await _classifierDataRepository.GetChangeHistory(
-                    changeHistoryItem.ObjectId, 
-                    changeHistoryItem.AddressObjectGuid, 
-                    changeHistoryItem.ChangeId);
-
-            if (changeHistoryItemToSave == null)
+        var existsNormativeDocuments = await _classifierDataRepository
+            .GetChangeHistoryItems(keys: currentPortion.Select(e => new ChangeHistory.ChangeHistoryItemKey()
             {
-                changeHistoryItemToSave = new ChangeHistory();
-                _classifierDataRepository.AddChangeHistory(changeHistoryItemToSave);
+                ChangeId = e.ChangeId,
+                AddressObjectGuid = e.AddressObjectGuid,
+                ObjectId = e.ObjectId
+            }).ToList());
+
+        var itemsToProceed = currentPortion.AsQueryable()
+            .LeftJoin(existsNormativeDocuments.AsQueryable(),
+                o => new { o.ObjectId, o.AddressObjectGuid, o.ChangeId },
+                i => new { i.ObjectId, i.AddressObjectGuid, i.ChangeId },
+                (r) => new
+                {
+                    SourceItem = r.Outer,
+                    DatabaseItem = r.Inner
+                })
+            .ToList();
+        
+        foreach (var itemToProceed in itemsToProceed)
+        {
+            ChangeHistory changeHistory;
+            if (itemToProceed.DatabaseItem == null)
+            {
+                changeHistory = new ChangeHistory();
+                changeHistory.ObjectId = itemToProceed.SourceItem.ObjectId;
+                changeHistory.AddressObjectGuid = itemToProceed.SourceItem.AddressObjectGuid;
+                changeHistory.ChangeId = itemToProceed.SourceItem.ChangeId;
+                _classifierDataRepository.AddChangeHistory(changeHistory);
             }
             else
             {
-                _classifierDataRepository.UpdateChangeHistory(changeHistoryItemToSave);
+                changeHistory = itemToProceed.DatabaseItem;
+                _classifierDataRepository.UpdateChangeHistory(changeHistory);
             }
-
-            changeHistoryItemToSave.ObjectId = changeHistoryItem.ObjectId;
-            changeHistoryItemToSave.AddressObjectGuid = changeHistoryItem.AddressObjectGuid;
-            changeHistoryItemToSave.ChangeId = changeHistoryItem.ChangeId;
-            changeHistoryItemToSave.ChangeDate = changeHistoryItem.ChangeDate.ToDateTime(TimeOnly.MinValue);
-            changeHistoryItemToSave.NormativeDocId = changeHistoryItem.NormativeDocId == 0 ? null : changeHistoryItem.NormativeDocId;
-            changeHistoryItemToSave.OperationTypeId = changeHistoryItem.OperationTypeId;
+            
+            changeHistory.ObjectId = itemToProceed.SourceItem.ObjectId;
+            changeHistory.AddressObjectGuid = itemToProceed.SourceItem.AddressObjectGuid;
+            changeHistory.ChangeId = itemToProceed.SourceItem.ChangeId;
+            changeHistory.ChangeDate = itemToProceed.SourceItem.ChangeDate.ToDateTime(TimeOnly.MinValue);
+            changeHistory.NormativeDocId = itemToProceed.SourceItem.NormativeDocId == 0 ? null : itemToProceed.SourceItem.NormativeDocId;
+            changeHistory.OperationTypeId = itemToProceed.SourceItem.OperationTypeId;
         }
-        
-        await _classifierDataRepository.SaveAsync();
-        _classifierDataRepository.ClearChangeTracking();
+
+        await _classifierDataRepository.SaveBulkAsync();
         currentPortion.Clear();
     }
     
     private async Task SaveObjectsRegistryPortion(List<DistributionReader.Models.ClassifierData.ObjectRegistry> currentPortion)
     {
-        foreach (var changeHistoryItem in currentPortion)
-        {
-            var objectRegistryItemToSave = await _classifierDataRepository.GetObjectRegistry(
-                changeHistoryItem.ObjectId, 
-                changeHistoryItem.ObjectGuid, 
-                changeHistoryItem.ChangeId);
-
-            if (objectRegistryItemToSave == null)
+        var existsObjectsRegistry = await _classifierDataRepository
+            .GetObjectRegistryItems(keys: currentPortion.Select(e => new ObjectRegistry.ObjectRegistryItemKey()
             {
-                objectRegistryItemToSave = new ObjectRegistry();
-                _classifierDataRepository.AddObjectRegistry(objectRegistryItemToSave);
+                ChangeId = e.ChangeId,
+                ObjectGuid = e.ObjectGuid,
+                ObjectId = e.ObjectId
+            }).ToList());
+
+        var itemsToProceed = currentPortion.AsQueryable()
+            .LeftJoin(existsObjectsRegistry.AsQueryable(),
+                o => new { o.ObjectId, o.ObjectGuid, o.ChangeId },
+                i => new { i.ObjectId, i.ObjectGuid, i.ChangeId },
+                (r) => new
+                {
+                    SourceItem = r.Outer,
+                    DatabaseItem = r.Inner
+                })
+            .ToList();
+        
+        foreach (var itemToProceed in itemsToProceed)
+        {
+            ObjectRegistry objectRegistry;
+            if (itemToProceed.DatabaseItem == null)
+            {
+                objectRegistry = new ObjectRegistry();
+                objectRegistry.ObjectId = itemToProceed.SourceItem.ObjectId;
+                objectRegistry.ObjectGuid = itemToProceed.SourceItem.ObjectGuid;
+                objectRegistry.ChangeId = itemToProceed.SourceItem.ChangeId;
+                _classifierDataRepository.AddObjectRegistry(objectRegistry);
             }
             else
             {
-                _classifierDataRepository.UpdateObjectRegistry(objectRegistryItemToSave);
+                objectRegistry = itemToProceed.DatabaseItem;
+                _classifierDataRepository.UpdateObjectRegistry(objectRegistry);
             }
-
-            objectRegistryItemToSave.ObjectId = changeHistoryItem.ObjectId;
-            objectRegistryItemToSave.ObjectGuid = changeHistoryItem.ObjectGuid;
-            objectRegistryItemToSave.ChangeId = changeHistoryItem.ChangeId;
-            objectRegistryItemToSave.IsActive = changeHistoryItem.IsActive;
-            objectRegistryItemToSave.LevelId = changeHistoryItem.LevelId;
-            objectRegistryItemToSave.CreateDate = changeHistoryItem.CreateDate.ToDateTime(TimeOnly.MinValue);
-            objectRegistryItemToSave.UpdateDate = changeHistoryItem.UpdateDate.ToDateTime(TimeOnly.MinValue);
+            
+            objectRegistry.ObjectId = itemToProceed.SourceItem.ObjectId;
+            objectRegistry.ObjectGuid = itemToProceed.SourceItem.ObjectGuid;
+            objectRegistry.ChangeId = itemToProceed.SourceItem.ChangeId;
+            objectRegistry.IsActive = itemToProceed.SourceItem.IsActive;
+            objectRegistry.LevelId = itemToProceed.SourceItem.LevelId;
+            objectRegistry.CreateDate = itemToProceed.SourceItem.CreateDate.ToDateTime(TimeOnly.MinValue);
+            objectRegistry.UpdateDate = itemToProceed.SourceItem.UpdateDate.ToDateTime(TimeOnly.MinValue);
         }
-        
-        await _classifierDataRepository.SaveAsync();
-        _classifierDataRepository.ClearChangeTracking();
+
+        await _classifierDataRepository.SaveBulkAsync();
         currentPortion.Clear();
     }
 }

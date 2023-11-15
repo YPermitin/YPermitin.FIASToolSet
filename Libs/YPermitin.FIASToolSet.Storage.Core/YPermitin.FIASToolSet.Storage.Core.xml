@@ -480,6 +480,27 @@
             Дата изменения
             </summary>
         </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ChangeHistory.ChangeHistoryItemKey">
+            <summary>
+            Объект ключа элемента изменения адресного объекта
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ChangeHistory.ChangeHistoryItemKey.ObjectId">
+            <summary>
+            Глобальный уникальный идентификатор объекта
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ChangeHistory.ChangeHistoryItemKey.AddressObjectGuid">
+            <summary>
+            Глобальный уникальный идентификатор ID изменившей транзакции
+            Соответствует полю AOID выгрузки в формате ФИАС
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ChangeHistory.ChangeHistoryItemKey.ChangeId">
+            <summary>
+            ID изменившей транзакции
+            </summary>
+        </member>
         <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ClassifierDataParameter">
             <summary>
             Общий параметр адресных объектов
@@ -845,6 +866,27 @@
         <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ObjectRegistry.UpdateDate">
             <summary>
             Дата изменения
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ObjectRegistry.ObjectRegistryItemKey">
+            <summary>
+            Объект ключа элемента реестра адресных элементов
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ObjectRegistry.ObjectRegistryItemKey.ObjectId">
+            <summary>
+            Глобальный уникальный идентификатор объекта
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ObjectRegistry.ObjectRegistryItemKey.ObjectGuid">
+            <summary>
+            Глобальный уникальный идентификатор объекта
+            типа UUID
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ObjectRegistry.ObjectRegistryItemKey.ChangeId">
+            <summary>
+            ID изменившей транзакции
             </summary>
         </member>
         <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.Room">

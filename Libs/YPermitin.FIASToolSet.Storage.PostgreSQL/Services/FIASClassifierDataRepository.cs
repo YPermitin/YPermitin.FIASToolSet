@@ -1,3 +1,5 @@
+using System.Data;
+using Dapper;
 using Microsoft.EntityFrameworkCore;
 using YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData;
 using YPermitin.FIASToolSet.Storage.Core.Services;
@@ -874,6 +876,42 @@ public class FIASClassifierDataRepository : CommonRepository, IFIASClassifierDat
 
         return await query.ToListAsync();
     }
+    
+    public async Task<IEnumerable<ChangeHistory>> GetChangeHistoryItems(List<ChangeHistory.ChangeHistoryItemKey> keys)
+    {
+        if (keys == null) throw new ArgumentNullException(nameof(keys));
+        
+        var dbConnection = _context.Database.GetDbConnection();
+        
+        if(dbConnection.State != ConnectionState.Open)
+            await dbConnection.OpenAsync();
+
+        await using (var transactionObject = await dbConnection.BeginTransactionAsync())
+        {
+            await dbConnection.ExecuteAsync(
+                "CREATE TEMP TABLE keys(ObjectId INT, AddressObjectGuid uuid, ChangeId INT);",
+                transaction: transactionObject);
+            
+            await dbConnection.ExecuteAsync(
+                "INSERT INTO keys (ObjectId, AddressObjectGuid, ChangeId) VALUES (@ObjectId, @AddressObjectGuid, @ChangeId);",
+                keys.Select(x => new
+                    {
+                        ObjectId = x.ObjectId, 
+                        AddressObjectGuid = x.AddressObjectGuid, 
+                        ChangeId = x.ChangeId
+                    }
+                ), 
+                transaction: transactionObject);
+
+            return await dbConnection.QueryAsync<ChangeHistory>(
+            @"SELECT * FROM ""FIASChangeHistory"" dt
+	            inner join keys k 
+		            ON k.ObjectId = dt.""ObjectId""
+			            and k.AddressObjectGuid = dt.""AddressObjectGuid""
+			            and k.ChangeId = dt.""ChangeId""",
+                transaction: transactionObject);
+        }
+    }
 
     public async Task<ChangeHistory> GetChangeHistory(int id)
     {
@@ -950,6 +988,42 @@ public class FIASClassifierDataRepository : CommonRepository, IFIASClassifierDat
         }
 
         return await query.ToListAsync();
+    }
+    
+    public async Task<IEnumerable<ObjectRegistry>> GetObjectRegistryItems(List<ObjectRegistry.ObjectRegistryItemKey> keys)
+    {
+        if (keys == null) throw new ArgumentNullException(nameof(keys));
+        
+        var dbConnection = _context.Database.GetDbConnection();
+        
+        if(dbConnection.State != ConnectionState.Open)
+            await dbConnection.OpenAsync();
+
+        await using (var transactionObject = await dbConnection.BeginTransactionAsync())
+        {
+            await dbConnection.ExecuteAsync(
+                "CREATE TEMP TABLE keys(ObjectId INT, ObjectGuid uuid, ChangeId INT);",
+                transaction: transactionObject);
+            
+            await dbConnection.ExecuteAsync(
+                "INSERT INTO keys (ObjectId, ObjectGuid, ChangeId) VALUES (@ObjectId, @ObjectGuid, @ChangeId);",
+                keys.Select(x => new
+                    {
+                        ObjectId = x.ObjectId, 
+                        ObjectGuid = x.ObjectGuid, 
+                        ChangeId = x.ChangeId
+                    }
+                ), 
+                transaction: transactionObject);
+
+            return await dbConnection.QueryAsync<ObjectRegistry>(
+                @"SELECT * FROM ""FIASObjectsRegistry"" dt
+	            inner join keys k 
+		            ON k.ObjectId = dt.""ObjectId""
+			            and k.ObjectGuid = dt.""ObjectGuid""
+			            and k.ChangeId = dt.""ChangeId""",
+                transaction: transactionObject);
+        }
     }
 
     public async Task<ObjectRegistry> GetObjectRegistry(int id)

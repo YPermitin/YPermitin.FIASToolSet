@@ -17,6 +17,9 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL
             {
                 string connectionString = configuration.GetConnectionString("FIASToolSetService");
                 options.UseNpgsql(connectionString);
+#if DEBUG
+                options.EnableSensitiveDataLogging();
+#endif
             });
 
             services.AddScoped<IFIASMaintenanceRepository, FIASMaintenanceRepository>();

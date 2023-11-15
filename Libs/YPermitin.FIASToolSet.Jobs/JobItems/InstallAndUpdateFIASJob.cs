@@ -119,9 +119,9 @@ public class InstallAndUpdateFIASJob : IJob
                     return;
                 }
 
+                await loader.LoadObjectLevels();
                 await loader.LoadApartmentTypes();
                 await loader.LoadHouseTypes();
-                await loader.LoadObjectLevels();
                 await loader.LoadOperationTypes();
                 await loader.LoadRoomTypes();
                 await loader.LoadParameterTypes();
@@ -140,7 +140,7 @@ public class InstallAndUpdateFIASJob : IJob
                     await loader.LoadAddressObjectDivisions(availableRegion);
                     await loader.LoadAddressObjectParameters(availableRegion);
                     await loader.LoadAddressObjectsAdmHierarchy(availableRegion);
-                    await loader.LoadAddressObjectsMunHierarchy(availableRegion);                    
+                    await loader.LoadAddressObjectsMunHierarchy(availableRegion);                
                     await loader.LoadApartments(availableRegion);
                     await loader.LoadApartmentParameters(availableRegion);
                     await loader.LoadCarPlaces(availableRegion);

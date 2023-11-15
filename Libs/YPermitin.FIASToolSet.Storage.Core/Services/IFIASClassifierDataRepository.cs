@@ -249,6 +249,8 @@ public interface IFIASClassifierDataRepository
 
     Task<List<ChangeHistory>> GetChangeHistoryItems(List<int> ids = null);
 
+    Task<IEnumerable<ChangeHistory>> GetChangeHistoryItems(List<ChangeHistory.ChangeHistoryItemKey> keys);
+
     Task<ChangeHistory> GetChangeHistory(int id);
 
     Task<ChangeHistory> GetChangeHistory(int objectId, Guid addressObjectGuid, int changeId);
@@ -269,6 +271,8 @@ public interface IFIASClassifierDataRepository
 
     Task<List<ObjectRegistry>> GetObjectRegistryItems(List<int> ids = null);
 
+    Task<IEnumerable<ObjectRegistry>> GetObjectRegistryItems(List<ObjectRegistry.ObjectRegistryItemKey> keys);
+    
     Task<ObjectRegistry> GetObjectRegistry(int id);
 
     Task<ObjectRegistry> GetObjectRegistry(int objectId, Guid objectGuid, int changeId);
@@ -289,6 +293,7 @@ public interface IFIASClassifierDataRepository
     Task CommitTransactionAsync();
     Task RollbackTransactionAsync();
     Task<bool> SaveAsync();
+    Task<bool> SaveBulkAsync();
     Task SaveWithIdentityInsertAsync<T>();
     void ClearChangeTracking();
 }
