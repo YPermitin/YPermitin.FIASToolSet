@@ -119,9 +119,9 @@ public class InstallAndUpdateFIASJob : IJob
                     return;
                 }
 
+                await loader.LoadObjectLevels();
                 await loader.LoadApartmentTypes();
                 await loader.LoadHouseTypes();
-                await loader.LoadObjectLevels();
                 await loader.LoadOperationTypes();
                 await loader.LoadRoomTypes();
                 await loader.LoadParameterTypes();
@@ -135,9 +135,25 @@ public class InstallAndUpdateFIASJob : IJob
                 {
                     loader.ExtractDataForRegion(availableRegion);
                     
-                    await loader.LoadAddressObjects(availableRegion);
+                    await loader.LoadNormativeDocuments(availableRegion);
+                    await loader.LoadAddressObjects(availableRegion);                    
                     await loader.LoadAddressObjectDivisions(availableRegion);
-
+                    await loader.LoadAddressObjectParameters(availableRegion);
+                    await loader.LoadAddressObjectsAdmHierarchy(availableRegion);
+                    await loader.LoadAddressObjectsMunHierarchy(availableRegion);                
+                    await loader.LoadApartments(availableRegion);
+                    await loader.LoadApartmentParameters(availableRegion);
+                    await loader.LoadCarPlaces(availableRegion);
+                    await loader.LoadCarPlaceParameters(availableRegion);
+                    await loader.LoadHouses(availableRegion);
+                    await loader.LoadHouseParameters(availableRegion);
+                    await loader.LoadRooms(availableRegion);
+                    await loader.LoadRoomParameters(availableRegion);
+                    await loader.LoadSteads(availableRegion);
+                    await loader.LoadSteadParameters(availableRegion);
+                    await loader.LoadChangeHistory(availableRegion);
+                    await loader.LoadObjectsRegistry(availableRegion);
+                    
                     if (_removeExtractedDistributionFiles)
                     {
                         loader.RemoveDistributionRegionDirectory(availableRegion);

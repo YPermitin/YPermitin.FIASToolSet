@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ITEMS>
+    <ITEM 
+            ID="114785646" 
+            OBJECTID="97678198" 
+            PARENTOBJID="97670661" 
+            CHANGEID="154016314" 
+            REGIONCODE="72" 
+            AREACODE="11" 
+            CITYCODE="0" 
+            PLACECODE="0" 
+            PLANCODE="111"
+            STREETCODE="119"
+            PREVID="0" 
+            NEXTID="0"
+            UPDATEDATE="2020-07-28" 
+            STARTDATE="2020-07-28"
+            ENDDATE="2079-06-06"
+            ISACTIVE="1" 
+            PATH="1305522.1327981.97670661.97678198" />
+</ITEMS>

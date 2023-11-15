@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using YPermitin.FIASToolSet.Storage.Core.Models;
+﻿using System.Data;
+using Dapper;
+using Microsoft.EntityFrameworkCore;
 using YPermitin.FIASToolSet.Storage.Core.Models.Notifications;
 using YPermitin.FIASToolSet.Storage.Core.Models.Versions;
 using YPermitin.FIASToolSet.Storage.Core.Services;
@@ -20,7 +21,7 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Services
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
         }
-
+        
         public async Task<FIASVersion> GetLastVersion(int? versionId = null)
         {
             var queryVersions = _context.FIASVersions.AsQueryable();

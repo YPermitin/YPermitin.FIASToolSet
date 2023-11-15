@@ -70,6 +70,86 @@ public class FIASDistributionReader : IFIASDistributionReader
         {
             FileSearchPatternRegex = "AS_ADDR_OBJ_DIVISION_\\d\\d\\d\\d\\d\\d\\d\\d*.+XML",
             ErrorMessage = "Не обнаружен файл с информацией о переподчинении адресных объектах."
+        }},
+        { typeof(AddressObjectParameterCollection), new CollectionInfo()
+        {
+            FileSearchPatternRegex = "AS_ADDR_OBJ_PARAMS_\\d\\d\\d\\d\\d\\d\\d\\d*.+XML",
+            ErrorMessage = "Не обнаружен файл с информацией о параметрах адресных объектах."
+        }},
+        { typeof(AddressObjectAdmHierarchyCollection), new CollectionInfo()
+        {
+            FileSearchPatternRegex = "AS_ADM_HIERARCHY_\\d\\d\\d\\d\\d\\d\\d\\d*.+XML",
+            ErrorMessage = "Не обнаружен файл с информацией по иерархии в административном делении."
+        }},
+        { typeof(ApartmentCollection), new CollectionInfo()
+        {
+            FileSearchPatternRegex = "AS_APARTMENTS_\\d\\d\\d\\d\\d\\d\\d\\d*.+XML",
+            ErrorMessage = "Не обнаружен файл с информацией о помещениях."
+        }},
+        { typeof(ApartmentParameterCollection), new CollectionInfo()
+        {
+            FileSearchPatternRegex = "AS_APARTMENTS_PARAMS_\\d\\d\\d\\d\\d\\d\\d\\d*.+XML",
+            ErrorMessage = "Не обнаружен файл с информацией о параметрах помещений."
+        }},
+        { typeof(CarPlaceCollection), new CollectionInfo()
+        {
+            FileSearchPatternRegex = "AS_CARPLACES_\\d\\d\\d\\d\\d\\d\\d\\d*.+XML",
+            ErrorMessage = "Не обнаружен файл с информацией о машино-местах."
+        }},
+        { typeof(CarPlaceParameterCollection), new CollectionInfo()
+        {
+            FileSearchPatternRegex = "AS_CARPLACES_PARAMS_\\d\\d\\d\\d\\d\\d\\d\\d*.+XML",
+            ErrorMessage = "Не обнаружен файл с информацией о параметрах машино-мест."
+        }},
+        { typeof(ChangeHistoryCollection), new CollectionInfo()
+        {
+            FileSearchPatternRegex = "AS_CHANGE_HISTORY_\\d\\d\\d\\d\\d\\d\\d\\d*.+XML",
+            ErrorMessage = "Не обнаружен файл с информацией об истории изменения адресных элементов."
+        }},
+        { typeof(HouseCollection), new CollectionInfo()
+        {
+            FileSearchPatternRegex = "AS_HOUSES_\\d\\d\\d\\d\\d\\d\\d\\d*.+XML",
+            ErrorMessage = "Не обнаружен файл с информацией о строениях."
+        }},
+        { typeof(HouseParameterCollection), new CollectionInfo()
+        {
+            FileSearchPatternRegex = "AS_HOUSES_PARAMS_\\d\\d\\d\\d\\d\\d\\d\\d*.+XML",
+            ErrorMessage = "Не обнаружен файл с информацией о параметрах строения."
+        }},
+        { typeof(MunHierarchyCollection), new CollectionInfo()
+        {
+            FileSearchPatternRegex = "AS_MUN_HIERARCHY_\\d\\d\\d\\d\\d\\d\\d\\d*.+XML",
+            ErrorMessage = "Не обнаружен файл с информацией о иерархии в муниципальном делении."
+        }},
+        { typeof(NormativeDocumentCollection), new CollectionInfo()
+        {
+            FileSearchPatternRegex = "AS_NORMATIVE_DOCS_\\d\\d\\d\\d\\d\\d\\d\\d*.+XML",
+            ErrorMessage = "Не обнаружен файл с информацией о нормативных документах."
+        }},
+        { typeof(ObjectRegistryCollection), new CollectionInfo()
+        {
+            FileSearchPatternRegex = "AS_REESTR_OBJECTS_\\d\\d\\d\\d\\d\\d\\d\\d*.+XML",
+            ErrorMessage = "Не обнаружен файл с информацией о реестре адресных элементов."
+        }},
+        { typeof(RoomCollection), new CollectionInfo()
+        {
+            FileSearchPatternRegex = "AS_ROOMS_\\d\\d\\d\\d\\d\\d\\d\\d*.+XML",
+            ErrorMessage = "Не обнаружен файл с информацией о комнатах."
+        }},
+        { typeof(RoomParameterCollection), new CollectionInfo()
+        {
+            FileSearchPatternRegex = "AS_ROOMS_PARAMS_\\d\\d\\d\\d\\d\\d\\d\\d*.+XML",
+            ErrorMessage = "Не обнаружен файл с информацией о параметрах комнат."
+        }},
+        { typeof(SteadCollection), new CollectionInfo()
+        {
+            FileSearchPatternRegex = "AS_STEADS_\\d\\d\\d\\d\\d\\d\\d\\d*.+XML",
+            ErrorMessage = "Не обнаружен файл с информацией о земельных участках."
+        }},
+        { typeof(SteadParameterCollection), new CollectionInfo()
+        {
+            FileSearchPatternRegex = "AS_STEADS_PARAMS_\\d\\d\\d\\d\\d\\d\\d\\d*.+XML",
+            ErrorMessage = "Не обнаружен файл с информацией о параметрах земельных участков."
         }}
     };
     private class CollectionInfo
@@ -270,7 +350,167 @@ public class FIASDistributionReader : IFIASDistributionReader
     {
         return GetInternalCollection<AddressObjectDivisionCollection>(region);
     }
-
+    
+    /// <summary>
+    /// Получение коллекции объектов с информацией о параметрах адресных объектов
+    /// </summary>
+    /// <returns>Коллекция элементов с информацией о параметрах адресных объектов</returns>
+    /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
+    public AddressObjectParameterCollection GetAddressObjectParameters(Region region)
+    {
+        return GetInternalCollection<AddressObjectParameterCollection>(region);
+    }
+    
+    /// <summary>
+    /// Получение коллекции объектов с информацией о иерарххии в административном делении
+    /// </summary>
+    /// <returns>Коллекция элементов с информацией о иерарххии в административном делении</returns>
+    /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
+    public AddressObjectAdmHierarchyCollection GetAddressObjectsAdmHierarchy(Region region)
+    {
+        return GetInternalCollection<AddressObjectAdmHierarchyCollection>(region);
+    }
+    
+    /// <summary>
+    /// Получение коллекции объектов с информацией о помещениях
+    /// </summary>
+    /// <returns>Коллекция элементов с информацией о помещениях</returns>
+    /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
+    public ApartmentCollection GetApartments(Region region)
+    {
+        return GetInternalCollection<ApartmentCollection>(region);
+    }
+    
+    /// <summary>
+    /// Получение коллекции объектов с информацией о параметрах помещений
+    /// </summary>
+    /// <returns>Коллекция элементов с информацией о параметрах помещений</returns>
+    /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
+    public ApartmentParameterCollection GetApartmentParameters(Region region)
+    {
+        return GetInternalCollection<ApartmentParameterCollection>(region);
+    }
+    
+    /// <summary>
+    /// Получение коллекции объектов с информацией о машино-местах
+    /// </summary>
+    /// <returns>Коллекция элементов с информацией о машино-местах</returns>
+    /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
+    public CarPlaceCollection GetCarPlaces(Region region)
+    {
+        return GetInternalCollection<CarPlaceCollection>(region);
+    }
+    
+    /// <summary>
+    /// Получение коллекции объектов с информацией о параметрах машино-места
+    /// </summary>
+    /// <returns>Коллекция элементов с информацией о параметрах машино-места</returns>
+    /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
+    public CarPlaceParameterCollection GetCarPlaceParameters(Region region)
+    {
+        return GetInternalCollection<CarPlaceParameterCollection>(region);
+    }
+    
+    /// <summary>
+    /// Получение коллекции объектов с информацией об истории изменений адресных элементов
+    /// </summary>
+    /// <returns>Коллекция элементов с информацией об истории изменений адресных элементов</returns>
+    /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
+    public ChangeHistoryCollection GetChangeHistory(Region region)
+    {
+        return GetInternalCollection<ChangeHistoryCollection>(region);
+    }
+    
+    /// <summary>
+    /// Получение коллекции объектов с информацией о строениях
+    /// </summary>
+    /// <returns>Коллекция элементов с информацией о строениях</returns>
+    /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
+    public HouseCollection GetHouses(Region region)
+    {
+        return GetInternalCollection<HouseCollection>(region);
+    }
+    
+    /// <summary>
+    /// Получение коллекции объектов с информацией о параметрах строений
+    /// </summary>
+    /// <returns>Коллекция элементов с информацией о параметрах строений</returns>
+    /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
+    public HouseParameterCollection GetHouseParameters(Region region)
+    {
+        return GetInternalCollection<HouseParameterCollection>(region);
+    }
+    
+    /// <summary>
+    /// Получение коллекции объектов с информацией о иерарххии в муниципальном делении
+    /// </summary>
+    /// <returns>Коллекция элементов с информацией о иерарххии в муниципальном делении</returns>
+    /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
+    public MunHierarchyCollection GetMunHierarchy(Region region)
+    {
+        return GetInternalCollection<MunHierarchyCollection>(region);
+    }
+    
+    /// <summary>
+    /// Получение коллекции объектов с информацией о нормативных документов
+    /// </summary>
+    /// <returns>Коллекция элементов с информацией о нормативных документов</returns>
+    /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
+    public NormativeDocumentCollection GetNormativeDocuments(Region region)
+    {
+        return GetInternalCollection<NormativeDocumentCollection>(region);
+    }
+    
+    /// <summary>
+    /// Получение коллекции объектов с информацией о реестре адресных элементов
+    /// </summary>
+    /// <returns>Коллекция элементов с информацией о реестре адресных элементов</returns>
+    /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
+    public ObjectRegistryCollection GetObjectsRegistry(Region region)
+    {
+        return GetInternalCollection<ObjectRegistryCollection>(region);
+    }
+    
+    /// <summary>
+    /// Получение коллекции объектов с информацией о комнатах
+    /// </summary>
+    /// <returns>Коллекция элементов с информацией о комнатах</returns>
+    /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
+    public RoomCollection GetRooms(Region region)
+    {
+        return GetInternalCollection<RoomCollection>(region);
+    }
+    
+    /// <summary>
+    /// Получение коллекции объектов с информацией о параметрах комнат
+    /// </summary>
+    /// <returns>Коллекция элементов с информацией о параметрах комнат</returns>
+    /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
+    public RoomParameterCollection GetRoomParameters(Region region)
+    {
+        return GetInternalCollection<RoomParameterCollection>(region);
+    }
+    
+    /// <summary>
+    /// Получение коллекции объектов с информацией о земельных участках
+    /// </summary>
+    /// <returns>Коллекция элементов с информацией о земельных участках</returns>
+    /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
+    public SteadCollection GetSteads(Region region)
+    {
+        return GetInternalCollection<SteadCollection>(region);
+    }
+    
+    /// <summary>
+    /// Получение коллекции объектов с информацией о параметрах земельных участков
+    /// </summary>
+    /// <returns>Коллекция элементов с информацией о параметрах земельных участков</returns>
+    /// <exception cref="FIASDataNotFoundException">Не удалось файл с данными</exception>
+    public SteadParameterCollection GetSteadParameters(Region region)
+    {
+        return GetInternalCollection<SteadParameterCollection>(region);
+    }
+    
     #endregion
     
     private T GetInternalCollection<T>(Region region = null)

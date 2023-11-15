@@ -15,6 +15,9 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer
             {
                 string connectionString = configuration.GetConnectionString("FIASToolSetService");
                 options.UseSqlServer(connectionString);
+#if DEBUG
+                options.EnableSensitiveDataLogging();
+#endif
             });
 
             services.AddScoped<IFIASMaintenanceRepository, FIASMaintenanceRepository>();

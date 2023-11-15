@@ -1,10 +1,25 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EFCore.BulkExtensions;
+using Microsoft.EntityFrameworkCore;
 using YPermitin.FIASToolSet.Storage.SQLServer.DbContexts;
 
 namespace YPermitin.FIASToolSet.Storage.SQLServer.Services
 {
     public abstract class CommonRepository
     {
+        private static HashSet<EntityState> _entityStatesToSaveChanges = new()
+        {
+            EntityState.Added,
+            EntityState.Modified,
+            EntityState.Deleted
+        };
+        
+        protected readonly BulkConfig BulkConfigDefault = new BulkConfig()
+        {
+            BatchSize = 10000,
+            WithHoldlock = true,
+            UseTempDB = true
+        };
+        
         // ReSharper disable once InconsistentNaming
         protected readonly FIASToolSetServiceContext _context;
 
@@ -47,6 +62,26 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Services
             return changesExists;
         }
         
+        public async Task<bool> SaveBulkAsync()
+        {
+            var entities = _context.ChangeTracker
+                .Entries()
+                .Where(e => _entityStatesToSaveChanges.Contains(e.State) )
+                .Select(e => e.Entity)
+                .ToList();
+
+            var changesExists = (entities.Count() >= 0);
+            
+            await _context.BulkSaveChangesAsync(BulkConfigDefault);
+            
+            if (changesExists)
+            {
+                _context.ChangeTracker.Clear();
+            }
+
+            return changesExists;
+        }
+        
         public async Task SaveWithIdentityInsertAsync<T>()
         {
             await using (var transaction = await _context.Database.BeginTransactionAsync())
@@ -56,6 +91,11 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Services
                 await SetIdentityInsert<T>(false);
                 await transaction.CommitAsync();
             }
+        }
+
+        public void ClearChangeTracking()
+        {
+            _context.ChangeTracker.Clear();
         }
 
         #region Service

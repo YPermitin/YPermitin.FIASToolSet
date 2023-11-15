@@ -4,5 +4,29 @@
         <name>YPermitin.FIASToolSet.Storage.SQLServer</name>
     </assembly>
     <members>
+        <member name="T:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddIndexByBaseFieldsToChangeHistory">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddIndexByBaseFieldsToChangeHistory.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddIndexByBaseFieldsToChangeHistory.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddIndexByBaseFieldsToChangeHistory.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.ActualizeMigrationV1">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.ActualizeMigrationV1.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.ActualizeMigrationV1.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.ActualizeMigrationV1.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>

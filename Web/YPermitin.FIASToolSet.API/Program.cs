@@ -148,7 +148,7 @@ namespace YPermitin.FIASToolSet.API
                 app.Run();
             }
             catch (Exception ex) 
-                when(ex is not OperationCanceledException && ex.GetType().Name != "StopTheHostException")
+                when(ex is not OperationCanceledException && ex.GetType().Name != "HostAbortedException")
             {
                 Log.Fatal(ex, "Host terminated unexpectedly");
             }

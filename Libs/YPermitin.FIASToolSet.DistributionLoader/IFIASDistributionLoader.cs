@@ -167,5 +167,101 @@ public interface IFIASDistributionLoader
     /// <param name="region">Регион для загрузки данных о переодчинении адресных объектов</param>
     Task LoadAddressObjectDivisions(Region region);
 
+    /// <summary>
+    /// Загрузка информации о параметрах адресных объектов
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о параметрах адресных объектов</param>
+    Task LoadAddressObjectParameters(Region region);
+
+    /// <summary>
+    /// Загрузка информации о иерархии административного деления адресных объектов
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о иерархии административного деления адресных объектов</param>
+    Task LoadAddressObjectsAdmHierarchy(Region region);
+
+    /// <summary>
+    /// Загрузка информации о иерархии муниципального деления адресных объектов
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о иерархии муниципального деления адресных объектов</param>
+    Task LoadAddressObjectsMunHierarchy(Region region);
+
+    /// <summary>
+    /// Загрузка информации о квартирах
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о квартирах</param>
+    Task LoadApartments(Region region);
+
+    /// <summary>
+    /// Загрузка информации о параметрах квартир
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о параметрах квартир</param>
+    Task LoadApartmentParameters(Region region);
+
+    /// <summary>
+    /// Загрузка информации о машино-местах
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о машино-местах</param>
+    Task LoadCarPlaces(Region region);
+    
+    /// <summary>
+    /// Загрузка информации о параметрах машино-мест
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о параметрах машино-мест</param>
+    Task LoadCarPlaceParameters(Region region);
+
+    /// <summary>
+    /// Загрузка информации о строениях
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о строениях</param>
+    Task LoadHouses(Region region);
+    
+    /// <summary>
+    /// Загрузка информации о параметрах строений
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о параметрах строений</param>
+    Task LoadHouseParameters(Region region);
+
+    /// <summary>
+    /// Загрузка информации о комнатах
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о комнатах</param>
+    Task LoadRooms(Region region);
+    
+    /// <summary>
+    /// Загрузка информации о параметрах комнат
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о параметрах комнат</param>
+    Task LoadRoomParameters(Region region);
+
+    /// <summary>
+    /// Загрузка информации о земельных участках
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о земельных участках</param>
+    Task LoadSteads(Region region);
+    
+    /// <summary>
+    /// Загрузка информации о параметрах земельных участков
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о параметрах земельных участков</param>
+    Task LoadSteadParameters(Region region);
+
+    /// <summary>
+    /// Загрузка информации о нормативных документах
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о нормативных документах</param>
+    Task LoadNormativeDocuments(Region region);
+    
+    /// <summary>
+    /// Загрузка истории изменений адресных объектов
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о истории изменений адресных объектов</param>
+    Task LoadChangeHistory(Region region);
+
+    /// <summary>
+    /// Загрузка реестра адресных элементов
+    /// </summary>
+    /// <param name="region">Регион для загрузки данных о реестре адресных элементов</param>
+    Task LoadObjectsRegistry(Region region);
+
     #endregion
 }
