@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Quartz;
 using YPermitin.FIASToolSet.DistributionBrowser.Models;
 using YPermitin.FIASToolSet.DistributionLoader;
+using YPermitin.FIASToolSet.DistributionLoader.Exceptions;
 
 namespace YPermitin.FIASToolSet.Jobs.JobItems;
 
@@ -32,14 +33,22 @@ public class InstallAndUpdateFIASJob : IJob
         _configuration = configuration;
 
         _workingDirectory = _configuration.GetValue("FIASToolSet:WorkingDirectory", string.Empty);
-        
-        _availableRegions = _configuration
+
+        var availableRegionsAsStrings = _configuration
             .GetSection("FIASToolSet:Regions")
-            .Get<List<string>>()
-            .DefaultIfEmpty()
-            .Where(e => int.TryParse(e, out _))
-            .Select(int.Parse)
-            .ToList();
+            .Get<List<string>>();
+        if (availableRegionsAsStrings == null || availableRegionsAsStrings.Count == 0)
+        {
+            _availableRegions = new List<int>();
+        }
+        else
+        {
+            _availableRegions = availableRegionsAsStrings
+                .DefaultIfEmpty()
+                .Where(e => int.TryParse(e, out _))
+                .Select(int.Parse)
+                .ToList();
+        }
 
         _removeArchiveDistributionFiles =
             _configuration.GetValue("FIASToolSet:ClearTempDistributionFiles:RemoveArchiveDistributionFiles", false);
@@ -129,11 +138,25 @@ public class InstallAndUpdateFIASJob : IJob
                 await loader.LoadNormativeDocKinds();
                 await loader.LoadNormativeDocTypes();
                 
-                var availableRegions = loader.GetAvailableRegions()
-                    .Where(e => _availableRegions.Contains(e.Code));
+                var availableRegions = loader.GetAvailableRegions();
+                if (_availableRegions.Count > 0)
+                {
+                        availableRegions = availableRegions
+                            .Where(e => _availableRegions.Contains(e.Code))
+                            .ToList();
+                }
+                
                 foreach (var availableRegion in availableRegions)
                 {
-                    loader.ExtractDataForRegion(availableRegion);
+                    try
+                    {
+                        loader.ExtractDataForRegion(availableRegion);
+                    }
+                    catch (RegionNotFoundException)
+                    {
+                        _logger.LogError($"Не найден регион с кодом ${availableRegion.Code} среди доступных регионов в дистрибутиве ФИАС. Загрузка пропущена.");
+                        continue;
+                    }
                     
                     await loader.LoadNormativeDocuments(availableRegion);
                     await loader.LoadAddressObjects(availableRegion);                    

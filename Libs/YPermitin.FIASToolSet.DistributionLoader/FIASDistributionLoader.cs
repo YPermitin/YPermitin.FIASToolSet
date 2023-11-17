@@ -199,7 +199,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         if (regionItem == null)
         {
             throw new RegionNotFoundException(
-                $"Не найден регион с кодом \"{region}\" среди достпных регионов в дистрибутиве ФИАС.",
+                $"Не найден регион с кодом \"{region.Code}\" среди доступных регионов в дистрибутиве ФИАС.",
                 region.ToString());
         }
         
