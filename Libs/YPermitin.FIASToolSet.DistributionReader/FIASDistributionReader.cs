@@ -521,7 +521,7 @@ public class FIASDistributionReader : IFIASDistributionReader
             if (region == null)
                 workingDirectory = _workingDirectory;
             else
-                workingDirectory = Path.Combine(_workingDirectory, region.Code.ToString());
+                workingDirectory = Path.Combine(_workingDirectory, region.Code.ToString("00"));
             
             string dataFile;
             string[] foundFiles;
