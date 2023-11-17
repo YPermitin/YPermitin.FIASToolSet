@@ -5,6 +5,9 @@ using YPermitin.FIASToolSet.DistributionLoader.Exceptions;
 using YPermitin.FIASToolSet.DistributionLoader.Extensions;
 using YPermitin.FIASToolSet.DistributionLoader.Models;
 using YPermitin.FIASToolSet.DistributionReader;
+using YPermitin.FIASToolSet.DistributionReader.DataCollections.BaseCatalogs;
+using YPermitin.FIASToolSet.DistributionReader.DataCollections.ClassifierData;
+using YPermitin.FIASToolSet.DistributionReader.Exceptions;
 using YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs;
 using YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData;
 using YPermitin.FIASToolSet.Storage.Core.Models.Versions;
@@ -262,7 +265,16 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         var fiasDistributionReader = GetDistributionReader();
 
         bool emptyItemWasLoaded = false;
-        var fiasAddressObjectTypes = fiasDistributionReader.GetAddressObjectTypes();
+        AddressObjectTypeCollection fiasAddressObjectTypes;
+        try
+        {
+            fiasAddressObjectTypes = fiasDistributionReader.GetAddressObjectTypes();
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
+        
         foreach (var fiasAddressObjectType in fiasAddressObjectTypes)
         {
             var addressObjectType = await _fiasBaseCatalogsRepository.GetAddressObjectType(fiasAddressObjectType.Id);
@@ -336,7 +348,16 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         var fiasDistributionReader = GetDistributionReader();
 
         bool emptyItemWasLoaded = false;
-        var fiasApartmentTypes = fiasDistributionReader.GetApartmentTypes();
+        ApartmentTypeCollection fiasApartmentTypes;
+        try
+        {
+            fiasApartmentTypes = fiasDistributionReader.GetApartmentTypes();
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
+        
         foreach (var fiasApartmentType in fiasApartmentTypes)
         {
             var apartmentType = await _fiasBaseCatalogsRepository.GetApartmentType(fiasApartmentType.Id);
@@ -409,7 +430,16 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         var fiasDistributionReader = GetDistributionReader();
 
         bool emptyItemWasLoaded = false;
-        var fiasHouseTypes = fiasDistributionReader.GetHouseTypes();
+        HouseTypeCollection fiasHouseTypes;
+        try
+        {
+            fiasHouseTypes = fiasDistributionReader.GetHouseTypes();
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
+        
         foreach (var fiasHouseType in fiasHouseTypes)
         {
             var houseType = await _fiasBaseCatalogsRepository.GetHouseType(fiasHouseType.Id);
@@ -483,7 +513,16 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         var fiasDistributionReader = GetDistributionReader();
         
         bool emptyItemWasLoaded = false;
-        var fiasNormativeDocKinds = fiasDistributionReader.GetNormativeDocKinds();
+        NormativeDocKindCollection fiasNormativeDocKinds;
+        try
+        {
+            fiasNormativeDocKinds = fiasDistributionReader.GetNormativeDocKinds();
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
+        
         foreach (var fiasNormativeDocKind in fiasNormativeDocKinds)
         {
             var normativeDocKind = await _fiasBaseCatalogsRepository.GetNormativeDocKind(fiasNormativeDocKind.Id);
@@ -545,7 +584,16 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         var fiasDistributionReader = GetDistributionReader();
         
         bool emptyItemWasLoaded = false;
-        var fiasNormativeDocTypes = fiasDistributionReader.GetNormativeDocTypes();
+        NormativeDocTypeCollection fiasNormativeDocTypes;
+        try
+        {
+            fiasNormativeDocTypes = fiasDistributionReader.GetNormativeDocTypes();
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
+        
         foreach (var fiasNormativeDocType in fiasNormativeDocTypes)
         {
             var normativeDocType = await _fiasBaseCatalogsRepository.GetNormativeDocType(fiasNormativeDocType.Id);
@@ -611,7 +659,16 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         var fiasDistributionReader = GetDistributionReader();
         
         bool emptyItemWasLoaded = false;
-        var fiasObjectLevels = fiasDistributionReader.GetObjectLevels();
+        ObjectLevelCollection fiasObjectLevels;
+        try
+        {
+            fiasObjectLevels = fiasDistributionReader.GetObjectLevels();
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
+        
         foreach (var fiasObjectLevel in fiasObjectLevels)
         {
             var objectLevel = await _fiasBaseCatalogsRepository.GetObjectLevel(fiasObjectLevel.Level);
@@ -681,7 +738,16 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         var fiasDistributionReader = GetDistributionReader();
         
         bool emptyItemWasLoaded = false;
-        var fiasOperationTypes = fiasDistributionReader.GetOperationTypes();
+        OperationTypeCollection fiasOperationTypes;
+        try
+        {
+            fiasOperationTypes = fiasDistributionReader.GetOperationTypes();
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
+        
         foreach (var fiasOperationType in fiasOperationTypes)
         {
             var operationType = await _fiasBaseCatalogsRepository.GetOperationType(fiasOperationType.Id);
@@ -751,7 +817,16 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         var fiasDistributionReader = GetDistributionReader();
 
         bool emptyItemWasLoaded = false;
-        var fiasParameterTypes = fiasDistributionReader.GetParameterTypes();
+        ParameterTypeCollection fiasParameterTypes;
+        try
+        {
+            fiasParameterTypes = fiasDistributionReader.GetParameterTypes();
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
+        
         foreach (var fiasParameterType in fiasParameterTypes)
         {
             var parameterType = await _fiasBaseCatalogsRepository.GetParameterType(fiasParameterType.Id);
@@ -825,7 +900,16 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         var fiasDistributionReader = GetDistributionReader();
 
         bool emptyItemWasLoaded = false;
-        var fiasRoomTypes = fiasDistributionReader.GetRoomTypes();
+        RoomTypeCollection fiasRoomTypes;
+        try
+        {
+            fiasRoomTypes = fiasDistributionReader.GetRoomTypes();
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
+        
         foreach (var fiasRoomType in fiasRoomTypes)
         {
             var roomType = await _fiasBaseCatalogsRepository.GetRoomType(fiasRoomType.Id);
@@ -911,7 +995,15 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
         }
 
-        var fiasAddressObjects = fiasDistributionReader.GetAddressObjects(fiasDistributionRegion);
+        AddressObjectCollection fiasAddressObjects;
+        try
+        {
+            fiasAddressObjects = fiasDistributionReader.GetAddressObjects(fiasDistributionRegion);
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
 
         List<DistributionReader.Models.ClassifierData.AddressObject> currentPortion = 
             new List<DistributionReader.Models.ClassifierData.AddressObject>();
@@ -947,7 +1039,15 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
         }
 
-        var fiasAddressObjectDivisions = fiasDistributionReader.GetAddressObjectDivisions(fiasDistributionRegion);
+        AddressObjectDivisionCollection fiasAddressObjectDivisions;
+        try
+        {
+            fiasAddressObjectDivisions = fiasDistributionReader.GetAddressObjectDivisions(fiasDistributionRegion);
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
         
         List<DistributionReader.Models.ClassifierData.AddressObjectDivision> currentPortion = 
             new List<DistributionReader.Models.ClassifierData.AddressObjectDivision>();
@@ -983,7 +1083,15 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
         }
 
-        var fiasAddressObjectParameters = fiasDistributionReader.GetAddressObjectParameters(fiasDistributionRegion);
+        AddressObjectParameterCollection fiasAddressObjectParameters;
+        try
+        {
+            fiasAddressObjectParameters = fiasDistributionReader.GetAddressObjectParameters(fiasDistributionRegion);
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
         
         List<DistributionReader.Models.ClassifierData.AddressObjectParameter> currentPortion = 
             new List<DistributionReader.Models.ClassifierData.AddressObjectParameter>();
@@ -1019,7 +1127,15 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
         }
 
-        var fiasAddressObjectsAdmHierarchy = fiasDistributionReader.GetAddressObjectsAdmHierarchy(fiasDistributionRegion);
+        AddressObjectAdmHierarchyCollection fiasAddressObjectsAdmHierarchy;
+        try
+        {
+            fiasAddressObjectsAdmHierarchy = fiasDistributionReader.GetAddressObjectsAdmHierarchy(fiasDistributionRegion);
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
         
         List<DistributionReader.Models.ClassifierData.AddressObjectAdmHierarchy> currentPortion = 
             new List<DistributionReader.Models.ClassifierData.AddressObjectAdmHierarchy>();
@@ -1055,7 +1171,15 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
         }
 
-        var fiasAddressObjectsMunHierarchy = fiasDistributionReader.GetMunHierarchy(fiasDistributionRegion);
+        MunHierarchyCollection fiasAddressObjectsMunHierarchy;
+        try
+        {
+            fiasAddressObjectsMunHierarchy = fiasDistributionReader.GetMunHierarchy(fiasDistributionRegion);
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
         
         List<DistributionReader.Models.ClassifierData.MunHierarchy> currentPortion = 
             new List<DistributionReader.Models.ClassifierData.MunHierarchy>();
@@ -1091,7 +1215,15 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
         }
 
-        var fiasApartments = fiasDistributionReader.GetApartments(fiasDistributionRegion);
+        ApartmentCollection fiasApartments;
+        try
+        {
+            fiasApartments = fiasDistributionReader.GetApartments(fiasDistributionRegion);
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
         
         List<DistributionReader.Models.ClassifierData.Apartment> currentPortion = 
             new List<DistributionReader.Models.ClassifierData.Apartment>();
@@ -1127,7 +1259,15 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
         }
 
-        var fiasApartmentParameters = fiasDistributionReader.GetApartmentParameters(fiasDistributionRegion);
+        ApartmentParameterCollection fiasApartmentParameters;
+        try
+        {
+            fiasApartmentParameters = fiasDistributionReader.GetApartmentParameters(fiasDistributionRegion);
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
         
         List<DistributionReader.Models.ClassifierData.ApartmentParameter> currentPortion = 
             new List<DistributionReader.Models.ClassifierData.ApartmentParameter>();
@@ -1163,7 +1303,15 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
         }
 
-        var fiasCarPlaces = fiasDistributionReader.GetCarPlaces(fiasDistributionRegion);
+        CarPlaceCollection fiasCarPlaces;
+        try
+        {
+            fiasCarPlaces = fiasDistributionReader.GetCarPlaces(fiasDistributionRegion);
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
         
         List<DistributionReader.Models.ClassifierData.CarPlace> currentPortion = 
             new List<DistributionReader.Models.ClassifierData.CarPlace>();
@@ -1199,7 +1347,15 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
         }
 
-        var fiasCarPlaceParameters = fiasDistributionReader.GetCarPlaceParameters(fiasDistributionRegion);
+        CarPlaceParameterCollection fiasCarPlaceParameters;
+        try
+        {
+            fiasCarPlaceParameters = fiasDistributionReader.GetCarPlaceParameters(fiasDistributionRegion);
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
         
         List<DistributionReader.Models.ClassifierData.CarPlaceParameter> currentPortion = 
             new List<DistributionReader.Models.ClassifierData.CarPlaceParameter>();
@@ -1235,7 +1391,15 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
         }
 
-        var fiasHouses = fiasDistributionReader.GetHouses(fiasDistributionRegion);
+        HouseCollection fiasHouses;
+        try
+        {
+            fiasHouses = fiasDistributionReader.GetHouses(fiasDistributionRegion);
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
         
         List<DistributionReader.Models.ClassifierData.House> currentPortion = 
             new List<DistributionReader.Models.ClassifierData.House>();
@@ -1271,7 +1435,15 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
         }
 
-        var fiasHouseParameters = fiasDistributionReader.GetHouseParameters(fiasDistributionRegion);
+        HouseParameterCollection fiasHouseParameters;
+        try
+        {
+            fiasHouseParameters = fiasDistributionReader.GetHouseParameters(fiasDistributionRegion);
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
         
         List<DistributionReader.Models.ClassifierData.HouseParameter> currentPortion = 
             new List<DistributionReader.Models.ClassifierData.HouseParameter>();
@@ -1307,7 +1479,15 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
         }
 
-        var fiasRooms = fiasDistributionReader.GetRooms(fiasDistributionRegion);
+        RoomCollection fiasRooms;
+        try
+        {
+            fiasRooms = fiasDistributionReader.GetRooms(fiasDistributionRegion);
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
         
         List<DistributionReader.Models.ClassifierData.Room> currentPortion = 
             new List<DistributionReader.Models.ClassifierData.Room>();
@@ -1343,7 +1523,15 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
         }
 
-        var fiasRoomParameters = fiasDistributionReader.GetRoomParameters(fiasDistributionRegion);
+        RoomParameterCollection fiasRoomParameters;
+        try
+        {
+            fiasRoomParameters = fiasDistributionReader.GetRoomParameters(fiasDistributionRegion);
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
         
         List<DistributionReader.Models.ClassifierData.RoomParameter> currentPortion = 
             new List<DistributionReader.Models.ClassifierData.RoomParameter>();
@@ -1379,7 +1567,15 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
         }
 
-        var fiasSteads = fiasDistributionReader.GetSteads(fiasDistributionRegion);
+        SteadCollection fiasSteads;
+        try
+        {
+            fiasSteads = fiasDistributionReader.GetSteads(fiasDistributionRegion);
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
         
         List<DistributionReader.Models.ClassifierData.Stead> currentPortion = 
             new List<DistributionReader.Models.ClassifierData.Stead>();
@@ -1415,7 +1611,15 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
         }
 
-        var fiasSteadParameters = fiasDistributionReader.GetSteadParameters(fiasDistributionRegion);
+        SteadParameterCollection fiasSteadParameters;
+        try
+        {
+            fiasSteadParameters = fiasDistributionReader.GetSteadParameters(fiasDistributionRegion);
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
         
         List<DistributionReader.Models.ClassifierData.SteadParameter> currentPortion = 
             new List<DistributionReader.Models.ClassifierData.SteadParameter>();
@@ -1451,7 +1655,15 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
         }
 
-        var fiasNormativeDocuments = fiasDistributionReader.GetNormativeDocuments(fiasDistributionRegion);
+        NormativeDocumentCollection fiasNormativeDocuments;
+        try
+        {
+            fiasNormativeDocuments = fiasDistributionReader.GetNormativeDocuments(fiasDistributionRegion);
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
         
         List<DistributionReader.Models.ClassifierData.NormativeDocument> currentPortion = 
             new List<DistributionReader.Models.ClassifierData.NormativeDocument>();
@@ -1487,7 +1699,15 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
         }
 
-        var fiasChangeHistory = fiasDistributionReader.GetChangeHistory(fiasDistributionRegion);
+        ChangeHistoryCollection fiasChangeHistory;
+        try
+        {
+            fiasChangeHistory = fiasDistributionReader.GetChangeHistory(fiasDistributionRegion);
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
         
         List<DistributionReader.Models.ClassifierData.ChangeHistory> currentPortion = 
             new List<DistributionReader.Models.ClassifierData.ChangeHistory>();
@@ -1523,7 +1743,15 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
         }
 
-        var fiasObjectsRegistry = fiasDistributionReader.GetObjectsRegistry(fiasDistributionRegion);
+        ObjectRegistryCollection fiasObjectsRegistry;
+        try
+        {
+            fiasObjectsRegistry = fiasDistributionReader.GetObjectsRegistry(fiasDistributionRegion);
+        }
+        catch (FIASDataNotFoundException)
+        {
+            return;
+        }
         
         List<DistributionReader.Models.ClassifierData.ObjectRegistry> currentPortion = 
             new List<DistributionReader.Models.ClassifierData.ObjectRegistry>();
