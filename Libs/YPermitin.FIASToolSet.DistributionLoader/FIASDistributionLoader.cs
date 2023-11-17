@@ -195,7 +195,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             distributionFileType = DistributionFileType.GARFIASXmlDelta;
         
         var availableRegions = Distribution.GetAvailableRegions(distributionFileType);
-        var regionItem = availableRegions.FirstOrDefault(e => e == region.Code.ToString());
+        var regionItem = availableRegions.FirstOrDefault(e => e == region.Code.ToString("00"));
         if (regionItem == null)
         {
             throw new RegionNotFoundException(
@@ -203,7 +203,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
                 region.ToString());
         }
         
-        Distribution.ExtractDistributionRegionFiles(distributionFileType, region.Code.ToString());
+        Distribution.ExtractDistributionRegionFiles(distributionFileType, region.Code.ToString("00"));
 
         return GetDataDirectoryForRegion(region);
     }
@@ -215,7 +215,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     /// <returns>Путь к каталогу с данными по региону</returns>
     public string GetDataDirectoryForRegion(Region region)
     {
-        return Path.Combine(_distributionDirectory, region.Code.ToString());
+        return Path.Combine(_distributionDirectory, region.Code.ToString("00"));
     }
 
     /// <summary>
@@ -230,7 +230,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         else
             distributionFileType = DistributionFileType.GARFIASXmlDelta;
         
-        Distribution.RemoveDistributionRegionDirectory(distributionFileType, region.Code.ToString());
+        Distribution.RemoveDistributionRegionDirectory(distributionFileType, region.Code.ToString("00"));
     }
     
     public async Task SetInstallationToStatusNew()
@@ -992,7 +992,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             .FirstOrDefault(e => e.Code == region.Code);
         if (fiasDistributionRegion == null)
         {
-            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString("00"));
         }
 
         AddressObjectCollection fiasAddressObjects;
@@ -1036,7 +1036,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             .FirstOrDefault(e => e.Code == region.Code);
         if (fiasDistributionRegion == null)
         {
-            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString("00"));
         }
 
         AddressObjectDivisionCollection fiasAddressObjectDivisions;
@@ -1080,7 +1080,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             .FirstOrDefault(e => e.Code == region.Code);
         if (fiasDistributionRegion == null)
         {
-            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString("00"));
         }
 
         AddressObjectParameterCollection fiasAddressObjectParameters;
@@ -1124,7 +1124,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             .FirstOrDefault(e => e.Code == region.Code);
         if (fiasDistributionRegion == null)
         {
-            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString("00"));
         }
 
         AddressObjectAdmHierarchyCollection fiasAddressObjectsAdmHierarchy;
@@ -1168,7 +1168,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             .FirstOrDefault(e => e.Code == region.Code);
         if (fiasDistributionRegion == null)
         {
-            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString("00"));
         }
 
         MunHierarchyCollection fiasAddressObjectsMunHierarchy;
@@ -1212,7 +1212,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             .FirstOrDefault(e => e.Code == region.Code);
         if (fiasDistributionRegion == null)
         {
-            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString("00"));
         }
 
         ApartmentCollection fiasApartments;
@@ -1256,7 +1256,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             .FirstOrDefault(e => e.Code == region.Code);
         if (fiasDistributionRegion == null)
         {
-            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString("00"));
         }
 
         ApartmentParameterCollection fiasApartmentParameters;
@@ -1300,7 +1300,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             .FirstOrDefault(e => e.Code == region.Code);
         if (fiasDistributionRegion == null)
         {
-            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString("00"));
         }
 
         CarPlaceCollection fiasCarPlaces;
@@ -1344,7 +1344,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             .FirstOrDefault(e => e.Code == region.Code);
         if (fiasDistributionRegion == null)
         {
-            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString("00"));
         }
 
         CarPlaceParameterCollection fiasCarPlaceParameters;
@@ -1388,7 +1388,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             .FirstOrDefault(e => e.Code == region.Code);
         if (fiasDistributionRegion == null)
         {
-            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString("00"));
         }
 
         HouseCollection fiasHouses;
@@ -1432,7 +1432,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             .FirstOrDefault(e => e.Code == region.Code);
         if (fiasDistributionRegion == null)
         {
-            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString("00"));
         }
 
         HouseParameterCollection fiasHouseParameters;
@@ -1476,7 +1476,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             .FirstOrDefault(e => e.Code == region.Code);
         if (fiasDistributionRegion == null)
         {
-            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString("00"));
         }
 
         RoomCollection fiasRooms;
@@ -1520,7 +1520,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             .FirstOrDefault(e => e.Code == region.Code);
         if (fiasDistributionRegion == null)
         {
-            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString("00"));
         }
 
         RoomParameterCollection fiasRoomParameters;
@@ -1564,7 +1564,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             .FirstOrDefault(e => e.Code == region.Code);
         if (fiasDistributionRegion == null)
         {
-            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString("00"));
         }
 
         SteadCollection fiasSteads;
@@ -1608,7 +1608,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             .FirstOrDefault(e => e.Code == region.Code);
         if (fiasDistributionRegion == null)
         {
-            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString("00"));
         }
 
         SteadParameterCollection fiasSteadParameters;
@@ -1652,7 +1652,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             .FirstOrDefault(e => e.Code == region.Code);
         if (fiasDistributionRegion == null)
         {
-            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString("00"));
         }
 
         NormativeDocumentCollection fiasNormativeDocuments;
@@ -1696,7 +1696,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             .FirstOrDefault(e => e.Code == region.Code);
         if (fiasDistributionRegion == null)
         {
-            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString("00"));
         }
 
         ChangeHistoryCollection fiasChangeHistory;
@@ -1740,7 +1740,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             .FirstOrDefault(e => e.Code == region.Code);
         if (fiasDistributionRegion == null)
         {
-            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString());
+            throw new RegionNotFoundException("Не удалось найти регион.", region.Code.ToString("00"));
         }
 
         ObjectRegistryCollection fiasObjectsRegistry;
