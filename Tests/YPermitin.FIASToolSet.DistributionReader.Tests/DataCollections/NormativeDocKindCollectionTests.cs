@@ -27,6 +27,7 @@ public class NormativeDocKindCollectionTests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(4, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(0, allItems[0].Id);
         Assert.AreEqual("Не определено", allItems[0].Name);

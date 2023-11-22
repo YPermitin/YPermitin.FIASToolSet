@@ -28,6 +28,7 @@ public class ObjectLevelCollectionTests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(17, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(1, allItems[0].Level);
         Assert.AreEqual("Субъект РФ", allItems[0].Name);

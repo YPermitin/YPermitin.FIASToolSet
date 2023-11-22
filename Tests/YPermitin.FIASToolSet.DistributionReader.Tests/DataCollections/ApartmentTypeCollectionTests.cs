@@ -28,6 +28,7 @@ public class ApartmentTypeCollectionTests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(13, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(1, allItems[0].Id);
         Assert.AreEqual("Помещение", allItems[0].Name);

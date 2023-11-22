@@ -28,6 +28,7 @@ public class HouseTypeCollectionTests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(14, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(1, allItems[0].Id);
         Assert.AreEqual("Владение", allItems[0].Name);

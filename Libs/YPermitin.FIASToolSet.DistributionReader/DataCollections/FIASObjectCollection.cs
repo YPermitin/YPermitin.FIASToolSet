@@ -7,7 +7,7 @@ public abstract class FIASObjectCollection<TItem, TEnumerator> : IEnumerable<TIt
     where TItem : class
     where TEnumerator : IEnumerator<TItem>
 {
-    private readonly string _dataFilePath;
+    protected readonly string _dataFilePath;
     
     private IEnumerator<TItem> _enumerator;
 
@@ -29,6 +29,11 @@ public abstract class FIASObjectCollection<TItem, TEnumerator> : IEnumerable<TIt
     IEnumerator IEnumerable.GetEnumerator()
     {
         return GetEnumerator();
+    }
+
+    public virtual long CalculateCollectionSize()
+    {
+        return this.LongCount();
     }
     
     public abstract class FIASObjectEnumerator<TParsedItem> : IEnumerator<TParsedItem> where TParsedItem : class

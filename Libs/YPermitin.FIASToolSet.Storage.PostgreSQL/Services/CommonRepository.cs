@@ -17,7 +17,8 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Services
         {
             BatchSize = 10000,
             WithHoldlock = true,
-            UseTempDB = true
+            UseTempDB = true,
+            UniqueTableNameTempDb = true
         };
         
         // ReSharper disable once InconsistentNaming

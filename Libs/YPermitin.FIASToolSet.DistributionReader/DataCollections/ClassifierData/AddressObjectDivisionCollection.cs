@@ -1,3 +1,4 @@
+using System.Xml;
 using YPermitin.FIASToolSet.DistributionReader.Extensions;
 using YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData;
 
@@ -7,6 +8,22 @@ public class AddressObjectDivisionCollection : FIASObjectCollection<AddressObjec
 {
     public AddressObjectDivisionCollection(string dataFilePath) : base(dataFilePath)
     {
+    }
+    
+    public override long CalculateCollectionSize()
+    {
+        long collectionSize = 0;
+
+        using (var reader = XmlReader.Create(_dataFilePath))
+        {
+            while (reader.Read())
+            {
+                if (reader.Name == "ITEM")
+                    collectionSize += 1;
+            }
+        }
+
+        return collectionSize;
     }
     
     public class AddressObjectDivisionEnumerator : FIASObjectEnumerator<AddressObjectDivision>
