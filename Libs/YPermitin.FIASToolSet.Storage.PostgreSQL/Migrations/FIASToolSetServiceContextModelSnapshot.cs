@@ -1280,6 +1280,46 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations
                         });
                 });
 
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStep", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("FIASVersionInstallationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("FileFullName")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)");
+
+                    b.Property<int>("PercentageCompleted")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("StatusId")
+                        .HasColumnType("uuid");
+
+                    b.Property<long>("TotalItemsLoaded")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("TotalItemsToLoad")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FIASVersionInstallationId");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("FIASVersionInstallationSteps");
+                });
+
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationType", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1569,6 +1609,25 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations
                     b.Navigation("FIASVersion");
 
                     b.Navigation("InstallationType");
+
+                    b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStep", b =>
+                {
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallation", "FIASVersionInstallation")
+                        .WithMany()
+                        .HasForeignKey("FIASVersionInstallationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStatus", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FIASVersionInstallation");
 
                     b.Navigation("Status");
                 });

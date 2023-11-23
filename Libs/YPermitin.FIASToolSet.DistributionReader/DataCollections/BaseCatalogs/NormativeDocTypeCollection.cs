@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Xml;
 using YPermitin.FIASToolSet.DistributionReader.Models.BaseCatalogs;
 
 namespace YPermitin.FIASToolSet.DistributionReader.DataCollections.BaseCatalogs;
@@ -7,6 +8,22 @@ public class NormativeDocTypeCollection : FIASObjectCollection<NormativeDocType,
 {
     public NormativeDocTypeCollection(string dataFilePath) : base(dataFilePath)
     {
+    }
+    
+    public override long CalculateCollectionSize()
+    {
+        long collectionSize = 0;
+
+        using (var reader = XmlReader.Create(_dataFilePath))
+        {
+            while (reader.Read())
+            {
+                if (reader.Name == "NDOCTYPE")
+                    collectionSize += 1;
+            }
+        }
+
+        return collectionSize;
     }
     
     public class NormativeDocTypeEnumerator : FIASObjectEnumerator<NormativeDocType>

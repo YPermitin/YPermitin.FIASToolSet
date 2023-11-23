@@ -100,5 +100,17 @@
         <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.FixObjectRegistryAndChangeHistoryIndexes.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.AddedInstallationSteps">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.AddedInstallationSteps.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.AddedInstallationSteps.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.AddedInstallationSteps.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>

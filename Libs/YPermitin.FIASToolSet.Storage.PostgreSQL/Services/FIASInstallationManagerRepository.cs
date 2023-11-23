@@ -11,6 +11,8 @@ public class FIASInstallationManagerRepository : CommonRepository, IFIASInstalla
     {
     }
 
+    #region FIASVersionInstallation
+    
     public async Task<List<FIASVersionInstallation>> GetInstallations(Guid? statusId = null, Guid? typeId = null,
         bool includeDetails = false)
     {
@@ -86,4 +88,41 @@ public class FIASInstallationManagerRepository : CommonRepository, IFIASInstalla
     {
         _context.Entry(installation).State = EntityState.Modified;
     }
+    
+    #endregion
+    
+    #region FIASVersionInstallationStep
+
+    public async Task<List<FIASVersionInstallationStep>> GetVersionInstallationSteps(Guid installationId)
+    {
+        var steps = await _context.FIASVersionInstallationSteps
+            .Where(e => e.FIASVersionInstallationId == installationId)
+            .AsNoTracking()
+            .ToListAsync();
+
+        return steps;
+    }
+    
+    public async Task<FIASVersionInstallationStep> GetVersionInstallationStep(Guid installationId, string fileFullName)
+    {
+        var foundStep = await _context.FIASVersionInstallationSteps
+            .Where(e => e.FIASVersionInstallationId == installationId)
+            .Where(e => e.FileFullName == fileFullName)
+            .AsNoTracking()
+            .FirstOrDefaultAsync();
+
+        return foundStep;
+    }
+    
+    public void AddInstallationStep(FIASVersionInstallationStep installationStep)
+    {
+        _context.Entry(installationStep).State = EntityState.Added;
+    }
+
+    public void UpdateInstallationStep(FIASVersionInstallationStep installationStep)
+    {
+        _context.Entry(installationStep).State = EntityState.Modified;
+    }
+    
+    #endregion
 }

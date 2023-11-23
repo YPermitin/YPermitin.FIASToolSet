@@ -28,6 +28,7 @@ public class AddressObjectTypeCollectionTests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(421, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(5, allItems[0].Id);
         Assert.AreEqual(1, allItems[0].Level);

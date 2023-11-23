@@ -28,6 +28,7 @@ public class NormativeDocTypeCollectionTests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(25, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(0, allItems[0].Id);
         Assert.AreEqual("Не указан", allItems[0].Name);

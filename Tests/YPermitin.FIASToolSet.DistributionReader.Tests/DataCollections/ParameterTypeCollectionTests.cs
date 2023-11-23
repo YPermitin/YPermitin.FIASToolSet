@@ -28,6 +28,7 @@ public class ParameterTypeCollectionTests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(19, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(1, allItems[0].Id);
         Assert.AreEqual("ИФНС ФЛ", allItems[0].Name);

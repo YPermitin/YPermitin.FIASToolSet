@@ -7,7 +7,46 @@ public abstract class FIASObjectCollection<TItem, TEnumerator> : IEnumerable<TIt
     where TItem : class
     where TEnumerator : IEnumerator<TItem>
 {
-    private readonly string _dataFilePath;
+    protected readonly string _dataFilePath;
+
+    public string DataFileFullPath => _dataFilePath;
+
+    public string DataFileShortPath
+    {
+        get
+        {
+            string dataFileShortPath = null;
+            
+            FileInfo dataFileInfo = new FileInfo(_dataFilePath);
+            
+            // Проверяем, что файл находится в каталоге с данными региона.
+            if (dataFileInfo.Directory != null)
+            {
+                string parentDirectoryName = dataFileInfo.Directory.Name;
+                if (parentDirectoryName.Length == 2 && int.TryParse(parentDirectoryName, out _))
+                {
+                    // При этом дополнительно проверяем,
+                    // что родительский каталог содержит файл с информацией о версии ФИАС,
+                    // что подтверждает корректную иерархию каталогов.
+                    if (dataFileInfo.Directory.Parent != null)
+                    {
+                        string versionFile = Path.Combine(dataFileInfo.Directory.Parent.FullName, "version.txt");
+                        if (File.Exists(versionFile))
+                        {
+                            dataFileShortPath = Path.Combine(dataFileInfo.Directory.Name, dataFileInfo.Name);
+                        }
+                    }
+                }
+            }
+
+            if (dataFileShortPath == null)
+            {
+                dataFileShortPath = dataFileInfo.Name;
+            }
+
+            return dataFileShortPath;
+        }
+    }
     
     private IEnumerator<TItem> _enumerator;
 
@@ -29,6 +68,11 @@ public abstract class FIASObjectCollection<TItem, TEnumerator> : IEnumerable<TIt
     IEnumerator IEnumerable.GetEnumerator()
     {
         return GetEnumerator();
+    }
+
+    public virtual long CalculateCollectionSize()
+    {
+        return this.LongCount();
     }
     
     public abstract class FIASObjectEnumerator<TParsedItem> : IEnumerator<TParsedItem> where TParsedItem : class

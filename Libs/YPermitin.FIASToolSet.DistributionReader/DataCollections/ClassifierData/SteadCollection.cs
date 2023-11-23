@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Xml;
 using YPermitin.FIASToolSet.DistributionReader.Extensions;
 using YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData;
 
@@ -8,6 +9,22 @@ public class SteadCollection : FIASObjectCollection<Stead, SteadCollection.Stead
 {
     public SteadCollection(string dataFilePath) : base(dataFilePath)
     {
+    }
+    
+    public override long CalculateCollectionSize()
+    {
+        long collectionSize = 0;
+
+        using (var reader = XmlReader.Create(_dataFilePath))
+        {
+            while (reader.Read())
+            {
+                if (reader.Name == "STEAD")
+                    collectionSize += 1;
+            }
+        }
+
+        return collectionSize;
     }
     
     public class SteadEnumerator : FIASObjectEnumerator<Stead>

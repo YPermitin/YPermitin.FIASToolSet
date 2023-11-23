@@ -66,6 +66,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(4, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(0, allItems[0].Id);
         Assert.AreEqual("Не определено", allItems[0].Name);
@@ -82,6 +83,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(25, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(0, allItems[0].Id);
         Assert.AreEqual("Не указан", allItems[0].Name);
@@ -100,6 +102,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(17, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(1, allItems[0].Level);
         Assert.AreEqual("Субъект РФ", allItems[0].Name);
@@ -120,6 +123,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(3, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(0, allItems[0].Id);
         Assert.AreEqual("Не определено", allItems[0].Name);
@@ -141,6 +145,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(13, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(1, allItems[0].Id);
         Assert.AreEqual("Помещение", allItems[0].Name);
@@ -163,6 +168,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(14, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(1, allItems[0].Id);
         Assert.AreEqual("Владение", allItems[0].Name);
@@ -185,6 +191,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(27, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(0, allItems[0].Id);
         Assert.AreEqual("Не определено", allItems[0].Name);
@@ -205,6 +212,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(421, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(5, allItems[0].Id);
         Assert.AreEqual(1, allItems[0].Level);
@@ -227,6 +235,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(19, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(1, allItems[0].Id);
         Assert.AreEqual("ИФНС ФЛ", allItems[0].Name);
@@ -255,6 +264,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(7, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(1937556, allItems[0].Id);
         Assert.AreEqual("Белая", allItems[0].Name);
@@ -279,6 +289,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(180, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(8565, allItems[0].Id);
         Assert.AreEqual(1308258, allItems[0].ParentId);
@@ -299,6 +310,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(1, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(20263101, allItems[0].Id);
         Assert.AreEqual(1310372, allItems[0].ObjectId);
@@ -324,6 +336,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(1, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(114785646, allItems[0].Id);
         Assert.AreEqual(97678198, allItems[0].ObjectId);
@@ -357,6 +370,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(1, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(17791460, allItems[0].Id);
         Assert.AreEqual(30820037, allItems[0].ObjectId);
@@ -387,6 +401,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(1, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(1331655940, allItems[0].Id);
         Assert.AreEqual(157009173, allItems[0].ObjectId);
@@ -412,6 +427,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(1, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(35992, allItems[0].Id);
         Assert.AreEqual(98844842, allItems[0].ObjectId);
@@ -441,6 +457,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(1, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(1331655, allItems[0].Id);
         Assert.AreEqual(157009, allItems[0].ObjectId);
@@ -466,6 +483,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(1, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(59620942, allItems[0].ObjectId);
         Assert.AreEqual(89049208, allItems[0].ChangeId);
@@ -487,6 +505,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(1, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(50188048, allItems[0].Id);
         Assert.AreEqual(82947269, allItems[0].ObjectId);
@@ -521,6 +540,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(1, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(1324462328, allItems[0].Id);
         Assert.AreEqual(25489566, allItems[0].ObjectId);
@@ -546,6 +566,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(1, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(111965448, allItems[0].Id);
         Assert.AreEqual(100263587, allItems[0].ObjectId);
@@ -574,6 +595,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(1, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(22823132, allItems[0].Id);
         Assert.AreEqual("О присвоении адреса зданию" , allItems[0].Name);
@@ -599,6 +621,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(1, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(102175972, allItems[0].ObjectId);
         Assert.AreEqual(new Guid("d2106edd-0a71-4608-8cf7-3b56964bb297"), allItems[0].ObjectGuid);
@@ -622,6 +645,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(1, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(8313, allItems[0].Id);
         Assert.AreEqual(3308608, allItems[0].ObjectId);
@@ -652,6 +676,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(1, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(640704957, allItems[0].Id);
         Assert.AreEqual(42588029, allItems[0].ObjectId);
@@ -677,6 +702,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(1, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(15514441, allItems[0].Id);
         Assert.AreEqual(104616649, allItems[0].ObjectId);
@@ -706,6 +732,7 @@ public class Tests
         Assert.NotNull(allItems);
         Assert.IsNotEmpty(allItems);
         Assert.AreEqual(1, allItems.Count);
+        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
         
         Assert.AreEqual(1442664443, allItems[0].Id);
         Assert.AreEqual(160471707, allItems[0].ObjectId);

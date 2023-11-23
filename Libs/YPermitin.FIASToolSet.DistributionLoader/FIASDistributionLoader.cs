@@ -274,7 +274,37 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         {
             return;
         }
+
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id, 
+            fiasAddressObjectTypes.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
         
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasAddressObjectTypes.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasAddressObjectTypes.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
         foreach (var fiasAddressObjectType in fiasAddressObjectTypes)
         {
             var addressObjectType = await _fiasBaseCatalogsRepository.GetAddressObjectType(fiasAddressObjectType.Id);
@@ -301,20 +331,11 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             {
                 emptyItemWasLoaded = true;
             }
-        }
 
-        var fiasAddressObjectTypesFromDatabase = await _fiasBaseCatalogsRepository.GetAddressObjectTypes();
-        foreach (var fiasAddressObjectTypeFromDatabase in fiasAddressObjectTypesFromDatabase)
-        {
-            // Пустой элемент не удаляем
-            if(fiasAddressObjectTypeFromDatabase.Id == 0)
-                continue;
-            
-            if (fiasAddressObjectTypes.All(e => e.Id != fiasAddressObjectTypeFromDatabase.Id))
-            {
-                _fiasBaseCatalogsRepository.RemoveAddressObjectType(fiasAddressObjectTypeFromDatabase);
-            }
+            installationStep.TotalItemsLoaded += 1;
+            //installationStep.PercentageCompleted = (int)((double)installationStep.TotalItemsLoaded / installationStep.TotalItemsToLoad * 100);
         }
+        installationStep.PercentageCompleted = 100;
         
         // Пустое значение, если оно не было загружено ранее
         if (!emptyItemWasLoaded)
@@ -339,7 +360,10 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             emptyItem.EndDate = new DateTime(1900, 1, 1);
             emptyItem.Level = 0;
         }
-
+        
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
         await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
@@ -358,6 +382,36 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             return;
         }
         
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id, 
+            fiasApartmentTypes.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+        
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasApartmentTypes.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasApartmentTypes.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
         foreach (var fiasApartmentType in fiasApartmentTypes)
         {
             var apartmentType = await _fiasBaseCatalogsRepository.GetApartmentType(fiasApartmentType.Id);
@@ -384,19 +438,10 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             {
                 emptyItemWasLoaded = true;
             }
-        }
-
-        var fiasApartmentTypesFromDatabase = await _fiasBaseCatalogsRepository.GetApartmentTypes();
-        foreach (var fiasApartmentTypeFromDatabase in fiasApartmentTypesFromDatabase)
-        {
-            if(fiasApartmentTypeFromDatabase.Id == 0)
-                continue;
             
-            if (fiasApartmentTypes.All(e => e.Id != fiasApartmentTypeFromDatabase.Id))
-            {
-                _fiasBaseCatalogsRepository.RemoveApartmentType(fiasApartmentTypeFromDatabase);
-            }
+            installationStep.TotalItemsLoaded += 1;
         }
+        installationStep.PercentageCompleted = 100;
         
         // Пустое значение, если оно не было загружено ранее
         if (!emptyItemWasLoaded)
@@ -422,6 +467,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             emptyItem.IsActive = true;
         }
 
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
         await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
@@ -440,6 +488,36 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             return;
         }
         
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id, 
+            fiasHouseTypes.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+        
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasHouseTypes.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasHouseTypes.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
         foreach (var fiasHouseType in fiasHouseTypes)
         {
             var houseType = await _fiasBaseCatalogsRepository.GetHouseType(fiasHouseType.Id);
@@ -466,20 +544,10 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             {
                 emptyItemWasLoaded = true;
             }
-        }
-
-        var fiasHouseTypesFromDatabase = await _fiasBaseCatalogsRepository.GetHouseTypes();
-        foreach (var fiasHouseTypeFromDatabase in fiasHouseTypesFromDatabase)
-        {
-            // Пустой элемент не удаляем
-            if(fiasHouseTypeFromDatabase.Id == 0)
-                continue;
             
-            if (fiasHouseTypes.All(e => e.Id != fiasHouseTypeFromDatabase.Id))
-            {
-                _fiasBaseCatalogsRepository.RemoveHouseType(fiasHouseTypeFromDatabase);
-            }
+            installationStep.TotalItemsLoaded += 1;
         }
+        installationStep.PercentageCompleted = 100;
         
         // Пустое значение, если оно не было загружено ранее
         if (!emptyItemWasLoaded)
@@ -505,6 +573,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             emptyItem.IsActive = true;
         }
                 
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
         await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
@@ -523,6 +594,36 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             return;
         }
         
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id, 
+            fiasNormativeDocKinds.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+        
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasNormativeDocKinds.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasNormativeDocKinds.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
         foreach (var fiasNormativeDocKind in fiasNormativeDocKinds)
         {
             var normativeDocKind = await _fiasBaseCatalogsRepository.GetNormativeDocKind(fiasNormativeDocKind.Id);
@@ -543,20 +644,10 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             {
                 emptyItemWasLoaded = true;
             }
-        }
-
-        var fiasNormativeDocKindsFromDatabase = await _fiasBaseCatalogsRepository.GetNormativeDocKinds();
-        foreach (var fiasNormativeDocKindFromDatabase in fiasNormativeDocKindsFromDatabase)
-        {
-            // Пустой элемент не удаляем
-            if(fiasNormativeDocKindFromDatabase.Id == 0)
-                continue;
             
-            if (fiasNormativeDocKinds.All(e => e.Id != fiasNormativeDocKindFromDatabase.Id))
-            {
-                _fiasBaseCatalogsRepository.RemoveNormativeDocKind(fiasNormativeDocKindFromDatabase);
-            }
+            installationStep.TotalItemsLoaded += 1;
         }
+        installationStep.PercentageCompleted = 100;
         
         // Пустое значение, если оно не было загружено ранее
         if (!emptyItemWasLoaded)
@@ -576,6 +667,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             emptyItem.Name = "Не указан";
         }
                 
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
         await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
@@ -594,6 +688,36 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             return;
         }
         
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id, 
+            fiasNormativeDocTypes.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+        
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasNormativeDocTypes.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasNormativeDocTypes.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
         foreach (var fiasNormativeDocType in fiasNormativeDocTypes)
         {
             var normativeDocType = await _fiasBaseCatalogsRepository.GetNormativeDocType(fiasNormativeDocType.Id);
@@ -616,20 +740,10 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             {
                 emptyItemWasLoaded = true;
             }
-        }
-
-        var fiasNormativeDocTypesFromDatabase = await _fiasBaseCatalogsRepository.GetNormativeDocTypes();
-        foreach (var fiasNormativeDocTypeFromDatabase in fiasNormativeDocTypesFromDatabase)
-        {
-            // Пустой элемент не удаляем
-            if(fiasNormativeDocTypeFromDatabase.Id == 0)
-                continue;
             
-            if (fiasNormativeDocTypes.All(e => e.Id != fiasNormativeDocTypeFromDatabase.Id))
-            {
-                _fiasBaseCatalogsRepository.RemoveNormativeDocType(fiasNormativeDocTypeFromDatabase);
-            }
+            installationStep.TotalItemsLoaded += 1;
         }
+        installationStep.PercentageCompleted = 100;
         
         // Пустое значение, если оно не было загружено ранее
         if (!emptyItemWasLoaded)
@@ -651,6 +765,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             emptyItem.EndDate = new DateTime(1900, 1, 1);
         }
                 
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
         await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
@@ -669,6 +786,36 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             return;
         }
         
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id, 
+            fiasObjectLevels.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+        
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasObjectLevels.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasObjectLevels.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
         foreach (var fiasObjectLevel in fiasObjectLevels)
         {
             var objectLevel = await _fiasBaseCatalogsRepository.GetObjectLevel(fiasObjectLevel.Level);
@@ -693,20 +840,10 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             {
                 emptyItemWasLoaded = true;
             }
-        }
-
-        var fiasObjectLevelsFromDatabase = await _fiasBaseCatalogsRepository.GetObjectLevels();
-        foreach (var fiasObjectLevelFromDatabase in fiasObjectLevelsFromDatabase)
-        {
-            // Пустой элемент не удаляем
-            if(fiasObjectLevelFromDatabase.Level == 0)
-                continue;
             
-            if (fiasObjectLevels.All(e => e.Level != fiasObjectLevelFromDatabase.Level))
-            {
-                _fiasBaseCatalogsRepository.RemoveObjectLevel(fiasObjectLevelFromDatabase);
-            }
+            installationStep.TotalItemsLoaded += 1;
         }
+        installationStep.PercentageCompleted = 100;
         
         // Пустое значение, если оно не было загружено ранее
         if (!emptyItemWasLoaded)
@@ -729,7 +866,10 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             emptyItem.UpdateDate = new DateTime(1900, 1, 1);
             emptyItem.EndDate = new DateTime(1900, 1, 1);
         }
-                
+
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
         await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
@@ -748,6 +888,36 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             return;
         }
         
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id, 
+            fiasOperationTypes.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+        
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasOperationTypes.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasOperationTypes.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
         foreach (var fiasOperationType in fiasOperationTypes)
         {
             var operationType = await _fiasBaseCatalogsRepository.GetOperationType(fiasOperationType.Id);
@@ -772,20 +942,10 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             {
                 emptyItemWasLoaded = true;
             }
-        }
-
-        var fiasOperationTypesFromDatabase = await _fiasBaseCatalogsRepository.GetOperationTypes();
-        foreach (var fiasOperationTypeFromDatabase in fiasOperationTypesFromDatabase)
-        {
-            // Пустой элемент не удаляем
-            if(fiasOperationTypeFromDatabase.Id == 0)
-                continue;
             
-            if (fiasOperationTypes.All(e => e.Id != fiasOperationTypeFromDatabase.Id))
-            {
-                _fiasBaseCatalogsRepository.RemoveOperationType(fiasOperationTypeFromDatabase);
-            }
+            installationStep.TotalItemsLoaded += 1;
         }
+        installationStep.PercentageCompleted = 100;
         
         // Пустое значение, если оно не было загружено ранее
         if (!emptyItemWasLoaded)
@@ -809,6 +969,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             emptyItem.IsActive = true;
         }
                 
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
         await _fiasBaseCatalogsRepository.SaveAsync();
     }
 
@@ -827,6 +990,36 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             return;
         }
         
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id, 
+            fiasParameterTypes.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+        
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasParameterTypes.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasParameterTypes.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
         foreach (var fiasParameterType in fiasParameterTypes)
         {
             var parameterType = await _fiasBaseCatalogsRepository.GetParameterType(fiasParameterType.Id);
@@ -853,20 +1046,10 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             {
                 emptyItemWasLoaded = true;
             }
-        }
-
-        var fiasParameterTypesFromDatabase = await _fiasBaseCatalogsRepository.GetParameterTypes();
-        foreach (var fiasParameterTypeFromDatabase in fiasParameterTypesFromDatabase)
-        {
-            // Пустой элемент не удаляем
-            if(fiasParameterTypeFromDatabase.Id == 0)
-                continue;
             
-            if (fiasParameterTypes.All(e => e.Id != fiasParameterTypeFromDatabase.Id))
-            {
-                _fiasBaseCatalogsRepository.RemoveParameterType(fiasParameterTypeFromDatabase);
-            }
+            installationStep.TotalItemsLoaded += 1;
         }
+        installationStep.PercentageCompleted = 100;
         
         // Пустое значение, если оно не было загружено ранее
         if (!emptyItemWasLoaded)
@@ -892,6 +1075,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             emptyItem.IsActive = true;
         }
 
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
         await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
@@ -910,6 +1096,36 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             return;
         }
         
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id, 
+            fiasRoomTypes.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+        
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasRoomTypes.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasRoomTypes.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
         foreach (var fiasRoomType in fiasRoomTypes)
         {
             var roomType = await _fiasBaseCatalogsRepository.GetRoomType(fiasRoomType.Id);
@@ -935,20 +1151,10 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             {
                 emptyItemWasLoaded = true;
             }
-        }
-
-        var fiasRoomTypesFromDatabase = await _fiasBaseCatalogsRepository.GetRoomTypes();
-        foreach (var fiasRoomTypeFromDatabase in fiasRoomTypesFromDatabase)
-        {
-            // Пустой элемент не удаляем
-            if(fiasRoomTypeFromDatabase.Id == 0)
-                continue;
             
-            if (fiasRoomTypes.All(e => e.Id != fiasRoomTypeFromDatabase.Id))
-            {
-                _fiasBaseCatalogsRepository.RemoveRoomType(fiasRoomTypeFromDatabase);
-            }
+            installationStep.TotalItemsLoaded += 1;
         }
+        installationStep.PercentageCompleted = 100;
         
         // Пустое значение, если оно не было загружено ранее
         if (!emptyItemWasLoaded)
@@ -973,6 +1179,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             emptyItem.IsActive = true;
         }
                 
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
         await _fiasBaseCatalogsRepository.SaveAsync();
     }
     
@@ -1005,7 +1214,41 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             return;
         }
 
-        List<DistributionReader.Models.ClassifierData.AddressObject> currentPortion = 
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id,
+            fiasAddressObjects.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasAddressObjects.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            installationStep.StartDate = DateTime.MinValue;
+            installationStep.TotalItemsLoaded = 0;
+            installationStep.StatusId = Guid.Empty;
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasAddressObjects.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
+
+        List<DistributionReader.Models.ClassifierData.AddressObject> currentPortion =
             new List<DistributionReader.Models.ClassifierData.AddressObject>();
 
         foreach (var fiasAddressObject in fiasAddressObjects)
@@ -1014,16 +1257,30 @@ public class FIASDistributionLoader : IFIASDistributionLoader
 
             if (currentPortion.Count == 1000)
             {
+                installationStep.TotalItemsLoaded += currentPortion.Count;
+                installationStep.PercentageCompleted = (int)((double)installationStep.TotalItemsLoaded /
+                    installationStep.TotalItemsToLoad * 100);
                 await SaveAddressObjectsPortion(currentPortion);
+                _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+                await _fiasInstallationManagerService.SaveAsync();
             }
         }
 
         if (currentPortion.Count > 0)
         {
+            installationStep.TotalItemsLoaded += currentPortion.Count;
+            installationStep.PercentageCompleted = 100;
             await SaveAddressObjectsPortion(currentPortion);
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+            await _fiasInstallationManagerService.SaveAsync();
         }
+
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        await _fiasInstallationManagerService.SaveAsync();
     }
-    
+
     /// <summary>
     /// Загрузка информации о переподчинении адресных объектов
     /// </summary>
@@ -1048,8 +1305,42 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         {
             return;
         }
-        
-        List<DistributionReader.Models.ClassifierData.AddressObjectDivision> currentPortion = 
+
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id,
+            fiasAddressObjectDivisions.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasAddressObjectDivisions.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            installationStep.StartDate = DateTime.MinValue;
+            installationStep.TotalItemsLoaded = 0;
+            installationStep.StatusId = Guid.Empty;
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasAddressObjectDivisions.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
+
+        List<DistributionReader.Models.ClassifierData.AddressObjectDivision> currentPortion =
             new List<DistributionReader.Models.ClassifierData.AddressObjectDivision>();
 
         foreach (var fiasAddressObjectDivision in fiasAddressObjectDivisions)
@@ -1058,16 +1349,30 @@ public class FIASDistributionLoader : IFIASDistributionLoader
 
             if (currentPortion.Count == 1000)
             {
+                installationStep.TotalItemsLoaded += currentPortion.Count;
+                installationStep.PercentageCompleted = (int)((double)installationStep.TotalItemsLoaded /
+                    installationStep.TotalItemsToLoad * 100);
                 await SaveAddressObjectDivisionsPortion(currentPortion);
+                _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+                await _fiasInstallationManagerService.SaveAsync();
             }
         }
 
         if (currentPortion.Count > 0)
         {
+            installationStep.TotalItemsLoaded += currentPortion.Count;
+            installationStep.PercentageCompleted = 100;
             await SaveAddressObjectDivisionsPortion(currentPortion);
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+            await _fiasInstallationManagerService.SaveAsync();
         }
+
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        await _fiasInstallationManagerService.SaveAsync();
     }
-    
+
     /// <summary>
     /// Загрузка информации о параметрах адресных объектов
     /// </summary>
@@ -1092,26 +1397,74 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         {
             return;
         }
-        
-        List<DistributionReader.Models.ClassifierData.AddressObjectParameter> currentPortion = 
+
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id,
+            fiasAddressObjectParameters.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasAddressObjectParameters.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            installationStep.StartDate = DateTime.MinValue;
+            installationStep.TotalItemsLoaded = 0;
+            installationStep.StatusId = Guid.Empty;
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasAddressObjectParameters.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
+
+        List<DistributionReader.Models.ClassifierData.AddressObjectParameter> currentPortion =
             new List<DistributionReader.Models.ClassifierData.AddressObjectParameter>();
-        
+
         foreach (var fiasAddressObjectParameter in fiasAddressObjectParameters)
         {
             currentPortion.Add(fiasAddressObjectParameter);
 
             if (currentPortion.Count == 1000)
             {
+                installationStep.TotalItemsLoaded += currentPortion.Count;
+                installationStep.PercentageCompleted = (int)((double)installationStep.TotalItemsLoaded /
+                    installationStep.TotalItemsToLoad * 100);
                 await SaveAddressObjectParametersPortion(currentPortion);
+                _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+                await _fiasInstallationManagerService.SaveAsync();
             }
         }
 
         if (currentPortion.Count > 0)
         {
+            installationStep.TotalItemsLoaded += currentPortion.Count;
+            installationStep.PercentageCompleted = 100;
             await SaveAddressObjectParametersPortion(currentPortion);
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+            await _fiasInstallationManagerService.SaveAsync();
         }
+
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        await _fiasInstallationManagerService.SaveAsync();
     }
-    
+
     /// <summary>
     /// Загрузка информации о иерархии административного деления адресных объектов
     /// </summary>
@@ -1130,32 +1483,81 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         AddressObjectAdmHierarchyCollection fiasAddressObjectsAdmHierarchy;
         try
         {
-            fiasAddressObjectsAdmHierarchy = fiasDistributionReader.GetAddressObjectsAdmHierarchy(fiasDistributionRegion);
+            fiasAddressObjectsAdmHierarchy =
+                fiasDistributionReader.GetAddressObjectsAdmHierarchy(fiasDistributionRegion);
         }
         catch (FIASDataNotFoundException)
         {
             return;
         }
-        
-        List<DistributionReader.Models.ClassifierData.AddressObjectAdmHierarchy> currentPortion = 
+
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id,
+            fiasAddressObjectsAdmHierarchy.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasAddressObjectsAdmHierarchy.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            installationStep.StartDate = DateTime.MinValue;
+            installationStep.TotalItemsLoaded = 0;
+            installationStep.StatusId = Guid.Empty;
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasAddressObjectsAdmHierarchy.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
+
+        List<DistributionReader.Models.ClassifierData.AddressObjectAdmHierarchy> currentPortion =
             new List<DistributionReader.Models.ClassifierData.AddressObjectAdmHierarchy>();
-        
+
         foreach (var fiasAddressObjectAdmHierarchy in fiasAddressObjectsAdmHierarchy)
         {
             currentPortion.Add(fiasAddressObjectAdmHierarchy);
 
             if (currentPortion.Count == 1000)
             {
+                installationStep.TotalItemsLoaded += currentPortion.Count;
+                installationStep.PercentageCompleted = (int)((double)installationStep.TotalItemsLoaded /
+                    installationStep.TotalItemsToLoad * 100);
                 await SaveAddressObjectsAdmHierarchyPortion(currentPortion);
+                _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+                await _fiasInstallationManagerService.SaveAsync();
             }
         }
 
         if (currentPortion.Count > 0)
         {
+            installationStep.TotalItemsLoaded += currentPortion.Count;
+            installationStep.PercentageCompleted = 100;
             await SaveAddressObjectsAdmHierarchyPortion(currentPortion);
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+            await _fiasInstallationManagerService.SaveAsync();
         }
+
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        await _fiasInstallationManagerService.SaveAsync();
     }
-    
+
     /// <summary>
     /// Загрузка информации о иерархии муниципального деления адресных объектов
     /// </summary>
@@ -1180,26 +1582,74 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         {
             return;
         }
-        
-        List<DistributionReader.Models.ClassifierData.MunHierarchy> currentPortion = 
+
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id,
+            fiasAddressObjectsMunHierarchy.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasAddressObjectsMunHierarchy.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            installationStep.StartDate = DateTime.MinValue;
+            installationStep.TotalItemsLoaded = 0;
+            installationStep.StatusId = Guid.Empty;
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasAddressObjectsMunHierarchy.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
+
+        List<DistributionReader.Models.ClassifierData.MunHierarchy> currentPortion =
             new List<DistributionReader.Models.ClassifierData.MunHierarchy>();
-        
+
         foreach (var fiasAddressObjectMunHierarchy in fiasAddressObjectsMunHierarchy)
         {
             currentPortion.Add(fiasAddressObjectMunHierarchy);
 
             if (currentPortion.Count == 1000)
             {
+                installationStep.TotalItemsLoaded += currentPortion.Count;
+                installationStep.PercentageCompleted = (int)((double)installationStep.TotalItemsLoaded /
+                    installationStep.TotalItemsToLoad * 100);
                 await SaveAddressObjectsMunHierarchyPortion(currentPortion);
+                _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+                await _fiasInstallationManagerService.SaveAsync();
             }
         }
 
         if (currentPortion.Count > 0)
         {
+            installationStep.TotalItemsLoaded += currentPortion.Count;
+            installationStep.PercentageCompleted = 100;
             await SaveAddressObjectsMunHierarchyPortion(currentPortion);
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+            await _fiasInstallationManagerService.SaveAsync();
         }
+
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        await _fiasInstallationManagerService.SaveAsync();
     }
-    
+
     /// <summary>
     /// Загрузка информации о квартирах
     /// </summary>
@@ -1224,26 +1674,74 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         {
             return;
         }
-        
-        List<DistributionReader.Models.ClassifierData.Apartment> currentPortion = 
+
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id,
+            fiasApartments.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasApartments.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            installationStep.StartDate = DateTime.MinValue;
+            installationStep.TotalItemsLoaded = 0;
+            installationStep.StatusId = Guid.Empty;
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasApartments.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
+
+        List<DistributionReader.Models.ClassifierData.Apartment> currentPortion =
             new List<DistributionReader.Models.ClassifierData.Apartment>();
-        
+
         foreach (var fiasApartment in fiasApartments)
         {
             currentPortion.Add(fiasApartment);
 
             if (currentPortion.Count == 1000)
             {
+                installationStep.TotalItemsLoaded += currentPortion.Count;
+                installationStep.PercentageCompleted = (int)((double)installationStep.TotalItemsLoaded /
+                    installationStep.TotalItemsToLoad * 100);
                 await SaveApartmentsPortion(currentPortion);
+                _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+                await _fiasInstallationManagerService.SaveAsync();
             }
         }
 
         if (currentPortion.Count > 0)
         {
+            installationStep.TotalItemsLoaded += currentPortion.Count;
+            installationStep.PercentageCompleted = 100;
             await SaveApartmentsPortion(currentPortion);
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+            await _fiasInstallationManagerService.SaveAsync();
         }
+
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        await _fiasInstallationManagerService.SaveAsync();
     }
-    
+
     /// <summary>
     /// Загрузка информации о параметрах квартир
     /// </summary>
@@ -1268,26 +1766,74 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         {
             return;
         }
-        
-        List<DistributionReader.Models.ClassifierData.ApartmentParameter> currentPortion = 
+
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id,
+            fiasApartmentParameters.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasApartmentParameters.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            installationStep.StartDate = DateTime.MinValue;
+            installationStep.TotalItemsLoaded = 0;
+            installationStep.StatusId = Guid.Empty;
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasApartmentParameters.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
+
+        List<DistributionReader.Models.ClassifierData.ApartmentParameter> currentPortion =
             new List<DistributionReader.Models.ClassifierData.ApartmentParameter>();
-        
+
         foreach (var fiasApartmentParameter in fiasApartmentParameters)
         {
             currentPortion.Add(fiasApartmentParameter);
 
             if (currentPortion.Count == 1000)
             {
+                installationStep.TotalItemsLoaded += currentPortion.Count;
+                installationStep.PercentageCompleted = (int)((double)installationStep.TotalItemsLoaded /
+                    installationStep.TotalItemsToLoad * 100);
                 await SaveApartmentParametersPortion(currentPortion);
+                _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+                await _fiasInstallationManagerService.SaveAsync();
             }
         }
 
         if (currentPortion.Count > 0)
         {
+            installationStep.TotalItemsLoaded += currentPortion.Count;
+            installationStep.PercentageCompleted = 100;
             await SaveApartmentParametersPortion(currentPortion);
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+            await _fiasInstallationManagerService.SaveAsync();
         }
+
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        await _fiasInstallationManagerService.SaveAsync();
     }
-    
+
     /// <summary>
     /// Загрузка информации о машино-местах
     /// </summary>
@@ -1312,26 +1858,74 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         {
             return;
         }
-        
-        List<DistributionReader.Models.ClassifierData.CarPlace> currentPortion = 
+
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id,
+            fiasCarPlaces.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasCarPlaces.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            installationStep.StartDate = DateTime.MinValue;
+            installationStep.TotalItemsLoaded = 0;
+            installationStep.StatusId = Guid.Empty;
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasCarPlaces.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
+
+        List<DistributionReader.Models.ClassifierData.CarPlace> currentPortion =
             new List<DistributionReader.Models.ClassifierData.CarPlace>();
-        
+
         foreach (var fiasCarPlace in fiasCarPlaces)
         {
             currentPortion.Add(fiasCarPlace);
 
             if (currentPortion.Count == 1000)
             {
+                installationStep.TotalItemsLoaded += currentPortion.Count;
+                installationStep.PercentageCompleted = (int)((double)installationStep.TotalItemsLoaded /
+                    installationStep.TotalItemsToLoad * 100);
                 await SaveCarPlacesPortion(currentPortion);
+                _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+                await _fiasInstallationManagerService.SaveAsync();
             }
         }
 
         if (currentPortion.Count > 0)
         {
+            installationStep.TotalItemsLoaded += currentPortion.Count;
+            installationStep.PercentageCompleted = 100;
             await SaveCarPlacesPortion(currentPortion);
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+            await _fiasInstallationManagerService.SaveAsync();
         }
+
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        await _fiasInstallationManagerService.SaveAsync();
     }
-    
+
     /// <summary>
     /// Загрузка информации о параметрах машино-мест
     /// </summary>
@@ -1356,26 +1950,74 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         {
             return;
         }
-        
-        List<DistributionReader.Models.ClassifierData.CarPlaceParameter> currentPortion = 
+
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id,
+            fiasCarPlaceParameters.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasCarPlaceParameters.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            installationStep.StartDate = DateTime.MinValue;
+            installationStep.TotalItemsLoaded = 0;
+            installationStep.StatusId = Guid.Empty;
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasCarPlaceParameters.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
+
+        List<DistributionReader.Models.ClassifierData.CarPlaceParameter> currentPortion =
             new List<DistributionReader.Models.ClassifierData.CarPlaceParameter>();
-        
+
         foreach (var fiasCarPlaceParameter in fiasCarPlaceParameters)
         {
             currentPortion.Add(fiasCarPlaceParameter);
 
             if (currentPortion.Count == 1000)
             {
+                installationStep.TotalItemsLoaded += currentPortion.Count;
+                installationStep.PercentageCompleted = (int)((double)installationStep.TotalItemsLoaded /
+                    installationStep.TotalItemsToLoad * 100);
                 await SaveCarPlaceParametersPortion(currentPortion);
+                _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+                await _fiasInstallationManagerService.SaveAsync();
             }
         }
 
         if (currentPortion.Count > 0)
         {
+            installationStep.TotalItemsLoaded += currentPortion.Count;
+            installationStep.PercentageCompleted = 100;
             await SaveCarPlaceParametersPortion(currentPortion);
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+            await _fiasInstallationManagerService.SaveAsync();
         }
+
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        await _fiasInstallationManagerService.SaveAsync();
     }
-    
+
     /// <summary>
     /// Загрузка информации о строениях
     /// </summary>
@@ -1400,26 +2042,74 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         {
             return;
         }
-        
-        List<DistributionReader.Models.ClassifierData.House> currentPortion = 
+
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id,
+            fiasHouses.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasHouses.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            installationStep.StartDate = DateTime.MinValue;
+            installationStep.TotalItemsLoaded = 0;
+            installationStep.StatusId = Guid.Empty;
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasHouses.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
+
+        List<DistributionReader.Models.ClassifierData.House> currentPortion =
             new List<DistributionReader.Models.ClassifierData.House>();
-        
+
         foreach (var fiasHouse in fiasHouses)
         {
             currentPortion.Add(fiasHouse);
 
             if (currentPortion.Count == 1000)
             {
+                installationStep.TotalItemsLoaded += currentPortion.Count;
+                installationStep.PercentageCompleted = (int)((double)installationStep.TotalItemsLoaded /
+                    installationStep.TotalItemsToLoad * 100);
                 await SaveHousesPortion(currentPortion);
+                _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+                await _fiasInstallationManagerService.SaveAsync();
             }
         }
 
         if (currentPortion.Count > 0)
         {
+            installationStep.TotalItemsLoaded += currentPortion.Count;
+            installationStep.PercentageCompleted = 100;
             await SaveHousesPortion(currentPortion);
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+            await _fiasInstallationManagerService.SaveAsync();
         }
+
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        await _fiasInstallationManagerService.SaveAsync();
     }
-    
+
     /// <summary>
     /// Загрузка информации о параметрах строений
     /// </summary>
@@ -1445,6 +2135,40 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             return;
         }
         
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id, 
+            fiasHouseParameters.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+        
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasHouseParameters.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            installationStep.StartDate = DateTime.MinValue;
+            installationStep.TotalItemsLoaded = 0;
+            installationStep.StatusId = Guid.Empty;
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasHouseParameters.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
+        
         List<DistributionReader.Models.ClassifierData.HouseParameter> currentPortion = 
             new List<DistributionReader.Models.ClassifierData.HouseParameter>();
         
@@ -1454,16 +2178,29 @@ public class FIASDistributionLoader : IFIASDistributionLoader
 
             if (currentPortion.Count == 1000)
             {
+                installationStep.TotalItemsLoaded += currentPortion.Count;
+                installationStep.PercentageCompleted = (int)((double)installationStep.TotalItemsLoaded / installationStep.TotalItemsToLoad * 100);
                 await SaveHouseParametersPortion(currentPortion);
+                _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+                await _fiasInstallationManagerService.SaveAsync();
             }
         }
 
         if (currentPortion.Count > 0)
         {
+            installationStep.TotalItemsLoaded += currentPortion.Count;
+            installationStep.PercentageCompleted = 100;
             await SaveHouseParametersPortion(currentPortion);
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+            await _fiasInstallationManagerService.SaveAsync();
         }
+        
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        await _fiasInstallationManagerService.SaveAsync();
     }
-    
+
     /// <summary>
     /// Загрузка информации о комнатах
     /// </summary>
@@ -1488,26 +2225,74 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         {
             return;
         }
-        
-        List<DistributionReader.Models.ClassifierData.Room> currentPortion = 
+
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id,
+            fiasRooms.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasRooms.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            installationStep.StartDate = DateTime.MinValue;
+            installationStep.TotalItemsLoaded = 0;
+            installationStep.StatusId = Guid.Empty;
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasRooms.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
+
+        List<DistributionReader.Models.ClassifierData.Room> currentPortion =
             new List<DistributionReader.Models.ClassifierData.Room>();
-        
+
         foreach (var fiasRoom in fiasRooms)
         {
             currentPortion.Add(fiasRoom);
 
             if (currentPortion.Count == 1000)
             {
+                installationStep.TotalItemsLoaded += currentPortion.Count;
+                installationStep.PercentageCompleted = (int)((double)installationStep.TotalItemsLoaded /
+                    installationStep.TotalItemsToLoad * 100);
                 await SaveRoomsPortion(currentPortion);
+                _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+                await _fiasInstallationManagerService.SaveAsync();
             }
         }
 
         if (currentPortion.Count > 0)
         {
+            installationStep.TotalItemsLoaded += currentPortion.Count;
+            installationStep.PercentageCompleted = 100;
             await SaveRoomsPortion(currentPortion);
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+            await _fiasInstallationManagerService.SaveAsync();
         }
+
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        await _fiasInstallationManagerService.SaveAsync();
     }
-    
+
     /// <summary>
     /// Загрузка информации о параметрах комнат
     /// </summary>
@@ -1532,26 +2317,74 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         {
             return;
         }
-        
-        List<DistributionReader.Models.ClassifierData.RoomParameter> currentPortion = 
+
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id,
+            fiasRoomParameters.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasRoomParameters.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            installationStep.StartDate = DateTime.MinValue;
+            installationStep.TotalItemsLoaded = 0;
+            installationStep.StatusId = Guid.Empty;
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasRoomParameters.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
+
+        List<DistributionReader.Models.ClassifierData.RoomParameter> currentPortion =
             new List<DistributionReader.Models.ClassifierData.RoomParameter>();
-        
+
         foreach (var fiasRoomParameter in fiasRoomParameters)
         {
             currentPortion.Add(fiasRoomParameter);
 
             if (currentPortion.Count == 1000)
             {
+                installationStep.TotalItemsLoaded += currentPortion.Count;
+                installationStep.PercentageCompleted = (int)((double)installationStep.TotalItemsLoaded /
+                    installationStep.TotalItemsToLoad * 100);
                 await SaveRoomParametersPortion(currentPortion);
+                _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+                await _fiasInstallationManagerService.SaveAsync();
             }
         }
 
         if (currentPortion.Count > 0)
         {
+            installationStep.TotalItemsLoaded += currentPortion.Count;
+            installationStep.PercentageCompleted = 100;
             await SaveRoomParametersPortion(currentPortion);
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+            await _fiasInstallationManagerService.SaveAsync();
         }
+
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        await _fiasInstallationManagerService.SaveAsync();
     }
-    
+
     /// <summary>
     /// Загрузка информации о земельных участках
     /// </summary>
@@ -1576,26 +2409,74 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         {
             return;
         }
-        
-        List<DistributionReader.Models.ClassifierData.Stead> currentPortion = 
+
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id,
+            fiasSteads.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasSteads.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            installationStep.StartDate = DateTime.MinValue;
+            installationStep.TotalItemsLoaded = 0;
+            installationStep.StatusId = Guid.Empty;
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasSteads.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
+
+        List<DistributionReader.Models.ClassifierData.Stead> currentPortion =
             new List<DistributionReader.Models.ClassifierData.Stead>();
-        
+
         foreach (var fiasStead in fiasSteads)
         {
             currentPortion.Add(fiasStead);
 
             if (currentPortion.Count == 1000)
             {
+                installationStep.TotalItemsLoaded += currentPortion.Count;
+                installationStep.PercentageCompleted = (int)((double)installationStep.TotalItemsLoaded /
+                    installationStep.TotalItemsToLoad * 100);
                 await SaveSteadsPortion(currentPortion);
+                _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+                await _fiasInstallationManagerService.SaveAsync();
             }
         }
 
         if (currentPortion.Count > 0)
         {
+            installationStep.TotalItemsLoaded += currentPortion.Count;
+            installationStep.PercentageCompleted = 100;
             await SaveSteadsPortion(currentPortion);
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+            await _fiasInstallationManagerService.SaveAsync();
         }
+
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        await _fiasInstallationManagerService.SaveAsync();
     }
-    
+
     /// <summary>
     /// Загрузка информации о параметрах земельных участков
     /// </summary>
@@ -1620,26 +2501,75 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         {
             return;
         }
-        
-        List<DistributionReader.Models.ClassifierData.SteadParameter> currentPortion = 
+
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id,
+            fiasSteadParameters.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasSteadParameters.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            installationStep.StartDate = DateTime.MinValue;
+            installationStep.TotalItemsLoaded = 0;
+            installationStep.StatusId = Guid.Empty;
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasSteadParameters.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
+
+        List<DistributionReader.Models.ClassifierData.SteadParameter> currentPortion =
             new List<DistributionReader.Models.ClassifierData.SteadParameter>();
-        
+
         foreach (var fiasSteadParameter in fiasSteadParameters)
         {
             currentPortion.Add(fiasSteadParameter);
 
             if (currentPortion.Count == 1000)
             {
+                installationStep.TotalItemsLoaded += currentPortion.Count;
+                installationStep.PercentageCompleted = (int)((double)installationStep.TotalItemsLoaded /
+                    installationStep.TotalItemsToLoad * 100);
                 await SaveSteadParametersPortion(currentPortion);
+                _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+                await _fiasInstallationManagerService.SaveAsync();
+
             }
         }
 
         if (currentPortion.Count > 0)
         {
+            installationStep.TotalItemsLoaded += currentPortion.Count;
+            installationStep.PercentageCompleted = 100;
             await SaveSteadParametersPortion(currentPortion);
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+            await _fiasInstallationManagerService.SaveAsync();
         }
+
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        await _fiasInstallationManagerService.SaveAsync();
     }
-    
+
     /// <summary>
     /// Загрузка информации о нормативных документах
     /// </summary>
@@ -1665,6 +2595,40 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             return;
         }
         
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id, 
+            fiasNormativeDocuments.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+        
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasNormativeDocuments.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            installationStep.StartDate = DateTime.MinValue;
+            installationStep.TotalItemsLoaded = 0;
+            installationStep.StatusId = Guid.Empty;
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasNormativeDocuments.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
+        
         List<DistributionReader.Models.ClassifierData.NormativeDocument> currentPortion = 
             new List<DistributionReader.Models.ClassifierData.NormativeDocument>();
         
@@ -1674,16 +2638,29 @@ public class FIASDistributionLoader : IFIASDistributionLoader
 
             if (currentPortion.Count == 1000)
             {
+                installationStep.TotalItemsLoaded += currentPortion.Count;
+                installationStep.PercentageCompleted = (int)((double)installationStep.TotalItemsLoaded / installationStep.TotalItemsToLoad * 100);
                 await SaveNormativeDocumentsPortion(currentPortion);
+                _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+                await _fiasInstallationManagerService.SaveAsync();
             }
         }
 
         if (currentPortion.Count > 0)
         {
+            installationStep.TotalItemsLoaded += currentPortion.Count;
+            installationStep.PercentageCompleted = 100;
             await SaveNormativeDocumentsPortion(currentPortion);
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+            await _fiasInstallationManagerService.SaveAsync();
         }
+        
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        await _fiasInstallationManagerService.SaveAsync();
     }
-    
+
     /// <summary>
     /// Загрузка истории изменений адресных объектов
     /// </summary>
@@ -1708,26 +2685,74 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         {
             return;
         }
-        
-        List<DistributionReader.Models.ClassifierData.ChangeHistory> currentPortion = 
+
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id,
+            fiasChangeHistory.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasChangeHistory.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            installationStep.StartDate = DateTime.MinValue;
+            installationStep.TotalItemsLoaded = 0;
+            installationStep.StatusId = Guid.Empty;
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasChangeHistory.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
+
+        List<DistributionReader.Models.ClassifierData.ChangeHistory> currentPortion =
             new List<DistributionReader.Models.ClassifierData.ChangeHistory>();
-        
+
         foreach (var fiasChangeHistoryItem in fiasChangeHistory)
         {
             currentPortion.Add(fiasChangeHistoryItem);
 
             if (currentPortion.Count == 1000)
             {
+                installationStep.TotalItemsLoaded += currentPortion.Count;
+                installationStep.PercentageCompleted = (int)((double)installationStep.TotalItemsLoaded /
+                    installationStep.TotalItemsToLoad * 100);
                 await SaveChangeHistoryPortion(currentPortion);
+                _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+                await _fiasInstallationManagerService.SaveAsync();
             }
         }
 
         if (currentPortion.Count > 0)
         {
+            installationStep.TotalItemsLoaded += currentPortion.Count;
+            installationStep.PercentageCompleted = 100;
             await SaveChangeHistoryPortion(currentPortion);
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+            await _fiasInstallationManagerService.SaveAsync();
         }
+
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        await _fiasInstallationManagerService.SaveAsync();
     }
-    
+
     /// <summary>
     /// Загрузка реестра адресных элементов
     /// </summary>
@@ -1752,26 +2777,74 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         {
             return;
         }
-        
-        List<DistributionReader.Models.ClassifierData.ObjectRegistry> currentPortion = 
+
+        var installationStep = await _fiasInstallationManagerService.GetVersionInstallationStep(
+            _installation.Id,
+            fiasObjectsRegistry.DataFileShortPath);
+        if (installationStep != null
+            && installationStep.StatusId == FIASVersionInstallationStatus.Installed)
+        {
+            return;
+        }
+
+        if (installationStep == null)
+        {
+            installationStep = new FIASVersionInstallationStep();
+            installationStep.FIASVersionInstallationId = _installation.Id;
+            installationStep.FileFullName = fiasObjectsRegistry.DataFileShortPath;
+            _fiasInstallationManagerService.AddInstallationStep(installationStep);
+        }
+        else
+        {
+            installationStep.StartDate = DateTime.MinValue;
+            installationStep.TotalItemsLoaded = 0;
+            installationStep.StatusId = Guid.Empty;
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        }
+
+        if (installationStep.StartDate == DateTime.MinValue)
+            installationStep.StartDate = DateTime.UtcNow;
+        if (installationStep.TotalItemsToLoad == 0)
+            installationStep.TotalItemsToLoad = fiasObjectsRegistry.CalculateCollectionSize();
+        if (installationStep.StatusId == Guid.Empty)
+            installationStep.StatusId = FIASVersionInstallationStatus.Installing;
+        await _fiasInstallationManagerService.SaveAsync();
+
+        installationStep.TotalItemsLoaded = 0;
+
+        List<DistributionReader.Models.ClassifierData.ObjectRegistry> currentPortion =
             new List<DistributionReader.Models.ClassifierData.ObjectRegistry>();
-        
+
         foreach (var fiasObjectRegistry in fiasObjectsRegistry)
         {
             currentPortion.Add(fiasObjectRegistry);
 
             if (currentPortion.Count == 1000)
             {
+                installationStep.TotalItemsLoaded += currentPortion.Count;
+                installationStep.PercentageCompleted = (int)((double)installationStep.TotalItemsLoaded /
+                    installationStep.TotalItemsToLoad * 100);
                 await SaveObjectsRegistryPortion(currentPortion);
+                _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+                await _fiasInstallationManagerService.SaveAsync();
             }
         }
 
         if (currentPortion.Count > 0)
         {
+            installationStep.TotalItemsLoaded += currentPortion.Count;
+            installationStep.PercentageCompleted = 100;
             await SaveObjectsRegistryPortion(currentPortion);
+            _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+            await _fiasInstallationManagerService.SaveAsync();
         }
+
+        installationStep.StatusId = FIASVersionInstallationStatus.Installed;
+        installationStep.EndDate = DateTime.UtcNow;
+        _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
+        await _fiasInstallationManagerService.SaveAsync();
     }
-    
+
     #endregion
     
     private IFIASDistributionReader GetDistributionReader()

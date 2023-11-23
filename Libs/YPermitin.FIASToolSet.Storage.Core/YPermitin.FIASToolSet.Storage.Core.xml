@@ -1263,12 +1263,12 @@
         </member>
         <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallation.Status">
             <summary>
-            Версия ФИАС
+            Статус установки версии ФИАС
             </summary>
         </member>
         <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallation.StatusId">
             <summary>
-            Идентификатор версии ФИАС
+            Идентификатор статуса установки версии ФИАС
             </summary>        
         </member>
         <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallation.InstallationType">
@@ -1304,6 +1304,68 @@
         <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStatus.Name">
             <summary>
             Наименование статуса
+            </summary>
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStep">
+            <summary>
+            Информация о шаге установки / обновления дистрибутива ФИАС
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStep.Id">
+            <summary>
+            Идентификатор шага
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStep.FIASVersionInstallation">
+            <summary>
+            Установка версия ФИАС
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStep.FIASVersionInstallationId">
+            <summary>
+            Идентификатор установки версии ФИАС
+            </summary>        
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStep.FileFullName">
+             <summary>
+             Путь файла дистрибутива ФИАС в каталоге с дистрибутивом.
+            
+             Указан относительно корневого каталога дистрибутива ФИАС.
+             </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStep.Status">
+            <summary>
+            Статус установки файла дистрибутива ФИАС
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStep.StatusId">
+            <summary>
+            Идентификатор статуса установки файла дистрибутива ФИАС
+            </summary>        
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStep.TotalItemsToLoad">
+            <summary>
+            Общее количество элементов в файле для загрузки.
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStep.TotalItemsLoaded">
+            <summary>
+            Общее количество элементов, загруженных из файла.
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStep.PercentageCompleted">
+            <summary>
+            % выполнения загрузки данных из файла.
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStep.StartDate">
+            <summary>
+            Начало обработки шага
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStep.EndDate">
+            <summary>
+            Окончание обработки шага
             </summary>
         </member>
         <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationType">
