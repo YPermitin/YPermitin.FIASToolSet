@@ -29,13 +29,13 @@ public class FIASVersionInstallation
     public Guid FIASVersionId { get; set; }
     
     /// <summary>
-    /// Версия ФИАС
+    /// Статус установки версии ФИАС
     /// </summary>
     [ForeignKey("StatusId")]
     public FIASVersionInstallationStatus Status { get; set; }
 
     /// <summary>
-    /// Идентификатор версии ФИАС
+    /// Идентификатор статуса установки версии ФИАС
     /// </summary>        
     public Guid StatusId { get; set; }
     

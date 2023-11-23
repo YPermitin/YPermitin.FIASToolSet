@@ -15,6 +15,7 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
         public DbSet<FIASVersionInstallationStatus> FIASVersionInstallationStatuses { get; set; }
         public DbSet<FIASVersionInstallation> FIASVersionInstallations { get; set; }
         public DbSet<FIASVersionInstallationType> FIASVersionInstallationsTypes { get; set; }
+        public DbSet<FIASVersionInstallationStep> FIASVersionInstallationSteps { get; set; }
 
         #endregion
         
@@ -216,6 +217,16 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.DbContexts
                     }
                 });
 
+            #endregion
+            
+            #region FIASVersionInstallationStep
+            
+            modelBuilder.Entity<FIASVersionInstallationStep>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<FIASVersionInstallationStep>()
+                .Property(e => e.FileFullName)
+                .HasMaxLength(512);
+            
             #endregion
             
             #region AddressObjectType
