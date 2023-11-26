@@ -14,7 +14,7 @@ namespace YPermitin.FIASToolSet.Jobs.JobItems;
 [DisallowConcurrentExecution]
 public class InstallAndUpdateFIASJob : IJob
 {
-    private readonly ILogger<ActualizeFIASVersionHistoryJob> _logger;
+    private readonly ILogger<InstallAndUpdateFIASJob> _logger;
     private readonly IServiceProvider _provider;
     private readonly IConfiguration _configuration;
 
@@ -25,7 +25,7 @@ public class InstallAndUpdateFIASJob : IJob
     
     public InstallAndUpdateFIASJob(
         IServiceProvider provider,
-        ILogger<ActualizeFIASVersionHistoryJob> logger,
+        ILogger<InstallAndUpdateFIASJob> logger,
         IConfiguration configuration)
     {
         _logger = logger;
@@ -148,6 +148,13 @@ public class InstallAndUpdateFIASJob : IJob
                 
                 foreach (var availableRegion in availableRegions)
                 {
+                    bool regionWasLoaded = await loader.RegionWasLoaded(availableRegion.Code);
+                    if (regionWasLoaded)
+                    {
+                        _logger.LogWarning($"Регион с кодом \"{availableRegion.Code}\" уже был загружен. Пропускаем обработки файлов данных.");
+                        continue;
+                    }
+                    
                     try
                     {
                         loader.ExtractDataForRegion(availableRegion);
@@ -157,6 +164,8 @@ public class InstallAndUpdateFIASJob : IJob
                         _logger.LogError($"Не найден регион с кодом ${availableRegion.Code} среди доступных регионов в дистрибутиве ФИАС. Загрузка пропущена.");
                         continue;
                     }
+
+                    await loader.SetRegionInstallationStatusToInstalling(availableRegion.Code);
                     
                     await loader.LoadNormativeDocuments(availableRegion);
                     await loader.LoadAddressObjects(availableRegion);                    
@@ -176,6 +185,8 @@ public class InstallAndUpdateFIASJob : IJob
                     await loader.LoadSteadParameters(availableRegion);
                     await loader.LoadChangeHistory(availableRegion);
                     await loader.LoadObjectsRegistry(availableRegion);
+                    
+                    await loader.SetRegionInstallationStatusToInstalled(availableRegion.Code);
                     
                     if (_removeExtractedDistributionFiles)
                     {

@@ -1291,6 +1291,41 @@
             Дата начала установки
             </summary>
         </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationRegion">
+            <summary>
+            Информация о состоянии установки / обновления региона дистрибутива ФИАС
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationRegion.Id">
+            <summary>
+            Идентификатор шага
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationRegion.FIASVersionInstallation">
+            <summary>
+            Установка версия ФИАС
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationRegion.FIASVersionInstallationId">
+            <summary>
+            Идентификатор установки версии ФИАС
+            </summary>        
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationRegion.Status">
+            <summary>
+            Статус установки данных региона дистрибутива ФИАС
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationRegion.StatusId">
+            <summary>
+            Идентификатор статуса установки данных региона дистрибутива ФИАС
+            </summary>        
+        </member>
+        <member name="P:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationRegion.RegionCode">
+            <summary>
+            Код региона
+            </summary>
+        </member>
         <member name="T:YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStatus">
             <summary>
             Статус установки версии ФИАС

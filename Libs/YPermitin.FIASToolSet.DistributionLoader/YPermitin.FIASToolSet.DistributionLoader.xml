@@ -41,6 +41,22 @@
             </summary>
             <param name="region">Регион для удаления каталога данных</param>
         </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.RegionWasLoaded(System.Int32)">
+            <summary>
+            Проверка был ли регион уже загружен
+            </summary>
+            <returns>Истина, если регион уже загружен. Ложь в противном случае.</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.SetRegionInstallationStatusToInstalling(System.Int32)">
+            <summary>
+            Установка статуса установки региона на "Устанавливается"
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.SetRegionInstallationStatusToInstalled(System.Int32)">
+            <summary>
+            Установка статуса установки региона на "Установлено"
+            </summary>
+        </member>
         <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadAddressObjects(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
             <summary>
             Загрузка адресных объектов по региону
@@ -235,6 +251,22 @@
             Установка статуса текущей установки в "Установлено"
             </summary>
             <returns>Объект асинхронной операции</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.RegionWasLoaded(System.Int32)">
+            <summary>
+            Проверка был ли регион уже загружен
+            </summary>
+            <returns>Истина, если регион уже загружен. Ложь в противном случае.</returns>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.SetRegionInstallationStatusToInstalling(System.Int32)">
+            <summary>
+            Установка статуса установки региона на "Устанавливается"
+            </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.SetRegionInstallationStatusToInstalled(System.Int32)">
+            <summary>
+            Установка статуса установки региона на "Установлено"
+            </summary>
         </member>
         <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadAddressObjectTypes">
             <summary>

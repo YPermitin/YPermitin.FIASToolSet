@@ -28,8 +28,21 @@ public interface IFIASInstallationManagerRepository
     
     #endregion
     
+    #region FIASVersionInstallationRegion
+
+    Task<List<FIASVersionInstallationRegion>> GetVersionInstallationRegions(Guid installationId);
+
+    Task<FIASVersionInstallationRegion> GetVersionInstallationRegion(Guid installationId, int regionCode);
+
+    void AddInstallationRegion(FIASVersionInstallationRegion installationRegion);
+
+    void UpdateInstallationRegion(FIASVersionInstallationRegion installationRegion);
+    
+    #endregion
+    
     Task<bool> BeginTransactionAsync();
     Task CommitTransactionAsync();
     Task RollbackTransactionAsync();
     Task<bool> SaveAsync();
+    void ClearChangeTracking();
 }

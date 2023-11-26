@@ -1247,6 +1247,33 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations
                     b.ToTable("FIASVersionInstallations");
                 });
 
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationRegion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("FIASVersionInstallationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("RegionCode")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("StatusId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FIASVersionInstallationId");
+
+                    b.HasIndex("StatusId");
+
+                    b.HasIndex("RegionCode", "FIASVersionInstallationId")
+                        .IsUnique();
+
+                    b.ToTable("FIASVersionInstallationRegions");
+                });
+
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStatus", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1609,6 +1636,25 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations
                     b.Navigation("FIASVersion");
 
                     b.Navigation("InstallationType");
+
+                    b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationRegion", b =>
+                {
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallation", "FIASVersionInstallation")
+                        .WithMany()
+                        .HasForeignKey("FIASVersionInstallationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStatus", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FIASVersionInstallation");
 
                     b.Navigation("Status");
                 });

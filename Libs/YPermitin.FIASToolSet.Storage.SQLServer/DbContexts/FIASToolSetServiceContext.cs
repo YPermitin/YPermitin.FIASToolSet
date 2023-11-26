@@ -16,6 +16,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
         public DbSet<FIASVersionInstallation> FIASVersionInstallations { get; set; }
         public DbSet<FIASVersionInstallationType> FIASVersionInstallationsTypes { get; set; }
         public DbSet<FIASVersionInstallationStep> FIASVersionInstallationSteps { get; set; }
+        public DbSet<FIASVersionInstallationRegion> FIASVersionInstallationRegions { get; set; }
 
         #endregion
         
@@ -227,6 +228,16 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
                 .Property(e => e.FileFullName)
                 .HasMaxLength(512);
             
+            #endregion
+            
+            #region FIASVersionInstallationRegion
+
+            modelBuilder.Entity<FIASVersionInstallationRegion>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<FIASVersionInstallationRegion>()
+                .HasIndex(e => new { e.RegionCode, e.FIASVersionInstallationId })
+                .IsUnique();
+
             #endregion
             
             #region AddressObjectType
