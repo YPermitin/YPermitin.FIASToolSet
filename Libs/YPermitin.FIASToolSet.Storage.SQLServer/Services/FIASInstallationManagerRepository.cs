@@ -125,4 +125,39 @@ public class FIASInstallationManagerRepository : CommonRepository, IFIASInstalla
     }
     
     #endregion
+    
+    #region FIASVersionInstallationRegion
+
+    public async Task<List<FIASVersionInstallationRegion>> GetVersionInstallationRegions(Guid installationId)
+    {
+        var steps = await _context.FIASVersionInstallationRegions
+            .Where(e => e.FIASVersionInstallationId == installationId)
+            .AsNoTracking()
+            .ToListAsync();
+
+        return steps;
+    }
+    
+    public async Task<FIASVersionInstallationRegion> GetVersionInstallationRegion(Guid installationId, int regionCode)
+    {
+        var foundStep = await _context.FIASVersionInstallationRegions
+            .Where(e => e.FIASVersionInstallationId == installationId)
+            .Where(e => e.RegionCode == regionCode)
+            .AsNoTracking()
+            .FirstOrDefaultAsync();
+
+        return foundStep;
+    }
+    
+    public void AddInstallationRegion(FIASVersionInstallationRegion installationRegion)
+    {
+        _context.Entry(installationRegion).State = EntityState.Added;
+    }
+
+    public void UpdateInstallationRegion(FIASVersionInstallationRegion installationRegion)
+    {
+        _context.Entry(installationRegion).State = EntityState.Modified;
+    }
+    
+    #endregion
 }

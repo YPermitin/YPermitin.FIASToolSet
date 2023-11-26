@@ -46,6 +46,8 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         _classifierDataRepository = classifierDataRepository;
     }
 
+    #region Manage
+    
     public async Task<bool> ActiveInstallationExists()
     {
         var activeInstallations = await _fiasInstallationManagerService.GetInstallations(
@@ -63,19 +65,12 @@ public class FIASDistributionLoader : IFIASDistributionLoader
 
         foreach (var activeInstallation in activeInstallations)
         {
-            if (activeInstallation.StartDate != null)
-            {
-                var startTimeLeft = DateTime.UtcNow - (DateTime)activeInstallation.StartDate;
-                if (startTimeLeft.TotalHours >= 4)
-                {
-                    activeInstallation.StartDate = null;
-                    activeInstallation.FinishDate = null;
-                    activeInstallation.StatusId = FIASVersionInstallationStatus.New;
-                    _fiasInstallationManagerService.UpdateInstallation(activeInstallation);
+            activeInstallation.StartDate = null;
+            activeInstallation.FinishDate = null;
+            activeInstallation.StatusId = FIASVersionInstallationStatus.New;
+            _fiasInstallationManagerService.UpdateInstallation(activeInstallation);
 
-                    stuckInstallations.Add(activeInstallation);
-                }
-            }
+            stuckInstallations.Add(activeInstallation);
         }
 
         await _fiasInstallationManagerService.SaveAsync();
@@ -240,6 +235,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         _installation.FinishDate = null;
         _fiasInstallationManagerService.UpdateInstallation(_installation);
         await _fiasInstallationManagerService.SaveAsync();
+        _fiasInstallationManagerService.ClearChangeTracking();
     }
     
     public async Task SetInstallationToStatusInstalling()
@@ -248,6 +244,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         _installation.StartDate = DateTime.UtcNow;
         _fiasInstallationManagerService.UpdateInstallation(_installation);
         await _fiasInstallationManagerService.SaveAsync();
+        _fiasInstallationManagerService.ClearChangeTracking();
     }
     
     public async Task SetInstallationToStatusInstalled()
@@ -256,8 +253,80 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         _installation.FinishDate = DateTime.UtcNow;
         _fiasInstallationManagerService.UpdateInstallation(_installation);
         await _fiasInstallationManagerService.SaveAsync();
+        _fiasInstallationManagerService.ClearChangeTracking();
     }
 
+    /// <summary>
+    /// Проверка был ли регион уже загружен
+    /// </summary>
+    /// <returns>Истина, если регион уже загружен. Ложь в противном случае.</returns>
+    public async Task<bool> RegionWasLoaded(int regionCode)
+    {
+        var regionInstallation = await _fiasInstallationManagerService
+            .GetVersionInstallationRegion(_installation.Id, regionCode);
+
+        if (regionInstallation == null)
+        {
+            return false;
+        }
+
+        return regionInstallation.StatusId == FIASVersionInstallationStatus.Installed;
+    }
+    
+    /// <summary>
+    /// Установка статуса установки региона на "Устанавливается"
+    /// </summary>
+    public async Task SetRegionInstallationStatusToInstalling(int regionCode)
+    {
+        var regionInstallation = await _fiasInstallationManagerService
+            .GetVersionInstallationRegion(_installation.Id, regionCode);
+
+        if (regionInstallation == null)
+        {
+            regionInstallation = new FIASVersionInstallationRegion();
+            regionInstallation.FIASVersionInstallationId = _installation.Id;
+            regionInstallation.RegionCode = regionCode;
+            _fiasInstallationManagerService.AddInstallationRegion(regionInstallation);
+        }
+        else
+        {
+            _fiasInstallationManagerService.UpdateInstallationRegion(regionInstallation);
+        }
+        
+        regionInstallation.StatusId = FIASVersionInstallationStatus.Installing;
+
+        await _fiasInstallationManagerService.SaveAsync();
+        _fiasInstallationManagerService.ClearChangeTracking();
+    }
+    
+    /// <summary>
+    /// Установка статуса установки региона на "Установлено"
+    /// </summary>
+    public async Task SetRegionInstallationStatusToInstalled(int regionCode)
+    {
+        var regionInstallation = await _fiasInstallationManagerService
+            .GetVersionInstallationRegion(_installation.Id, regionCode);
+
+        if (regionInstallation == null)
+        {
+            regionInstallation = new FIASVersionInstallationRegion();
+            regionInstallation.FIASVersionInstallationId = _installation.Id;
+            regionInstallation.RegionCode = regionCode;
+            _fiasInstallationManagerService.AddInstallationRegion(regionInstallation);
+        }
+        else
+        {
+            _fiasInstallationManagerService.UpdateInstallationRegion(regionInstallation);
+        }
+        
+        regionInstallation.StatusId = FIASVersionInstallationStatus.Installed;
+
+        await _fiasInstallationManagerService.SaveAsync();
+        _fiasInstallationManagerService.ClearChangeTracking();
+    }
+    
+    #endregion
+    
     #region BaseCatalogs
     
     public async Task LoadAddressObjectTypes()
@@ -2847,6 +2916,8 @@ public class FIASDistributionLoader : IFIASDistributionLoader
 
     #endregion
     
+    #region Service
+    
     private IFIASDistributionReader GetDistributionReader()
     {
         if (_distributionDirectory == null || !Directory.Exists(_distributionDirectory))
@@ -3731,4 +3802,6 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         await _classifierDataRepository.SaveBulkAsync();
         currentPortion.Clear();
     }
+    
+    #endregion
 }

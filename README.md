@@ -28,7 +28,7 @@
 
 Для окружение разработчика необходимы:
 
-* [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+* [.NET 7 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
 * [Visual Studio 2022](https://visualstudio.microsoft.com/ru/vs/)
 * [PostgreSQL 12/13/14](https://www.postgresql.org/download/)
 
@@ -50,7 +50,7 @@
 
 ## Развертывание проекта
 
-Установите ASP.NET Core Runtime и PostgreSQL (12/13/14), после чего опубликуйте приложение "YPermitin.FIASToolSet.API". Подробнее о публикации ASP.NET Core приложений читайте в [официальной документации](https://docs.microsoft.com/ru-ru/aspnet/core/host-and-deploy/?view=aspnetcore-6.0).
+Установите ASP.NET Core Runtime и PostgreSQL (12+), после чего опубликуйте приложение "YPermitin.FIASToolSet.API". Подробнее о публикации ASP.NET Core приложений читайте в [официальной документации](https://docs.microsoft.com/ru-ru/aspnet/core/host-and-deploy/?view=aspnetcore-6.0).
 
 ### appsettings.json
 
@@ -124,11 +124,9 @@
 
 ## Планы на будущее
 
-* Добавить загрузку и обновление данных классификатора ФИАС с максимальной скоростью загрузки и минимальным потреблением ресурсов.
 * Добавить возможность хранения классификатора ФИАС в ClickHouse.
 * Реализовать API для работы с данными ФИАС.
 * Сделать пример использования API в [веб-приложении TinyDevTools](https://tinydevtools.ru/fias).
-* Добавить поддержку Docker для развертывания приложения.
 
 ## Лицензия, благодарности и послесловие
 

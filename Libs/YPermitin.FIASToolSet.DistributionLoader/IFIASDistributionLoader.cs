@@ -95,6 +95,22 @@ public interface IFIASDistributionLoader
     /// <returns>Объект асинхронной операции</returns>
     Task SetInstallationToStatusInstalled();
 
+    /// <summary>
+    /// Проверка был ли регион уже загружен
+    /// </summary>
+    /// <returns>Истина, если регион уже загружен. Ложь в противном случае.</returns>
+    Task<bool> RegionWasLoaded(int regionCode);
+
+    /// <summary>
+    /// Установка статуса установки региона на "Устанавливается"
+    /// </summary>
+    Task SetRegionInstallationStatusToInstalling(int regionCode);
+
+    /// <summary>
+    /// Установка статуса установки региона на "Установлено"
+    /// </summary>
+    Task SetRegionInstallationStatusToInstalled(int regionCode);
+    
     #region BaseCatalogs
     
     /// <summary>

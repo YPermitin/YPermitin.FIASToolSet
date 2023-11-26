@@ -28,5 +28,29 @@
         <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.ActualizeMigrationV1.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddedInstallationSteps">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddedInstallationSteps.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddedInstallationSteps.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddedInstallationSteps.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddedRegionInstallationState">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddedRegionInstallationState.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddedRegionInstallationState.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddedRegionInstallationState.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>
