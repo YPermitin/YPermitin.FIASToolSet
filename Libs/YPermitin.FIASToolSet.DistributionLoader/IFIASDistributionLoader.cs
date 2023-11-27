@@ -32,6 +32,13 @@ public interface IFIASDistributionLoader
     /// </summary>
     /// <returns>Объект асинхронной операции</returns>
     Task SetInstallationToStatusNew();
+
+    /// <summary>
+    /// Установка версии ФИАС для установки или обновления
+    /// </summary>
+    /// <param name="versionInstallationId">Идентификатор версии установки</param>
+    /// <returns></returns>
+    Task<bool> SetVersionInstallationToLoad(Guid versionInstallationId);
     
     /// <summary>
     /// Определение версии ФИАС для установки или обновления
@@ -44,7 +51,8 @@ public interface IFIASDistributionLoader
     /// </summary>
     /// <returns>Объект асинхронной операции</returns>
     Task DownloadAndExtractDistribution(
-        Action<DownloadDistributionFileProgressChangedEventArgs> onDownloadFileProgressChangedEvent = null);
+        Action<DownloadDistributionFileProgressChangedEventArgs> onDownloadFileProgressChangedEvent = null,
+        bool initOnly = false);
 
     /// <summary>
     /// Удалениие архива данных для версии ФИАС
@@ -66,9 +74,10 @@ public interface IFIASDistributionLoader
     /// Распаковка данных для указанного региона
     /// </summary>
     /// <param name="region">Информация о региоре</param>
+    /// <param name="initOnly">Только инициализация каталогов без распаковки</param>
     /// <returns>Путь к каталогу с данными по региону</returns>
     /// <exception cref="RegionNotFoundException">Регион с указанным кодом не найден</exception>
-    string ExtractDataForRegion(Region region);
+    string ExtractDataForRegion(Region region, bool initOnly = false);
 
     /// <summary>
     /// Полусение пути к каталогу с данными региона
@@ -112,6 +121,12 @@ public interface IFIASDistributionLoader
     Task SetRegionInstallationStatusToInstalled(int regionCode);
     
     #region BaseCatalogs
+
+    /// <summary>
+    /// Загрузка всех базовых справочников
+    /// </summary>
+    /// <returns>Объект асинхронной операции</returns>
+    Task LoadAllBaseCatalogs();
     
     /// <summary>
     /// Загрузка типов адресных объектов
@@ -175,109 +190,127 @@ public interface IFIASDistributionLoader
     /// Загрузка адресных объектов по региону
     /// </summary>
     /// <param name="region">Регион для загрузки данных адресных объектов</param>
-    Task LoadAddressObjects(Region region);
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    Task LoadAddressObjects(Region region, CancellationToken cancellationToken = default(CancellationToken));
 
     /// <summary>
     /// Загрузка информации о переподчинении адресных объектов
     /// </summary>
     /// <param name="region">Регион для загрузки данных о переодчинении адресных объектов</param>
-    Task LoadAddressObjectDivisions(Region region);
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    Task LoadAddressObjectDivisions(Region region, CancellationToken cancellationToken = default(CancellationToken));
 
     /// <summary>
     /// Загрузка информации о параметрах адресных объектов
     /// </summary>
     /// <param name="region">Регион для загрузки данных о параметрах адресных объектов</param>
-    Task LoadAddressObjectParameters(Region region);
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    Task LoadAddressObjectParameters(Region region, CancellationToken cancellationToken = default(CancellationToken));
 
     /// <summary>
     /// Загрузка информации о иерархии административного деления адресных объектов
     /// </summary>
     /// <param name="region">Регион для загрузки данных о иерархии административного деления адресных объектов</param>
-    Task LoadAddressObjectsAdmHierarchy(Region region);
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    Task LoadAddressObjectsAdmHierarchy(Region region, CancellationToken cancellationToken = default(CancellationToken));
 
     /// <summary>
     /// Загрузка информации о иерархии муниципального деления адресных объектов
     /// </summary>
     /// <param name="region">Регион для загрузки данных о иерархии муниципального деления адресных объектов</param>
-    Task LoadAddressObjectsMunHierarchy(Region region);
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    Task LoadAddressObjectsMunHierarchy(Region region, CancellationToken cancellationToken = default(CancellationToken));
 
     /// <summary>
     /// Загрузка информации о квартирах
     /// </summary>
     /// <param name="region">Регион для загрузки данных о квартирах</param>
-    Task LoadApartments(Region region);
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    Task LoadApartments(Region region, CancellationToken cancellationToken = default(CancellationToken));
 
     /// <summary>
     /// Загрузка информации о параметрах квартир
     /// </summary>
     /// <param name="region">Регион для загрузки данных о параметрах квартир</param>
-    Task LoadApartmentParameters(Region region);
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    Task LoadApartmentParameters(Region region, CancellationToken cancellationToken = default(CancellationToken));
 
     /// <summary>
     /// Загрузка информации о машино-местах
     /// </summary>
     /// <param name="region">Регион для загрузки данных о машино-местах</param>
-    Task LoadCarPlaces(Region region);
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    Task LoadCarPlaces(Region region, CancellationToken cancellationToken = default(CancellationToken));
     
     /// <summary>
     /// Загрузка информации о параметрах машино-мест
     /// </summary>
     /// <param name="region">Регион для загрузки данных о параметрах машино-мест</param>
-    Task LoadCarPlaceParameters(Region region);
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    Task LoadCarPlaceParameters(Region region, CancellationToken cancellationToken = default(CancellationToken));
 
     /// <summary>
     /// Загрузка информации о строениях
     /// </summary>
     /// <param name="region">Регион для загрузки данных о строениях</param>
-    Task LoadHouses(Region region);
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    Task LoadHouses(Region region, CancellationToken cancellationToken = default(CancellationToken));
     
     /// <summary>
     /// Загрузка информации о параметрах строений
     /// </summary>
     /// <param name="region">Регион для загрузки данных о параметрах строений</param>
-    Task LoadHouseParameters(Region region);
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    Task LoadHouseParameters(Region region, CancellationToken cancellationToken = default(CancellationToken));
 
     /// <summary>
     /// Загрузка информации о комнатах
     /// </summary>
     /// <param name="region">Регион для загрузки данных о комнатах</param>
-    Task LoadRooms(Region region);
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    Task LoadRooms(Region region, CancellationToken cancellationToken = default(CancellationToken));
     
     /// <summary>
     /// Загрузка информации о параметрах комнат
     /// </summary>
     /// <param name="region">Регион для загрузки данных о параметрах комнат</param>
-    Task LoadRoomParameters(Region region);
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    Task LoadRoomParameters(Region region, CancellationToken cancellationToken = default(CancellationToken));
 
     /// <summary>
     /// Загрузка информации о земельных участках
     /// </summary>
     /// <param name="region">Регион для загрузки данных о земельных участках</param>
-    Task LoadSteads(Region region);
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    Task LoadSteads(Region region, CancellationToken cancellationToken = default(CancellationToken));
     
     /// <summary>
     /// Загрузка информации о параметрах земельных участков
     /// </summary>
     /// <param name="region">Регион для загрузки данных о параметрах земельных участков</param>
-    Task LoadSteadParameters(Region region);
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    Task LoadSteadParameters(Region region, CancellationToken cancellationToken = default(CancellationToken));
 
     /// <summary>
     /// Загрузка информации о нормативных документах
     /// </summary>
     /// <param name="region">Регион для загрузки данных о нормативных документах</param>
-    Task LoadNormativeDocuments(Region region);
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    Task LoadNormativeDocuments(Region region, CancellationToken cancellationToken = default(CancellationToken));
     
     /// <summary>
     /// Загрузка истории изменений адресных объектов
     /// </summary>
     /// <param name="region">Регион для загрузки данных о истории изменений адресных объектов</param>
-    Task LoadChangeHistory(Region region);
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    Task LoadChangeHistory(Region region, CancellationToken cancellationToken = default(CancellationToken));
 
     /// <summary>
     /// Загрузка реестра адресных элементов
     /// </summary>
     /// <param name="region">Регион для загрузки данных о реестре адресных элементов</param>
-    Task LoadObjectsRegistry(Region region);
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    Task LoadObjectsRegistry(Region region, CancellationToken cancellationToken = default(CancellationToken));
 
     #endregion
 }

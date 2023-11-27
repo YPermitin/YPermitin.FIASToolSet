@@ -8,7 +8,7 @@ public interface IFIASInstallationManagerRepository
     
     Task<List<FIASVersionInstallation>> GetInstallations(Guid? statusId = null, Guid? typeId = null,
         bool includeDetails = false);
-    Task<FIASVersionInstallation> GetInstallation(Guid id);
+    Task<FIASVersionInstallation> GetInstallation(Guid id, bool includeDetails = false);
     Task<FIASVersionInstallation> GetLastInstallation();
     Task<FIASVersionInstallation> GetPreviousInstallation(Guid installationId);
     void AddInstallation(FIASVersionInstallation installation);
