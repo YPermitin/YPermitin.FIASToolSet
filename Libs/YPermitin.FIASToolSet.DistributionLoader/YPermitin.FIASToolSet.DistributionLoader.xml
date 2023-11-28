@@ -20,11 +20,12 @@
             </summary>
             <returns>Коллекция доступных регионов</returns>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.ExtractDataForRegion(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.ExtractDataForRegion(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Boolean)">
             <summary>
             Распаковка данных для указанного региона
             </summary>
             <param name="region">Регион для распаковки данных</param>
+            <param name="initOnly">Только инициализация каталогов без распаковки</param>
             <returns>Путь к каталогу с данными по региону</returns>
             <exception cref="T:YPermitin.FIASToolSet.DistributionLoader.Exceptions.RegionNotFoundException">Регион с указанным кодом не найден</exception>
         </member>
@@ -57,113 +58,131 @@
             Установка статуса установки региона на "Установлено"
             </summary>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadAddressObjects(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadAddressObjects(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка адресных объектов по региону
             </summary>
             <param name="region">Регион для загрузки данных адресных объектов</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadAddressObjectDivisions(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadAddressObjectDivisions(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о переподчинении адресных объектов
             </summary>
             <param name="region">Регион для загрузки данных о переодчинении адресных объектов</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadAddressObjectParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadAddressObjectParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о параметрах адресных объектов
             </summary>
             <param name="region">Регион для загрузки данных о параметрах адресных объектов</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadAddressObjectsAdmHierarchy(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadAddressObjectsAdmHierarchy(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о иерархии административного деления адресных объектов
             </summary>
             <param name="region">Регион для загрузки данных о иерархии административного деления адресных объектов</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadAddressObjectsMunHierarchy(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadAddressObjectsMunHierarchy(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о иерархии муниципального деления адресных объектов
             </summary>
             <param name="region">Регион для загрузки данных о иерархии муниципального деления адресных объектов</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadApartments(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadApartments(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о квартирах
             </summary>
             <param name="region">Регион для загрузки данных о квартирах</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadApartmentParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadApartmentParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о параметрах квартир
             </summary>
             <param name="region">Регион для загрузки данных о параметрах квартир</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadCarPlaces(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadCarPlaces(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о машино-местах
             </summary>
             <param name="region">Регион для загрузки данных о машино-местах</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadCarPlaceParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadCarPlaceParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о параметрах машино-мест
             </summary>
             <param name="region">Регион для загрузки данных о параметрах машино-мест</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadHouses(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadHouses(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о строениях
             </summary>
             <param name="region">Регион для загрузки данных о строениях</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadHouseParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadHouseParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о параметрах строений
             </summary>
             <param name="region">Регион для загрузки данных о параметрах строений</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadRooms(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadRooms(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о комнатах
             </summary>
             <param name="region">Регион для загрузки данных о комнатах</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadRoomParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadRoomParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о параметрах комнат
             </summary>
             <param name="region">Регион для загрузки данных о параметрах комнат</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadSteads(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadSteads(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о земельных участках
             </summary>
             <param name="region">Регион для загрузки данных о земельных участках</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadSteadParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadSteadParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о параметрах земельных участков
             </summary>
             <param name="region">Регион для загрузки данных о параметрах земельных участков</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadNormativeDocuments(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadNormativeDocuments(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о нормативных документах
             </summary>
             <param name="region">Регион для загрузки данных о нормативных документах</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadChangeHistory(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadChangeHistory(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка истории изменений адресных объектов
             </summary>
             <param name="region">Регион для загрузки данных о истории изменений адресных объектов</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadObjectsRegistry(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.FIASDistributionLoader.LoadObjectsRegistry(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка реестра адресных элементов
             </summary>
             <param name="region">Регион для загрузки данных о реестре адресных элементов</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
         <member name="P:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.VersionInstallation">
             <summary>
@@ -191,13 +210,20 @@
             </summary>
             <returns>Объект асинхронной операции</returns>
         </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.SetVersionInstallationToLoad(System.Guid)">
+            <summary>
+            Установка версии ФИАС для установки или обновления
+            </summary>
+            <param name="versionInstallationId">Идентификатор версии установки</param>
+            <returns></returns>
+        </member>
         <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.InitVersionInstallationToLoad">
             <summary>
             Определение версии ФИАС для установки или обновления
             </summary>
             <returns>Истина при успешном определении версии, Ложь в противном случае</returns>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.DownloadAndExtractDistribution(System.Action{YPermitin.FIASToolSet.DistributionBrowser.Models.DownloadDistributionFileProgressChangedEventArgs})">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.DownloadAndExtractDistribution(System.Action{YPermitin.FIASToolSet.DistributionBrowser.Models.DownloadDistributionFileProgressChangedEventArgs},System.Boolean)">
             <summary>
             Скачивание и распаковка дистрибутива ФИАС
             </summary>
@@ -219,11 +245,12 @@
             </summary>
             <returns>Коллекция доступных регионов</returns>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.ExtractDataForRegion(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.ExtractDataForRegion(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Boolean)">
             <summary>
             Распаковка данных для указанного региона
             </summary>
             <param name="region">Информация о региоре</param>
+            <param name="initOnly">Только инициализация каталогов без распаковки</param>
             <returns>Путь к каталогу с данными по региону</returns>
             <exception cref="T:YPermitin.FIASToolSet.DistributionLoader.Exceptions.RegionNotFoundException">Регион с указанным кодом не найден</exception>
         </member>
@@ -267,6 +294,12 @@
             <summary>
             Установка статуса установки региона на "Установлено"
             </summary>
+        </member>
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadAllBaseCatalogs">
+            <summary>
+            Загрузка всех базовых справочников
+            </summary>
+            <returns>Объект асинхронной операции</returns>
         </member>
         <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadAddressObjectTypes">
             <summary>
@@ -322,113 +355,131 @@
             </summary>
             <returns>Объект асинхронной операции</returns>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadAddressObjects(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadAddressObjects(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка адресных объектов по региону
             </summary>
             <param name="region">Регион для загрузки данных адресных объектов</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadAddressObjectDivisions(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadAddressObjectDivisions(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о переподчинении адресных объектов
             </summary>
             <param name="region">Регион для загрузки данных о переодчинении адресных объектов</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadAddressObjectParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadAddressObjectParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о параметрах адресных объектов
             </summary>
             <param name="region">Регион для загрузки данных о параметрах адресных объектов</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadAddressObjectsAdmHierarchy(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadAddressObjectsAdmHierarchy(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о иерархии административного деления адресных объектов
             </summary>
             <param name="region">Регион для загрузки данных о иерархии административного деления адресных объектов</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadAddressObjectsMunHierarchy(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadAddressObjectsMunHierarchy(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о иерархии муниципального деления адресных объектов
             </summary>
             <param name="region">Регион для загрузки данных о иерархии муниципального деления адресных объектов</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadApartments(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadApartments(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о квартирах
             </summary>
             <param name="region">Регион для загрузки данных о квартирах</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadApartmentParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadApartmentParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о параметрах квартир
             </summary>
             <param name="region">Регион для загрузки данных о параметрах квартир</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadCarPlaces(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadCarPlaces(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о машино-местах
             </summary>
             <param name="region">Регион для загрузки данных о машино-местах</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadCarPlaceParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadCarPlaceParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о параметрах машино-мест
             </summary>
             <param name="region">Регион для загрузки данных о параметрах машино-мест</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadHouses(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadHouses(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о строениях
             </summary>
             <param name="region">Регион для загрузки данных о строениях</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadHouseParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadHouseParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о параметрах строений
             </summary>
             <param name="region">Регион для загрузки данных о параметрах строений</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadRooms(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadRooms(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о комнатах
             </summary>
             <param name="region">Регион для загрузки данных о комнатах</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadRoomParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadRoomParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о параметрах комнат
             </summary>
             <param name="region">Регион для загрузки данных о параметрах комнат</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadSteads(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadSteads(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о земельных участках
             </summary>
             <param name="region">Регион для загрузки данных о земельных участках</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadSteadParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadSteadParameters(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о параметрах земельных участков
             </summary>
             <param name="region">Регион для загрузки данных о параметрах земельных участков</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadNormativeDocuments(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadNormativeDocuments(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка информации о нормативных документах
             </summary>
             <param name="region">Регион для загрузки данных о нормативных документах</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadChangeHistory(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadChangeHistory(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка истории изменений адресных объектов
             </summary>
             <param name="region">Регион для загрузки данных о истории изменений адресных объектов</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadObjectsRegistry(YPermitin.FIASToolSet.DistributionLoader.Models.Region)">
+        <member name="M:YPermitin.FIASToolSet.DistributionLoader.IFIASDistributionLoader.LoadObjectsRegistry(YPermitin.FIASToolSet.DistributionLoader.Models.Region,System.Threading.CancellationToken)">
             <summary>
             Загрузка реестра адресных элементов
             </summary>
             <param name="region">Регион для загрузки данных о реестре адресных элементов</param>
+            <param name="cancellationToken">Токен для отмены операции</param>
         </member>
         <member name="T:YPermitin.FIASToolSet.DistributionLoader.Models.Region">
             <summary>

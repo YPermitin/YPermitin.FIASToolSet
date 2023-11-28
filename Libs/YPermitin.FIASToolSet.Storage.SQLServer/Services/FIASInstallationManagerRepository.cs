@@ -44,9 +44,19 @@ public class FIASInstallationManagerRepository : CommonRepository, IFIASInstalla
         return result;
     }
 
-    public async Task<FIASVersionInstallation> GetInstallation(Guid id)
+    public async Task<FIASVersionInstallation> GetInstallation(Guid id, bool includeDetails = false)
     {
-        return await _context.FIASVersionInstallations
+        var query = _context.FIASVersionInstallations.AsQueryable();
+
+        if (includeDetails)
+        {
+            query = query
+                .Include(e => e.FIASVersion).AsNoTracking()
+                .Include(e => e.Status).AsNoTracking()
+                .Include(e => e.InstallationType).AsNoTracking();
+        }
+        
+        return await query
             .AsNoTracking()
             .FirstOrDefaultAsync(e => e.Id == id);
     }

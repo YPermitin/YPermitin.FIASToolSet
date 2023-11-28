@@ -74,6 +74,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         }
 
         await _fiasInstallationManagerService.SaveAsync();
+        _fiasInstallationManagerService.ClearChangeTracking();
 
         return stuckInstallations;
     }
@@ -102,8 +103,26 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         }
     }
 
+    public async Task<bool> SetVersionInstallationToLoad(Guid versionInstallationId)
+    {
+        var foundInstallation = await _fiasInstallationManagerService.GetInstallation(versionInstallationId, true);
+        if (foundInstallation == null)
+            return false;
+
+        _distributionDirectory = null;
+        _distributionReader = null;
+        _installation = null;
+        CurrentVersion = null;
+        Distribution = null;
+        
+        _installation = foundInstallation;
+        CurrentVersion = _installation.FIASVersion;
+        return true;
+    }
+
     public async Task DownloadAndExtractDistribution(
-        Action<DownloadDistributionFileProgressChangedEventArgs> onDownloadFileProgressChangedEvent = null)
+        Action<DownloadDistributionFileProgressChangedEventArgs> onDownloadFileProgressChangedEvent = null, 
+        bool initOnly = false)
     {
         // 1. В зависимости от типа установки скачиваем файл дистрибутива ФИАС
         // 1.1. Если файл дистрибутива уже был успешно скачен ранее, то пропускаем шаг.
@@ -124,10 +143,17 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             distributionFileType = DistributionFileType.GARFIASXmlComplete;
         else
             distributionFileType = DistributionFileType.GARFIASXmlDelta;
-        await Distribution.DownloadDistributionByFileTypeAsync(distributionFileType, onDownloadFileProgressChangedEvent);
+        
+        if(!initOnly)
+        {
+            await Distribution.DownloadDistributionByFileTypeAsync(distributionFileType, onDownloadFileProgressChangedEvent);
+        }
 
         // 2. Распаковываем файлы базовых справочников (если уже были ранее распакованы, то повторяем операцию)
-        distribution.ExtractDistributionFile(distributionFileType);
+        if (!initOnly)
+        {
+            distribution.ExtractDistributionFile(distributionFileType);
+        }
         _distributionDirectory = Distribution.GetExtractedDirectory(distributionFileType);
     }
 
@@ -179,9 +205,10 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     /// Распаковка данных для указанного региона
     /// </summary>
     /// <param name="region">Регион для распаковки данных</param>
+    /// <param name="initOnly">Только инициализация каталогов без распаковки</param>
     /// <returns>Путь к каталогу с данными по региону</returns>
     /// <exception cref="RegionNotFoundException">Регион с указанным кодом не найден</exception>
-    public string ExtractDataForRegion(Region region)
+    public string ExtractDataForRegion(Region region, bool initOnly = false)
     {
         DistributionFileType distributionFileType;
         if (_installation.InstallationTypeId == FIASVersionInstallationType.Full)
@@ -197,8 +224,11 @@ public class FIASDistributionLoader : IFIASDistributionLoader
                 $"Не найден регион с кодом \"{region.Code}\" среди доступных регионов в дистрибутиве ФИАС.",
                 region.ToString());
         }
-        
-        Distribution.ExtractDistributionRegionFiles(distributionFileType, region.Code.ToString("00"));
+
+        if (!initOnly)
+        {
+            Distribution.ExtractDistributionRegionFiles(distributionFileType, region.Code.ToString("00"));
+        }
 
         return GetDataDirectoryForRegion(region);
     }
@@ -328,6 +358,19 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     #endregion
     
     #region BaseCatalogs
+
+    public async Task LoadAllBaseCatalogs()
+    {
+        await LoadObjectLevels();
+        await LoadApartmentTypes();
+        await LoadHouseTypes();
+        await LoadOperationTypes();
+        await LoadRoomTypes();
+        await LoadParameterTypes();
+        await LoadAddressObjectTypes();
+        await LoadNormativeDocKinds();
+        await LoadNormativeDocTypes();
+    }
     
     public async Task LoadAddressObjectTypes()
     {
@@ -402,7 +445,6 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             }
 
             installationStep.TotalItemsLoaded += 1;
-            //installationStep.PercentageCompleted = (int)((double)installationStep.TotalItemsLoaded / installationStep.TotalItemsToLoad * 100);
         }
         installationStep.PercentageCompleted = 100;
         
@@ -1262,7 +1304,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     /// Загрузка адресных объектов по региону
     /// </summary>
     /// <param name="region">Регион для загрузки данных адресных объектов</param>
-    public async Task LoadAddressObjects(Region region)
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    public async Task LoadAddressObjects(Region region, 
+        CancellationToken cancellationToken = default(CancellationToken))
     {
         var fiasDistributionReader = GetDistributionReader();
         var fiasDistributionRegion = fiasDistributionReader
@@ -1332,6 +1376,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
                 await SaveAddressObjectsPortion(currentPortion);
                 _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
                 await _fiasInstallationManagerService.SaveAsync();
+                
+                if(cancellationToken.IsCancellationRequested)
+                    cancellationToken.ThrowIfCancellationRequested();
             }
         }
 
@@ -1354,7 +1401,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     /// Загрузка информации о переподчинении адресных объектов
     /// </summary>
     /// <param name="region">Регион для загрузки данных о переодчинении адресных объектов</param>
-    public async Task LoadAddressObjectDivisions(Region region)
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    public async Task LoadAddressObjectDivisions(Region region, 
+        CancellationToken cancellationToken = default(CancellationToken))
     {
         var fiasDistributionReader = GetDistributionReader();
         var fiasDistributionRegion = fiasDistributionReader
@@ -1424,6 +1473,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
                 await SaveAddressObjectDivisionsPortion(currentPortion);
                 _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
                 await _fiasInstallationManagerService.SaveAsync();
+                
+                if(cancellationToken.IsCancellationRequested)
+                    cancellationToken.ThrowIfCancellationRequested();
             }
         }
 
@@ -1446,7 +1498,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     /// Загрузка информации о параметрах адресных объектов
     /// </summary>
     /// <param name="region">Регион для загрузки данных о параметрах адресных объектов</param>
-    public async Task LoadAddressObjectParameters(Region region)
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    public async Task LoadAddressObjectParameters(Region region, 
+        CancellationToken cancellationToken = default(CancellationToken))
     {
         var fiasDistributionReader = GetDistributionReader();
         var fiasDistributionRegion = fiasDistributionReader
@@ -1516,6 +1570,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
                 await SaveAddressObjectParametersPortion(currentPortion);
                 _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
                 await _fiasInstallationManagerService.SaveAsync();
+                
+                if(cancellationToken.IsCancellationRequested)
+                    cancellationToken.ThrowIfCancellationRequested();
             }
         }
 
@@ -1538,7 +1595,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     /// Загрузка информации о иерархии административного деления адресных объектов
     /// </summary>
     /// <param name="region">Регион для загрузки данных о иерархии административного деления адресных объектов</param>
-    public async Task LoadAddressObjectsAdmHierarchy(Region region)
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    public async Task LoadAddressObjectsAdmHierarchy(Region region, 
+        CancellationToken cancellationToken = default(CancellationToken))
     {
         var fiasDistributionReader = GetDistributionReader();
         var fiasDistributionRegion = fiasDistributionReader
@@ -1609,6 +1668,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
                 await SaveAddressObjectsAdmHierarchyPortion(currentPortion);
                 _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
                 await _fiasInstallationManagerService.SaveAsync();
+                
+                if(cancellationToken.IsCancellationRequested)
+                    cancellationToken.ThrowIfCancellationRequested();
             }
         }
 
@@ -1631,7 +1693,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     /// Загрузка информации о иерархии муниципального деления адресных объектов
     /// </summary>
     /// <param name="region">Регион для загрузки данных о иерархии муниципального деления адресных объектов</param>
-    public async Task LoadAddressObjectsMunHierarchy(Region region)
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    public async Task LoadAddressObjectsMunHierarchy(Region region, 
+        CancellationToken cancellationToken = default(CancellationToken))
     {
         var fiasDistributionReader = GetDistributionReader();
         var fiasDistributionRegion = fiasDistributionReader
@@ -1701,6 +1765,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
                 await SaveAddressObjectsMunHierarchyPortion(currentPortion);
                 _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
                 await _fiasInstallationManagerService.SaveAsync();
+                
+                if(cancellationToken.IsCancellationRequested)
+                    cancellationToken.ThrowIfCancellationRequested();
             }
         }
 
@@ -1723,7 +1790,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     /// Загрузка информации о квартирах
     /// </summary>
     /// <param name="region">Регион для загрузки данных о квартирах</param>
-    public async Task LoadApartments(Region region)
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    public async Task LoadApartments(Region region, 
+        CancellationToken cancellationToken = default(CancellationToken))
     {
         var fiasDistributionReader = GetDistributionReader();
         var fiasDistributionRegion = fiasDistributionReader
@@ -1793,6 +1862,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
                 await SaveApartmentsPortion(currentPortion);
                 _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
                 await _fiasInstallationManagerService.SaveAsync();
+                
+                if(cancellationToken.IsCancellationRequested)
+                    cancellationToken.ThrowIfCancellationRequested();
             }
         }
 
@@ -1815,7 +1887,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     /// Загрузка информации о параметрах квартир
     /// </summary>
     /// <param name="region">Регион для загрузки данных о параметрах квартир</param>
-    public async Task LoadApartmentParameters(Region region)
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    public async Task LoadApartmentParameters(Region region, 
+        CancellationToken cancellationToken = default(CancellationToken))
     {
         var fiasDistributionReader = GetDistributionReader();
         var fiasDistributionRegion = fiasDistributionReader
@@ -1885,6 +1959,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
                 await SaveApartmentParametersPortion(currentPortion);
                 _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
                 await _fiasInstallationManagerService.SaveAsync();
+                
+                if(cancellationToken.IsCancellationRequested)
+                    cancellationToken.ThrowIfCancellationRequested();
             }
         }
 
@@ -1907,7 +1984,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     /// Загрузка информации о машино-местах
     /// </summary>
     /// <param name="region">Регион для загрузки данных о машино-местах</param>
-    public async Task LoadCarPlaces(Region region)
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    public async Task LoadCarPlaces(Region region, 
+        CancellationToken cancellationToken = default(CancellationToken))
     {
         var fiasDistributionReader = GetDistributionReader();
         var fiasDistributionRegion = fiasDistributionReader
@@ -1977,6 +2056,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
                 await SaveCarPlacesPortion(currentPortion);
                 _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
                 await _fiasInstallationManagerService.SaveAsync();
+                
+                if(cancellationToken.IsCancellationRequested)
+                    cancellationToken.ThrowIfCancellationRequested();
             }
         }
 
@@ -1999,7 +2081,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     /// Загрузка информации о параметрах машино-мест
     /// </summary>
     /// <param name="region">Регион для загрузки данных о параметрах машино-мест</param>
-    public async Task LoadCarPlaceParameters(Region region)
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    public async Task LoadCarPlaceParameters(Region region, 
+        CancellationToken cancellationToken = default(CancellationToken))
     {
         var fiasDistributionReader = GetDistributionReader();
         var fiasDistributionRegion = fiasDistributionReader
@@ -2069,6 +2153,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
                 await SaveCarPlaceParametersPortion(currentPortion);
                 _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
                 await _fiasInstallationManagerService.SaveAsync();
+                
+                if(cancellationToken.IsCancellationRequested)
+                    cancellationToken.ThrowIfCancellationRequested();
             }
         }
 
@@ -2091,7 +2178,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     /// Загрузка информации о строениях
     /// </summary>
     /// <param name="region">Регион для загрузки данных о строениях</param>
-    public async Task LoadHouses(Region region)
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    public async Task LoadHouses(Region region, 
+        CancellationToken cancellationToken = default(CancellationToken))
     {
         var fiasDistributionReader = GetDistributionReader();
         var fiasDistributionRegion = fiasDistributionReader
@@ -2161,6 +2250,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
                 await SaveHousesPortion(currentPortion);
                 _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
                 await _fiasInstallationManagerService.SaveAsync();
+                
+                if(cancellationToken.IsCancellationRequested)
+                    cancellationToken.ThrowIfCancellationRequested();
             }
         }
 
@@ -2183,7 +2275,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     /// Загрузка информации о параметрах строений
     /// </summary>
     /// <param name="region">Регион для загрузки данных о параметрах строений</param>
-    public async Task LoadHouseParameters(Region region)
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    public async Task LoadHouseParameters(Region region, 
+        CancellationToken cancellationToken = default(CancellationToken))
     {
         var fiasDistributionReader = GetDistributionReader();
         var fiasDistributionRegion = fiasDistributionReader
@@ -2252,6 +2346,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
                 await SaveHouseParametersPortion(currentPortion);
                 _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
                 await _fiasInstallationManagerService.SaveAsync();
+                
+                if(cancellationToken.IsCancellationRequested)
+                    cancellationToken.ThrowIfCancellationRequested();
             }
         }
 
@@ -2274,7 +2371,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     /// Загрузка информации о комнатах
     /// </summary>
     /// <param name="region">Регион для загрузки данных о комнатах</param>
-    public async Task LoadRooms(Region region)
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    public async Task LoadRooms(Region region, 
+        CancellationToken cancellationToken = default(CancellationToken))
     {
         var fiasDistributionReader = GetDistributionReader();
         var fiasDistributionRegion = fiasDistributionReader
@@ -2344,6 +2443,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
                 await SaveRoomsPortion(currentPortion);
                 _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
                 await _fiasInstallationManagerService.SaveAsync();
+                
+                if(cancellationToken.IsCancellationRequested)
+                    cancellationToken.ThrowIfCancellationRequested();
             }
         }
 
@@ -2366,7 +2468,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     /// Загрузка информации о параметрах комнат
     /// </summary>
     /// <param name="region">Регион для загрузки данных о параметрах комнат</param>
-    public async Task LoadRoomParameters(Region region)
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    public async Task LoadRoomParameters(Region region, 
+        CancellationToken cancellationToken = default(CancellationToken))
     {
         var fiasDistributionReader = GetDistributionReader();
         var fiasDistributionRegion = fiasDistributionReader
@@ -2436,6 +2540,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
                 await SaveRoomParametersPortion(currentPortion);
                 _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
                 await _fiasInstallationManagerService.SaveAsync();
+                
+                if(cancellationToken.IsCancellationRequested)
+                    cancellationToken.ThrowIfCancellationRequested();
             }
         }
 
@@ -2458,7 +2565,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     /// Загрузка информации о земельных участках
     /// </summary>
     /// <param name="region">Регион для загрузки данных о земельных участках</param>
-    public async Task LoadSteads(Region region)
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    public async Task LoadSteads(Region region, 
+        CancellationToken cancellationToken = default(CancellationToken))
     {
         var fiasDistributionReader = GetDistributionReader();
         var fiasDistributionRegion = fiasDistributionReader
@@ -2528,6 +2637,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
                 await SaveSteadsPortion(currentPortion);
                 _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
                 await _fiasInstallationManagerService.SaveAsync();
+                
+                if(cancellationToken.IsCancellationRequested)
+                    cancellationToken.ThrowIfCancellationRequested();
             }
         }
 
@@ -2550,7 +2662,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     /// Загрузка информации о параметрах земельных участков
     /// </summary>
     /// <param name="region">Регион для загрузки данных о параметрах земельных участков</param>
-    public async Task LoadSteadParameters(Region region)
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    public async Task LoadSteadParameters(Region region, 
+        CancellationToken cancellationToken = default(CancellationToken))
     {
         var fiasDistributionReader = GetDistributionReader();
         var fiasDistributionRegion = fiasDistributionReader
@@ -2621,6 +2735,8 @@ public class FIASDistributionLoader : IFIASDistributionLoader
                 _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
                 await _fiasInstallationManagerService.SaveAsync();
 
+                if(cancellationToken.IsCancellationRequested)
+                    cancellationToken.ThrowIfCancellationRequested();
             }
         }
 
@@ -2643,7 +2759,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     /// Загрузка информации о нормативных документах
     /// </summary>
     /// <param name="region">Регион для загрузки данных о нормативных документах</param>
-    public async Task LoadNormativeDocuments(Region region)
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    public async Task LoadNormativeDocuments(Region region, 
+        CancellationToken cancellationToken = default(CancellationToken))
     {
         var fiasDistributionReader = GetDistributionReader();
         var fiasDistributionRegion = fiasDistributionReader
@@ -2712,6 +2830,12 @@ public class FIASDistributionLoader : IFIASDistributionLoader
                 await SaveNormativeDocumentsPortion(currentPortion);
                 _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
                 await _fiasInstallationManagerService.SaveAsync();
+                
+                if(cancellationToken.IsCancellationRequested)
+                    cancellationToken.ThrowIfCancellationRequested();
+                
+                if(cancellationToken.IsCancellationRequested)
+                    cancellationToken.ThrowIfCancellationRequested();
             }
         }
 
@@ -2734,7 +2858,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     /// Загрузка истории изменений адресных объектов
     /// </summary>
     /// <param name="region">Регион для загрузки данных о истории изменений адресных объектов</param>
-    public async Task LoadChangeHistory(Region region)
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    public async Task LoadChangeHistory(Region region, 
+        CancellationToken cancellationToken = default(CancellationToken))
     {
         var fiasDistributionReader = GetDistributionReader();
         var fiasDistributionRegion = fiasDistributionReader
@@ -2804,6 +2930,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
                 await SaveChangeHistoryPortion(currentPortion);
                 _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
                 await _fiasInstallationManagerService.SaveAsync();
+                
+                if(cancellationToken.IsCancellationRequested)
+                    cancellationToken.ThrowIfCancellationRequested();
             }
         }
 
@@ -2826,7 +2955,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     /// Загрузка реестра адресных элементов
     /// </summary>
     /// <param name="region">Регион для загрузки данных о реестре адресных элементов</param>
-    public async Task LoadObjectsRegistry(Region region)
+    /// <param name="cancellationToken">Токен для отмены операции</param>
+    public async Task LoadObjectsRegistry(Region region, 
+        CancellationToken cancellationToken = default(CancellationToken))
     {
         var fiasDistributionReader = GetDistributionReader();
         var fiasDistributionRegion = fiasDistributionReader
@@ -2896,6 +3027,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
                 await SaveObjectsRegistryPortion(currentPortion);
                 _fiasInstallationManagerService.UpdateInstallationStep(installationStep);
                 await _fiasInstallationManagerService.SaveAsync();
+                
+                if(cancellationToken.IsCancellationRequested)
+                    cancellationToken.ThrowIfCancellationRequested();
             }
         }
 
