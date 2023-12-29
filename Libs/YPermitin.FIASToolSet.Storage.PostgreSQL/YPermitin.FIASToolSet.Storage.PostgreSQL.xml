@@ -124,5 +124,41 @@
         <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.AddedRegionInstallationState.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.DbOptimizationPart1">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.DbOptimizationPart1.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.DbOptimizationPart1.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.DbOptimizationPart1.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.DbOptimizationPart2">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.DbOptimizationPart2.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.DbOptimizationPart2.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.DbOptimizationPart2.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.DbOptimizationPart3">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.DbOptimizationPart3.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.DbOptimizationPart3.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations.DbOptimizationPart3.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>

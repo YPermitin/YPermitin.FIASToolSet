@@ -622,11 +622,9 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ChangeHistory", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<byte[]>("Id")
+                        .HasMaxLength(16)
+                        .HasColumnType("bytea");
 
                     b.Property<Guid>("AddressObjectGuid")
                         .HasColumnType("uuid");
@@ -649,9 +647,6 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("OperationTypeId");
-
-                    b.HasIndex("ObjectId", "AddressObjectGuid", "ChangeId")
-                        .IsUnique();
 
                     b.ToTable("FIASChangeHistory");
                 });
@@ -859,11 +854,9 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ObjectRegistry", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<byte[]>("Id")
+                        .HasMaxLength(16)
+                        .HasColumnType("bytea");
 
                     b.Property<int>("ChangeId")
                         .HasColumnType("integer");
@@ -889,9 +882,6 @@ namespace YPermitin.FIASToolSet.Storage.PostgreSQL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("LevelId");
-
-                    b.HasIndex("ObjectId", "ObjectGuid", "ChangeId")
-                        .IsUnique();
 
                     b.ToTable("FIASObjectsRegistry");
                 });

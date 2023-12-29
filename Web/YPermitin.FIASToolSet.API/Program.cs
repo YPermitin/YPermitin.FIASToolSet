@@ -134,6 +134,20 @@ namespace YPermitin.FIASToolSet.API
 
                 app.UseExceptionPage(env);
                 app.ConfigureExceptionHandler(logger);
+                
+                if (dbmsTypeValue == DBMSType.PostgreSQL)
+                {
+                    app.UseFIASStorageOnPostgreSQL();
+                }
+                else if (dbmsTypeValue == DBMSType.SQLServer)
+                {
+                    app.UseFIASStorageOnSQLServer();
+                }
+                else
+                {
+                    throw new Exception($"Unknown DBMS type for service database: {dbmsType}");
+                }
+                
                 app.UseHttpsRedirection();
                 app.UseDefaultFiles();
                 app.UseStaticFiles();

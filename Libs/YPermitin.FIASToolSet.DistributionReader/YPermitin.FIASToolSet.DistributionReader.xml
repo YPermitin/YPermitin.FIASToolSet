@@ -857,6 +857,11 @@
             Дата изменения
             </summary>
         </member>
+        <member name="P:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.ChangeHistory.HashMD5">
+            <summary>
+            MD5-хэш элемента
+            </summary>
+        </member>
         <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.ClassifierDataParameter">
             <summary>
             Общий параметр адресных объектов
@@ -1177,6 +1182,11 @@
         <member name="F:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.ObjectRegistry.UpdateDate">
             <summary>
             Дата изменения
+            </summary>
+        </member>
+        <member name="P:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.ObjectRegistry.HashMD5">
+            <summary>
+            MD5-хэш элемента
             </summary>
         </member>
         <member name="T:YPermitin.FIASToolSet.DistributionReader.Models.ClassifierData.Room">

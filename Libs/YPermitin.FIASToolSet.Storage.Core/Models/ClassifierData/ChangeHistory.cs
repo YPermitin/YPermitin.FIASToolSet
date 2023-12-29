@@ -11,7 +11,7 @@ public class ChangeHistory
     /// <summary>
     /// Идентификатор записи
     /// </summary>
-    public int Id { get; set; }
+    public byte[] Id { get; set; }
     
     /// <summary>
     /// ID изменившей транзакции
@@ -53,26 +53,4 @@ public class ChangeHistory
     /// Дата изменения
     /// </summary>
     public DateTime ChangeDate { get; set; }
-    
-    /// <summary>
-    /// Объект ключа элемента изменения адресного объекта
-    /// </summary>
-    public class  ChangeHistoryItemKey
-    {
-        /// <summary>
-        /// Глобальный уникальный идентификатор объекта
-        /// </summary>
-        public int ObjectId { get; set; }
-        
-        /// <summary>
-        /// Глобальный уникальный идентификатор ID изменившей транзакции
-        /// Соответствует полю AOID выгрузки в формате ФИАС
-        /// </summary>
-        public Guid AddressObjectGuid { get; set; }
-        
-        /// <summary>
-        /// ID изменившей транзакции
-        /// </summary>
-        public int ChangeId { get; set; }
-    }
 }

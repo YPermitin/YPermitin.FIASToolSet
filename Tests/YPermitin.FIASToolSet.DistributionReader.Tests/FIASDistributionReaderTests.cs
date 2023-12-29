@@ -490,6 +490,8 @@ public class Tests
         Assert.AreEqual(new Guid("e2bcf6e6-b14f-4ba6-b169-08e07efd274e"), allItems[0].AddressObjectGuid);
         Assert.AreEqual(20, allItems[0].OperationTypeId);
         Assert.AreEqual(new DateOnly(2016,7,14), allItems[0].ChangeDate);
+        Assert.AreEqual(new byte[] { 236, 149, 24, 136, 187, 127, 44, 39, 19, 82, 37, 97, 22, 48, 109, 230 }, 
+            allItems[0].HashMD5);
     }
     
     [Test]
@@ -630,6 +632,8 @@ public class Tests
         Assert.AreEqual(10, allItems[0].LevelId);
         Assert.AreEqual(new DateOnly(2021,8,18), allItems[0].CreateDate);
         Assert.AreEqual(new DateOnly(2023,9,10), allItems[0].UpdateDate);
+        Assert.AreEqual(new byte[] { 48, 31, 144, 57, 136, 35, 186, 199, 17, 111, 113, 146, 108, 21, 21, 206 }, 
+            allItems[0].HashMD5);
     }
     
     [Test]
