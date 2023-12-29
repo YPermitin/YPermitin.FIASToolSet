@@ -225,7 +225,7 @@ public class InstallAndUpdateFIASJob : IJob
                 ConcurrentQueue<Func<Task>> tasksToRun = new ConcurrentQueue<Func<Task>>();
 
                 #region Tasks
-                Func<Task> taskLoadNormativeDocuments = async () =>
+                tasksToRun.Enqueue(async () =>
                 {
                     using (var scope = _provider.CreateScope())
                     {
@@ -241,9 +241,8 @@ public class InstallAndUpdateFIASJob : IJob
                         
                         await loader.LoadNormativeDocuments(availableRegion, cancellationToken);
                     }
-                };
-                tasksToRun.Enqueue(taskLoadNormativeDocuments);
-                Func<Task> taskLoadAddressObjects = async () =>
+                });
+                tasksToRun.Enqueue(async () =>
                 {
                     using (var scope = _provider.CreateScope())
                     {
@@ -258,9 +257,8 @@ public class InstallAndUpdateFIASJob : IJob
                         loader.ExtractDataForRegion(availableRegion, true);
                         await loader.LoadAddressObjects(availableRegion, cancellationToken);
                     }
-                };
-                tasksToRun.Enqueue(taskLoadAddressObjects);
-                Func<Task> taskLoadAddressObjectDivisions = async () =>
+                });
+                tasksToRun.Enqueue(async () =>
                 {
                     using (var scope = _provider.CreateScope())
                     {
@@ -275,9 +273,8 @@ public class InstallAndUpdateFIASJob : IJob
                         loader.ExtractDataForRegion(availableRegion, true);
                         await loader.LoadAddressObjectDivisions(availableRegion, cancellationToken);
                     }
-                };
-                tasksToRun.Enqueue(taskLoadAddressObjectDivisions);
-                Func<Task> taskLoadAddressObjectsAdmHierarchy = async () =>
+                });
+                tasksToRun.Enqueue(async () =>
                 {
                     using (var scope = _provider.CreateScope())
                     {
@@ -292,9 +289,8 @@ public class InstallAndUpdateFIASJob : IJob
                         loader.ExtractDataForRegion(availableRegion, true);
                         await loader.LoadAddressObjectsAdmHierarchy(availableRegion, cancellationToken);
                     }
-                };
-                tasksToRun.Enqueue(taskLoadAddressObjectsAdmHierarchy);
-                Func<Task> taskLoadAddressObjectsMunHierarchy = async () =>
+                });
+                tasksToRun.Enqueue(async () =>
                 {
                     using (var scope = _provider.CreateScope())
                     {
@@ -309,9 +305,8 @@ public class InstallAndUpdateFIASJob : IJob
                         loader.ExtractDataForRegion(availableRegion, true);
                         await loader.LoadAddressObjectsMunHierarchy(availableRegion, cancellationToken);
                     }
-                };
-                tasksToRun.Enqueue(taskLoadAddressObjectsMunHierarchy);
-                Func<Task> taskLoadApartments = async () =>
+                });
+                tasksToRun.Enqueue(async () =>
                 {
                     using (var scope = _provider.CreateScope())
                     {
@@ -326,9 +321,8 @@ public class InstallAndUpdateFIASJob : IJob
                         loader.ExtractDataForRegion(availableRegion, true);
                         await loader.LoadApartments(availableRegion, cancellationToken);
                     }
-                };
-                tasksToRun.Enqueue(taskLoadApartments);
-                Func<Task> taskLoadCarPlaces = async () =>
+                });
+                tasksToRun.Enqueue(async () =>
                 {
                     using (var scope = _provider.CreateScope())
                     {
@@ -343,9 +337,8 @@ public class InstallAndUpdateFIASJob : IJob
                         loader.ExtractDataForRegion(availableRegion, true);
                         await loader.LoadCarPlaces(availableRegion, cancellationToken);
                     }
-                };
-                tasksToRun.Enqueue(taskLoadCarPlaces);
-                Func<Task> taskLoadHouses = async () =>
+                });
+                tasksToRun.Enqueue(async () =>
                 {
                     using (var scope = _provider.CreateScope())
                     {
@@ -360,9 +353,8 @@ public class InstallAndUpdateFIASJob : IJob
                         loader.ExtractDataForRegion(availableRegion, true);
                         await loader.LoadHouses(availableRegion, cancellationToken);
                     }
-                };
-                tasksToRun.Enqueue(taskLoadHouses);
-                Func<Task> taskLoadRooms = async () =>
+                });
+                tasksToRun.Enqueue(async () =>
                 {
                     using (var scope = _provider.CreateScope())
                     {
@@ -377,9 +369,8 @@ public class InstallAndUpdateFIASJob : IJob
                         loader.ExtractDataForRegion(availableRegion, true);
                         await loader.LoadRooms(availableRegion, cancellationToken);
                     }
-                };
-                tasksToRun.Enqueue(taskLoadRooms);
-                Func<Task> taskLoadSteads = async () =>
+                });
+                tasksToRun.Enqueue(async () =>
                 {
                     using (var scope = _provider.CreateScope())
                     {
@@ -394,9 +385,8 @@ public class InstallAndUpdateFIASJob : IJob
                         loader.ExtractDataForRegion(availableRegion, true);
                         await loader.LoadSteads(availableRegion, cancellationToken);
                     }
-                };
-                tasksToRun.Enqueue(taskLoadSteads);
-                Func<Task> taskLoadAddressObjectParameters = async () =>
+                });
+                tasksToRun.Enqueue(async () =>
                 {
                     using (var scope = _provider.CreateScope())
                     {
@@ -411,9 +401,8 @@ public class InstallAndUpdateFIASJob : IJob
                         loader.ExtractDataForRegion(availableRegion, true);
                         await loader.LoadAddressObjectParameters(availableRegion, cancellationToken);
                     }
-                };
-                tasksToRun.Enqueue(taskLoadAddressObjectParameters);
-                Func<Task> taskLoadApartmentParameters = async () =>
+                });
+                tasksToRun.Enqueue(async () =>
                 {
                     using (var scope = _provider.CreateScope())
                     {
@@ -428,9 +417,8 @@ public class InstallAndUpdateFIASJob : IJob
                         loader.ExtractDataForRegion(availableRegion, true);
                         await loader.LoadApartmentParameters(availableRegion, cancellationToken);
                     }
-                };
-                tasksToRun.Enqueue(taskLoadApartmentParameters);
-                Func<Task> taskLoadCarPlaceParameters = async () =>
+                });
+                tasksToRun.Enqueue(async () =>
                 {
                     using (var scope = _provider.CreateScope())
                     {
@@ -445,9 +433,8 @@ public class InstallAndUpdateFIASJob : IJob
                         loader.ExtractDataForRegion(availableRegion, true);
                         await loader.LoadCarPlaceParameters(availableRegion, cancellationToken);
                     }
-                };
-                tasksToRun.Enqueue(taskLoadCarPlaceParameters);
-                Func<Task> taskLoadHouseParameters = async () =>
+                });
+                tasksToRun.Enqueue(async () =>
                 {
                     using (var scope = _provider.CreateScope())
                     {
@@ -462,9 +449,8 @@ public class InstallAndUpdateFIASJob : IJob
                         loader.ExtractDataForRegion(availableRegion, true);
                         await loader.LoadHouseParameters(availableRegion, cancellationToken);
                     }
-                };
-                tasksToRun.Enqueue(taskLoadHouseParameters);
-                Func<Task> taskLoadRoomParameters = async () =>
+                });
+                tasksToRun.Enqueue(async () =>
                 {
                     using (var scope = _provider.CreateScope())
                     {
@@ -479,9 +465,8 @@ public class InstallAndUpdateFIASJob : IJob
                         loader.ExtractDataForRegion(availableRegion, true);
                         await loader.LoadRoomParameters(availableRegion, cancellationToken);
                     }
-                };
-                tasksToRun.Enqueue(taskLoadRoomParameters);
-                Func<Task> taskLoadSteadParameters = async () =>
+                });
+                tasksToRun.Enqueue(async () =>
                 {
                     using (var scope = _provider.CreateScope())
                     {
@@ -496,26 +481,26 @@ public class InstallAndUpdateFIASJob : IJob
                         loader.ExtractDataForRegion(availableRegion, true);
                         await loader.LoadSteadParameters(availableRegion, cancellationToken);
                     }
-                };
-                tasksToRun.Enqueue(taskLoadSteadParameters);
-                Func<Task> taskLoadChangeHistory = async () =>
-                {
-                    using (var scope = _provider.CreateScope())
-                    {
-                        IFIASDistributionLoader loader = scope.ServiceProvider.GetRequiredService<IFIASDistributionLoader>();
-                        bool installationConfigured = await loader.SetVersionInstallationToLoad(installationVersionId);
-                        if (!installationConfigured)
-                        {
-                            _logger.LogInformation($"Не удалось настроить версии ФИАС для установки или обновления по региону {availableRegion.Code}. Действие пропущено.");
-                            return;
-                        }
-                        await loader.DownloadAndExtractDistribution(null, true);
-                        loader.ExtractDataForRegion(availableRegion, true);
-                        await loader.LoadChangeHistory(availableRegion, cancellationToken);
-                    }
-                };
-                tasksToRun.Enqueue(taskLoadChangeHistory);
-                Func<Task> taskLoadObjectsRegistry = async () =>
+                });
+                
+                
+                tasksToRun.Enqueue(async () =>
+                   {
+                       using (var scope = _provider.CreateScope())
+                       {
+                           IFIASDistributionLoader loader = scope.ServiceProvider.GetRequiredService<IFIASDistributionLoader>();
+                           bool installationConfigured = await loader.SetVersionInstallationToLoad(installationVersionId);
+                           if (!installationConfigured)
+                           {
+                               _logger.LogInformation($"Не удалось настроить версии ФИАС для установки или обновления по региону {availableRegion.Code}. Действие пропущено.");
+                               return;
+                           }
+                           await loader.DownloadAndExtractDistribution(null, true);
+                           loader.ExtractDataForRegion(availableRegion, true);
+                           await loader.LoadChangeHistory(availableRegion, cancellationToken);
+                       }
+                   });
+                tasksToRun.Enqueue(async () =>
                 {
                     using (var scope = _provider.CreateScope())
                     {
@@ -530,8 +515,7 @@ public class InstallAndUpdateFIASJob : IJob
                         loader.ExtractDataForRegion(availableRegion, true);
                         await loader.LoadObjectsRegistry(availableRegion, cancellationToken);
                     }
-                };
-                tasksToRun.Enqueue(taskLoadObjectsRegistry);
+                });
                 #endregion
 
                 while (tasksToRun.Count > 0 || tasksIsRunning.Count > 0)

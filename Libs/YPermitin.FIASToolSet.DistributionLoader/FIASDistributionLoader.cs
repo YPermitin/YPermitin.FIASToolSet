@@ -3838,18 +3838,13 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     
     private async Task SaveChangeHistoryPortion(List<DistributionReader.Models.ClassifierData.ChangeHistory> currentPortion)
     {
-        var existsNormativeDocuments = await _classifierDataRepository
-            .GetChangeHistoryItems(keys: currentPortion.Select(e => new ChangeHistory.ChangeHistoryItemKey()
-            {
-                ChangeId = e.ChangeId,
-                AddressObjectGuid = e.AddressObjectGuid,
-                ObjectId = e.ObjectId
-            }).ToList());
+        var existsChangeHistoryItems = await _classifierDataRepository
+            .GetChangeHistoryItems(ids: currentPortion.Select(e => e.HashMD5).ToList());
 
         var itemsToProceed = currentPortion.AsQueryable()
-            .LeftJoin(existsNormativeDocuments.AsQueryable(),
-                o => new { o.ObjectId, o.AddressObjectGuid, o.ChangeId },
-                i => new { i.ObjectId, i.AddressObjectGuid, i.ChangeId },
+            .LeftJoin(existsChangeHistoryItems.AsQueryable(),
+                o => o.HashMD5,
+                i => i.Id,
                 (r) => new
                 {
                     SourceItem = r.Outer,
@@ -3863,9 +3858,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             if (itemToProceed.DatabaseItem == null)
             {
                 changeHistory = new ChangeHistory();
-                changeHistory.ObjectId = itemToProceed.SourceItem.ObjectId;
-                changeHistory.AddressObjectGuid = itemToProceed.SourceItem.AddressObjectGuid;
-                changeHistory.ChangeId = itemToProceed.SourceItem.ChangeId;
+                changeHistory.Id = itemToProceed.SourceItem.HashMD5;
                 _classifierDataRepository.AddChangeHistory(changeHistory);
             }
             else
@@ -3874,6 +3867,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
                 _classifierDataRepository.UpdateChangeHistory(changeHistory);
             }
             
+            changeHistory.ObjectId = itemToProceed.SourceItem.ObjectId;
+            changeHistory.AddressObjectGuid = itemToProceed.SourceItem.AddressObjectGuid;
+            changeHistory.ChangeId = itemToProceed.SourceItem.ChangeId;
             changeHistory.ObjectId = itemToProceed.SourceItem.ObjectId;
             changeHistory.AddressObjectGuid = itemToProceed.SourceItem.AddressObjectGuid;
             changeHistory.ChangeId = itemToProceed.SourceItem.ChangeId;
@@ -3889,17 +3885,12 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     private async Task SaveObjectsRegistryPortion(List<DistributionReader.Models.ClassifierData.ObjectRegistry> currentPortion)
     {
         var existsObjectsRegistry = await _classifierDataRepository
-            .GetObjectRegistryItems(keys: currentPortion.Select(e => new ObjectRegistry.ObjectRegistryItemKey()
-            {
-                ChangeId = e.ChangeId,
-                ObjectGuid = e.ObjectGuid,
-                ObjectId = e.ObjectId
-            }).ToList());
-
+            .GetObjectRegistryItems(ids: currentPortion.Select(e => e.HashMD5).ToList());
+        
         var itemsToProceed = currentPortion.AsQueryable()
             .LeftJoin(existsObjectsRegistry.AsQueryable(),
-                o => new { o.ObjectId, o.ObjectGuid, o.ChangeId },
-                i => new { i.ObjectId, i.ObjectGuid, i.ChangeId },
+                o => o.HashMD5,
+                i => i.Id,
                 (r) => new
                 {
                     SourceItem = r.Outer,
@@ -3913,9 +3904,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
             if (itemToProceed.DatabaseItem == null)
             {
                 objectRegistry = new ObjectRegistry();
-                objectRegistry.ObjectId = itemToProceed.SourceItem.ObjectId;
-                objectRegistry.ObjectGuid = itemToProceed.SourceItem.ObjectGuid;
-                objectRegistry.ChangeId = itemToProceed.SourceItem.ChangeId;
+                objectRegistry.Id = itemToProceed.SourceItem.HashMD5;
                 _classifierDataRepository.AddObjectRegistry(objectRegistry);
             }
             else
@@ -3924,6 +3913,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
                 _classifierDataRepository.UpdateObjectRegistry(objectRegistry);
             }
             
+            objectRegistry.ObjectId = itemToProceed.SourceItem.ObjectId;
+            objectRegistry.ObjectGuid = itemToProceed.SourceItem.ObjectGuid;
+            objectRegistry.ChangeId = itemToProceed.SourceItem.ChangeId;
             objectRegistry.ObjectId = itemToProceed.SourceItem.ObjectId;
             objectRegistry.ObjectGuid = itemToProceed.SourceItem.ObjectGuid;
             objectRegistry.ChangeId = itemToProceed.SourceItem.ChangeId;

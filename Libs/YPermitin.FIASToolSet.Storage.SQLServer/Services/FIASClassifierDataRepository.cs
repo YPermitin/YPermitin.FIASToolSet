@@ -1,5 +1,6 @@
 using System.Data;
 using Dapper;
+using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 using YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData;
 using YPermitin.FIASToolSet.Storage.Core.Services;
@@ -862,8 +863,8 @@ public class FIASClassifierDataRepository : CommonRepository, IFIASClassifierDat
     #endregion
     
     #region ChangeHistory
-
-    public async Task<List<ChangeHistory>> GetChangeHistoryItems(List<int> ids = null)
+    
+    public async Task<IEnumerable<ChangeHistory>> GetChangeHistoryItems(List<byte[]> ids = null)
     {
         var query = _context.FIASChangeHistory
             .AsQueryable()
@@ -877,43 +878,7 @@ public class FIASClassifierDataRepository : CommonRepository, IFIASClassifierDat
         return await query.ToListAsync();
     }
 
-    public async Task<IEnumerable<ChangeHistory>> GetChangeHistoryItems(List<ChangeHistory.ChangeHistoryItemKey> keys)
-    {
-        if (keys == null) throw new ArgumentNullException(nameof(keys));
-        
-        var dbConnection = _context.Database.GetDbConnection();
-        
-        if(dbConnection.State != ConnectionState.Open)
-            await dbConnection.OpenAsync();
-
-        await using (var transactionObject = await dbConnection.BeginTransactionAsync())
-        {
-            await dbConnection.ExecuteAsync(
-                "CREATE TABLE #keys(ObjectId INT, AddressObjectGuid uniqueidentifier, ChangeId INT);",
-                transaction: transactionObject);
-            
-            await dbConnection.ExecuteAsync(
-                "INSERT INTO #keys (ObjectId, AddressObjectGuid, ChangeId) VALUES (@ObjectId, @AddressObjectGuid, @ChangeId);",
-                keys.Select(x => new
-                    {
-                        ObjectId = x.ObjectId, 
-                        AddressObjectGuid = x.AddressObjectGuid, 
-                        ChangeId = x.ChangeId
-                    }
-                ), 
-                transaction: transactionObject);
-
-            return await dbConnection.QueryAsync<ChangeHistory>(
-                @"SELECT * FROM [FIASChangeHistory] AS dt
-	            inner join #keys k 
-		            ON k.ObjectId = dt.ObjectId
-			            and k.AddressObjectGuid = dt.AddressObjectGuid
-			            and k.ChangeId = dt.ChangeId",
-                transaction: transactionObject);
-        }
-    }
-
-    public async Task<ChangeHistory> GetChangeHistory(int id)
+    public async Task<ChangeHistory> GetChangeHistory(byte[] id)
     {
         var query = _context.FIASChangeHistory
             .Where(e => e.Id == id)
@@ -923,21 +888,9 @@ public class FIASClassifierDataRepository : CommonRepository, IFIASClassifierDat
         return await query.FirstOrDefaultAsync();
     }
     
-    public async Task<ChangeHistory> GetChangeHistory(int objectId, Guid addressObjectGuid, int changeId)
+    public async Task<bool> ChangeHistoryExists(byte[] id)
     {
         var query = _context.FIASChangeHistory
-            .Where(e => e.ObjectId == objectId)
-            .Where(e => e.AddressObjectGuid == addressObjectGuid)
-            .Where(e => e.ChangeId == changeId)
-            .AsQueryable()
-            .AsNoTracking();
-
-        return await query.FirstOrDefaultAsync();
-    }
-
-    public async Task<bool> ChangeHistoryExists(int id)
-    {
-        var query = _context.FIASSteads
             .Where(e => e.Id == id)
             .AsQueryable()
             .AsNoTracking();
@@ -945,18 +898,6 @@ public class FIASClassifierDataRepository : CommonRepository, IFIASClassifierDat
         return await query.AnyAsync();
     }
     
-    public async Task<bool> ChangeHistoryExists(int objectId, Guid addressObjectGuid, int changeId)
-    {
-        var query = _context.FIASChangeHistory
-            .Where(e => e.ObjectId == objectId)
-            .Where(e => e.AddressObjectGuid == addressObjectGuid)
-            .Where(e => e.ChangeId == changeId)
-            .AsQueryable()
-            .AsNoTracking();
-
-        return await query.AnyAsync();
-    }
-
     public void AddChangeHistory(ChangeHistory changeHistory)
     {
         _context.Entry(changeHistory).State = EntityState.Added;
@@ -976,7 +917,7 @@ public class FIASClassifierDataRepository : CommonRepository, IFIASClassifierDat
     
     #region ObjectRegistry
 
-    public async Task<List<ObjectRegistry>> GetObjectRegistryItems(List<int> ids = null)
+    public async Task<List<ObjectRegistry>> GetObjectRegistryItems(List<byte[]> ids = null)
     {
         var query = _context.FIASObjectsRegistry
             .AsQueryable()
@@ -989,45 +930,8 @@ public class FIASClassifierDataRepository : CommonRepository, IFIASClassifierDat
 
         return await query.ToListAsync();
     }
-
-    public async Task<IEnumerable<ObjectRegistry>> GetObjectRegistryItems(
-        List<ObjectRegistry.ObjectRegistryItemKey> keys)
-    {
-        if (keys == null) throw new ArgumentNullException(nameof(keys));
-        
-        var dbConnection = _context.Database.GetDbConnection();
-        
-        if(dbConnection.State != ConnectionState.Open)
-            await dbConnection.OpenAsync();
-
-        await using (var transactionObject = await dbConnection.BeginTransactionAsync())
-        {
-            await dbConnection.ExecuteAsync(
-                "CREATE TABLE #keys(ObjectId INT, ObjectGuid uniqueidentifier, ChangeId INT);",
-                transaction: transactionObject);
-            
-            await dbConnection.ExecuteAsync(
-                "INSERT INTO #keys (ObjectId, ObjectGuid, ChangeId) VALUES (@ObjectId, @ObjectGuid, @ChangeId);",
-                keys.Select(x => new
-                    {
-                        ObjectId = x.ObjectId, 
-                        ObjectGuid = x.ObjectGuid, 
-                        ChangeId = x.ChangeId
-                    }
-                ), 
-                transaction: transactionObject);
-
-            return await dbConnection.QueryAsync<ObjectRegistry>(
-                @"SELECT * FROM [FIASObjectsRegistry] AS dt
-	            inner join #keys k 
-		            ON k.ObjectId = dt.ObjectId
-			            and k.ObjectGuid = dt.ObjectGuid
-			            and k.ChangeId = dt.ChangeId",
-                transaction: transactionObject);
-        }
-    }
-
-    public async Task<ObjectRegistry> GetObjectRegistry(int id)
+    
+    public async Task<ObjectRegistry> GetObjectRegistry(byte[] id)
     {
         var query = _context.FIASObjectsRegistry
             .Where(e => e.Id == id)
@@ -1037,34 +941,10 @@ public class FIASClassifierDataRepository : CommonRepository, IFIASClassifierDat
         return await query.FirstOrDefaultAsync();
     }
     
-    public async Task<ObjectRegistry> GetObjectRegistry(int objectId, Guid objectGuid, int changeId)
+    public async Task<bool> ObjectRegistryExists(byte[] id)
     {
         var query = _context.FIASObjectsRegistry
-            .Where(e => e.ObjectId == objectId)
-            .Where(e => e.ObjectGuid == objectGuid)
-            .Where(e => e.ChangeId == changeId)
-            .AsQueryable()
-            .AsNoTracking();
-
-        return await query.FirstOrDefaultAsync();
-    }
-
-    public async Task<bool> ObjectRegistryExists(int id)
-    {
-        var query = _context.FIASSteads
             .Where(e => e.Id == id)
-            .AsQueryable()
-            .AsNoTracking();
-
-        return await query.AnyAsync();
-    }
-    
-    public async Task<bool> ObjectRegistryExists(int objectId, Guid objectGuid, int changeId)
-    {
-        var query = _context.FIASObjectsRegistry
-            .Where(e => e.ObjectId == objectId)
-            .Where(e => e.ObjectGuid == objectGuid)
-            .Where(e => e.ChangeId == changeId)
             .AsQueryable()
             .AsNoTracking();
 

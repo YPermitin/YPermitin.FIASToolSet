@@ -11,7 +11,7 @@ public class ObjectRegistry
     /// <summary>
     /// Идентификатор записи
     /// </summary>
-    public int Id { get; set; }
+    public byte[] Id { get; set; }
     
     /// <summary>
     /// Глобальный уникальный идентификатор объекта
@@ -53,26 +53,4 @@ public class ObjectRegistry
     /// Дата изменения
     /// </summary>
     public DateTime UpdateDate { get; set; }
-    
-    /// <summary>
-    /// Объект ключа элемента реестра адресных элементов
-    /// </summary>
-    public class  ObjectRegistryItemKey
-    {
-        /// <summary>
-        /// Глобальный уникальный идентификатор объекта
-        /// </summary>
-        public int ObjectId { get; set; }
-        
-        /// <summary>
-        /// Глобальный уникальный идентификатор объекта
-        /// типа UUID
-        /// </summary>
-        public Guid ObjectGuid { get; set; }
-        
-        /// <summary>
-        /// ID изменившей транзакции
-        /// </summary>
-        public int ChangeId { get; set; }
-    }
 }

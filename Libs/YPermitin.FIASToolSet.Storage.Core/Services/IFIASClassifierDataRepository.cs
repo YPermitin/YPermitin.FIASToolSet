@@ -247,17 +247,11 @@ public interface IFIASClassifierDataRepository
     
     #region ChangeHistory
 
-    Task<List<ChangeHistory>> GetChangeHistoryItems(List<int> ids = null);
+    Task<IEnumerable<ChangeHistory>> GetChangeHistoryItems(List<byte[]> ids = null);
+    
+    Task<ChangeHistory> GetChangeHistory(byte[] id);
 
-    Task<IEnumerable<ChangeHistory>> GetChangeHistoryItems(List<ChangeHistory.ChangeHistoryItemKey> keys);
-
-    Task<ChangeHistory> GetChangeHistory(int id);
-
-    Task<ChangeHistory> GetChangeHistory(int objectId, Guid addressObjectGuid, int changeId);
-
-    Task<bool> ChangeHistoryExists(int id);
-
-    Task<bool> ChangeHistoryExists(int objectId, Guid addressObjectGuid, int changeId);
+    Task<bool> ChangeHistoryExists(byte[] id);
 
     void AddChangeHistory(ChangeHistory changeHistory);
 
@@ -269,18 +263,12 @@ public interface IFIASClassifierDataRepository
     
     #region ObjectRegistry
 
-    Task<List<ObjectRegistry>> GetObjectRegistryItems(List<int> ids = null);
-
-    Task<IEnumerable<ObjectRegistry>> GetObjectRegistryItems(List<ObjectRegistry.ObjectRegistryItemKey> keys);
+    Task<List<ObjectRegistry>> GetObjectRegistryItems(List<byte[]> ids = null);
     
-    Task<ObjectRegistry> GetObjectRegistry(int id);
-
-    Task<ObjectRegistry> GetObjectRegistry(int objectId, Guid objectGuid, int changeId);
-
-    Task<bool> ObjectRegistryExists(int id);
-
-    Task<bool> ObjectRegistryExists(int objectId, Guid objectGuid, int changeId);
-
+    Task<ObjectRegistry> GetObjectRegistry(byte[] id);
+    
+    Task<bool> ObjectRegistryExists(byte[] id);
+    
     void AddObjectRegistry(ObjectRegistry objectRegistry);
 
     void UpdateObjectRegistry(ObjectRegistry objectRegistry);

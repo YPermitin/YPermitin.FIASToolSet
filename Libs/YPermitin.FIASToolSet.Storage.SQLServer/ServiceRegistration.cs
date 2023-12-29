@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using YPermitin.FIASToolSet.Storage.Core.Services;
@@ -24,6 +25,17 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer
             services.AddScoped<IFIASInstallationManagerRepository, FIASInstallationManagerRepository>();
             services.AddScoped<IFIASBaseCatalogsRepository, FIASBaseCatalogsRepository>();
             services.AddScoped<IFIASClassifierDataRepository, FIASClassifierDataRepository>();
+        }
+        
+        public static void UseFIASStorageOnSQLServer(this IApplicationBuilder app)
+        {
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider
+                    .GetRequiredService<FIASToolSetServiceContext>();
+
+                dbContext.Database.Migrate();
+            }
         }
     }
 }

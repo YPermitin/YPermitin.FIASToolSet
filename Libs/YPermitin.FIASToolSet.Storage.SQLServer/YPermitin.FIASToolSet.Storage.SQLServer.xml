@@ -52,5 +52,17 @@
         <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddedRegionInstallationState.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.DbOptimizationPart1">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.DbOptimizationPart1.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.DbOptimizationPart1.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.DbOptimizationPart1.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>
