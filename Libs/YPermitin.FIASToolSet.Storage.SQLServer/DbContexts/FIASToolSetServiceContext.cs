@@ -86,8 +86,6 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-
             #region NotificationStatus
 
             modelBuilder.Entity<NotificationStatus>()
@@ -599,6 +597,22 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.DbContexts
                 .ValueGeneratedNever();
 
             #endregion
+
+            #region GlobalSettings
+
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                entityType.SetTableName(entityType.DisplayName());
+                
+                entityType.GetForeignKeys()
+                    .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade)
+                    .ToList()
+                    .ForEach(fk => fk.DeleteBehavior = DeleteBehavior.Restrict);
+            }
+
+            #endregion
+            
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

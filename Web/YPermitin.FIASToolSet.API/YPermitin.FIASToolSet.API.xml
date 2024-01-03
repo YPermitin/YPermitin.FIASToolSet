@@ -173,6 +173,11 @@
             SQLServer
             </summary>
         </member>
+        <member name="F:YPermitin.FIASToolSet.API.Infrastructure.DBMSType.ClickHouse">
+            <summary>
+            ClickHouse
+            </summary>
+        </member>
         <member name="F:YPermitin.FIASToolSet.API.Infrastructure.DBMSType.Unknown">
             <summary>
             Неизвестный тип

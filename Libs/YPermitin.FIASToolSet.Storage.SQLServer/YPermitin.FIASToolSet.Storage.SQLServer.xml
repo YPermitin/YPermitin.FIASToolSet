@@ -4,64 +4,16 @@
         <name>YPermitin.FIASToolSet.Storage.SQLServer</name>
     </assembly>
     <members>
-        <member name="T:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddIndexByBaseFieldsToChangeHistory">
+        <member name="T:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.Init_Slice_V1">
             <inheritdoc />
         </member>
-        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddIndexByBaseFieldsToChangeHistory.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.Init_Slice_V1.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddIndexByBaseFieldsToChangeHistory.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.Init_Slice_V1.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddIndexByBaseFieldsToChangeHistory.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.ActualizeMigrationV1">
-            <inheritdoc />
-        </member>
-        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.ActualizeMigrationV1.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.ActualizeMigrationV1.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.ActualizeMigrationV1.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddedInstallationSteps">
-            <inheritdoc />
-        </member>
-        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddedInstallationSteps.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddedInstallationSteps.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddedInstallationSteps.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddedRegionInstallationState">
-            <inheritdoc />
-        </member>
-        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddedRegionInstallationState.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddedRegionInstallationState.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.AddedRegionInstallationState.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.DbOptimizationPart1">
-            <inheritdoc />
-        </member>
-        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.DbOptimizationPart1.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.DbOptimizationPart1.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.DbOptimizationPart1.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+        <member name="M:YPermitin.FIASToolSet.Storage.SQLServer.Migrations.Init_Slice_V1.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

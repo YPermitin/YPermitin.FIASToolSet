@@ -50,6 +50,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{66D3
 		Scripts\initdb_postgresql.sql = Scripts\initdb_postgresql.sql
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YPermitin.FIASToolSet.Storage.ClickHouse", "Libs\YPermitin.FIASToolSet.Storage.ClickHouse\YPermitin.FIASToolSet.Storage.ClickHouse.csproj", "{6F768742-FA3D-4EAE-B07F-115B8A0ADC8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +106,10 @@ Global
 		{6BB5B53C-485E-446B-B314-88D4DCBF0562}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BB5B53C-485E-446B-B314-88D4DCBF0562}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BB5B53C-485E-446B-B314-88D4DCBF0562}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F768742-FA3D-4EAE-B07F-115B8A0ADC8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F768742-FA3D-4EAE-B07F-115B8A0ADC8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F768742-FA3D-4EAE-B07F-115B8A0ADC8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F768742-FA3D-4EAE-B07F-115B8A0ADC8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,6 +128,7 @@ Global
 		{F63B71FA-BD02-482B-89D3-E35EAD88BF15} = {AAAACF02-36A1-446B-83B5-B2FDE594C273}
 		{6BB5B53C-485E-446B-B314-88D4DCBF0562} = {068FF229-56E5-4718-83EF-1D863CBE8F71}
 		{66D33445-CCB5-4C16-B661-34885A3E8B14} = {094619B1-0C76-41D0-AFBF-3C7560436577}
+		{6F768742-FA3D-4EAE-B07F-115B8A0ADC8C} = {068FF229-56E5-4718-83EF-1D863CBE8F71}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E8FCAA60-A495-45A3-95C8-405142F3203A}
