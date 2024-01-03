@@ -7,6 +7,7 @@ using YPermitin.FIASToolSet.API.Infrastructure;
 using YPermitin.FIASToolSet.DistributionBrowser;
 using YPermitin.FIASToolSet.DistributionLoader;
 using YPermitin.FIASToolSet.Jobs;
+using YPermitin.FIASToolSet.Storage.ClickHouse;
 using YPermitin.FIASToolSet.Storage.PostgreSQL;
 using YPermitin.FIASToolSet.Storage.SQLServer;
 
@@ -102,17 +103,19 @@ namespace YPermitin.FIASToolSet.API
 
                 var dbmsType = Configuration.GetValue("DBMSType", "PostgreSQL");
                 var dbmsTypeValue = dbmsType.ToEnum(DBMSType.PostgreSQL);
-                if (dbmsTypeValue == DBMSType.PostgreSQL)
+                switch (dbmsTypeValue)
                 {
-                    services.AddFIASStorageOnPostgreSQL(Configuration);
-                }
-                else if (dbmsTypeValue == DBMSType.SQLServer)
-                {
-                    services.AddFIASStorageOnSQLServer(Configuration);
-                }
-                else
-                {
-                    throw new Exception($"Unknown DBMS type for service database: {dbmsType}");
+                    case DBMSType.PostgreSQL:
+                        services.AddFIASStorageOnPostgreSQL(Configuration);
+                        break;
+                    case DBMSType.SQLServer:
+                        services.AddFIASStorageOnSQLServer(Configuration);
+                        break;
+                    case DBMSType.ClickHouse:
+                        services.AddFIASStorageOnClickHouse(Configuration);
+                        break;
+                    default:
+                        throw new Exception($"Unknown DBMS type for service database: {dbmsType}");
                 }
 
                 services.AddFIASDistributionLoader();
@@ -135,17 +138,19 @@ namespace YPermitin.FIASToolSet.API
                 app.UseExceptionPage(env);
                 app.ConfigureExceptionHandler(logger);
                 
-                if (dbmsTypeValue == DBMSType.PostgreSQL)
+                switch (dbmsTypeValue)
                 {
-                    app.UseFIASStorageOnPostgreSQL();
-                }
-                else if (dbmsTypeValue == DBMSType.SQLServer)
-                {
-                    app.UseFIASStorageOnSQLServer();
-                }
-                else
-                {
-                    throw new Exception($"Unknown DBMS type for service database: {dbmsType}");
+                    case DBMSType.PostgreSQL:
+                        app.UseFIASStorageOnPostgreSQL();
+                        break;
+                    case DBMSType.SQLServer:
+                        app.UseFIASStorageOnSQLServer();
+                        break;
+                    case DBMSType.ClickHouse:
+                        app.UseFIASStorageOnClickHouse();
+                        break;
+                    default:
+                        throw new Exception($"Unknown DBMS type for service database: {dbmsType}");
                 }
                 
                 app.UseHttpsRedirection();

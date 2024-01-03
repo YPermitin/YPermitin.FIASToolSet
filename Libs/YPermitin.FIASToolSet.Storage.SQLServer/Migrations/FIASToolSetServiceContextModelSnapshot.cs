@@ -53,7 +53,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FIASAddressObjectTypes");
+                    b.ToTable("AddressObjectType");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ApartmentType", b =>
@@ -87,7 +87,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FIASApartmentTypes");
+                    b.ToTable("ApartmentType");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.HouseType", b =>
@@ -121,7 +121,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FIASHouseTypes");
+                    b.ToTable("HouseType");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.NormativeDocKind", b =>
@@ -135,7 +135,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FIASNormativeDocKinds");
+                    b.ToTable("NormativeDocKind");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.NormativeDocType", b =>
@@ -155,7 +155,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FIASNormativeDocTypes");
+                    b.ToTable("NormativeDocType");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ObjectLevel", b =>
@@ -181,7 +181,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasKey("Level");
 
-                    b.ToTable("FIASObjectLevels");
+                    b.ToTable("ObjectLevel");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.OperationType", b =>
@@ -207,7 +207,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FIASOperationTypes");
+                    b.ToTable("OperationType");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ParameterType", b =>
@@ -241,7 +241,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FIASParameterTypes");
+                    b.ToTable("ParameterType");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.RoomType", b =>
@@ -271,7 +271,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FIASRoomTypes");
+                    b.ToTable("RoomType");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObject", b =>
@@ -329,7 +329,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasIndex("OperationTypeId");
 
-                    b.ToTable("FIASAddressObjects");
+                    b.ToTable("AddressObject");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObjectAdmHierarchy", b =>
@@ -387,7 +387,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FIASAddressObjectsAdmHierarchy");
+                    b.ToTable("AddressObjectAdmHierarchy");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObjectDivision", b =>
@@ -406,7 +406,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FIASAddressObjectDivisions");
+                    b.ToTable("AddressObjectDivision");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.AddressObjectParameter", b =>
@@ -442,7 +442,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("FIASAddressObjectParameters");
+                    b.ToTable("AddressObjectParameter");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.Apartment", b =>
@@ -496,7 +496,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasIndex("OperationTypeId");
 
-                    b.ToTable("FIASApartments");
+                    b.ToTable("Apartment");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ApartmentParameter", b =>
@@ -532,7 +532,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("FIASApartmentParameters");
+                    b.ToTable("ApartmentParameter");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.CarPlace", b =>
@@ -581,7 +581,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasIndex("OperationTypeId");
 
-                    b.ToTable("FIASCarPlaces");
+                    b.ToTable("CarPlace");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.CarPlaceParameter", b =>
@@ -617,7 +617,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("FIASCarPlaceParameters");
+                    b.ToTable("CarPlaceParameter");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ChangeHistory", b =>
@@ -648,7 +648,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasIndex("OperationTypeId");
 
-                    b.ToTable("FIASChangeHistory");
+                    b.ToTable("ChangeHistory");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.House", b =>
@@ -720,7 +720,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasIndex("OperationTypeId");
 
-                    b.ToTable("FIASHouses");
+                    b.ToTable("House");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.HouseParameter", b =>
@@ -756,7 +756,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("FIASHouseParameters");
+                    b.ToTable("HouseParameter");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.MunHierarchy", b =>
@@ -799,7 +799,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FIASMunHierarchy");
+                    b.ToTable("MunHierarchy");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.NormativeDocument", b =>
@@ -849,7 +849,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("FIASNormativeDocuments");
+                    b.ToTable("NormativeDocument");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.ObjectRegistry", b =>
@@ -883,7 +883,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasIndex("LevelId");
 
-                    b.ToTable("FIASObjectsRegistry");
+                    b.ToTable("ObjectRegistry");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.Room", b =>
@@ -937,7 +937,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasIndex("RoomTypeId");
 
-                    b.ToTable("FIASRooms");
+                    b.ToTable("Room");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.RoomParameter", b =>
@@ -973,7 +973,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("FIASRoomParameters");
+                    b.ToTable("RoomParameter");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.Stead", b =>
@@ -1022,7 +1022,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasIndex("OperationTypeId");
 
-                    b.ToTable("FIASSteads");
+                    b.ToTable("Stead");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.ClassifierData.SteadParameter", b =>
@@ -1058,7 +1058,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("FIASSteadParameters");
+                    b.ToTable("SteadParameter");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Notifications.NotificationQueue", b =>
@@ -1090,7 +1090,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasIndex("StatusId", "Period", "Id");
 
-                    b.ToTable("NotificationsQueues");
+                    b.ToTable("NotificationQueue");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Notifications.NotificationStatus", b =>
@@ -1105,7 +1105,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("NotificationsStatuses");
+                    b.ToTable("NotificationStatus");
 
                     b.HasData(
                         new
@@ -1199,7 +1199,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasIndex("Period", "Id");
 
-                    b.ToTable("FIASVersions");
+                    b.ToTable("FIASVersion");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallation", b =>
@@ -1234,7 +1234,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasIndex("StatusId", "Created", "Id");
 
-                    b.ToTable("FIASVersionInstallations");
+                    b.ToTable("FIASVersionInstallation");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationRegion", b =>
@@ -1261,7 +1261,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.HasIndex("RegionCode", "FIASVersionInstallationId")
                         .IsUnique();
 
-                    b.ToTable("FIASVersionInstallationRegions");
+                    b.ToTable("FIASVersionInstallationRegion");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStatus", b =>
@@ -1277,7 +1277,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("FIASVersionInstallationStatuses");
+                    b.ToTable("FIASVersionInstallationStatus");
 
                     b.HasData(
                         new
@@ -1334,7 +1334,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("FIASVersionInstallationSteps");
+                    b.ToTable("FIASVersionInstallationStep");
                 });
 
             modelBuilder.Entity("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationType", b =>
@@ -1348,7 +1348,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FIASVersionInstallationsTypes");
+                    b.ToTable("FIASVersionInstallationType");
 
                     b.HasData(
                         new
@@ -1368,13 +1368,13 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ObjectLevel", "Level")
                         .WithMany()
                         .HasForeignKey("LevelId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.OperationType", "OperationType")
                         .WithMany()
                         .HasForeignKey("OperationTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Level");
@@ -1387,7 +1387,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ParameterType", "ParameterType")
                         .WithMany()
                         .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ParameterType");
@@ -1398,13 +1398,13 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ApartmentType", "ApartmentType")
                         .WithMany()
                         .HasForeignKey("ApartmentTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.OperationType", "OperationType")
                         .WithMany()
                         .HasForeignKey("OperationTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ApartmentType");
@@ -1417,7 +1417,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ParameterType", "ParameterType")
                         .WithMany()
                         .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ParameterType");
@@ -1428,7 +1428,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.OperationType", "OperationType")
                         .WithMany()
                         .HasForeignKey("OperationTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("OperationType");
@@ -1439,7 +1439,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ParameterType", "ParameterType")
                         .WithMany()
                         .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ParameterType");
@@ -1450,7 +1450,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.OperationType", "OperationType")
                         .WithMany()
                         .HasForeignKey("OperationTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("OperationType");
@@ -1473,7 +1473,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.OperationType", "OperationType")
                         .WithMany()
                         .HasForeignKey("OperationTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("AddedHouseType1");
@@ -1490,7 +1490,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ParameterType", "ParameterType")
                         .WithMany()
                         .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ParameterType");
@@ -1501,13 +1501,13 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.NormativeDocKind", "NormativeDocKind")
                         .WithMany()
                         .HasForeignKey("KindId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.NormativeDocType", "NormativeDocType")
                         .WithMany()
                         .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("NormativeDocKind");
@@ -1520,7 +1520,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ObjectLevel", "Level")
                         .WithMany()
                         .HasForeignKey("LevelId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Level");
@@ -1531,13 +1531,13 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.OperationType", "OperationType")
                         .WithMany()
                         .HasForeignKey("OperationTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.RoomType", "RoomType")
                         .WithMany()
                         .HasForeignKey("RoomTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("OperationType");
@@ -1550,7 +1550,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ParameterType", "ParameterType")
                         .WithMany()
                         .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ParameterType");
@@ -1561,7 +1561,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.OperationType", "OperationType")
                         .WithMany()
                         .HasForeignKey("OperationTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("OperationType");
@@ -1572,7 +1572,7 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.BaseCatalogs.ParameterType", "ParameterType")
                         .WithMany()
                         .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ParameterType");
@@ -1587,13 +1587,13 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.Notifications.NotificationType", "NotificationType")
                         .WithMany()
                         .HasForeignKey("NotificationTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.Notifications.NotificationStatus", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("FIASVersion");
@@ -1608,19 +1608,19 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersion", "FIASVersion")
                         .WithMany()
                         .HasForeignKey("FIASVersionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationType", "InstallationType")
                         .WithMany()
                         .HasForeignKey("InstallationTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStatus", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("FIASVersion");
@@ -1635,13 +1635,13 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallation", "FIASVersionInstallation")
                         .WithMany()
                         .HasForeignKey("FIASVersionInstallationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStatus", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("FIASVersionInstallation");
@@ -1654,13 +1654,13 @@ namespace YPermitin.FIASToolSet.Storage.SQLServer.Migrations
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallation", "FIASVersionInstallation")
                         .WithMany()
                         .HasForeignKey("FIASVersionInstallationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("YPermitin.FIASToolSet.Storage.Core.Models.Versions.FIASVersionInstallationStatus", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("FIASVersionInstallation");

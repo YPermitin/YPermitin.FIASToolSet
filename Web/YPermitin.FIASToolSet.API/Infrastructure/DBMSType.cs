@@ -14,6 +14,11 @@
         /// SQLServer
         /// </summary>
         SQLServer,
+        
+        /// <summary>
+        /// ClickHouse
+        /// </summary>
+        ClickHouse,
 
         /// <summary>
         /// Неизвестный тип
