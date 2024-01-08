@@ -48,10 +48,17 @@ namespace YPermitin.FIASToolSet.Jobs.JobItems
                 IReadOnlyList<FIASDistributionInfo> fiasVersionHistory;
                 if (lastVersion == null)
                 {
-                    fiasVersionHistory = new List<FIASDistributionInfo>()
-                    {
-                        await fiasDistributionBrowser.GetLastDistributionInfo()
-                    }.AsReadOnly();
+                    // Не найдено предыдущей версии ФИАС в базе данных. Поэтому добавляем информации начиная с той версии,
+                    // с которой есть ссылка на полный дистрибутив ФИАС
+                    var allFiasVersionHistory = await fiasDistributionBrowser.GetAllDistributionInfo();
+                    var firstVersionWithCompleteUrl = allFiasVersionHistory
+                        .Where(e => !string.IsNullOrEmpty(e.GARFIASXml.Complete.GetAbsoluteUri()))
+                        .Max(e => e.VersionId);
+                    fiasVersionHistory = allFiasVersionHistory
+                        .Where(e => e.VersionId >= firstVersionWithCompleteUrl)
+                        .OrderBy(e => e.VersionId)
+                        .ToList()
+                        .AsReadOnly();
                 }
                 else
                 {

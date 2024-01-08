@@ -521,7 +521,7 @@ public class InstallAndUpdateFIASJob : IJob
                 while (tasksToRun.Count > 0 || tasksIsRunning.Count > 0)
                 {
                     // Запускаем задачи для заполнения пула активных задач
-                    while (tasksIsRunning.Count < _maxParallelTasks && tasksToRun.Count > 0)
+                    while (tasksIsRunning.Count < _maxParallelTasks && !tasksToRun.IsEmpty)
                     {
                         try
                         {
