@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using NUnit.Framework;
 using YPermitin.FIASToolSet.DistributionReader.DataCollections.BaseCatalogs;
 
 namespace YPermitin.FIASToolSet.DistributionReader.Tests.DataCollections;
@@ -19,24 +18,24 @@ public class HouseTypeCollectionTests
         );
     }
 
-    [Test]
+    [Fact]
     public void ReadItems()
     {
         var collection = new HouseTypeCollection(_dataFile);
         var allItems = collection.ToList();
         
         Assert.NotNull(allItems);
-        Assert.IsNotEmpty(allItems);
-        Assert.AreEqual(14, allItems.Count);
-        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
+        Assert.NotEmpty(allItems);
+        Assert.Equal(14, allItems.Count);
+        Assert.Equal(collection.CalculateCollectionSize(), allItems.Count);
         
-        Assert.AreEqual(1, allItems[0].Id);
-        Assert.AreEqual("Владение", allItems[0].Name);
-        Assert.AreEqual("влд.", allItems[0].ShortName);
-        Assert.AreEqual("Владение", allItems[0].Description);
-        Assert.AreEqual(new DateOnly(1900, 1, 1), allItems[0].StartDate);
-        Assert.AreEqual(new DateOnly(2015, 11, 5), allItems[0].EndDate);
-        Assert.AreEqual(new DateOnly(1900, 1, 1), allItems[0].UpdateDate);
-        Assert.AreEqual(false, allItems[0].IsActive);
+        Assert.Equal(1, allItems[0].Id);
+        Assert.Equal("Владение", allItems[0].Name);
+        Assert.Equal("влд.", allItems[0].ShortName);
+        Assert.Equal("Владение", allItems[0].Description);
+        Assert.Equal(new DateOnly(1900, 1, 1), allItems[0].StartDate);
+        Assert.Equal(new DateOnly(2015, 11, 5), allItems[0].EndDate);
+        Assert.Equal(new DateOnly(1900, 1, 1), allItems[0].UpdateDate);
+        Assert.Equal(false, allItems[0].IsActive);
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using NUnit.Framework;
 using YPermitin.FIASToolSet.DistributionReader.DataCollections.BaseCatalogs;
 
 namespace YPermitin.FIASToolSet.DistributionReader.Tests.DataCollections;
@@ -19,22 +18,22 @@ public class ObjectLevelCollectionTests
         );
     }
 
-    [Test]
+    [Fact]
     public void ReadItems()
     {
         var collection = new ObjectLevelCollection(_dataFile);
         var allItems = collection.ToList();
         
         Assert.NotNull(allItems);
-        Assert.IsNotEmpty(allItems);
-        Assert.AreEqual(17, allItems.Count);
-        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
+        Assert.NotEmpty(allItems);
+        Assert.Equal(17, allItems.Count);
+        Assert.Equal(collection.CalculateCollectionSize(), allItems.Count);
         
-        Assert.AreEqual(1, allItems[0].Level);
-        Assert.AreEqual("Субъект РФ", allItems[0].Name);
-        Assert.AreEqual(new DateOnly(1900, 1, 1), allItems[0].StartDate);
-        Assert.AreEqual(new DateOnly(2079, 6, 6), allItems[0].EndDate);
-        Assert.AreEqual(new DateOnly(1900, 1, 1), allItems[0].UpdateDate);
-        Assert.AreEqual(true, allItems[0].IsActive);
+        Assert.Equal(1, allItems[0].Level);
+        Assert.Equal("Субъект РФ", allItems[0].Name);
+        Assert.Equal(new DateOnly(1900, 1, 1), allItems[0].StartDate);
+        Assert.Equal(new DateOnly(2079, 6, 6), allItems[0].EndDate);
+        Assert.Equal(new DateOnly(1900, 1, 1), allItems[0].UpdateDate);
+        Assert.Equal(true, allItems[0].IsActive);
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using NUnit.Framework;
 using YPermitin.FIASToolSet.DistributionReader.DataCollections.BaseCatalogs;
 
 namespace YPermitin.FIASToolSet.DistributionReader.Tests.DataCollections;
@@ -19,24 +18,24 @@ public class ParameterTypeCollectionTests
         );
     }
 
-    [Test]
+    [Fact]
     public void ReadItems()
     {
         var collection = new ParameterTypeCollection(_dataFile);
         var allItems = collection.ToList();
         
         Assert.NotNull(allItems);
-        Assert.IsNotEmpty(allItems);
-        Assert.AreEqual(19, allItems.Count);
-        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
+        Assert.NotEmpty(allItems);
+        Assert.Equal(19, allItems.Count);
+        Assert.Equal(collection.CalculateCollectionSize(), allItems.Count);
         
-        Assert.AreEqual(1, allItems[0].Id);
-        Assert.AreEqual("ИФНС ФЛ", allItems[0].Name);
-        Assert.AreEqual("ИФНС ФЛ", allItems[0].Description);
-        Assert.AreEqual("IFNSFL", allItems[0].Code);
-        Assert.AreEqual(new DateOnly(2011, 11, 1), allItems[0].StartDate);
-        Assert.AreEqual(new DateOnly(2079, 6, 6), allItems[0].EndDate);
-        Assert.AreEqual(new DateOnly(2018, 6, 15), allItems[0].UpdateDate);
-        Assert.AreEqual(true, allItems[0].IsActive);
+        Assert.Equal(1, allItems[0].Id);
+        Assert.Equal("ИФНС ФЛ", allItems[0].Name);
+        Assert.Equal("ИФНС ФЛ", allItems[0].Description);
+        Assert.Equal("IFNSFL", allItems[0].Code);
+        Assert.Equal(new DateOnly(2011, 11, 1), allItems[0].StartDate);
+        Assert.Equal(new DateOnly(2079, 6, 6), allItems[0].EndDate);
+        Assert.Equal(new DateOnly(2018, 6, 15), allItems[0].UpdateDate);
+        Assert.Equal(true, allItems[0].IsActive);
     }
 }

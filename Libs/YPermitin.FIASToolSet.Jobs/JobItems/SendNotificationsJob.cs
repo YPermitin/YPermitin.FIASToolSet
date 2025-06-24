@@ -183,7 +183,7 @@ namespace YPermitin.FIASToolSet.Jobs.JobItems
 
                                 var replyMarkup = new InlineKeyboardMarkup(urls);
 
-                                await botClient.SendTextMessageAsync(
+                                await botClient.SendMessage(
                                     chatId: telegramChatId,
                                     text: message,
                                     parseMode: ParseMode.MarkdownV2,
@@ -192,7 +192,7 @@ namespace YPermitin.FIASToolSet.Jobs.JobItems
                             }
                             else if (notificationItem.NotificationTypeId == NotificationType.Custom)
                             {
-                                await botClient.SendTextMessageAsync(
+                                await botClient.SendMessage(
                                     chatId: telegramChatId,
                                     text: notificationItem.Content,
                                     parseMode: ParseMode.MarkdownV2,

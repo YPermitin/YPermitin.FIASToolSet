@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using NUnit.Framework;
 using YPermitin.FIASToolSet.DistributionReader.DataCollections.BaseCatalogs;
 
 namespace YPermitin.FIASToolSet.DistributionReader.Tests.DataCollections;
@@ -19,20 +18,20 @@ public class NormativeDocTypeCollectionTests
         );
     }
 
-    [Test]
+    [Fact]
     public void ReadItems()
     {
         var collection = new NormativeDocTypeCollection(_dataFile);
         var allItems = collection.ToList();
         
         Assert.NotNull(allItems);
-        Assert.IsNotEmpty(allItems);
-        Assert.AreEqual(25, allItems.Count);
-        Assert.AreEqual(collection.CalculateCollectionSize(), allItems.Count);
+        Assert.NotEmpty(allItems);
+        Assert.Equal(25, allItems.Count);
+        Assert.Equal(collection.CalculateCollectionSize(), allItems.Count);
         
-        Assert.AreEqual(0, allItems[0].Id);
-        Assert.AreEqual("Не указан", allItems[0].Name);
-        Assert.AreEqual(new DateOnly(1900, 1, 1), allItems[0].StartDate);
-        Assert.AreEqual(new DateOnly(2016, 3, 31), allItems[0].EndDate);
+        Assert.Equal(0, allItems[0].Id);
+        Assert.Equal("Не указан", allItems[0].Name);
+        Assert.Equal(new DateOnly(1900, 1, 1), allItems[0].StartDate);
+        Assert.Equal(new DateOnly(2016, 3, 31), allItems[0].EndDate);
     }
 }

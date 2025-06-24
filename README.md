@@ -28,9 +28,9 @@
 
 Для окружение разработчика необходимы:
 
-* [.NET 7 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
+* [.NET 9 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
 * [Visual Studio 2022](https://visualstudio.microsoft.com/ru/vs/)
-* [PostgreSQL 12/13/14](https://www.postgresql.org/download/)
+* [PostgreSQL 12/13/14](https://www.postgresql.org/download/) / [SQL Server 2012+](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
 
 ## Состав проекта
 
@@ -50,7 +50,7 @@
 
 ## Развертывание проекта
 
-Установите ASP.NET Core Runtime и PostgreSQL (12+), после чего опубликуйте приложение "YPermitin.FIASToolSet.API". Подробнее о публикации ASP.NET Core приложений читайте в [официальной документации](https://docs.microsoft.com/ru-ru/aspnet/core/host-and-deploy/?view=aspnetcore-6.0).
+Установите ASP.NET Core Runtime 9 и SQL Server / PostgreSQL (12+), после чего опубликуйте приложение "YPermitin.FIASToolSet.API". Подробнее о публикации ASP.NET Core приложений читайте в [официальной документации](https://docs.microsoft.com/ru-ru/aspnet/core/host-and-deploy/?view=aspnetcore-6.0).
 
 ### appsettings.json
 
