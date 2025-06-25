@@ -132,7 +132,9 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         var lastFIASVersionInfo = await _fiasMaintenanceService.GetLastVersion(fiasVersionInfo.VersionId);
         CurrentVersion = lastFIASVersionInfo;
         
-        // 1.1.3. Получаем все дистрибутивы ФИАС, доступные через API и среди них находим нужных объект
+        // 1.1.3. Получаем все дистрибутивы ФИАС, доступные через API и среди них находим нужный объект
+        // TODO Отказаться от вызова API на этапе установки. Эти данные уже есть в базе в таблице версий.
+        // Реализовать создание информации о дистрибутиве по данным записи в базе данных
         var allDistributions = await _fiasDistributionBrowser.GetAllDistributionInfo();
         var distribution = allDistributions.First(e => e.VersionId == lastFIASVersionInfo.VersionId);
         Distribution = distribution;
@@ -152,7 +154,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         // 2. Распаковываем файлы базовых справочников (если уже были ранее распакованы, то повторяем операцию)
         if (!initOnly)
         {
-            distribution.ExtractDistributionFile(distributionFileType);
+            Distribution.ExtractDistributionFile(distributionFileType);
         }
         _distributionDirectory = Distribution.GetExtractedDirectory(distributionFileType);
     }

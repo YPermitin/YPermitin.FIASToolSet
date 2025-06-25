@@ -89,6 +89,14 @@ namespace YPermitin.FIASToolSet.API
                 {
                     string[] allowedOrigins = Configuration.GetSection("CORS:AllowedOrigins").Get<string[]>();
 
+                    if (allowedOrigins == null || allowedOrigins.Length == 0)
+                    {
+                        allowedOrigins = new List<string>()
+                        {
+                            "http://localhost"
+                        }.ToArray();
+                    }
+
                     policy.AddPolicy("webAppAllowSpecificOrigins", corsPolicyBuilder =>
                     {
                         corsPolicyBuilder
