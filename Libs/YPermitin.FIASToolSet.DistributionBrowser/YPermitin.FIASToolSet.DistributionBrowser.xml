@@ -13,11 +13,12 @@
             <param name="onDownloadFileProgressChangedEvent">Событие с информацией о прогрессе загрузки файла</param>
             <returns>Асинхронная операция</returns>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.API.APIHelper.GetContentAsStringAsync(System.Uri)">
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.API.APIHelper.GetContentAsStringAsync(System.Uri,System.Int32)">
             <summary>
             Получение содержимого по URL
             </summary>
             <param name="uri">URL</param>
+            <param name="attempts">Количество попыток отправки запросов при ошибках связи</param>
             <returns>Строкове содержимое данных по URL</returns>
         </member>
         <member name="M:YPermitin.FIASToolSet.DistributionBrowser.API.APIHelper.FileByUrlExist(System.Uri)">
@@ -36,11 +37,12 @@
             <param name="onDownloadFileProgressChangedEvent">Событие с информацией о прогрессе загрузки файла</param>
             <returns>Асинхронная операция</returns>
         </member>
-        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.API.IAPIHelper.GetContentAsStringAsync(System.Uri)">
+        <member name="M:YPermitin.FIASToolSet.DistributionBrowser.API.IAPIHelper.GetContentAsStringAsync(System.Uri,System.Int32)">
             <summary>
             Получение содержимого по URL
             </summary>
             <param name="uri">URL</param>
+            <param name="attempts">Количество попыток отправки запросов при ошибках связи</param>
             <returns>Строкове содержимое данных по URL</returns>
         </member>
         <member name="M:YPermitin.FIASToolSet.DistributionBrowser.API.IAPIHelper.FileByUrlExist(System.Uri)">

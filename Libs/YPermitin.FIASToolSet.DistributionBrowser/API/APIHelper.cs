@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -155,13 +156,48 @@ namespace YPermitin.FIASToolSet.DistributionBrowser.API
         /// Получение содержимого по URL
         /// </summary>
         /// <param name="uri">URL</param>
+        /// <param name="attempts">Количество попыток отправки запросов при ошибках связи</param>
         /// <returns>Строкове содержимое данных по URL</returns>
-        public async Task<string> GetContentAsStringAsync(Uri uri)
+        public async Task<string> GetContentAsStringAsync(Uri uri, int attempts = 3)
         {
-            var response = await APIClient.GetAsync(uri);
-            response.EnsureSuccessStatusCode();
+            int currentAttempt = 1;
+            string content = null;
 
-            var content = await response.Content.ReadAsStringAsync();
+            while (currentAttempt <= attempts)
+            {              
+                try
+                {
+                    var response = await APIClient.GetAsync(uri);
+                    response.EnsureSuccessStatusCode();
+
+                    content = await response.Content.ReadAsStringAsync();
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    // Ошибки соединения и транспорта обраббатываются с учетом попыток отправки запроса.
+                    if(ex is HttpRequestException && ex.InnerException is IOException)
+                    {
+                        if (currentAttempt >= attempts)
+                        {
+                            throw;
+                        }
+
+                        await Task.Delay(1000);
+                        currentAttempt++;
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+
+            if(content == null)
+            {
+                throw new Exception("Content does not exists.");
+            }
+            
             return content;
         }
 

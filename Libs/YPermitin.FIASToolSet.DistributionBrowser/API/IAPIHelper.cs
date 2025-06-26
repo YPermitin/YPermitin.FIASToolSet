@@ -20,8 +20,9 @@ namespace YPermitin.FIASToolSet.DistributionBrowser.API
         /// Получение содержимого по URL
         /// </summary>
         /// <param name="uri">URL</param>
+        /// <param name="attempts">Количество попыток отправки запросов при ошибках связи</param>
         /// <returns>Строкове содержимое данных по URL</returns>
-        Task<string> GetContentAsStringAsync(Uri uri);
+        Task<string> GetContentAsStringAsync(Uri uri, int attempts = 3);
 
         /// <summary>
         /// Проверка существования файла по URL
