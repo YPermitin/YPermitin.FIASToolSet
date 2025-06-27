@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace YPermitin.FIASToolSet.DistributionReader.Tests;
 
-public class Tests
+public class FIASDistributionReaderTests
 {
     private readonly string _workingDirectory;
 
-    public Tests()
+    public FIASDistributionReaderTests()
     {
         _workingDirectory = Path.Combine(
             Directory.GetCurrentDirectory(),
