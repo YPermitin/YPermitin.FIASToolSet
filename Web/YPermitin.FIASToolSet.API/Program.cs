@@ -1,7 +1,8 @@
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.Configuration;
+using Serilog;
 using System.Reflection;
 using System.Text;
-using Microsoft.AspNetCore.HttpOverrides;
-using Serilog;
 using YPermitin.FIASToolSet.API.Extensions;
 using YPermitin.FIASToolSet.API.Infrastructure;
 using YPermitin.FIASToolSet.DistributionBrowser;
@@ -35,12 +36,13 @@ namespace YPermitin.FIASToolSet.API
             string serviceDeployTypeAsString = Configuration.GetValue("DeployType", string.Empty);
             var serviceDeployType = serviceDeployTypeAsString.ToEnum(serviceDeployTypeDefault);
 
-            string logPath = Path.Combine("Logs", "log-.txt");
-            Log.Logger = new LoggerConfiguration()
+            string logPath = Path.Combine(AppContext.BaseDirectory, "Logs", "log-.txt");
+            var logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(Configuration)
                 .WriteTo.File(logPath, rollingInterval: RollingInterval.Day, retainedFileCountLimit: 7)
-                .WriteTo.Console()
+                .Enrich.FromLogContext()
                 .CreateLogger();
+            Log.Logger = logger;
 
             try
             {
@@ -77,10 +79,12 @@ namespace YPermitin.FIASToolSet.API
                     throw new Exception($"Unknown service deploy type in config file: {serviceDeployType}");
                 }
 
-                builder.Host.UseSerilog((_, lc) => lc
-                    .ReadFrom.Configuration(Configuration)
-                    .WriteTo.Console()
-                    .WriteTo.File(logPath, rollingInterval: RollingInterval.Day, retainedFileCountLimit: 7));
+                builder.Logging.ClearProviders();
+#if DEBUG
+                builder.Logging.AddConsole();
+#endif
+                builder.Logging.AddSerilog(logger);
+
                 var services = builder.Services;
 
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -136,7 +140,7 @@ namespace YPermitin.FIASToolSet.API
 
                 var app = builder.Build();
                 IWebHostEnvironment env = app.Environment;
-                var logger = app.Services.GetService<ILogger<Program>>();
+                var loggerObject = app.Services.GetService<ILogger<Program>>();
 
                 app.UseForwardedHeaders(new ForwardedHeadersOptions
                 {
@@ -144,7 +148,7 @@ namespace YPermitin.FIASToolSet.API
                 });
 
                 app.UseExceptionPage(env);
-                app.ConfigureExceptionHandler(logger);
+                app.ConfigureExceptionHandler(loggerObject);
                 
                 switch (dbmsTypeValue)
                 {

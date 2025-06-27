@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using YPermitin.FIASToolSet.DistributionBrowser.API;
 using YPermitin.FIASToolSet.DistributionBrowser.Enums;
+using YPermitin.FIASToolSet.DistributionBrowser.Extensions;
 using YPermitin.FIASToolSet.DistributionBrowser.Helpers;
 
 namespace YPermitin.FIASToolSet.DistributionBrowser.Models
@@ -15,6 +17,37 @@ namespace YPermitin.FIASToolSet.DistributionBrowser.Models
     /// </summary>
     public sealed class FIASDistributionInfo
     {
+        public static FIASDistributionInfo CreateInfoByParams(IConfiguration configuration,
+            int versionId, string textVersion, DateTime dateVersion,
+            string fiasCompleteDbfUrl, string fiasDeltaDbfUrl,
+            string fiasCompleteXmlUrl, string fiasDeltaXmlUrl,
+            string garXMLFullURL, string garXMLDeltaURL,
+            string kladr4ArjUrl, string kladr47ZUrl)
+        {
+            string generalWorkingDirectory = configuration.GetValue("FIASToolSet:WorkingDirectory", string.Empty);
+            long maxDownloadSpeed = configuration.GetValue("FIASToolSet:MaximumDownloadSpeedBytesPerSecond", long.MaxValue);
+            var browserOptions = new FIASDistributionBrowserOptions(generalWorkingDirectory, maxDownloadSpeed);
+
+            IAPIHelper apiHelper = new APIHelper(browserOptions.MaximumDownloadSpeedBytesPerSecond);
+
+            var newInfo = new FIASDistributionInfo(
+                options: browserOptions, 
+                apiHelper: apiHelper,
+                versionId: versionId,
+                textVersion: textVersion,
+                dateVersion: dateVersion,
+                fiasCompleteDbfUrl: fiasCompleteDbfUrl.ToAbsoluteUri(),
+                fiasDeltaDbfUrl: fiasDeltaDbfUrl.ToAbsoluteUri(),
+                fiasCompleteXmlUrl: fiasCompleteXmlUrl.ToAbsoluteUri(),
+                fiasDeltaXmlUrl: fiasDeltaXmlUrl.ToAbsoluteUri(),
+                garXMLFullURL: garXMLFullURL.ToAbsoluteUri(),
+                garXMLDeltaURL: garXMLDeltaURL.ToAbsoluteUri(),
+                kladr4ArjUrl: kladr4ArjUrl.ToAbsoluteUri(),
+                kladr47ZUrl: kladr47ZUrl.ToAbsoluteUri());
+
+            return newInfo;
+        }
+
         private readonly IAPIHelper _apiHelper;
         private readonly FIASDistributionBrowserOptions _options;
         
@@ -374,6 +407,46 @@ namespace YPermitin.FIASToolSet.DistributionBrowser.Models
                 regionDirectoryInfo.Delete(true);
         }
         
+        private FIASDistributionInfo(FIASDistributionBrowserOptions options, IAPIHelper apiHelper,
+            int versionId, string textVersion, DateTime dateVersion,
+            Uri fiasCompleteDbfUrl, Uri fiasDeltaDbfUrl,
+            Uri fiasCompleteXmlUrl, Uri fiasDeltaXmlUrl,
+            Uri garXMLFullURL, Uri garXMLDeltaURL,
+            Uri kladr4ArjUrl, Uri kladr47ZUrl) 
+        {
+            _apiHelper = apiHelper;
+            _options = options;
+
+            VersionId = versionId;
+            TextVersion = textVersion;
+            Date = dateVersion;
+
+            FIASDbf = new DistributionFileFormatInfo(
+                _apiHelper,
+                fiasCompleteDbfUrl,
+                fiasDeltaDbfUrl);
+
+            FIASXml = new DistributionFileFormatInfo(
+                _apiHelper,
+                fiasCompleteXmlUrl,
+                fiasDeltaXmlUrl);
+
+            GARFIASXml = new DistributionFileFormatInfo(
+                _apiHelper,
+                garXMLFullURL,
+                garXMLDeltaURL);
+
+            KLADR4Arj = new DistributionFileFormatInfo(
+                _apiHelper,
+                kladr4ArjUrl,
+                null);
+
+            KLADR47z = new DistributionFileFormatInfo(
+                _apiHelper,
+                kladr47ZUrl,
+                null);
+        }
+
         internal FIASDistributionInfo(DownloadFileInfo downloadFileInfo, FIASDistributionBrowserOptions options, IAPIHelper apiHelper)
         {
             _apiHelper = apiHelper;

@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using YPermitin.FIASToolSet.DistributionBrowser;
 using YPermitin.FIASToolSet.DistributionBrowser.Enums;
 using YPermitin.FIASToolSet.DistributionBrowser.Models;
@@ -22,6 +23,7 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     private readonly IFIASBaseCatalogsRepository _fiasBaseCatalogsRepository;
     private readonly IFIASMaintenanceRepository _fiasMaintenanceService;
     private readonly IFIASClassifierDataRepository _classifierDataRepository;
+    private readonly IConfiguration _configuration;
     
     private FIASVersionInstallation _installation;
     private string _distributionDirectory;
@@ -33,12 +35,14 @@ public class FIASDistributionLoader : IFIASDistributionLoader
     public FIASVersion CurrentVersion { get; private set; }
 
     public FIASDistributionLoader(
+        IConfiguration configuration,
         IFIASDistributionBrowser fiasDistributionBrowser,
         IFIASInstallationManagerRepository fiasInstallationManagerService, 
         IFIASBaseCatalogsRepository fiasBaseCatalogsRepository, 
         IFIASMaintenanceRepository fiasMaintenanceService,
         IFIASClassifierDataRepository classifierDataRepository)
     {
+        _configuration = configuration;
         _fiasDistributionBrowser = fiasDistributionBrowser;
         _fiasInstallationManagerService = fiasInstallationManagerService;
         _fiasBaseCatalogsRepository = fiasBaseCatalogsRepository;
@@ -133,12 +137,20 @@ public class FIASDistributionLoader : IFIASDistributionLoader
         CurrentVersion = lastFIASVersionInfo;
         
         // 1.1.3. Получаем все дистрибутивы ФИАС, доступные через API и среди них находим нужный объект
-        // TODO Отказаться от вызова API на этапе установки. Эти данные уже есть в базе в таблице версий.
-        // Реализовать создание информации о дистрибутиве по данным записи в базе данных
-        var allDistributions = await _fiasDistributionBrowser.GetAllDistributionInfo();
-        var distribution = allDistributions.First(e => e.VersionId == lastFIASVersionInfo.VersionId);
-        Distribution = distribution;
-        
+        Distribution = FIASDistributionInfo.CreateInfoByParams(
+            configuration: _configuration,
+            versionId: CurrentVersion.VersionId,
+            textVersion: CurrentVersion.TextVersion,
+            dateVersion: CurrentVersion.Date,
+            fiasCompleteDbfUrl: CurrentVersion.FIASDbfComplete,
+            fiasDeltaDbfUrl: CurrentVersion.FIASDbfDelta,
+            fiasCompleteXmlUrl: CurrentVersion.FIASXmlComplete,
+            fiasDeltaXmlUrl: CurrentVersion.FIASXmlDelta,
+            garXMLFullURL: CurrentVersion.GARFIASXmlComplete,
+            garXMLDeltaURL: CurrentVersion.GARFIASXmlDelta,
+            kladr4ArjUrl: CurrentVersion.KLADR4ArjComplete,
+            kladr47ZUrl: CurrentVersion.KLADR47zComplete);
+
         // 1.1.4 Скачиваем нужный файл дистрибутива
         DistributionFileType distributionFileType;
         if (_installation.InstallationTypeId == FIASVersionInstallationType.Full)
