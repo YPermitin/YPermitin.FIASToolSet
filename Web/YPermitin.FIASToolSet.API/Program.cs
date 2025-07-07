@@ -17,7 +17,7 @@ namespace YPermitin.FIASToolSet.API
     public class Program
     {
         private static readonly IConfiguration Configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
+            .SetBasePath(AppContext.BaseDirectory)
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
             .AddEnvironmentVariables()
             .Build();
@@ -73,6 +73,18 @@ namespace YPermitin.FIASToolSet.API
                 {
                     builder.Host.UseContentRoot(Directory.GetCurrentDirectory());
                     builder.WebHost.UseKestrel();
+                }
+                else if (serviceDeployType == ServiceDeployType.WindowsService)
+                {
+                    if (OperatingSystem.IsWindows())
+                    {
+                        builder.WebHost.UseKestrel();
+                        builder.Host.UseWindowsService();
+                    }
+                    else
+                    {
+                        throw new NotSupportedException("Windows Service only runs on Windows OS.");
+                    }
                 }
                 else
                 {
